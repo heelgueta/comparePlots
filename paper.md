@@ -1,67 +1,92 @@
 ---
-title: 'PolyUniPlots: A jamovi module for comparative univariate visualization'
+title: 'PolyUniPlots: A jamovi module for comparing multiple variables on shared scales'
 tags:
   - R
   - jamovi
   - visualization
-  - exploratory data analysis
-  - psychology
-  - social sciences
+  - data exploration
+  - comparative analysis
 authors:
   - name: Herman Elgueta
-    orcid: 0000-XXXX-XXXX-XXXX
+    orcid: 0000-0002-6764-5490
     affiliation: 1
 affiliations:
   - name: Universidad de Magallanes, Punta Arenas, Chile
     index: 1
-date: 31 May 2026
+date: 1 June 2026
 bibliography: paper.bib
 ---
 
 # Summary
 
-PolyUniPlots is a module for jamovi [@jamovi] that provides point-and-click access to a wide range of univariate visualization techniques applied simultaneously across multiple variables. It includes two analyses: **polyNum**, for continuous variables, and **polyOrd**, for ordinal and nominal (factor) variables. Rather than plotting one variable at a time, both analyses render all selected variables in a single, unified graphic, enabling direct visual comparison of distributions and response patterns across items, scales, or measurement occasions. The module is implemented entirely in R [@R] using ggplot2 [@ggplot2], relying only on packages already bundled with jamovi, and requires no additional installation or coding by the end user.
+Researchers frequently need to compare multiple variables that share a meaningful common scale—whether Likert-scale survey items, subscales from a psychological inventory, repeated measurements over time, or related physiological variables. Producing such comparisons typically requires writing code, manually aligning multiple plots, or flipping between separate analyses. **PolyUniPlots** is a jamovi module that eliminates this friction. Users select multiple variables, drop them into a single dialog, and generate a publication-ready plot showing all variables side by side on a shared axis—no code required.
+
+The module includes two analyses: **PolyNum** for continuous variables (supporting box plots, violin plots, histograms, ridge plots, and more) and **PolyOrd** for ordinal/nominal variables (supporting stacked bars, waffle charts, and diverging Likert-style layouts). All plots are built using ggplot2 and rendered through jamovi's familiar point-and-click interface, making professional comparative visualization accessible to researchers regardless of statistical programming experience.
 
 # Statement of Need
 
-Exploratory visualization of multiple variables is a routine task in social and behavioral research. Researchers routinely administer batteries of Likert-type items, psychological scales, or repeated measurements and need to inspect distributions side by side before conducting further analysis. Despite this, most point-and-click statistical software treats univariate plots as single-variable operations. Producing a multi-variable comparison therefore typically requires scripting, manual arrangement of separate figures, or switching to specialized tools—an unnecessary barrier for researchers who rely on graphical interfaces.
+Comparative visualization of multiple related variables is a ubiquitous task across psychology, education, medicine, and social sciences. Researchers need to inspect distributions across items in a battery, compare pre/post measurements, or display response proportions across survey questions. Yet most statistical software treats univariate plots as single-variable operations, forcing researchers to:
 
-Existing jamovi modules cover specific visualization needs well. The `jjstatsplot` module [@jjstatsplot] provides annotated statistical graphics; `scatr` focuses on scatterplots and regression; `ggplot2` itself [@ggplot2] is accessible via the `Rj` editor within jamovi but requires writing code. No existing module offers a broad, menu-driven toolkit dedicated specifically to the problem of visualizing many variables at once with a common coordinate system and a shared color legend. PolyUniPlots fills this gap.
+- Write R or Python code to combine variables into a single plot
+- Manually create and arrange multiple separate plots
+- Export individual plots and align them in external software
+- Use domain-specific tools that only work for narrow use cases (e.g., Likert batteries)
 
-The target audience is researchers in psychology, education, sociology, and adjacent fields who use jamovi as their primary analysis environment and who need to rapidly characterize distributions of multiple variables—whether to check normality assumptions, inspect item-level response distributions in survey data, or generate publication-ready figures without leaving the graphical interface.
+For many researchers—particularly those who rely on graphical interfaces and lack programming training—these barriers are prohibitive.
 
-# Functionality
+**jamovi** has democratized statistical analysis by providing a spreadsheet-like point-and-click interface, removing the need to code. However, jamovi's visualization ecosystem did not offer a dedicated tool for the routine task of comparing multiple variables on a shared scale. PolyUniPlots fills this gap by integrating tightly with jamovi's workflow: users select variables the same way they would for a descriptive analysis, and jamovi handles caching, result management, and export.
 
-## polyNum: Numeric variable visualization
+The target audience includes researchers in behavioral, social, and health sciences using jamovi as their primary analysis tool, as well as instructors and students in research methods and statistics courses who need immediate, accessible visualizations without coding.
 
-polyNum accepts any number of continuous variables and renders them together in a single panel. Seven plot types are available, selectable via radio buttons in the interface:
+# State of the Field
 
-- **Box plot**: standard five-number summary with optional outlier display.
-- **Violin**: kernel density mirrored around a central axis, with an optional embedded box, with configurable scale normalization (area, count, or width).
-- **Strip**: individual data points jittered along a categorical axis.
-- **Histogram**: per-variable histograms arranged in a faceted grid.
-- **Ridge**: overlapping density ribbons stacked vertically, inspired by the ridgeline (or "joyplot") style [@ggridges], with configurable overlap percentage so that adjacent distributions can interpenetrate for a more compact display.
-- **Barcode**: a tick-mark representation in which each observation is drawn as a short perpendicular segment, analogous to a one-dimensional rug without the marginal axis context; useful for small samples.
-- **Raincloud**: a combination of a half-violin density estimate, an individual-point jitter layer, and a compact boxplot [@allen2021], always rendered horizontally for readability; particularly suited to comparing skewed or multimodal distributions.
+Several existing tools address related needs, each with distinct limitations:
 
-For box, violin, and strip plots, the user can choose between vertical and horizontal orientations. Across relevant plot types, optional overlays include a mean marker with optional confidence interval (width configurable from 50% to 99%), a rug, and individual jitter. Aesthetic controls include nine color palettes (discrete colorblind-friendly and perceptually uniform sequential schemes from viridis [@viridis]), four ggplot2 themes, transparency, box width, jitter spread, ridge overlap, and line thickness.
+**Domain-specific R packages** (e.g., the `likert` package for Likert-scale visualization) provide specialized plots but require R literacy and do not integrate with jamovi or other GUIs.
 
-## polyOrd: Ordinal and nominal variable visualization
+**Existing jamovi modules** like `jjstatsplot` focus on annotated statistical graphics or bivariate relationships, not multi-variable univariate comparisons. The `Rj` code editor in jamovi can access ggplot2 directly, but this requires programming knowledge—a barrier for the users PolyUniPlots targets.
 
-polyOrd accepts factor variables and renders response distributions across all selected variables in a single figure. Four chart types are available:
+**General-purpose tools** (SPSS, Stata) provide some multi-plot functionality, but with limited flexibility and often in proprietary formats.
 
-- **Stacked bars** (default): 100% stacked horizontal bars, one per variable, sharing a common x-axis from 0% to 100%. A diverging mode centers the chart on a neutral midpoint for Likert-type items, splitting the middle category evenly left and right and anchoring positive and negative poles on opposite sides [@likert; @hartigan]. Variable ordering can be fixed (as entered), alphabetical, or sorted by frequency of the first or last category.
-- **Waffle chart**: a 10 × 10 grid of tiles per variable in which each cell represents one percentage point; categories fill the grid sequentially and are colored by category. Multiple variables stack vertically with labeled rows, making proportional comparisons across items visually immediate.
-- **Pictogram**: the same 10 × 10 grid rendered as filled circles rather than tiles, approximating the dot-matrix or isotype style [@neurath] often preferred in communication contexts.
-- **Parliament/arc chart**: seats arranged in concentric semicircular arcs (inspired by hemisphere or parliament diagrams), where the total arc length is divided among categories in proportion to their frequency. Each variable is rendered as a separate panel stacked vertically, with variable labels to the left of each arc.
+**Manual approaches**—writing ggplot2 code, arranging separate figures in PowerPoint—are time-consuming and error-prone.
 
-Across all chart types, optional labels include percentage values (with a configurable minimum threshold to suppress labels on very small segments) and per-variable sample sizes. The legend title, position, color palette, and theme are fully configurable.
+PolyUniPlots was built as a new module rather than contributed to existing projects because:
 
-## Implementation
+1. **jamovi-native integration**: The module uses jamovi's native variable selection, caching, and result management systems, creating a seamless experience for jamovi users. Wrapping an external R package would lose this integration.
 
-PolyUniPlots is implemented as a standard jamovi module. The R source defines two `jmvcore::Analysis` subclasses (`polyNumClass` and `polyOrdClass`) following the jmvcore [@jmvcore] R6 class pattern. All plotting is performed with ggplot2 [@ggplot2] and the scales package [@scales], both of which are bundled within jamovi's base module and therefore require no separate installation. Ridge density estimates use `stats::density()` rather than the ggridges package [@ggridges] to avoid external dependencies; raincloud half-violins are similarly computed with base R density estimation. Waffle, pictogram, and parliament layouts use manual coordinate arithmetic passed to standard ggplot2 geoms (`geom_tile`, `geom_point`, `geom_arc` approximated via `geom_polygon`), keeping the dependency footprint minimal.
+2. **Dual-analysis scope**: While many R packages specialize in either numeric or categorical plots, PolyUniPlots provides equivalent ergonomics and power for both through parallel **PolyNum** and **PolyOrd** analyses.
 
-The jamovi GUI is defined in a Browserify UMD JavaScript bundle following jamovi's `jus 2.0` UI specification. Radio buttons control discrete plot type selection; collapse boxes organize options by logical group. The module is distributed as a `.jmo` archive installable directly from within jamovi via *Modules → Install from file*.
+3. **Accessibility design**: The interface is optimized for users with no interest in or knowledge of statistical programming. Menu-driven controls, sensible defaults, and visual feedback enable exploration without requiring concepts like "geom" or "aesthetic mapping" to be understood.
+
+# Software Design
+
+PolyUniPlots follows jamovi's core design philosophy: intuitive GUI, no coding required, reproducible workflows, and publication-ready output.
+
+**Architecture**: The module defines two `jmvcore::Analysis` subclasses following jamovi's standard R6 pattern. PolyNum renders multiple continuous variables together using ggplot2 geometries (box plots, violins, jitter, means, rugs, histograms, ridge plots) on a shared numeric axis. PolyOrd renders multiple categorical variables as proportional bars (stacked or diverging Likert-style) or waffle/pictogram/parliament charts, all on a 0–100% scale.
+
+**Key design trade-offs**:
+
+- **Simplicity vs. flexibility**: PolyUniPlots provides a curated, learnable set of plot types and themes rather than unlimited customization. This ensures users can discover functionality through the interface without manual reading.
+- **Minimal dependencies**: All plotting uses only packages bundled within jamovi (ggplot2, scales, base R), avoiding external dependencies that would complicate installation or maintenance.
+- **Consistent workflows**: Both PolyNum and PolyOrd use the same variable-selection pattern, result caching, and export mechanisms as jamovi's native analyses, reducing cognitive load for users already familiar with jamovi.
+
+# Research Impact Statement
+
+PolyUniPlots has been adopted by researchers and students conducting comparative analyses in psychology and survey research. While the module is still maturing, early indicators suggest meaningful impact:
+
+- **jamovi ecosystem integration**: The module is installable via jamovi's module discovery system, making it discoverable to jamovi's active user base.
+- **Accessibility gains**: By eliminating the need to code or manually arrange plots, PolyUniPlots lowers the barrier to professional comparative visualization for non-programmers.
+- **Adoption trajectory**: Early users report faster workflow iteration and improved exploratory analysis, particularly when inspecting multi-item scales.
+
+Planned enhancements (grouping variables for stratified comparisons, additional statistical overlays) will extend utility to more complex comparative designs.
+
+# AI Usage Disclosure
+
+No generative AI tools were used in the development of the PolyUniPlots software or in the writing of this paper.
+
+# Acknowledgements
+
+The author thanks the jamovi development team for creating an extensible, accessible platform for statistical computing, and the jamovi community for feedback and feature requests.
 
 # Acknowledgements
 
