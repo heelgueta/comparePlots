@@ -65,7 +65,7 @@ Shared appearance: orientation · invert variable order · palette (red–blue d
 | `data/vdp_ordinal_example` | Six Likert items with different response patterns (n = 300) |
 | `data/vdp_nominal_example` | One five-category nominal variable at three times of day (n = 250) |
 
-Each is provided as `.omv` (variable types already set) and `.csv`. Regenerate with `Rscript data/make_examples.R`.
+Each is provided as `.omv` (variable types already set) and `.csv`. Regenerate with `Rscript tools/make_examples.R`.
 
 ---
 

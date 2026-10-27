@@ -1,5 +1,5 @@
 # Regenerates the example datasets (CSV for any tool, OMV with variable types set for jamovi).
-# Run from the repository root:  Rscript data/make_examples.R
+# Run from the repository root:  Rscript tools/make_examples.R
 set.seed(2026)
 
 # ---- numeric: six well-being scales on a common 0-100 range -----------------
