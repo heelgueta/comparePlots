@@ -1,3 +1,4 @@
 build/
 .Rhistory
 .DS_Store
+*.jmo

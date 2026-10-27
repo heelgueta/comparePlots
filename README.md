@@ -13,11 +13,9 @@ Both work the same way: pick variables, set a few shared appearance options, the
 
 ## Install
 
-Download the `.jmo` for your platform from [`dist/`](dist/) (or the Releases page), then in jamovi:
+Build and install the module into jamovi with [jmvtools](https://dev.jamovi.org/tuts0101-getting-started.html); see [Build from source](#build-from-source) below. This produces a `.jmo` for your own system, which can also be shared and installed in jamovi via:
 
 **Modules (+) → jamovi library → Install from file…**
-
-`dist/ComparePlots_0.4.0_mac-arm64.jmo` is built for jamovi 2.7.x on Apple-silicon Macs. Other platforms: build from source (below) or install from the jamovi library once published.
 
 Example datasets are included and appear under **Open → Data Library → ComparePlots**. The same files are in [`data/`](data/).
 
@@ -89,7 +87,6 @@ R/         *.b.R (implementation), utils.R (shared helpers), *.h.R (generated)
 data/      example datasets (shown in jamovi's Data Library)
 tools/     make_examples.R: regenerates the example datasets
 icons/     module icon (ComparePlots.svg, 74 x 44, jamovi ribbon style)
-dist/      prebuilt .jmo
 ```
 
 ### Where to change things
@@ -109,7 +106,7 @@ Do not name an option `theme` or `palette`: jamovi reserves those for its global
 
 Developed for the **Laboratorio Austral de Medición Psicosocial (LAMP)**, Universidad de Magallanes, and maintained in the author's personal repository.
 
-**How it was written:** the code is mostly AI-written ("vibe coded"): it was produced through iterative work with Claude Sonnet 5.5 (Anthropic), instructed to follow the official jamovi developer manuals and documentation. All code has been reviewed by a human (the author), and the module has been tested on macOS, Linux and Windows. The code is heavily commented so that people, or other tools, can follow and change it.
+**How it was written:** the code is largely AI-generated (Claude Sonnet 5.5, Anthropic), following the official jamovi developer manuals and documentation, then human-reviewed (by the author) and tested on macOS, Linux and Windows. The code is heavily commented so that people, or other tools, can follow and change it.
 
 ## License
 
