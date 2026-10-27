@@ -1,9 +1,13 @@
+# Comparison of Numeric Variables (distNum): USER INTERFACE, hand-written.
+# compilerMode is `tame`: jmc keeps this layout and only adds controls for NEW options (aggressive mode would overwrite it).
+# Each control is named after its option in distNum.a.yaml. Layout: LayoutBox with `cell: column/row` makes a two-column grid.
 title: Comparison of Numeric Variables
 name: distNum
 jus: '3.0'
 stage: 0
 compilerMode: tame
 children:
+  # 1. Variable list (drag variables into the Variables box).
   - type: VariableSupplier
     persistentItems: false
     stretchFactor: 1
@@ -14,6 +18,7 @@ children:
           - type: VariablesListBox
             name: vars
             isTarget: true
+  # 2. "Plots to show": one checkbox per plot (two columns).
   - type: Label
     label: Plots to show
     children: []
@@ -101,6 +106,11 @@ children:
         children:
           - type: CheckBox
             name: showBarcode
+  # 3. "Settings": everything below configures the plots.
+  - type: Label
+    label: Settings
+    children: []
+  # Appearance: options shared by all plots. Open by default.
   - type: CollapseBox
     label: Appearance
     collapsed: false
@@ -262,8 +272,9 @@ children:
                 format: number
                 suffix: px
                 enable: '(!autoSize)'
+  # Settings of the "Box plot" plot (collapsed). Its controls are greyed out while `showBox` is unticked.
   - type: CollapseBox
-    label: Box plot – settings
+    label: Box plot
     collapsed: true
     stretchFactor: 1
     children:
@@ -317,8 +328,9 @@ children:
               - type: CheckBox
                 name: boxJitter
                 enable: (showBox)
+  # Settings of the "Violin plot" plot (collapsed). Its controls are greyed out while `showViolin` is unticked.
   - type: CollapseBox
-    label: Violin plot – settings
+    label: Violin plot
     collapsed: true
     stretchFactor: 1
     children:
@@ -382,8 +394,9 @@ children:
               - type: CheckBox
                 name: violinJitter
                 enable: (showViolin)
+  # Settings of the "Means and error bars" plot (collapsed). Its controls are greyed out while `showErrorBar` is unticked.
   - type: CollapseBox
-    label: Means and error bars – settings
+    label: Means and error bars
     collapsed: true
     stretchFactor: 1
     children:
@@ -476,8 +489,9 @@ children:
               - type: CheckBox
                 name: ebLabels
                 enable: (showErrorBar)
+  # Settings of the "Raincloud plot" plot (collapsed). Its controls are greyed out while `showRaincloud` is unticked.
   - type: CollapseBox
-    label: Raincloud plot – settings
+    label: Raincloud plot
     collapsed: true
     stretchFactor: 1
     children:
@@ -523,8 +537,9 @@ children:
               - type: CheckBox
                 name: rcBox
                 enable: (showRaincloud)
+  # Settings of the "Ridgeline (density) plot" plot (collapsed). Its controls are greyed out while `showRidge` is unticked.
   - type: CollapseBox
-    label: Ridgeline (density) plot – settings
+    label: Ridgeline (density) plot
     collapsed: true
     stretchFactor: 1
     children:
@@ -570,8 +585,9 @@ children:
               - type: CheckBox
                 name: ridgeMedian
                 enable: (showRidge)
+  # Settings of the "Histogram" plot (collapsed). Its controls are greyed out while `showHist` is unticked.
   - type: CollapseBox
-    label: Histogram – settings
+    label: Histogram
     collapsed: true
     stretchFactor: 1
     children:
@@ -616,8 +632,9 @@ children:
               - type: CheckBox
                 name: histFreeY
                 enable: (showHist)
+  # Settings of the "Overlaid densities" plot (collapsed). Its controls are greyed out while `showDensity` is unticked.
   - type: CollapseBox
-    label: Overlaid densities – settings
+    label: Overlaid densities
     collapsed: true
     stretchFactor: 1
     children:
@@ -653,8 +670,9 @@ children:
               - type: CheckBox
                 name: densTrim
                 enable: (showDensity)
+  # Settings of the "Cumulative distribution (ECDF)" plot (collapsed). Its controls are greyed out while `showEcdf` is unticked.
   - type: CollapseBox
-    label: Cumulative distribution (ECDF) – settings
+    label: Cumulative distribution (ECDF)
     collapsed: true
     stretchFactor: 1
     children:
@@ -671,8 +689,9 @@ children:
               - type: CheckBox
                 name: ecdfMedian
                 enable: (showEcdf)
+  # Settings of the "Data points (strip plot)" plot (collapsed). Its controls are greyed out while `showStrip` is unticked.
   - type: CollapseBox
-    label: Data points (strip plot) – settings
+    label: Data points (strip plot)
     collapsed: true
     stretchFactor: 1
     children:
@@ -689,8 +708,9 @@ children:
               - type: ComboBox
                 name: stripSummary
                 enable: (showStrip)
+  # Settings of the "Barcode plot" plot (collapsed). Its controls are greyed out while `showBarcode` is unticked.
   - type: CollapseBox
-    label: Barcode plot – settings
+    label: Barcode plot
     collapsed: true
     stretchFactor: 1
     children:

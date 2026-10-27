@@ -1,10 +1,14 @@
 ---
+# Comparison of Ordinal/Nominal Variables (distOrd): OPTIONS.
+# Defines every option of the analysis. jmvtools compiles this file (with the .r.yaml) into R/distOrd.h.R;
+# never edit the .h.R by hand. The user interface is in distOrd.u.yaml and the plotting code in R/distOrd.b.R.
 name: distOrd
 title: Comparison of Ordinal/Nominal Variables
 menuGroup: ComparePlots
 version: '0.4.0'
 jas: '1.2'
 options:
+  # DATA AND VARIABLES. `data` is the dataset; `vars` is the list of variables the user drops in.
   - name: data
     type: Data
   - name: vars
@@ -15,6 +19,9 @@ options:
       - nominal
     permitted:
       - factor
+  # APPEARANCE: options shared by every plot of this analysis.
+  # NOTE: do not name an option `theme` or `palette`; jmvcore reserves both for jamovi's global plot settings.
+  # Hence `plotTheme` and `colourPalette`.
   - name: orientation
     title: Orientation
     type: List
@@ -156,6 +163,7 @@ options:
     min: 200
     max: 2400
     default: 420
+  # PLOT: Stacked bars (100%). `showBars` switches it on; the options after it are its settings.
   - name: showBars
     title: 'Stacked bars (100%)'
     type: Bool
@@ -176,6 +184,7 @@ options:
     min: 0
     max: 50
     default: 5
+  # PLOT: Diverging bars (Likert style). `showDiverging` switches it on; the options after it are its settings.
   - name: showDiverging
     title: Diverging bars (Likert style)
     type: Bool
@@ -191,9 +200,9 @@ options:
     type: List
     options:
       - name: auto
-        title: Centre it when the number of categories is odd
+        title: Centre
       - name: none
-        title: 'Never centre: split the categories in two sides'
+        title: Never centre
     default: auto
   - name: divLabels
     title: 'Show % labels'
@@ -209,6 +218,7 @@ options:
     title: 'Show net % on each side'
     type: Bool
     default: false
+  # PLOT: Heatmap. `showHeat` switches it on; the options after it are its settings.
   - name: showHeat
     title: Heatmap
     type: Bool
@@ -246,6 +256,7 @@ options:
     min: 0
     max: 40
     default: 4
+  # PLOT: Waffle chart. `showWaffle` switches it on; the options after it are its settings.
   - name: showWaffle
     title: Waffle chart
     type: Bool
@@ -268,6 +279,7 @@ options:
     min: 0
     max: 50
     default: 10
+  # PLOT: Dot pictogram. `showPicto` switches it on; the options after it are its settings.
   - name: showPicto
     title: Dot pictogram
     type: Bool
@@ -303,6 +315,7 @@ options:
     min: 1
     max: 12
     default: 4.5
+  # PLOT: Parliament (arc) chart. `showParliament` switches it on; the options after it are its settings.
   - name: showParliament
     title: Parliament (arc) chart
     type: Bool
@@ -325,6 +338,7 @@ options:
     min: 1
     max: 10
     default: 3.2
+  # PLOT: Response profile (lines). `showProfile` switches it on; the options after it are its settings.
   - name: showProfile
     title: Response profile (lines)
     type: Bool
@@ -341,6 +355,7 @@ options:
     title: 'Print % values'
     type: Bool
     default: false
+  # PLOT: Mean category and CI (ordinal or two-category variables). `showMeans` switches it on; the options after it are its settings.
   - name: showMeans
     title: Mean category and CI (ordinal or two-category variables)
     type: Bool

@@ -1,11 +1,16 @@
 ---
+# ComparePlots: module manifest (jamovi reads this; jmvtools extends it at build time).
+# Author: Herman E. Elgueta, Departamento de Psicologia, Universidad de Magallanes.
+# Developed for the Laboratorio Austral de Medicion Psicosocial (LAMP), Universidad de Magallanes.
+# `analyses` is the menu: one entry per analysis (the definitions are in jamovi/<name>.{a,r,u}.yaml).
+# `datasets` are the example files offered in jamovi's Data Library (files live in data/).
 title: ComparePlots
 name: ComparePlots
 version: 0.4.0
 jms: '1.0'
 authors:
-  - Herman Elgueta
-maintainer: Herman Elgueta <hermanelgueta@gmail.com>
+  - Herman E. Elgueta
+maintainer: Herman E. Elgueta <herman.elgueta@umag.cl>
 date: '2026-10-27'
 type: R
 description: >-

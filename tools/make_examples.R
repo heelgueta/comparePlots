@@ -1,5 +1,18 @@
-# Regenerates the example datasets (CSV for any tool, OMV with variable types set for jamovi).
-# Run from the repository root:  Rscript tools/make_examples.R
+# =============================================================================
+# make_examples.R: regenerates the example datasets in data/.
+#
+# The data are SIMULATED (fixed seed, so the files are reproducible); they are not
+# real survey data. Each dataset is written twice:
+#   *.csv  for any tool
+#   *.omv  for jamovi, with the measure types already set (ordered factor ->
+#          ordinal, factor -> nominal), which matters because jamovi would
+#          otherwise guess "continuous" for 1-5 codes
+# The .omv files are also listed under `datasets:` in jamovi/0000.yaml so they
+# show up in jamovi's Data Library.
+#
+# Run from the repository root (needs the jmvReadWrite package, which ships with
+# jamovi):   Rscript tools/make_examples.R
+# =============================================================================
 set.seed(2026)
 
 # ---- numeric: six well-being scales on a common 0-100 range -----------------
@@ -37,6 +50,7 @@ nominal_df <- data.frame(
     Afternoon = factor(sample(dr, n, TRUE, prob = c(.30, .30, .22, .10, .08)), levels = dr),
     Evening   = factor(sample(dr, n, TRUE, prob = c(.05, .28, .35, .07, .25)), levels = dr))
 
+# name -> data frame; the name becomes the file name
 out <- list(cp_numeric_example = numeric_df, cp_ordinal_example = ordinal_df,
             cp_nominal_example = nominal_df)
 dir <- "data"

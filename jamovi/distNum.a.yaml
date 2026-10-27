@@ -1,10 +1,14 @@
 ---
+# Comparison of Numeric Variables (distNum): OPTIONS.
+# Defines every option of the analysis. jmvtools compiles this file (with the .r.yaml) into R/distNum.h.R;
+# never edit the .h.R by hand. The user interface is in distNum.u.yaml and the plotting code in R/distNum.b.R.
 name: distNum
 title: Comparison of Numeric Variables
 menuGroup: ComparePlots
 version: '0.4.0'
 jas: '1.2'
 options:
+  # DATA AND VARIABLES. `data` is the dataset; `vars` is the list of variables the user drops in.
   - name: data
     type: Data
   - name: vars
@@ -14,6 +18,9 @@ options:
       - continuous
     permitted:
       - numeric
+  # APPEARANCE: options shared by every plot of this analysis.
+  # NOTE: do not name an option `theme` or `palette`; jmvcore reserves both for jamovi's global plot settings.
+  # Hence `plotTheme` and `colourPalette`.
   - name: orientation
     title: Orientation
     type: List
@@ -158,6 +165,7 @@ options:
     min: 200
     max: 2400
     default: 480
+  # PLOT: Box plot. `showBox` switches it on; the options after it are its settings.
   - name: showBox
     title: Box plot
     type: Bool
@@ -184,6 +192,7 @@ options:
     title: Show data points (jittered)
     type: Bool
     default: false
+  # PLOT: Violin plot. `showViolin` switches it on; the options after it are its settings.
   - name: showViolin
     title: Violin plot
     type: Bool
@@ -228,6 +237,7 @@ options:
     title: Show data points (jittered)
     type: Bool
     default: false
+  # PLOT: Means and error bars. `showErrorBar` switches it on; the options after it are its settings.
   - name: showErrorBar
     title: Means and error bars
     type: Bool
@@ -294,6 +304,7 @@ options:
     title: Print centre values
     type: Bool
     default: false
+  # PLOT: Raincloud plot. `showRaincloud` switches it on; the options after it are its settings.
   - name: showRaincloud
     title: Raincloud plot
     type: Bool
@@ -318,6 +329,7 @@ options:
     title: Show the box
     type: Bool
     default: true
+  # PLOT: Ridgeline (density) plot. `showRidge` switches it on; the options after it are its settings.
   - name: showRidge
     title: Ridgeline (density) plot
     type: Bool
@@ -342,6 +354,7 @@ options:
     title: Mark the median
     type: Bool
     default: false
+  # PLOT: Histogram. `showHist` switches it on; the options after it are its settings.
   - name: showHist
     title: Histogram
     type: Bool
@@ -371,6 +384,7 @@ options:
     title: Free height scale per variable
     type: Bool
     default: false
+  # PLOT: Overlaid densities. `showDensity` switches it on; the options after it are its settings.
   - name: showDensity
     title: Overlaid densities
     type: Bool
@@ -389,6 +403,7 @@ options:
     title: Trim tails at data range
     type: Bool
     default: false
+  # PLOT: Cumulative distribution (ECDF). `showEcdf` switches it on; the options after it are its settings.
   - name: showEcdf
     title: Cumulative distribution (ECDF)
     type: Bool
@@ -397,6 +412,7 @@ options:
     title: 'Mark the median (50%)'
     type: Bool
     default: true
+  # PLOT: Data points (strip plot). `showStrip` switches it on; the options after it are its settings.
   - name: showStrip
     title: Data points (strip plot)
     type: Bool
@@ -412,6 +428,7 @@ options:
       - name: median
         title: Median
     default: none
+  # PLOT: Barcode plot. `showBarcode` switches it on; the options after it are its settings.
   - name: showBarcode
     title: Barcode plot
     type: Bool

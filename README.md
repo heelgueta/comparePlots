@@ -87,13 +87,29 @@ jmvtools::install()      # build and install into your jamovi
 jamovi/    0000.yaml (manifest), *.a.yaml (options), *.r.yaml (results), *.u.yaml (UI)
 R/         *.b.R (implementation), utils.R (shared helpers), *.h.R (generated)
 data/      example datasets (shown in jamovi's Data Library)
+tools/     make_examples.R: regenerates the example datasets
 icons/     analysis icons
 dist/      prebuilt .jmo
 ```
 
-## Development
+### Where to change things
 
-The code was written through iterative work with Claude Sonnet 5.5 (Anthropic), instructed to follow the jamovi developer manuals and documentation, and was reviewed and tested by the author.
+| To change... | Edit |
+|---|---|
+| an option (name, default, range, choices) | `jamovi/<analysis>.a.yaml`, then add the control to `<analysis>.u.yaml` and, if it affects a plot, to that image's `clearWith` in `<analysis>.r.yaml` |
+| how a plot looks | the `.p_<plot>` function in `R/<analysis>.b.R` |
+| something shared (palettes, themes, statistics) | `R/utils.R` |
+| the menu entries or example data list | `jamovi/0000.yaml` |
+
+Do not name an option `theme` or `palette`: jamovi reserves those for its global plot settings (the module uses `plotTheme` and `colourPalette`).
+
+## Authorship and development
+
+**Author and maintainer:** Herman E. Elgueta (herman.elgueta@umag.cl), Departamento de Psicología, Universidad de Magallanes, Punta Arenas, Chile.
+
+Developed for the **Laboratorio Austral de Medición Psicosocial (LAMP)**, Universidad de Magallanes, and maintained in the author's personal repository.
+
+**How it was written:** the code is mostly AI-written ("vibe coded"): it was produced through iterative work with Claude Sonnet 5.5 (Anthropic), instructed to follow the official jamovi developer manuals and documentation. All code has been reviewed by a human (the author), and the module has been tested on macOS, Linux and Windows. The code is heavily commented so that people, or other tools, can follow and change it.
 
 ## License
 

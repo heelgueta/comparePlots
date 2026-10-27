@@ -1,9 +1,13 @@
+# Comparison of Ordinal/Nominal Variables (distOrd): USER INTERFACE, hand-written.
+# compilerMode is `tame`: jmc keeps this layout and only adds controls for NEW options (aggressive mode would overwrite it).
+# Each control is named after its option in distOrd.a.yaml. Layout: LayoutBox with `cell: column/row` makes a two-column grid.
 title: Comparison of Ordinal/Nominal Variables
 name: distOrd
 jus: '3.0'
 stage: 0
 compilerMode: tame
 children:
+  # 1. Variable list (drag variables into the Variables box).
   - type: VariableSupplier
     persistentItems: false
     stretchFactor: 1
@@ -14,6 +18,7 @@ children:
           - type: VariablesListBox
             name: vars
             isTarget: true
+  # 2. "Plots to show": one checkbox per plot (two columns).
   - type: Label
     label: Plots to show
     children: []
@@ -85,6 +90,11 @@ children:
         children:
           - type: CheckBox
             name: showMeans
+  # 3. "Settings": everything below configures the plots.
+  - type: Label
+    label: Settings
+    children: []
+  # Appearance: options shared by all plots. Open by default.
   - type: CollapseBox
     label: Appearance
     collapsed: false
@@ -225,8 +235,9 @@ children:
                 format: number
                 suffix: px
                 enable: '(!autoSize)'
+  # Settings of the "Stacked bars (100%)" plot (collapsed). Its controls are greyed out while `showBars` is unticked.
   - type: CollapseBox
-    label: Stacked bars – settings
+    label: Stacked bars
     collapsed: true
     stretchFactor: 1
     children:
@@ -263,8 +274,9 @@ children:
                 name: barMinLabel
                 format: number
                 enable: (showBars)
+  # Settings of the "Diverging bars (Likert style)" plot (collapsed). Its controls are greyed out while `showDiverging` is unticked.
   - type: CollapseBox
-    label: Diverging bars – settings
+    label: Diverging bars
     collapsed: true
     stretchFactor: 1
     children:
@@ -319,8 +331,9 @@ children:
               - type: CheckBox
                 name: divNet
                 enable: (showDiverging)
+  # Settings of the "Heatmap" plot (collapsed). Its controls are greyed out while `showHeat` is unticked.
   - type: CollapseBox
-    label: Heatmap – settings
+    label: Heatmap
     collapsed: true
     stretchFactor: 1
     children:
@@ -356,8 +369,9 @@ children:
                 name: heatGap
                 format: number
                 enable: (showHeat)
+  # Settings of the "Waffle chart" plot (collapsed). Its controls are greyed out while `showWaffle` is unticked.
   - type: CollapseBox
-    label: Waffle chart – settings
+    label: Waffle chart
     collapsed: true
     stretchFactor: 1
     children:
@@ -395,8 +409,9 @@ children:
                 name: waffleGap
                 format: number
                 enable: (showWaffle)
+  # Settings of the "Dot pictogram" plot (collapsed). Its controls are greyed out while `showPicto` is unticked.
   - type: CollapseBox
-    label: Dot pictogram – settings
+    label: Dot pictogram
     collapsed: true
     stretchFactor: 1
     children:
@@ -443,8 +458,9 @@ children:
                 name: pictoSize
                 format: number
                 enable: (showPicto)
+  # Settings of the "Parliament (arc) chart" plot (collapsed). Its controls are greyed out while `showParliament` is unticked.
   - type: CollapseBox
-    label: Parliament – settings
+    label: Parliament
     collapsed: true
     stretchFactor: 1
     children:
@@ -482,8 +498,9 @@ children:
                 name: parlSize
                 format: number
                 enable: (showParliament)
+  # Settings of the "Response profile (lines)" plot (collapsed). Its controls are greyed out while `showProfile` is unticked.
   - type: CollapseBox
-    label: Response profile – settings
+    label: Response profile
     collapsed: true
     stretchFactor: 1
     children:
@@ -518,8 +535,9 @@ children:
               - type: CheckBox
                 name: profLabels
                 enable: (showProfile)
+  # Settings of the "Mean category and CI (ordinal or two-category variables)" plot (collapsed). Its controls are greyed out while `showMeans` is unticked.
   - type: CollapseBox
-    label: Mean category and CI – settings
+    label: Mean category and CI
     collapsed: true
     stretchFactor: 1
     children:

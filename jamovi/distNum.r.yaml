@@ -1,12 +1,17 @@
 ---
+# Comparison of Numeric Variables (distNum): RESULTS.
+# One Image per plot. Each is drawn by the function named in `renderFun` (R/distNum.b.R) from the state saved in .run().
 name: distNum
 title: Comparison of Numeric Variables
 jrs: '1.1'
 items:
+  # Html note shown above the plots only when something needs explaining (set in .run() of R/distNum.b.R).
   - name: hint
     title: ''
     type: Html
     visible: false
+  # IMAGE for the "Box plot" plot. Shown only while `showBox` is ticked; drawn by `.plot_box()`.
+  # clearWith = options that invalidate the image when they change (add new options here too).
   - name: plot_box
     title: Box plot
     type: Image
@@ -38,6 +43,8 @@ items:
       - boxJitter
     refs:
       - ggplot2
+  # IMAGE for the "Violin plot" plot. Shown only while `showViolin` is ticked; drawn by `.plot_violin()`.
+  # clearWith = options that invalidate the image when they change (add new options here too).
   - name: plot_violin
     title: Violin plot
     type: Image
@@ -70,6 +77,8 @@ items:
       - violinJitter
     refs:
       - ggplot2
+  # IMAGE for the "Means and error bars" plot. Shown only while `showErrorBar` is ticked; drawn by `.plot_errorbar()`.
+  # clearWith = options that invalidate the image when they change (add new options here too).
   - name: plot_errorbar
     title: Means and error bars
     type: Image
@@ -105,6 +114,8 @@ items:
       - ebLabels
     refs:
       - ggplot2
+  # IMAGE for the "Raincloud plot" plot. Shown only while `showRaincloud` is ticked; drawn by `.plot_raincloud()`.
+  # clearWith = options that invalidate the image when they change (add new options here too).
   - name: plot_raincloud
     title: Raincloud plot
     type: Image
@@ -135,6 +146,8 @@ items:
       - rcBox
     refs:
       - ggplot2
+  # IMAGE for the "Ridgeline (density) plot" plot. Shown only while `showRidge` is ticked; drawn by `.plot_ridge()`.
+  # clearWith = options that invalidate the image when they change (add new options here too).
   - name: plot_ridge
     title: Ridgeline (density) plot
     type: Image
@@ -165,6 +178,8 @@ items:
       - ridgeMedian
     refs:
       - ggplot2
+  # IMAGE for the "Histogram" plot. Shown only while `showHist` is ticked; drawn by `.plot_hist()`.
+  # clearWith = options that invalidate the image when they change (add new options here too).
   - name: plot_hist
     title: Histogram
     type: Image
@@ -195,6 +210,8 @@ items:
       - histFreeY
     refs:
       - ggplot2
+  # IMAGE for the "Overlaid densities" plot. Shown only while `showDensity` is ticked; drawn by `.plot_density()`.
+  # clearWith = options that invalidate the image when they change (add new options here too).
   - name: plot_density
     title: Overlaid densities
     type: Image
@@ -224,6 +241,8 @@ items:
       - densTrim
     refs:
       - ggplot2
+  # IMAGE for the "Cumulative distribution (ECDF)" plot. Shown only while `showEcdf` is ticked; drawn by `.plot_ecdf()`.
+  # clearWith = options that invalidate the image when they change (add new options here too).
   - name: plot_ecdf
     title: Cumulative distribution (ECDF)
     type: Image
@@ -251,6 +270,8 @@ items:
       - ecdfMedian
     refs:
       - ggplot2
+  # IMAGE for the "Data points (strip plot)" plot. Shown only while `showStrip` is ticked; drawn by `.plot_strip()`.
+  # clearWith = options that invalidate the image when they change (add new options here too).
   - name: plot_strip
     title: Data points (strip plot)
     type: Image
@@ -278,6 +299,8 @@ items:
       - stripSummary
     refs:
       - ggplot2
+  # IMAGE for the "Barcode plot" plot. Shown only while `showBarcode` is ticked; drawn by `.plot_barcode()`.
+  # clearWith = options that invalidate the image when they change (add new options here too).
   - name: plot_barcode
     title: Barcode plot
     type: Image

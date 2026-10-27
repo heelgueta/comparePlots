@@ -1,12 +1,17 @@
 ---
+# Comparison of Ordinal/Nominal Variables (distOrd): RESULTS.
+# One Image per plot. Each is drawn by the function named in `renderFun` (R/distOrd.b.R) from the state saved in .run().
 name: distOrd
 title: Comparison of Ordinal/Nominal Variables
 jrs: '1.1'
 items:
+  # Html note shown above the plots only when something needs explaining (set in .run() of R/distOrd.b.R).
   - name: hint
     title: ''
     type: Html
     visible: false
+  # IMAGE for the "Stacked bars (100%)" plot. Shown only while `showBars` is ticked; drawn by `.plot_bars()`.
+  # clearWith = options that invalidate the image when they change (add new options here too).
   - name: plot_bars
     title: 'Stacked bars (100%)'
     type: Image
@@ -34,6 +39,8 @@ items:
       - barMinLabel
     refs:
       - ggplot2
+  # IMAGE for the "Diverging bars (Likert style)" plot. Shown only while `showDiverging` is ticked; drawn by `.plot_diverging()`.
+  # clearWith = options that invalidate the image when they change (add new options here too).
   - name: plot_diverging
     title: Diverging bars (Likert style)
     type: Image
@@ -63,6 +70,8 @@ items:
       - divNet
     refs:
       - ggplot2
+  # IMAGE for the "Heatmap" plot. Shown only while `showHeat` is ticked; drawn by `.plot_heat()`.
+  # clearWith = options that invalidate the image when they change (add new options here too).
   - name: plot_heat
     title: Heatmap
     type: Image
@@ -90,6 +99,8 @@ items:
       - heatGap
     refs:
       - ggplot2
+  # IMAGE for the "Waffle chart" plot. Shown only while `showWaffle` is ticked; drawn by `.plot_waffle()`.
+  # clearWith = options that invalidate the image when they change (add new options here too).
   - name: plot_waffle
     title: Waffle chart
     type: Image
@@ -117,6 +128,8 @@ items:
       - waffleGap
     refs:
       - ggplot2
+  # IMAGE for the "Dot pictogram" plot. Shown only while `showPicto` is ticked; drawn by `.plot_picto()`.
+  # clearWith = options that invalidate the image when they change (add new options here too).
   - name: plot_picto
     title: Dot pictogram
     type: Image
@@ -145,6 +158,8 @@ items:
       - pictoSize
     refs:
       - ggplot2
+  # IMAGE for the "Parliament (arc) chart" plot. Shown only while `showParliament` is ticked; drawn by `.plot_parliament()`.
+  # clearWith = options that invalidate the image when they change (add new options here too).
   - name: plot_parliament
     title: Parliament (arc) chart
     type: Image
@@ -172,6 +187,8 @@ items:
       - parlSize
     refs:
       - ggplot2
+  # IMAGE for the "Response profile (lines)" plot. Shown only while `showProfile` is ticked; drawn by `.plot_profile()`.
+  # clearWith = options that invalidate the image when they change (add new options here too).
   - name: plot_profile
     title: Response profile (lines)
     type: Image
@@ -199,6 +216,8 @@ items:
       - profLabels
     refs:
       - ggplot2
+  # IMAGE for the "Mean category and CI (ordinal or two-category variables)" plot. Shown only while `showMeans` is ticked; drawn by `.plot_means()`.
+  # clearWith = options that invalidate the image when they change (add new options here too).
   - name: plot_means
     title: Mean category and CI (ordinal or two-category variables)
     type: Image
