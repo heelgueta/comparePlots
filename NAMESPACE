@@ -1,4 +1,4 @@
-export(polyNum)
-export(polyOrd)
+export(distNum)
+export(distOrd)
 importFrom(jmvcore, .)
 importFrom(R6, R6Class)

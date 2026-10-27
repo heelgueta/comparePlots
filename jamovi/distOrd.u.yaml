@@ -1,0 +1,517 @@
+title: Comparison of Ordinal/Nominal Variables
+name: distOrd
+jus: '3.0'
+stage: 0
+compilerMode: tame
+children:
+  - type: VariableSupplier
+    persistentItems: false
+    stretchFactor: 1
+    children:
+      - type: TargetLayoutBox
+        label: Variables
+        children:
+          - type: VariablesListBox
+            name: vars
+            isTarget: true
+  - type: CollapseBox
+    label: Appearance
+    collapsed: false
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: orientation
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: invertVars
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: palette
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: reversePalette
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: theme
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: textSize
+                format: number
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 3
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: sortVars
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 3
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: decimals
+                format: number
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 4
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: legendPos
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 4
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: legendTitle
+                format: string
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 5
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: title
+                format: string
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 5
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: showN
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: autoSize
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: plotWidth
+                format: number
+                suffix: px
+                enable: '(!autoSize)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: plotHeight
+                format: number
+                suffix: px
+                enable: '(!autoSize)'
+  - type: Label
+    label: Plots to show
+    children: []
+  - type: LayoutBox
+    margin: large
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        cell:
+          column: 0
+          row: 0
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showBars
+      - type: LayoutBox
+        cell:
+          column: 1
+          row: 0
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showDiverging
+      - type: LayoutBox
+        cell:
+          column: 0
+          row: 1
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showHeat
+      - type: LayoutBox
+        cell:
+          column: 1
+          row: 1
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showWaffle
+      - type: LayoutBox
+        cell:
+          column: 0
+          row: 2
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showPicto
+      - type: LayoutBox
+        cell:
+          column: 1
+          row: 2
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showParliament
+      - type: LayoutBox
+        cell:
+          column: 0
+          row: 3
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showProfile
+      - type: LayoutBox
+        cell:
+          column: 1
+          row: 3
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showMeans
+  - type: CollapseBox
+    label: Stacked bars – settings
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: barWidth
+                format: number
+                enable: (showBars)
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: barLabels
+                enable: (showBars)
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: barMinLabel
+                format: number
+                enable: (showBars)
+  - type: CollapseBox
+    label: Diverging bars – settings
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: divWidth
+                format: number
+                enable: (showDiverging)
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: divNeutral
+                enable: (showDiverging)
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: divLabels
+                enable: (showDiverging)
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: divMinLabel
+                format: number
+                enable: (showDiverging)
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: divNet
+                enable: (showDiverging)
+  - type: CollapseBox
+    label: Heatmap – settings
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: heatPalette
+                enable: (showHeat)
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: heatLabels
+                enable: (showHeat)
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: heatGap
+                format: number
+                enable: (showHeat)
+  - type: CollapseBox
+    label: Waffle chart – settings
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: waffleGap
+                format: number
+                enable: (showWaffle)
+  - type: CollapseBox
+    label: Dot pictogram – settings
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: pictoShape
+                enable: (showPicto)
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: pictoSize
+                format: number
+                enable: (showPicto)
+  - type: CollapseBox
+    label: Parliament – settings
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: parlSeats
+                format: number
+                enable: (showParliament)
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: parlRows
+                format: number
+                enable: (showParliament)
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: parlSize
+                format: number
+                enable: (showParliament)
+  - type: CollapseBox
+    label: Response profile – settings
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: profLines
+                enable: (showProfile)
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: profPoints
+                enable: (showProfile)
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: profLabels
+                enable: (showProfile)
+  - type: CollapseBox
+    label: Mean category and CI – settings
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: meansCi
+                enable: (showMeans)
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: meansLevel
+                format: number
+                enable: (showMeans)
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: meansLabels
+                enable: (showMeans)

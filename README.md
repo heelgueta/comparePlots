@@ -1,78 +1,96 @@
-# PolyUniPlots
+# VarDistPlots
 
-A jamovi module for plotting **multiple variables side by side on a shared scale**. Stop flipping between outputs — drop all your variables in at once and compare them in one chart.
+A jamovi module to **compare the distributions of several variables at once**, side by side on one shared scale. Drop your variables in, tick the plots you want, and get them all in one go. No code needed.
 
-Two analyses are included: one for numeric variables and one for ordinal/nominal variables.
+Two analyses, under their own **VarDistPlots** menu:
 
----
+- **Comparison of Numeric Variables**
+- **Comparison of Ordinal/Nominal Variables**
 
-## Installation
-
-Download `PolyUniPlots.jmo` from this repo, then in jamovi:
-
-**Modules → Install from file → select PolyUniPlots.jmo**
-
-Requires jamovi ≥ 2.3 (tested on 2.4.8).
+Both work the same way: pick variables, set a few shared appearance options, then **tick any combination of plots**. Every plot appears as its own result and has its own collapsible settings panel.
 
 ---
 
-## PolyNum — Multiple Numeric Plots
+## Install
 
-Plot any number of continuous variables on the same axis. Layer geoms freely:
+Download the `.jmo` for your platform from [`dist/`](dist/) (or the Releases page), then in jamovi:
 
-| Geom | What it shows |
+**Modules (+) → jamovi library → Install from file…**
+
+`dist/VarDistPlots_0.4.0_mac-arm64.jmo` is built for jamovi 2.7.x on Apple-silicon Macs. Other platforms: build from source (below) or install from the jamovi library once published.
+
+Example datasets are included and appear under **Open → Data Library → VarDistPlots**. The same files are in [`data/`](data/).
+
+---
+
+## Comparison of Numeric Variables
+
+Shared appearance: orientation (horizontal by default) · invert variable order · palette (viridis by default) · invert palette colours · theme · text size · transparency · line thickness · point size · jitter spread · axis label · title · automatic or manual plot size.
+
+| Plot | Settings |
 |---|---|
-| Box plot | Median, IQR, whiskers, outliers |
-| Violin | Full distribution shape |
-| Jitter | Raw data points |
-| Mean diamond | Mean as ◆ |
-| Rug | Tick marks along the axis |
+| Box plot | width, outliers, notches, mark the mean, jittered data points |
+| Violin plot | width, scale, bandwidth, trimming, inner box, jittered data points |
+| Means and error bars | centre (mean/median), error bars (CI / SE / SD / IQR / central % / min–max), level, multiplier, jittered data points (on by default), marker size, caps, connecting line, value labels |
+| Raincloud plot | cloud height, bandwidth, rain on/off, box on/off |
+| Ridgeline plot | overlap, bandwidth, trimming, median marker (lower ridges cover the ones behind) |
+| Histogram | bins on a shared scale, count/percent/density, density curve, free height per variable |
+| Overlaid densities | bandwidth, fill, trimming |
+| Cumulative distribution (ECDF) | median guide |
+| Data points (strip) | mean/median line |
+| Barcode plot | tick height |
 
-**Options:** horizontal or vertical orientation · 10 colour palettes · 4 themes · transparency, box width, jitter spread · custom title · manual plot size
+## Comparison of Ordinal/Nominal Variables
 
-**Typical use:** comparing subscales, pre/post measures, physiological variables, any set of numeric items sharing a meaningful common scale.
+Shared appearance: orientation · invert variable order · palette (red–blue diverging by default) · invert palette colours · theme · text size · sort variables (as entered, name, % in first/last category, mean category) · decimals · legend position/title · title · n per variable · automatic or manual plot size.
 
----
-
-## PolyOrd — Multiple Ordinal/Nominal Plots
-
-Display several categorical variables as horizontal proportional bars, all on the same 0–100% scale. Two layout modes:
-
-| Mode | Description |
+| Plot | Settings |
 |---|---|
-| Stacked (default) | 100% bars, categories left to right |
-| Diverging (Likert) | Centred at the neutral midpoint; negative categories extend left, positive right |
-
-**Options:** 10 palettes including diverging schemes · percentage labels with minimum threshold · N per variable · sort variables (as entered / alphabetically / by first or last category) · reverse order · legend position · custom title · manual plot size
-
-**Typical use:** Likert-scale batteries, multiple ordinal items on a shared response scale, any set of categorical variables you want to compare at a glance.
+| Stacked bars (100%) | thickness, % labels, smallest % to label |
+| Diverging bars (Likert style) | thickness, middle category handling, % labels, net % on each side |
+| Heatmap | colour scale, % in tiles, tile gap |
+| Waffle chart | gap (1 square = 1%) |
+| Dot pictogram | shape, size (1 dot = 1%) |
+| Parliament chart | seats, rows, seat size |
+| Response profile (lines) | lines, points, % values |
+| Mean category with CI | CI level, value labels (levels coded 1…k) |
 
 ---
 
-## Repository structure
+## Example data
+
+| File | Contents |
+|---|---|
+| `data/vdp_numeric_example` | Six 0–100 scales with different shapes: normal, skewed, bimodal, narrow (n = 240) |
+| `data/vdp_ordinal_example` | Six Likert items with different response patterns (n = 300) |
+| `data/vdp_nominal_example` | One five-category nominal variable at three times of day (n = 250) |
+
+Each is provided as `.omv` (variable types already set) and `.csv`. Regenerate with `Rscript data/make_examples.R`.
+
+---
+
+## Build from source
+
+The sources follow the standard jamovi module layout (`jamovi/` for the `.yaml` definitions and UI, `R/` for the implementation). With the [jmvtools](https://dev.jamovi.org/tuts0101-getting-started.html) R package and jamovi installed:
+
+```r
+jmvtools::install()      # build and install into your jamovi
+```
+
+`R/*.h.R` are generated by jmvtools from `jamovi/*.a.yaml`; edit the yaml, not the `.h.R` files.
+
+---
+
+## Layout
 
 ```
-analyses/          # YAML option and result definitions
-R/                 # R source (implementation + base classes)
-ui/                # Compiled JS UI panels
-icons/             # Per-analysis SVG icons
-jamovi.yaml        # Module manifest
-DESCRIPTION        # R package metadata
-NAMESPACE
-PolyUniPlots.jmo   # Packaged module (install directly in jamovi)
+jamovi/    0000.yaml (manifest), *.a.yaml (options), *.r.yaml (results), *.u.yaml (UI)
+R/         *.b.R (implementation), utils.R (shared helpers), *.h.R (generated)
+data/      example datasets (shown in jamovi's Data Library)
+icons/     analysis icons
+dist/      prebuilt .jmo
 ```
-
----
-
-## Roadmap
-
-- [ ] Grouping variable for split distributions
-- [ ] Histogram / density option for numeric vars
-- [ ] Ridge plot (ggridges)
-- [ ] Custom colour per variable
-
----
 
 ## License
 
-GPL (≥ 2)
+GPL (>= 2)

@@ -1,0 +1,338 @@
+---
+name: distOrd
+title: Comparison of Ordinal/Nominal Variables
+menuGroup: VarDistPlots
+version: '0.4.0'
+jas: '1.2'
+options:
+  - name: data
+    type: Data
+  - name: vars
+    title: Variables
+    type: Variables
+    suggested:
+      - ordinal
+      - nominal
+    permitted:
+      - factor
+  - name: orientation
+    title: Orientation
+    type: List
+    options:
+      - name: horizontal
+        title: Horizontal
+      - name: vertical
+        title: Vertical
+    default: horizontal
+  - name: invertVars
+    title: Invert variable order
+    type: Bool
+    default: false
+  - name: palette
+    title: Palette (categories)
+    type: List
+    options:
+      - name: viridis
+        title: Viridis
+      - name: plasma
+        title: Plasma
+      - name: magma
+        title: Magma
+      - name: inferno
+        title: Inferno
+      - name: cividis
+        title: Cividis
+      - name: mako
+        title: Mako
+      - name: rocket
+        title: Rocket
+      - name: turbo
+        title: Turbo
+      - name: rdbu
+        title: Red–Blue (diverging)
+      - name: rdylgn
+        title: Red–Yellow–Green (diverging)
+      - name: piyg
+        title: Pink–Green (diverging)
+      - name: prgn
+        title: Purple–Green (diverging)
+      - name: brbg
+        title: Brown–Teal (diverging)
+      - name: set2
+        title: Set 2
+      - name: dark2
+        title: Dark 2
+      - name: pastel
+        title: Pastel 1
+      - name: okabe
+        title: Okabe–Ito (colour-blind safe)
+      - name: grays
+        title: Grays
+    default: rdbu
+  - name: reversePalette
+    title: Invert palette colours
+    type: Bool
+    default: false
+  - name: theme
+    title: Theme
+    type: List
+    options:
+      - name: minimal
+        title: Minimal
+      - name: classic
+        title: Classic
+      - name: bw
+        title: 'Black & white'
+      - name: light
+        title: Light
+      - name: gray
+        title: Gray
+    default: minimal
+  - name: textSize
+    title: Text size
+    type: Integer
+    min: 8
+    max: 24
+    default: 12
+  - name: sortVars
+    title: Sort variables
+    type: List
+    options:
+      - name: none
+        title: As entered
+      - name: name
+        title: Alphabetically
+      - name: first
+        title: 'By % in first category'
+      - name: last
+        title: 'By % in last category'
+      - name: mean
+        title: By mean category (levels coded 1…k)
+    default: none
+  - name: decimals
+    title: 'Decimals in % labels'
+    type: Integer
+    min: 0
+    max: 3
+    default: 0
+  - name: legendPos
+    title: Legend position
+    type: List
+    options:
+      - name: bottom
+        title: Bottom
+      - name: right
+        title: Right
+      - name: top
+        title: Top
+      - name: none
+        title: None
+    default: bottom
+  - name: legendTitle
+    title: Legend title
+    type: String
+    default: ''
+  - name: title
+    title: Plot title
+    type: String
+    default: ''
+  - name: showN
+    title: Show n per variable
+    type: Bool
+    default: false
+  - name: autoSize
+    title: Size plots automatically
+    type: Bool
+    default: true
+  - name: plotWidth
+    title: Width (px)
+    type: Integer
+    min: 300
+    max: 2400
+    default: 700
+  - name: plotHeight
+    title: Height (px)
+    type: Integer
+    min: 200
+    max: 2400
+    default: 420
+  - name: showBars
+    title: 'Stacked bars (100%)'
+    type: Bool
+    default: true
+  - name: barWidth
+    title: 'Bar thickness (%)'
+    type: Integer
+    min: 10
+    max: 100
+    default: 70
+  - name: barLabels
+    title: 'Show % labels'
+    type: Bool
+    default: true
+  - name: barMinLabel
+    title: 'Smallest % to label'
+    type: Integer
+    min: 0
+    max: 50
+    default: 5
+  - name: showDiverging
+    title: Diverging bars (Likert style)
+    type: Bool
+    default: false
+  - name: divWidth
+    title: 'Bar thickness (%)'
+    type: Integer
+    min: 10
+    max: 100
+    default: 70
+  - name: divNeutral
+    title: Middle category
+    type: List
+    options:
+      - name: auto
+        title: Centre it when the number of categories is odd
+      - name: none
+        title: 'Never centre: split the categories in two sides'
+    default: auto
+  - name: divLabels
+    title: 'Show % labels'
+    type: Bool
+    default: true
+  - name: divMinLabel
+    title: 'Smallest % to label'
+    type: Integer
+    min: 0
+    max: 50
+    default: 8
+  - name: divNet
+    title: 'Show net % on each side'
+    type: Bool
+    default: false
+  - name: showHeat
+    title: Heatmap
+    type: Bool
+    default: false
+  - name: heatPalette
+    title: Heatmap colours
+    type: List
+    options:
+      - name: blues
+        title: Blues
+      - name: greens
+        title: Greens
+      - name: reds
+        title: Reds
+      - name: purples
+        title: Purples
+      - name: oranges
+        title: Oranges
+      - name: ylorrd
+        title: Yellow–Orange–Red
+      - name: mako
+        title: Mako
+      - name: rocket
+        title: Rocket
+      - name: grays
+        title: Grays
+    default: blues
+  - name: heatLabels
+    title: 'Show % in the tiles'
+    type: Bool
+    default: true
+  - name: heatGap
+    title: 'Tile gap (%)'
+    type: Integer
+    min: 0
+    max: 40
+    default: 4
+  - name: showWaffle
+    title: 'Waffle chart (1 square = 1%)'
+    type: Bool
+    default: false
+  - name: waffleGap
+    title: 'Gap between squares (%)'
+    type: Integer
+    min: 0
+    max: 50
+    default: 10
+  - name: showPicto
+    title: 'Dot pictogram (1 dot = 1%)'
+    type: Bool
+    default: false
+  - name: pictoShape
+    title: Shape
+    type: List
+    options:
+      - name: circle
+        title: Circle
+      - name: square
+        title: Square
+      - name: diamond
+        title: Diamond
+      - name: triangle
+        title: Triangle
+    default: circle
+  - name: pictoSize
+    title: Dot size
+    type: Number
+    min: 1
+    max: 12
+    default: 4.5
+  - name: showParliament
+    title: Parliament (arc) chart
+    type: Bool
+    default: false
+  - name: parlSeats
+    title: Number of seats
+    type: Integer
+    min: 20
+    max: 400
+    default: 100
+  - name: parlRows
+    title: Number of rows
+    type: Integer
+    min: 1
+    max: 10
+    default: 4
+  - name: parlSize
+    title: Seat size
+    type: Number
+    min: 1
+    max: 10
+    default: 3.2
+  - name: showProfile
+    title: Response profile (lines)
+    type: Bool
+    default: false
+  - name: profLines
+    title: Connect with lines
+    type: Bool
+    default: true
+  - name: profPoints
+    title: Show points
+    type: Bool
+    default: true
+  - name: profLabels
+    title: 'Print % values'
+    type: Bool
+    default: false
+  - name: showMeans
+    title: Mean category and CI (levels coded 1…k)
+    type: Bool
+    default: false
+  - name: meansCi
+    title: Show confidence interval
+    type: Bool
+    default: true
+  - name: meansLevel
+    title: 'CI level (%)'
+    type: Integer
+    min: 50
+    max: 99
+    default: 95
+  - name: meansLabels
+    title: Print mean values
+    type: Bool
+    default: false
+...

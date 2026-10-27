@@ -1,0 +1,225 @@
+---
+name: distOrd
+title: Comparison of Ordinal/Nominal Variables
+jrs: '1.1'
+items:
+  - name: hint
+    title: ''
+    type: Html
+    visible: false
+  - name: plot_bars
+    title: 'Stacked bars (100%)'
+    type: Image
+    width: 700
+    height: 420
+    renderFun: .plot_bars
+    visible: (showBars)
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - invertVars
+      - palette
+      - reversePalette
+      - theme
+      - textSize
+      - sortVars
+      - decimals
+      - legendPos
+      - legendTitle
+      - title
+      - showN
+      - barWidth
+      - barLabels
+      - barMinLabel
+    refs:
+      - ggplot2
+  - name: plot_diverging
+    title: Diverging bars (Likert style)
+    type: Image
+    width: 700
+    height: 420
+    renderFun: .plot_diverging
+    visible: (showDiverging)
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - invertVars
+      - palette
+      - reversePalette
+      - theme
+      - textSize
+      - sortVars
+      - decimals
+      - legendPos
+      - legendTitle
+      - title
+      - showN
+      - divWidth
+      - divNeutral
+      - divLabels
+      - divMinLabel
+      - divNet
+    refs:
+      - ggplot2
+  - name: plot_heat
+    title: Heatmap
+    type: Image
+    width: 700
+    height: 420
+    renderFun: .plot_heat
+    visible: (showHeat)
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - invertVars
+      - palette
+      - reversePalette
+      - theme
+      - textSize
+      - sortVars
+      - decimals
+      - legendPos
+      - legendTitle
+      - title
+      - showN
+      - heatPalette
+      - heatLabels
+      - heatGap
+    refs:
+      - ggplot2
+  - name: plot_waffle
+    title: 'Waffle chart (1 square = 1%)'
+    type: Image
+    width: 700
+    height: 420
+    renderFun: .plot_waffle
+    visible: (showWaffle)
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - invertVars
+      - palette
+      - reversePalette
+      - theme
+      - textSize
+      - sortVars
+      - decimals
+      - legendPos
+      - legendTitle
+      - title
+      - showN
+      - waffleGap
+    refs:
+      - ggplot2
+  - name: plot_picto
+    title: 'Dot pictogram (1 dot = 1%)'
+    type: Image
+    width: 700
+    height: 420
+    renderFun: .plot_picto
+    visible: (showPicto)
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - invertVars
+      - palette
+      - reversePalette
+      - theme
+      - textSize
+      - sortVars
+      - decimals
+      - legendPos
+      - legendTitle
+      - title
+      - showN
+      - pictoShape
+      - pictoSize
+    refs:
+      - ggplot2
+  - name: plot_parliament
+    title: Parliament (arc) chart
+    type: Image
+    width: 700
+    height: 420
+    renderFun: .plot_parliament
+    visible: (showParliament)
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - invertVars
+      - palette
+      - reversePalette
+      - theme
+      - textSize
+      - sortVars
+      - decimals
+      - legendPos
+      - legendTitle
+      - title
+      - showN
+      - parlSeats
+      - parlRows
+      - parlSize
+    refs:
+      - ggplot2
+  - name: plot_profile
+    title: Response profile (lines)
+    type: Image
+    width: 700
+    height: 420
+    renderFun: .plot_profile
+    visible: (showProfile)
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - invertVars
+      - palette
+      - reversePalette
+      - theme
+      - textSize
+      - sortVars
+      - decimals
+      - legendPos
+      - legendTitle
+      - title
+      - showN
+      - profLines
+      - profPoints
+      - profLabels
+    refs:
+      - ggplot2
+  - name: plot_means
+    title: Mean category and CI (levels coded 1…k)
+    type: Image
+    width: 700
+    height: 420
+    renderFun: .plot_means
+    visible: (showMeans)
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - invertVars
+      - palette
+      - reversePalette
+      - theme
+      - textSize
+      - sortVars
+      - decimals
+      - legendPos
+      - legendTitle
+      - title
+      - showN
+      - meansCi
+      - meansLevel
+      - meansLabels
+    refs:
+      - ggplot2
+...

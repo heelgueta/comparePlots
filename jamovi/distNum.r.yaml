@@ -1,0 +1,308 @@
+---
+name: distNum
+title: Comparison of Numeric Variables
+jrs: '1.1'
+items:
+  - name: hint
+    title: ''
+    type: Html
+    visible: false
+  - name: plot_box
+    title: Box plot
+    type: Image
+    width: 700
+    height: 480
+    renderFun: .plot_box
+    visible: (showBox)
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - invertVars
+      - palette
+      - reversePalette
+      - theme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - boxWidth
+      - boxOutliers
+      - boxNotch
+      - boxMean
+      - boxJitter
+    refs:
+      - ggplot2
+  - name: plot_violin
+    title: Violin plot
+    type: Image
+    width: 700
+    height: 480
+    renderFun: .plot_violin
+    visible: (showViolin)
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - invertVars
+      - palette
+      - reversePalette
+      - theme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - violinWidth
+      - violinScale
+      - violinAdjust
+      - violinTrim
+      - violinInner
+      - violinJitter
+    refs:
+      - ggplot2
+  - name: plot_errorbar
+    title: Means and error bars
+    type: Image
+    width: 700
+    height: 480
+    renderFun: .plot_errorbar
+    visible: (showErrorBar)
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - invertVars
+      - palette
+      - reversePalette
+      - theme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - ebCenter
+      - ebInterval
+      - ebLevel
+      - ebMult
+      - ebJitter
+      - ebSize
+      - ebCap
+      - ebConnect
+      - ebLabels
+    refs:
+      - ggplot2
+  - name: plot_raincloud
+    title: Raincloud plot
+    type: Image
+    width: 700
+    height: 480
+    renderFun: .plot_raincloud
+    visible: (showRaincloud)
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - invertVars
+      - palette
+      - reversePalette
+      - theme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - rcCloudWidth
+      - rcAdjust
+      - rcRain
+      - rcBox
+    refs:
+      - ggplot2
+  - name: plot_ridge
+    title: Ridgeline (density) plot
+    type: Image
+    width: 700
+    height: 480
+    renderFun: .plot_ridge
+    visible: (showRidge)
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - invertVars
+      - palette
+      - reversePalette
+      - theme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - ridgeOverlap
+      - ridgeAdjust
+      - ridgeTrim
+      - ridgeMedian
+    refs:
+      - ggplot2
+  - name: plot_hist
+    title: Histogram
+    type: Image
+    width: 700
+    height: 480
+    renderFun: .plot_hist
+    visible: (showHist)
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - invertVars
+      - palette
+      - reversePalette
+      - theme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - histBins
+      - histStat
+      - histDensity
+      - histFreeY
+    refs:
+      - ggplot2
+  - name: plot_density
+    title: Overlaid densities
+    type: Image
+    width: 700
+    height: 480
+    renderFun: .plot_density
+    visible: (showDensity)
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - invertVars
+      - palette
+      - reversePalette
+      - theme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - densAdjust
+      - densFilled
+      - densTrim
+    refs:
+      - ggplot2
+  - name: plot_ecdf
+    title: Cumulative distribution (ECDF)
+    type: Image
+    width: 700
+    height: 480
+    renderFun: .plot_ecdf
+    visible: (showEcdf)
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - invertVars
+      - palette
+      - reversePalette
+      - theme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - ecdfMedian
+    refs:
+      - ggplot2
+  - name: plot_strip
+    title: Data points (strip plot)
+    type: Image
+    width: 700
+    height: 480
+    renderFun: .plot_strip
+    visible: (showStrip)
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - invertVars
+      - palette
+      - reversePalette
+      - theme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - stripSummary
+    refs:
+      - ggplot2
+  - name: plot_barcode
+    title: Barcode plot
+    type: Image
+    width: 700
+    height: 480
+    renderFun: .plot_barcode
+    visible: (showBarcode)
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - invertVars
+      - palette
+      - reversePalette
+      - theme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - barcodeHeight
+    refs:
+      - ggplot2
+...

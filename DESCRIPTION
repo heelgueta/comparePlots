@@ -1,10 +1,17 @@
-Package: PolyUniPlots
+Package: VarDistPlots
 Type: Package
-Title: Multiple Univariate Plots
-Version: 0.1.0
-Authors@R: person("Herman", "Elgueta", role=c("aut","cre"), email="h@h.com")
+Title: Compare the Distributions of Several Variables
+Version: 0.4.0
+Authors@R: person("Herman", "Elgueta", email = "hermanelgueta@gmail.com", role = c("aut", "cre"))
+Description: A jamovi module to compare the distributions of several numeric,
+    ordinal or nominal variables side by side on a shared scale, with a choice
+    of plots (box, violin, means with error bars, raincloud, ridgeline,
+    histogram, density, ECDF, stacked and diverging bars, heatmap, waffle and more).
+License: GPL (>= 2)
 Imports:
     jmvcore (>= 0.8.6),
     R6,
-    ggplot2 (>= 3.3.0),
-    scales
+    ggplot2 (>= 3.4.0),
+    scales,
+    viridisLite
+Encoding: UTF-8

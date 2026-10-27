@@ -1,0 +1,43 @@
+---
+title: VarDistPlots
+name: VarDistPlots
+version: 0.4.0
+jms: '1.0'
+authors:
+  - Herman Elgueta
+maintainer: Herman Elgueta <hermanelgueta@gmail.com>
+date: '2026-10-27'
+type: R
+description: >-
+  Compare the distributions of several variables on one shared scale. Numeric
+  variables: box, violin, means with error bars, raincloud, ridgeline,
+  histogram, density, ECDF, data points and barcode plots. Ordinal and nominal
+  variables: stacked and diverging bars, heatmap, waffle, pictogram,
+  parliament, response profile and mean-category plots.
+analyses:
+  - title: Comparison of Numeric Variables
+    name: distNum
+    ns: VarDistPlots
+    menuGroup: VarDistPlots
+    menuTitle: Comparison of Numeric Variables
+    menuSubtitle: Box, violin, error bars, raincloud, ridgeline, histogram, ECDF
+    description: Compare the distributions of several numeric variables on one shared axis.
+  - title: Comparison of Ordinal/Nominal Variables
+    name: distOrd
+    ns: VarDistPlots
+    menuGroup: VarDistPlots
+    menuTitle: Comparison of Ordinal/Nominal Variables
+    menuSubtitle: Stacked and diverging bars, heatmap, waffle, profile
+    description: Compare the response distributions of several ordinal or nominal variables.
+datasets:
+  - name: Well-being scales (numeric example)
+    path: vdp_numeric_example.omv
+    description: Six 0-100 scales with different shapes (normal, skewed, bimodal, narrow), n = 240
+  - name: Course evaluation (ordinal example)
+    path: vdp_ordinal_example.omv
+    description: Six Likert items with different response patterns, n = 300
+  - name: Drink preference (nominal example)
+    path: vdp_nominal_example.omv
+    description: The same five-category nominal variable at three times of day, n = 250
+usesNative: true
+...

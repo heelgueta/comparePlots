@@ -1,0 +1,425 @@
+---
+name: distNum
+title: Comparison of Numeric Variables
+menuGroup: VarDistPlots
+version: '0.4.0'
+jas: '1.2'
+options:
+  - name: data
+    type: Data
+  - name: vars
+    title: Variables
+    type: Variables
+    suggested:
+      - continuous
+    permitted:
+      - numeric
+  - name: orientation
+    title: Orientation
+    type: List
+    options:
+      - name: horizontal
+        title: Horizontal
+      - name: vertical
+        title: Vertical
+    default: horizontal
+  - name: invertVars
+    title: Invert variable order
+    type: Bool
+    default: false
+  - name: palette
+    title: Palette
+    type: List
+    options:
+      - name: viridis
+        title: Viridis
+      - name: plasma
+        title: Plasma
+      - name: magma
+        title: Magma
+      - name: inferno
+        title: Inferno
+      - name: cividis
+        title: Cividis
+      - name: mako
+        title: Mako
+      - name: rocket
+        title: Rocket
+      - name: turbo
+        title: Turbo
+      - name: rdbu
+        title: Red–Blue (diverging)
+      - name: rdylgn
+        title: Red–Yellow–Green (diverging)
+      - name: piyg
+        title: Pink–Green (diverging)
+      - name: prgn
+        title: Purple–Green (diverging)
+      - name: brbg
+        title: Brown–Teal (diverging)
+      - name: set2
+        title: Set 2
+      - name: dark2
+        title: Dark 2
+      - name: pastel
+        title: Pastel 1
+      - name: okabe
+        title: Okabe–Ito (colour-blind safe)
+      - name: grays
+        title: Grays
+    default: viridis
+  - name: reversePalette
+    title: Invert palette colours
+    type: Bool
+    default: false
+  - name: theme
+    title: Theme
+    type: List
+    options:
+      - name: minimal
+        title: Minimal
+      - name: classic
+        title: Classic
+      - name: bw
+        title: 'Black & white'
+      - name: light
+        title: Light
+      - name: gray
+        title: Gray
+    default: minimal
+  - name: textSize
+    title: Text size
+    type: Integer
+    min: 8
+    max: 24
+    default: 12
+  - name: alpha
+    title: 'Transparency (opacity %)'
+    type: Integer
+    min: 5
+    max: 100
+    default: 80
+  - name: lineWidth
+    title: Line thickness (1–5)
+    type: Integer
+    min: 1
+    max: 5
+    default: 2
+  - name: pointSize
+    title: Point size
+    type: Number
+    min: 0.2
+    max: 6
+    default: 1.4
+  - name: jitterSpread
+    title: 'Jitter spread (%)'
+    type: Integer
+    min: 0
+    max: 100
+    default: 40
+  - name: valueLabel
+    title: Value axis label
+    type: String
+    default: Value
+  - name: title
+    title: Plot title
+    type: String
+    default: ''
+  - name: showN
+    title: Show n per variable
+    type: Bool
+    default: true
+  - name: legendPos
+    title: Legend (overlay plots)
+    type: List
+    options:
+      - name: bottom
+        title: Bottom
+      - name: right
+        title: Right
+      - name: top
+        title: Top
+      - name: none
+        title: None
+    default: bottom
+  - name: autoSize
+    title: Size plots automatically
+    type: Bool
+    default: true
+  - name: plotWidth
+    title: Width (px)
+    type: Integer
+    min: 300
+    max: 2400
+    default: 700
+  - name: plotHeight
+    title: Height (px)
+    type: Integer
+    min: 200
+    max: 2400
+    default: 480
+  - name: showBox
+    title: Box plot
+    type: Bool
+    default: true
+  - name: boxWidth
+    title: 'Box width (%)'
+    type: Integer
+    min: 5
+    max: 100
+    default: 60
+  - name: boxOutliers
+    title: Show outliers
+    type: Bool
+    default: true
+  - name: boxNotch
+    title: Notched (median CI)
+    type: Bool
+    default: false
+  - name: boxMean
+    title: Mark the mean
+    type: Bool
+    default: false
+  - name: boxJitter
+    title: Show data points (jittered)
+    type: Bool
+    default: false
+  - name: showViolin
+    title: Violin plot
+    type: Bool
+    default: false
+  - name: violinWidth
+    title: 'Violin width (%)'
+    type: Integer
+    min: 5
+    max: 100
+    default: 80
+  - name: violinScale
+    title: Scale
+    type: List
+    options:
+      - name: area
+        title: Equal area
+      - name: count
+        title: By n
+      - name: width
+        title: Equal width
+    default: area
+  - name: violinAdjust
+    title: Bandwidth adjust
+    type: Number
+    min: 0.1
+    max: 5
+    default: 1
+  - name: violinTrim
+    title: Trim tails at data range
+    type: Bool
+    default: true
+  - name: violinInner
+    title: Inner element
+    type: List
+    options:
+      - name: box
+        title: Box
+      - name: none
+        title: None
+    default: box
+  - name: violinJitter
+    title: Show data points (jittered)
+    type: Bool
+    default: false
+  - name: showErrorBar
+    title: Means and error bars
+    type: Bool
+    default: false
+  - name: ebCenter
+    title: Centre
+    type: List
+    options:
+      - name: mean
+        title: Mean
+      - name: median
+        title: Median
+    default: mean
+  - name: ebInterval
+    title: Error bars
+    type: List
+    options:
+      - name: ci
+        title: Confidence interval
+      - name: se
+        title: Standard error
+      - name: sd
+        title: Standard deviation
+      - name: iqr
+        title: Interquartile range
+      - name: pctile
+        title: 'Central % of the data'
+      - name: range
+        title: Min–max
+    default: ci
+  - name: ebLevel
+    title: 'Level (%) for CI / central %'
+    type: Integer
+    min: 50
+    max: 99
+    default: 95
+  - name: ebMult
+    title: Multiplier for SE / SD
+    type: Number
+    min: 0.5
+    max: 5
+    default: 1
+  - name: ebJitter
+    title: Show data points (jittered)
+    type: Bool
+    default: true
+  - name: ebSize
+    title: Marker size
+    type: Number
+    min: 1
+    max: 10
+    default: 3.5
+  - name: ebCap
+    title: 'Cap width (%)'
+    type: Integer
+    min: 0
+    max: 100
+    default: 30
+  - name: ebConnect
+    title: Connect the centres with a line
+    type: Bool
+    default: false
+  - name: ebLabels
+    title: Print centre values
+    type: Bool
+    default: false
+  - name: showRaincloud
+    title: Raincloud plot
+    type: Bool
+    default: false
+  - name: rcCloudWidth
+    title: 'Cloud height (%)'
+    type: Integer
+    min: 10
+    max: 100
+    default: 45
+  - name: rcAdjust
+    title: Bandwidth adjust
+    type: Number
+    min: 0.1
+    max: 5
+    default: 1
+  - name: rcRain
+    title: Show the rain (data points)
+    type: Bool
+    default: true
+  - name: rcBox
+    title: Show the box
+    type: Bool
+    default: true
+  - name: showRidge
+    title: Ridgeline (density) plot
+    type: Bool
+    default: false
+  - name: ridgeOverlap
+    title: 'Overlap (%)'
+    type: Integer
+    min: 0
+    max: 300
+    default: 50
+  - name: ridgeAdjust
+    title: Bandwidth adjust
+    type: Number
+    min: 0.1
+    max: 5
+    default: 1
+  - name: ridgeTrim
+    title: Trim tails at data range
+    type: Bool
+    default: false
+  - name: ridgeMedian
+    title: Mark the median
+    type: Bool
+    default: false
+  - name: showHist
+    title: Histogram
+    type: Bool
+    default: false
+  - name: histBins
+    title: Number of bins
+    type: Integer
+    min: 3
+    max: 100
+    default: 20
+  - name: histStat
+    title: Bar height
+    type: List
+    options:
+      - name: count
+        title: Count
+      - name: percent
+        title: Percent
+      - name: density
+        title: Density
+    default: count
+  - name: histDensity
+    title: Add density curve
+    type: Bool
+    default: false
+  - name: histFreeY
+    title: Free height scale per variable
+    type: Bool
+    default: false
+  - name: showDensity
+    title: Overlaid densities
+    type: Bool
+    default: false
+  - name: densAdjust
+    title: Bandwidth adjust
+    type: Number
+    min: 0.1
+    max: 5
+    default: 1
+  - name: densFilled
+    title: Fill under the curves
+    type: Bool
+    default: true
+  - name: densTrim
+    title: Trim tails at data range
+    type: Bool
+    default: false
+  - name: showEcdf
+    title: Cumulative distribution (ECDF)
+    type: Bool
+    default: false
+  - name: ecdfMedian
+    title: 'Mark the median (50%)'
+    type: Bool
+    default: true
+  - name: showStrip
+    title: Data points (strip plot)
+    type: Bool
+    default: false
+  - name: stripSummary
+    title: Summary line
+    type: List
+    options:
+      - name: none
+        title: None
+      - name: mean
+        title: Mean
+      - name: median
+        title: Median
+    default: none
+  - name: showBarcode
+    title: Barcode plot
+    type: Bool
+    default: false
+  - name: barcodeHeight
+    title: 'Tick height (%)'
+    type: Integer
+    min: 10
+    max: 100
+    default: 70
+...
