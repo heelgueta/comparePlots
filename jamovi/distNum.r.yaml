@@ -19,9 +19,9 @@ items:
       - vars
       - orientation
       - invertVars
-      - palette
+      - colourPalette
       - reversePalette
-      - theme
+      - plotTheme
       - textSize
       - alpha
       - lineWidth
@@ -50,9 +50,9 @@ items:
       - vars
       - orientation
       - invertVars
-      - palette
+      - colourPalette
       - reversePalette
-      - theme
+      - plotTheme
       - textSize
       - alpha
       - lineWidth
@@ -82,9 +82,9 @@ items:
       - vars
       - orientation
       - invertVars
-      - palette
+      - colourPalette
       - reversePalette
-      - theme
+      - plotTheme
       - textSize
       - alpha
       - lineWidth
@@ -117,9 +117,9 @@ items:
       - vars
       - orientation
       - invertVars
-      - palette
+      - colourPalette
       - reversePalette
-      - theme
+      - plotTheme
       - textSize
       - alpha
       - lineWidth
@@ -147,9 +147,9 @@ items:
       - vars
       - orientation
       - invertVars
-      - palette
+      - colourPalette
       - reversePalette
-      - theme
+      - plotTheme
       - textSize
       - alpha
       - lineWidth
@@ -177,9 +177,9 @@ items:
       - vars
       - orientation
       - invertVars
-      - palette
+      - colourPalette
       - reversePalette
-      - theme
+      - plotTheme
       - textSize
       - alpha
       - lineWidth
@@ -207,9 +207,9 @@ items:
       - vars
       - orientation
       - invertVars
-      - palette
+      - colourPalette
       - reversePalette
-      - theme
+      - plotTheme
       - textSize
       - alpha
       - lineWidth
@@ -236,9 +236,9 @@ items:
       - vars
       - orientation
       - invertVars
-      - palette
+      - colourPalette
       - reversePalette
-      - theme
+      - plotTheme
       - textSize
       - alpha
       - lineWidth
@@ -263,9 +263,9 @@ items:
       - vars
       - orientation
       - invertVars
-      - palette
+      - colourPalette
       - reversePalette
-      - theme
+      - plotTheme
       - textSize
       - alpha
       - lineWidth
@@ -290,9 +290,9 @@ items:
       - vars
       - orientation
       - invertVars
-      - palette
+      - colourPalette
       - reversePalette
-      - theme
+      - plotTheme
       - textSize
       - alpha
       - lineWidth

@@ -9,9 +9,9 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             vars = NULL,
             orientation = "horizontal",
             invertVars = FALSE,
-            palette = "rdbu",
+            colourPalette = "rdbu",
             reversePalette = FALSE,
-            theme = "minimal",
+            plotTheme = "minimal",
             textSize = 12,
             sortVars = "none",
             decimals = 0,
@@ -37,8 +37,12 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             heatLabels = TRUE,
             heatGap = 4,
             showWaffle = FALSE,
+            waffleRows = 10,
+            waffleCols = 10,
             waffleGap = 10,
             showPicto = FALSE,
+            pictoRows = 10,
+            pictoCols = 10,
             pictoShape = "circle",
             pictoSize = 4.5,
             showParliament = FALSE,
@@ -55,7 +59,7 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             meansLabels = FALSE, ...) {
 
             super$initialize(
-                package="VarDistPlots",
+                package="ComparePlots",
                 name="distOrd",
                 requiresData=TRUE,
                 ...)
@@ -79,9 +83,9 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "invertVars",
                 invertVars,
                 default=FALSE)
-            private$..palette <- jmvcore::OptionList$new(
-                "palette",
-                palette,
+            private$..colourPalette <- jmvcore::OptionList$new(
+                "colourPalette",
+                colourPalette,
                 options=list(
                     "viridis",
                     "plasma",
@@ -106,9 +110,9 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "reversePalette",
                 reversePalette,
                 default=FALSE)
-            private$..theme <- jmvcore::OptionList$new(
-                "theme",
-                theme,
+            private$..plotTheme <- jmvcore::OptionList$new(
+                "plotTheme",
+                plotTheme,
                 options=list(
                     "minimal",
                     "classic",
@@ -258,6 +262,18 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "showWaffle",
                 showWaffle,
                 default=FALSE)
+            private$..waffleRows <- jmvcore::OptionInteger$new(
+                "waffleRows",
+                waffleRows,
+                min=1,
+                max=50,
+                default=10)
+            private$..waffleCols <- jmvcore::OptionInteger$new(
+                "waffleCols",
+                waffleCols,
+                min=1,
+                max=50,
+                default=10)
             private$..waffleGap <- jmvcore::OptionInteger$new(
                 "waffleGap",
                 waffleGap,
@@ -268,6 +284,18 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "showPicto",
                 showPicto,
                 default=FALSE)
+            private$..pictoRows <- jmvcore::OptionInteger$new(
+                "pictoRows",
+                pictoRows,
+                min=1,
+                max=50,
+                default=10)
+            private$..pictoCols <- jmvcore::OptionInteger$new(
+                "pictoCols",
+                pictoCols,
+                min=1,
+                max=50,
+                default=10)
             private$..pictoShape <- jmvcore::OptionList$new(
                 "pictoShape",
                 pictoShape,
@@ -343,9 +371,9 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..vars)
             self$.addOption(private$..orientation)
             self$.addOption(private$..invertVars)
-            self$.addOption(private$..palette)
+            self$.addOption(private$..colourPalette)
             self$.addOption(private$..reversePalette)
-            self$.addOption(private$..theme)
+            self$.addOption(private$..plotTheme)
             self$.addOption(private$..textSize)
             self$.addOption(private$..sortVars)
             self$.addOption(private$..decimals)
@@ -371,8 +399,12 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..heatLabels)
             self$.addOption(private$..heatGap)
             self$.addOption(private$..showWaffle)
+            self$.addOption(private$..waffleRows)
+            self$.addOption(private$..waffleCols)
             self$.addOption(private$..waffleGap)
             self$.addOption(private$..showPicto)
+            self$.addOption(private$..pictoRows)
+            self$.addOption(private$..pictoCols)
             self$.addOption(private$..pictoShape)
             self$.addOption(private$..pictoSize)
             self$.addOption(private$..showParliament)
@@ -392,9 +424,9 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         vars = function() private$..vars$value,
         orientation = function() private$..orientation$value,
         invertVars = function() private$..invertVars$value,
-        palette = function() private$..palette$value,
+        colourPalette = function() private$..colourPalette$value,
         reversePalette = function() private$..reversePalette$value,
-        theme = function() private$..theme$value,
+        plotTheme = function() private$..plotTheme$value,
         textSize = function() private$..textSize$value,
         sortVars = function() private$..sortVars$value,
         decimals = function() private$..decimals$value,
@@ -420,8 +452,12 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         heatLabels = function() private$..heatLabels$value,
         heatGap = function() private$..heatGap$value,
         showWaffle = function() private$..showWaffle$value,
+        waffleRows = function() private$..waffleRows$value,
+        waffleCols = function() private$..waffleCols$value,
         waffleGap = function() private$..waffleGap$value,
         showPicto = function() private$..showPicto$value,
+        pictoRows = function() private$..pictoRows$value,
+        pictoCols = function() private$..pictoCols$value,
         pictoShape = function() private$..pictoShape$value,
         pictoSize = function() private$..pictoSize$value,
         showParliament = function() private$..showParliament$value,
@@ -440,9 +476,9 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..vars = NA,
         ..orientation = NA,
         ..invertVars = NA,
-        ..palette = NA,
+        ..colourPalette = NA,
         ..reversePalette = NA,
-        ..theme = NA,
+        ..plotTheme = NA,
         ..textSize = NA,
         ..sortVars = NA,
         ..decimals = NA,
@@ -468,8 +504,12 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..heatLabels = NA,
         ..heatGap = NA,
         ..showWaffle = NA,
+        ..waffleRows = NA,
+        ..waffleCols = NA,
         ..waffleGap = NA,
         ..showPicto = NA,
+        ..pictoRows = NA,
+        ..pictoCols = NA,
         ..pictoShape = NA,
         ..pictoSize = NA,
         ..showParliament = NA,
@@ -524,9 +564,9 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "invertVars",
-                    "palette",
+                    "colourPalette",
                     "reversePalette",
-                    "theme",
+                    "plotTheme",
                     "textSize",
                     "sortVars",
                     "decimals",
@@ -552,9 +592,9 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "invertVars",
-                    "palette",
+                    "colourPalette",
                     "reversePalette",
-                    "theme",
+                    "plotTheme",
                     "textSize",
                     "sortVars",
                     "decimals",
@@ -582,9 +622,9 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "invertVars",
-                    "palette",
+                    "colourPalette",
                     "reversePalette",
-                    "theme",
+                    "plotTheme",
                     "textSize",
                     "sortVars",
                     "decimals",
@@ -600,7 +640,7 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_waffle",
-                title="Waffle chart (1 square = 1%)",
+                title="Waffle chart",
                 width=700,
                 height=420,
                 renderFun=".plot_waffle",
@@ -610,9 +650,9 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "invertVars",
-                    "palette",
+                    "colourPalette",
                     "reversePalette",
-                    "theme",
+                    "plotTheme",
                     "textSize",
                     "sortVars",
                     "decimals",
@@ -620,13 +660,15 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "waffleRows",
+                    "waffleCols",
                     "waffleGap"),
                 refs=list(
                     "ggplot2")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_picto",
-                title="Dot pictogram (1 dot = 1%)",
+                title="Dot pictogram",
                 width=700,
                 height=420,
                 renderFun=".plot_picto",
@@ -636,9 +678,9 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "invertVars",
-                    "palette",
+                    "colourPalette",
                     "reversePalette",
-                    "theme",
+                    "plotTheme",
                     "textSize",
                     "sortVars",
                     "decimals",
@@ -646,6 +688,8 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "pictoRows",
+                    "pictoCols",
                     "pictoShape",
                     "pictoSize"),
                 refs=list(
@@ -663,9 +707,9 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "invertVars",
-                    "palette",
+                    "colourPalette",
                     "reversePalette",
-                    "theme",
+                    "plotTheme",
                     "textSize",
                     "sortVars",
                     "decimals",
@@ -691,9 +735,9 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "invertVars",
-                    "palette",
+                    "colourPalette",
                     "reversePalette",
-                    "theme",
+                    "plotTheme",
                     "textSize",
                     "sortVars",
                     "decimals",
@@ -709,7 +753,7 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_means",
-                title="Mean category and CI (levels coded 1\u2026k)",
+                title="Mean category and CI (ordinal or two-category variables)",
                 width=700,
                 height=420,
                 renderFun=".plot_means",
@@ -719,9 +763,9 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "invertVars",
-                    "palette",
+                    "colourPalette",
                     "reversePalette",
-                    "theme",
+                    "plotTheme",
                     "textSize",
                     "sortVars",
                     "decimals",
@@ -741,7 +785,7 @@ distOrdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     public = list(
         initialize = function(options, data=NULL, datasetId="", analysisId="", revision=0) {
             super$initialize(
-                package = "VarDistPlots",
+                package = "ComparePlots",
                 name = "distOrd",
                 version = c(0,4,0),
                 options = options,
@@ -763,9 +807,9 @@ distOrdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param vars .
 #' @param orientation .
 #' @param invertVars .
-#' @param palette .
+#' @param colourPalette .
 #' @param reversePalette .
-#' @param theme .
+#' @param plotTheme .
 #' @param textSize .
 #' @param sortVars .
 #' @param decimals .
@@ -791,8 +835,12 @@ distOrdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param heatLabels .
 #' @param heatGap .
 #' @param showWaffle .
+#' @param waffleRows .
+#' @param waffleCols .
 #' @param waffleGap .
 #' @param showPicto .
+#' @param pictoRows .
+#' @param pictoCols .
 #' @param pictoShape .
 #' @param pictoSize .
 #' @param showParliament .
@@ -826,9 +874,9 @@ distOrd <- function(
     vars,
     orientation = "horizontal",
     invertVars = FALSE,
-    palette = "rdbu",
+    colourPalette = "rdbu",
     reversePalette = FALSE,
-    theme = "minimal",
+    plotTheme = "minimal",
     textSize = 12,
     sortVars = "none",
     decimals = 0,
@@ -854,8 +902,12 @@ distOrd <- function(
     heatLabels = TRUE,
     heatGap = 4,
     showWaffle = FALSE,
+    waffleRows = 10,
+    waffleCols = 10,
     waffleGap = 10,
     showPicto = FALSE,
+    pictoRows = 10,
+    pictoCols = 10,
     pictoShape = "circle",
     pictoSize = 4.5,
     showParliament = FALSE,
@@ -886,9 +938,9 @@ distOrd <- function(
         vars = vars,
         orientation = orientation,
         invertVars = invertVars,
-        palette = palette,
+        colourPalette = colourPalette,
         reversePalette = reversePalette,
-        theme = theme,
+        plotTheme = plotTheme,
         textSize = textSize,
         sortVars = sortVars,
         decimals = decimals,
@@ -914,8 +966,12 @@ distOrd <- function(
         heatLabels = heatLabels,
         heatGap = heatGap,
         showWaffle = showWaffle,
+        waffleRows = waffleRows,
+        waffleCols = waffleCols,
         waffleGap = waffleGap,
         showPicto = showPicto,
+        pictoRows = pictoRows,
+        pictoCols = pictoCols,
         pictoShape = pictoShape,
         pictoSize = pictoSize,
         showParliament = showParliament,

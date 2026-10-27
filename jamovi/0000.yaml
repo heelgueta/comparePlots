@@ -1,6 +1,6 @@
 ---
-title: VarDistPlots
-name: VarDistPlots
+title: ComparePlots
+name: ComparePlots
 version: 0.4.0
 jms: '1.0'
 authors:
@@ -17,27 +17,27 @@ description: >-
 analyses:
   - title: Comparison of Numeric Variables
     name: distNum
-    ns: VarDistPlots
-    menuGroup: VarDistPlots
+    ns: ComparePlots
+    menuGroup: ComparePlots
     menuTitle: Comparison of Numeric Variables
     menuSubtitle: Box, violin, error bars, raincloud, ridgeline, histogram, ECDF
     description: Compare the distributions of several numeric variables on one shared axis.
   - title: Comparison of Ordinal/Nominal Variables
     name: distOrd
-    ns: VarDistPlots
-    menuGroup: VarDistPlots
+    ns: ComparePlots
+    menuGroup: ComparePlots
     menuTitle: Comparison of Ordinal/Nominal Variables
     menuSubtitle: Stacked and diverging bars, heatmap, waffle, profile
     description: Compare the response distributions of several ordinal or nominal variables.
 datasets:
   - name: Well-being scales (numeric example)
-    path: vdp_numeric_example.omv
+    path: cp_numeric_example.omv
     description: Six 0-100 scales with different shapes (normal, skewed, bimodal, narrow), n = 240
   - name: Course evaluation (ordinal example)
-    path: vdp_ordinal_example.omv
+    path: cp_ordinal_example.omv
     description: Six Likert items with different response patterns, n = 300
   - name: Drink preference (nominal example)
-    path: vdp_nominal_example.omv
+    path: cp_nominal_example.omv
     description: The same five-category nominal variable at three times of day, n = 250
 usesNative: true
 ...

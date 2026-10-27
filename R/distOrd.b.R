@@ -14,13 +14,13 @@ distOrdClass <- R6::R6Class(
             on   <- vapply(private$.switches, function(k) isTRUE(opts[[k]]), logical(1))
 
             hint <- self$results$hint
-            if (length(vars) > 0 && !any(on)) {
-                hint$setContent("<p>Tick at least one plot under <b>Plots to show</b>.</p>")
-                hint$setVisible(TRUE)
-            } else {
-                hint$setVisible(FALSE)
+            notes <- character(0)
+            if (length(vars) > 0 && !any(on))
+                notes <- "Tick at least one plot under <b>Plots to show</b>."
+            if (length(vars) == 0 || !any(on)) {
+                private$.set_hint(hint, notes)
+                return()
             }
-            if (length(vars) == 0 || !any(on)) return()
 
             data <- self$data[, vars, drop = FALSE]
             for (v in vars) if (!is.factor(data[[v]])) data[[v]] <- as.factor(data[[v]])
@@ -39,11 +39,35 @@ distOrdClass <- R6::R6Class(
             }))
             if (all(long$n == 0)) return()
 
+            # mean category is only meaningful for ordinal or two-category variables
+            ok <- vapply(vars, function(v) {
+                is.ordered(self$data[[v]]) || sum(long$count[long$variable == v] > 0) == 2
+            }, logical(1))
+            names(ok) <- vars
+            if (isTRUE(opts$showMeans) && !all(ok)) {
+                skipped <- paste(vars[!ok], collapse = ", ")
+                notes <- c(notes, if (!any(ok))
+                    paste0("<b>Mean category</b> was not drawn: it needs ordinal variables or variables with exactly two categories (",
+                           skipped, " are nominal with more than two).")
+                    else paste0("<b>Mean category</b> skips nominal variables with more than two categories: ", skipped, "."))
+            }
+            private$.set_hint(hint, notes)
+
             for (key in names(private$.switches)[on]) {
+                if (key == "means" && !any(ok)) next
                 image <- self$results[[paste0("plot_", key)]]
                 sz <- private$.size(key, length(vars))
                 image$setSize(sz[1], sz[2])
-                image$setState(list(long = long, vars = vars, cats = cats, width = sz[1]))
+                image$setState(list(long = long, vars = vars, cats = cats, width = sz[1], ok = ok))
+            }
+        },
+
+        .set_hint = function(hint, notes) {
+            if (length(notes) == 0) {
+                hint$setVisible(FALSE)
+            } else {
+                hint$setContent(paste0("<p>", notes, "</p>", collapse = ""))
+                hint$setVisible(TRUE)
             }
         },
 
@@ -52,11 +76,17 @@ distOrdClass <- R6::R6Class(
             if (!o$autoSize) return(c(o$plotWidth, o$plotHeight))
             horiz <- o$orientation == "horizontal"
             if (key %in% c("profile", "means")) return(c(700, 460))
+            if (key %in% c("waffle", "picto")) {
+                rows <- if (key == "waffle") o$waffleRows else o$pictoRows
+                cols <- if (key == "waffle") o$waffleCols else o$pictoCols
+                return(if (horiz) c(max(520, 190 + 12 * cols), max(240, 120 + n * (22 + 11 * rows)))
+                       else c(max(450, 110 + n * (26 + 11 * cols)), max(380, 150 + 13 * rows)))
+            }
             if (horiz) {
-                per <- switch(key, bars = 56, diverging = 56, heat = 52, waffle = 112, picto = 112, 100)
+                per <- switch(key, bars = 56, diverging = 56, heat = 52, 100)
                 c(700, max(240, 120 + per * n))
             } else {
-                per <- switch(key, bars = 95, diverging = 95, heat = 90, waffle = 125, picto = 125, 105)
+                per <- switch(key, bars = 95, diverging = 95, heat = 90, 105)
                 c(max(450, 110 + per * n), if (key %in% c("bars", "diverging", "heat")) 480 else 430)
             }
         },
@@ -108,20 +138,28 @@ distOrdClass <- R6::R6Class(
             npv <- tapply(long$n, long$variable, function(z) z[1])
             labs <- if (o$showN) paste0(lv, " (n=", npv[lv], ")") else lv
 
-            cat_cols <- vdp_palette(o$palette, k, o$reversePalette)
+            cat_cols <- cp_palette(o$colourPalette, k, o$reversePalette)
             names(cat_cols) <- cats
-            var_cols <- vdp_palette(o$palette, n, o$reversePalette, spread = TRUE)
+            var_cols <- cp_palette(o$colourPalette, n, o$reversePalette, spread = TRUE)
             names(var_cols) <- lv
 
             leg_rows <- if (o$legendPos %in% c("bottom", "top"))
                 max(1L, ceiling(k / max(2, floor(st$width / 130)))) else NULL
 
             list(o = o, horiz = horiz, lv = lv, n = n, pos = pos, k = k, cats = cats,
-                 labs = vdp_wrap(labs), cat_cols = cat_cols, var_cols = var_cols,
+                 labs = cp_wrap(labs), cat_cols = cat_cols, var_cols = var_cols,
                  leg_rows = leg_rows, npv = npv)
         },
 
         .build = function(key, st) {
+            skipped <- character(0)
+            if (key == "means") {
+                keep <- st$vars[st$ok[st$vars]]
+                if (length(keep) == 0) return(NULL)
+                skipped <- setdiff(st$vars, keep)
+                st$vars <- keep
+                st$long <- st$long[st$long$variable %in% keep, ]
+            }
             ctx <- private$.context(st)
             long <- st$long
             long$variable <- factor(long$variable, levels = ctx$lv)
@@ -134,7 +172,7 @@ distOrdClass <- R6::R6Class(
                 picto      = private$.p_dots(long, ctx, "picto"),
                 parliament = private$.p_parliament(long, ctx),
                 profile    = private$.p_profile(long, ctx),
-                means      = private$.p_means(long, ctx, st))
+                means      = private$.p_means(long, ctx, st, skipped))
             if (is.null(p)) return(NULL)
             private$.finish(p, ctx, key)
         },
@@ -149,7 +187,7 @@ distOrdClass <- R6::R6Class(
                 waffle = , picto = , parliament = ggplot2::theme(
                     panel.grid = blank, axis.ticks = blank, axis.title = blank),
                 NULL)
-            p + vdp_theme(o$theme, o$textSize) + extra +
+            p + cp_theme(o$plotTheme, o$textSize) + extra +
                 ggplot2::theme(
                     legend.position    = if (legend_key) o$legendPos else "none",
                     legend.title       = if (nchar(trimws(o$legendTitle)) > 0) ggplot2::element_text() else ggplot2::element_blank(),
@@ -157,10 +195,10 @@ distOrdClass <- R6::R6Class(
                     panel.grid.minor   = ggplot2::element_blank(),
                     plot.caption       = ggplot2::element_text(size = o$textSize * 0.65, colour = "grey45", hjust = 0),
                     plot.margin        = ggplot2::margin(10, 16, 8, 10)) +
-                ggplot2::labs(title = vdp_title(o$title))
+                ggplot2::labs(title = cp_title(o$title))
         },
 
-        .leg_title = function(ctx) vdp_title(ctx$o$legendTitle),
+        .leg_title = function(ctx) cp_title(ctx$o$legendTitle),
 
         .fill_scale = function(ctx) {
             ggplot2::scale_fill_manual(
@@ -201,7 +239,7 @@ distOrdClass <- R6::R6Class(
             if (o$barLabels) {
                 ld <- long[long$pct >= max(o$barMinLabel, 0.01), ]
                 ld$label <- private$.pct_fmt(ld$pct, ctx)
-                ld$tc <- vdp_text_col(ctx$cat_cols[as.character(ld$category)])
+                ld$tc <- cp_text_col(ctx$cat_cols[as.character(ld$category)])
                 p <- p + ggplot2::geom_text(
                     data = ld, ggplot2::aes(x = pos, y = (lo + hi) / 2, label = label, colour = tc),
                     size = o$textSize * 0.28, fontface = "bold", show.legend = FALSE) +
@@ -269,7 +307,7 @@ distOrdClass <- R6::R6Class(
             if (o$divLabels) {
                 ld <- dv[dv$pct >= max(o$divMinLabel, 0.01), ]
                 ld$label <- private$.pct_fmt(ld$pct, ctx)
-                ld$tc <- vdp_text_col(ctx$cat_cols[as.character(ld$category)])
+                ld$tc <- cp_text_col(ctx$cat_cols[as.character(ld$category)])
                 p <- p + ggplot2::geom_text(
                     data = ld, ggplot2::aes(x = pos, y = (lo + hi) / 2, label = label, colour = tc),
                     size = o$textSize * 0.28, fontface = "bold", show.legend = FALSE) +
@@ -308,7 +346,7 @@ distOrdClass <- R6::R6Class(
             p <- ggplot2::ggplot(long, ggplot2::aes(x = pos, y = y, fill = pct)) +
                 ggplot2::geom_tile(width = 1 - gap, height = 1 - gap)
             if (o$heatLabels) {
-                tcol <- vdp_text_col(scales::col_numeric(cols, c(0, top))(long$pct))
+                tcol <- cp_text_col(scales::col_numeric(cols, c(0, top))(long$pct))
                 long$label <- private$.pct_fmt(long$pct, ctx)
                 p <- p + ggplot2::geom_text(
                     data = long, ggplot2::aes(label = label), colour = tcol,
@@ -316,7 +354,7 @@ distOrdClass <- R6::R6Class(
             }
             p <- p + private$.cat_axis(ctx) +
                 ggplot2::scale_y_continuous(breaks = if (ctx$horiz) seq_len(k) else k - seq_len(k) + 1,
-                                            labels = vdp_wrap(ctx$cats, 14), expand = ggplot2::expansion(add = 0.5)) +
+                                            labels = cp_wrap(ctx$cats, 14), expand = ggplot2::expansion(add = 0.5)) +
                 ggplot2::scale_fill_gradientn(colours = cols, limits = c(0, top),
                                               name = if (is.null(private$.leg_title(ctx))) "%" else private$.leg_title(ctx),
                                               guide = ggplot2::guide_colourbar(barwidth = ggplot2::unit(9, "lines")),
@@ -325,16 +363,19 @@ distOrdClass <- R6::R6Class(
             private$.flip(p, ctx)
         },
 
-        # one 10x10 grid per variable (waffle squares or pictogram dots)
+        # one rows x cols grid per variable (waffle squares or pictogram dots); every
+        # cell stands for 100 / (rows * cols) percent
         .p_dots = function(long, ctx, kind) {
             o <- ctx$o
-            ncol_ <- if (ctx$horiz) 20L else 10L          # 100 cells: 20 x 5 (wide) or 10 x 10
-            nrow_ <- 100L %/% ncol_
+            nrow_ <- if (kind == "waffle") o$waffleRows else o$pictoRows
+            ncol_ <- if (kind == "waffle") o$waffleCols else o$pictoCols
+            cells <- nrow_ * ncol_
             gx <- ncol_ + 2; gy <- nrow_ + 2
             df <- do.call(rbind, lapply(ctx$lv, function(v) {
                 d <- long[long$variable == v, ]
-                cnt <- vdp_alloc(d$pct, 100L)
-                i <- seq_len(100) - 1L
+                cnt <- cp_alloc(d$pct, cells)
+                i <- seq_len(cells) - 1L
+                # horizontal: charts on top of each other; vertical: side by side
                 ox <- if (ctx$horiz) 0 else (ctx$pos[v] - 1) * gx
                 oy <- if (ctx$horiz) (ctx$pos[v] - 1) * gy else 0
                 data.frame(variable = v, cx = ox + i %% ncol_, cy = oy + (nrow_ - 1) - i %/% ncol_,
@@ -342,6 +383,9 @@ distOrdClass <- R6::R6Class(
             }))
             centres <- if (ctx$horiz) (ctx$pos[ctx$lv] - 1) * gy + (nrow_ - 1) / 2
                        else (ctx$pos[ctx$lv] - 1) * gx + (ncol_ - 1) / 2
+            unit <- 100 / cells
+            unit_lab <- paste0("1 ", if (kind == "waffle") "square" else "dot", " = ",
+                               format(round(unit, 2), nsmall = 0), "%")
             if (kind == "waffle") {
                 s <- 1 - o$waffleGap / 100
                 p <- ggplot2::ggplot(df, ggplot2::aes(x = cx, y = cy, fill = category)) +
@@ -355,7 +399,8 @@ distOrdClass <- R6::R6Class(
                         values = ctx$cat_cols, name = private$.leg_title(ctx), drop = FALSE,
                         guide = ggplot2::guide_legend(nrow = ctx$leg_rows, override.aes = list(size = 4, shape = 21)))
             }
-            private$.dots_axes(p, ctx, centres)
+            p <- private$.dots_axes(p, ctx, centres)
+            p + ggplot2::labs(caption = unit_lab)
         },
 
         # ── Parliament (arc) chart ─────────────────────────────────────────
@@ -364,7 +409,7 @@ distOrdClass <- R6::R6Class(
             nrow_ <- o$parlRows
             radii <- seq(0.8, 1.8, length.out = max(nrow_, 2))[seq_len(nrow_)]
             if (nrow_ == 1) radii <- 1.5
-            per_row <- vdp_alloc(radii, o$parlSeats)
+            per_row <- cp_alloc(radii, o$parlSeats)
             gx <- 4.4; gy <- 2.3
             seats <- do.call(rbind, lapply(seq_len(nrow_), function(r) {
                 m <- per_row[r]
@@ -375,7 +420,7 @@ distOrdClass <- R6::R6Class(
             seats <- seats[order(-seats$ang, seats$rad), ]       # sweep left to right
             df <- do.call(rbind, lapply(ctx$lv, function(v) {
                 d <- long[long$variable == v, ]
-                cnt <- vdp_alloc(d$pct, nrow(seats))
+                cnt <- cp_alloc(d$pct, nrow(seats))
                 ox <- if (ctx$horiz) 0 else (ctx$pos[v] - 1) * gx
                 oy <- if (ctx$horiz) (ctx$pos[v] - 1) * gy else 0
                 data.frame(variable = v, cx = ox + seats$rad * cos(seats$ang), cy = oy + seats$rad * sin(seats$ang),
@@ -419,7 +464,7 @@ distOrdClass <- R6::R6Class(
                                             nudge_x = 0.0, vjust = -0.9, size = o$textSize * 0.26, show.legend = FALSE)
             p <- p +
                 ggplot2::scale_x_continuous(breaks = if (ctx$horiz) k - seq_len(k) + 1 else seq_len(k),
-                                            labels = vdp_wrap(ctx$cats, 14),
+                                            labels = cp_wrap(ctx$cats, 14),
                                             expand = ggplot2::expansion(add = 0.4)) +
                 ggplot2::scale_y_continuous(labels = function(x) paste0(x, "%"),
                                             expand = ggplot2::expansion(mult = c(0.02, 0.12))) +
@@ -430,7 +475,7 @@ distOrdClass <- R6::R6Class(
         },
 
         # ── Mean category with CI (levels coded 1..k) ─────────────────────
-        .p_means = function(long, ctx, st) {
+        .p_means = function(long, ctx, st, skipped = character(0)) {
             o <- ctx$o
             k <- ctx$k
             level_ci <- o$meansLevel / 100
@@ -454,13 +499,15 @@ distOrdClass <- R6::R6Class(
                 p <- p + ggplot2::geom_text(ggplot2::aes(x = pos, y = m, label = formatC(m, format = "f", digits = 2)),
                                             nudge_x = 0.3, size = o$textSize * 0.28, colour = "grey20")
             p <- p + private$.cat_axis(ctx) +
-                ggplot2::scale_y_continuous(breaks = seq_len(k), labels = vdp_wrap(ctx$cats, 14),
+                ggplot2::scale_y_continuous(breaks = seq_len(k), labels = cp_wrap(ctx$cats, 14),
                                             limits = c(1, k), expand = ggplot2::expansion(mult = 0.05)) +
                 ggplot2::scale_colour_manual(values = ctx$var_cols, guide = "none") +
                 ggplot2::scale_fill_manual(values = ctx$var_cols, guide = "none") +
                 ggplot2::labs(x = NULL, y = NULL,
                               caption = paste0("Categories coded 1 to ", k, " in the order shown",
-                                               if (o$meansCi) paste0("; bars: ", o$meansLevel, "% CI") else ""))
+                                               if (o$meansCi) paste0("; bars: ", o$meansLevel, "% CI") else "",
+                                               if (length(skipped)) paste0("\nNot shown (nominal, more than two categories): ",
+                                                                           paste(skipped, collapse = ", ")) else ""))
             private$.flip(p, ctx)
         }
     )

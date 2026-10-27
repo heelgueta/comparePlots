@@ -1,4 +1,4 @@
-Package: VarDistPlots
+Package: ComparePlots
 Type: Package
 Title: Compare the Distributions of Several Variables
 Version: 0.4.0

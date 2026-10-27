@@ -1,8 +1,8 @@
-# VarDistPlots
+# ComparePlots
 
 A jamovi module to **compare the distributions of several variables at once**, side by side on one shared scale. Drop your variables in, tick the plots you want, and get them all in one go. No code needed.
 
-Two analyses, under their own **VarDistPlots** menu:
+Two analyses, under their own **ComparePlots** menu:
 
 - **Comparison of Numeric Variables**
 - **Comparison of Ordinal/Nominal Variables**
@@ -17,9 +17,9 @@ Download the `.jmo` for your platform from [`dist/`](dist/) (or the Releases pag
 
 **Modules (+) → jamovi library → Install from file…**
 
-`dist/VarDistPlots_0.4.0_mac-arm64.jmo` is built for jamovi 2.7.x on Apple-silicon Macs. Other platforms: build from source (below) or install from the jamovi library once published.
+`dist/ComparePlots_0.4.0_mac-arm64.jmo` is built for jamovi 2.7.x on Apple-silicon Macs. Other platforms: build from source (below) or install from the jamovi library once published.
 
-Example datasets are included and appear under **Open → Data Library → VarDistPlots**. The same files are in [`data/`](data/).
+Example datasets are included and appear under **Open → Data Library → ComparePlots**. The same files are in [`data/`](data/).
 
 ---
 
@@ -42,18 +42,18 @@ Shared appearance: orientation (horizontal by default) · invert variable order 
 
 ## Comparison of Ordinal/Nominal Variables
 
-Shared appearance: orientation · invert variable order · palette (red–blue diverging by default) · invert palette colours · theme · text size · sort variables (as entered, name, % in first/last category, mean category) · decimals · legend position/title · title · n per variable · automatic or manual plot size.
+Shared appearance: orientation (horizontal: charts stacked top to bottom; vertical: side by side) · invert variable order · palette (red–blue diverging by default) · invert palette colours · theme · text size · sort variables (as entered, name, % in first/last category, mean category) · decimals · legend position/title · title · n per variable · automatic or manual plot size.
 
 | Plot | Settings |
 |---|---|
 | Stacked bars (100%) | thickness, % labels, smallest % to label |
 | Diverging bars (Likert style) | thickness, middle category handling, % labels, net % on each side |
 | Heatmap | colour scale, % in tiles, tile gap |
-| Waffle chart | gap (1 square = 1%) |
-| Dot pictogram | shape, size (1 dot = 1%) |
+| Waffle chart | rows × columns per chart (10 × 10 by default, so 1 square = 1%), gap |
+| Dot pictogram | rows × columns per chart (10 × 10 by default), shape, size |
 | Parliament chart | seats, rows, seat size |
 | Response profile (lines) | lines, points, % values |
-| Mean category with CI | CI level, value labels (levels coded 1…k) |
+| Mean category with CI | CI level, value labels (levels coded 1…k). Only ordinal or two-category variables are drawn; nominal variables with more than two categories are skipped with a note |
 
 ---
 
@@ -61,9 +61,9 @@ Shared appearance: orientation · invert variable order · palette (red–blue d
 
 | File | Contents |
 |---|---|
-| `data/vdp_numeric_example` | Six 0–100 scales with different shapes: normal, skewed, bimodal, narrow (n = 240) |
-| `data/vdp_ordinal_example` | Six Likert items with different response patterns (n = 300) |
-| `data/vdp_nominal_example` | One five-category nominal variable at three times of day (n = 250) |
+| `data/cp_numeric_example` | Six 0–100 scales with different shapes: normal, skewed, bimodal, narrow (n = 240) |
+| `data/cp_ordinal_example` | Six Likert items with different response patterns (n = 300) |
+| `data/cp_nominal_example` | One five-category nominal variable at three times of day (n = 250) |
 
 Each is provided as `.omv` (variable types already set) and `.csv`. Regenerate with `Rscript tools/make_examples.R`.
 
@@ -90,6 +90,10 @@ data/      example datasets (shown in jamovi's Data Library)
 icons/     analysis icons
 dist/      prebuilt .jmo
 ```
+
+## Development
+
+The code was written through iterative work with Claude Sonnet 5.5 (Anthropic), instructed to follow the jamovi developer manuals and documentation, and was reviewed and tested by the author.
 
 ## License
 

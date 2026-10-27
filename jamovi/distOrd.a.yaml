@@ -1,7 +1,7 @@
 ---
 name: distOrd
 title: Comparison of Ordinal/Nominal Variables
-menuGroup: VarDistPlots
+menuGroup: ComparePlots
 version: '0.4.0'
 jas: '1.2'
 options:
@@ -28,7 +28,7 @@ options:
     title: Invert variable order
     type: Bool
     default: false
-  - name: palette
+  - name: colourPalette
     title: Palette (categories)
     type: List
     options:
@@ -73,7 +73,7 @@ options:
     title: Invert palette colours
     type: Bool
     default: false
-  - name: theme
+  - name: plotTheme
     title: Theme
     type: List
     options:
@@ -247,9 +247,21 @@ options:
     max: 40
     default: 4
   - name: showWaffle
-    title: 'Waffle chart (1 square = 1%)'
+    title: Waffle chart
     type: Bool
     default: false
+  - name: waffleRows
+    title: Rows per chart
+    type: Integer
+    min: 1
+    max: 50
+    default: 10
+  - name: waffleCols
+    title: Columns per chart
+    type: Integer
+    min: 1
+    max: 50
+    default: 10
   - name: waffleGap
     title: 'Gap between squares (%)'
     type: Integer
@@ -257,9 +269,21 @@ options:
     max: 50
     default: 10
   - name: showPicto
-    title: 'Dot pictogram (1 dot = 1%)'
+    title: Dot pictogram
     type: Bool
     default: false
+  - name: pictoRows
+    title: Rows per chart
+    type: Integer
+    min: 1
+    max: 50
+    default: 10
+  - name: pictoCols
+    title: Columns per chart
+    type: Integer
+    min: 1
+    max: 50
+    default: 10
   - name: pictoShape
     title: Shape
     type: List
@@ -318,7 +342,7 @@ options:
     type: Bool
     default: false
   - name: showMeans
-    title: Mean category and CI (levels coded 1…k)
+    title: Mean category and CI (ordinal or two-category variables)
     type: Bool
     default: false
   - name: meansCi

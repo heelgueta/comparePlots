@@ -1,7 +1,7 @@
 ---
 name: distNum
 title: Comparison of Numeric Variables
-menuGroup: VarDistPlots
+menuGroup: ComparePlots
 version: '0.4.0'
 jas: '1.2'
 options:
@@ -27,7 +27,7 @@ options:
     title: Invert variable order
     type: Bool
     default: false
-  - name: palette
+  - name: colourPalette
     title: Palette
     type: List
     options:
@@ -72,7 +72,7 @@ options:
     title: Invert palette colours
     type: Bool
     default: false
-  - name: theme
+  - name: plotTheme
     title: Theme
     type: List
     options:

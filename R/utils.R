@@ -2,10 +2,10 @@
 
 # `spread = TRUE` is for colouring individual variables: the pale middle of a
 # diverging palette would be unreadable as a line or a bar, so those are dropped.
-vdp_palette <- function(scheme, n, reverse = FALSE, spread = FALSE) {
+cp_palette <- function(scheme, n, reverse = FALSE, spread = FALSE) {
     n <- max(as.integer(n), 1L)
     if (spread && scheme %in% c("rdbu", "rdylgn", "piyg", "prgn", "brbg") && n > 1L) {
-        cols <- vdp_palette(scheme, n + 2L, reverse = FALSE)
+        cols <- cp_palette(scheme, n + 2L, reverse = FALSE)
         rgb  <- grDevices::col2rgb(cols)
         lum  <- 0.299 * rgb[1, ] + 0.587 * rgb[2, ] + 0.114 * rgb[3, ]
         cols <- cols[-order(lum, decreasing = TRUE)[1:2]]
@@ -27,7 +27,7 @@ vdp_palette <- function(scheme, n, reverse = FALSE, spread = FALSE) {
     if (reverse) rev(cols) else cols
 }
 
-vdp_theme <- function(name, size = 12) {
+cp_theme <- function(name, size = 12) {
     switch(name,
         classic = ggplot2::theme_classic(base_size = size),
         bw      = ggplot2::theme_bw(base_size = size),
@@ -37,14 +37,14 @@ vdp_theme <- function(name, size = 12) {
 }
 
 # black or white text, whichever is readable on the given fill colours
-vdp_text_col <- function(fill) {
+cp_text_col <- function(fill) {
     rgb <- grDevices::col2rgb(fill)
     lum <- (0.299 * rgb[1, ] + 0.587 * rgb[2, ] + 0.114 * rgb[3, ]) / 255
     ifelse(lum > 0.6, "grey15", "white")
 }
 
 # largest-remainder allocation of `total` units to proportions
-vdp_alloc <- function(pct, total = 100L) {
+cp_alloc <- function(pct, total = 100L) {
     pct[is.na(pct)] <- 0
     if (sum(pct) <= 0) return(rep(0L, length(pct)))
     raw  <- pct / sum(pct) * total
@@ -57,16 +57,16 @@ vdp_alloc <- function(pct, total = 100L) {
     as.integer(base)
 }
 
-vdp_wrap <- function(x, width = 26) {
+cp_wrap <- function(x, width = 26) {
     vapply(x, function(s) paste(strwrap(s, width), collapse = "\n"), "", USE.NAMES = FALSE)
 }
 
-vdp_line_width <- function(i) c(0.3, 0.55, 0.9, 1.4, 2.2)[max(1L, min(5L, as.integer(i)))]
+cp_line_width <- function(i) c(0.3, 0.55, 0.9, 1.4, 2.2)[max(1L, min(5L, as.integer(i)))]
 
-vdp_title <- function(x) if (nchar(trimws(x)) > 0) x else NULL
+cp_title <- function(x) if (nchar(trimws(x)) > 0) x else NULL
 
 # run `expr` with a fixed RNG seed without disturbing the caller's RNG stream
-vdp_with_seed <- function(seed, expr) {
+cp_with_seed <- function(seed, expr) {
     had <- exists(".Random.seed", envir = globalenv(), inherits = FALSE)
     old <- if (had) get(".Random.seed", envir = globalenv()) else NULL
     on.exit({
@@ -79,7 +79,7 @@ vdp_with_seed <- function(seed, expr) {
 }
 
 # centre and interval for one numeric vector; returns c(centre, lo, hi)
-vdp_summary <- function(x, center = "mean", interval = "ci", level = 95, mult = 1) {
+cp_summary <- function(x, center = "mean", interval = "ci", level = 95, mult = 1) {
     x <- x[is.finite(x)]
     n <- length(x)
     if (n == 0) return(c(NA_real_, NA_real_, NA_real_))
@@ -87,7 +87,7 @@ vdp_summary <- function(x, center = "mean", interval = "ci", level = 95, mult = 
     if (n < 2) return(c(ctr, ctr, ctr))
     lv <- level / 100
     tails <- c((1 - lv) / 2, 1 - (1 - lv) / 2)
-    boot <- function() vdp_with_seed(1, replicate(1000, stats::median(sample(x, n, TRUE))))
+    boot <- function() cp_with_seed(1, replicate(1000, stats::median(sample(x, n, TRUE))))
     se_mean <- stats::sd(x) / sqrt(n)
     lohi <- switch(interval,
         ci = if (center == "mean") {
@@ -105,7 +105,7 @@ vdp_summary <- function(x, center = "mean", interval = "ci", level = 95, mult = 
     c(ctr, lohi)
 }
 
-vdp_interval_label <- function(center, interval, level, mult) {
+cp_interval_label <- function(center, interval, level, mult) {
     c_lab <- if (center == "median") "Median" else "Mean"
     i_lab <- switch(interval,
         ci     = paste0(level, "% CI"),

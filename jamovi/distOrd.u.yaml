@@ -14,6 +14,77 @@ children:
           - type: VariablesListBox
             name: vars
             isTarget: true
+  - type: Label
+    label: Plots to show
+    children: []
+  - type: LayoutBox
+    margin: large
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        cell:
+          column: 0
+          row: 0
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showBars
+      - type: LayoutBox
+        cell:
+          column: 1
+          row: 0
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showDiverging
+      - type: LayoutBox
+        cell:
+          column: 0
+          row: 1
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showHeat
+      - type: LayoutBox
+        cell:
+          column: 1
+          row: 1
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showWaffle
+      - type: LayoutBox
+        cell:
+          column: 0
+          row: 2
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showPicto
+      - type: LayoutBox
+        cell:
+          column: 1
+          row: 2
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showParliament
+      - type: LayoutBox
+        cell:
+          column: 0
+          row: 3
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showProfile
+      - type: LayoutBox
+        cell:
+          column: 1
+          row: 3
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showMeans
   - type: CollapseBox
     label: Appearance
     collapsed: false
@@ -46,7 +117,7 @@ children:
             stretchFactor: 1
             children:
               - type: ComboBox
-                name: palette
+                name: colourPalette
           - type: LayoutBox
             cell:
               column: 1
@@ -62,7 +133,7 @@ children:
             stretchFactor: 1
             children:
               - type: ComboBox
-                name: theme
+                name: plotTheme
           - type: LayoutBox
             cell:
               column: 1
@@ -154,77 +225,6 @@ children:
                 format: number
                 suffix: px
                 enable: '(!autoSize)'
-  - type: Label
-    label: Plots to show
-    children: []
-  - type: LayoutBox
-    margin: large
-    stretchFactor: 1
-    children:
-      - type: LayoutBox
-        cell:
-          column: 0
-          row: 0
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showBars
-      - type: LayoutBox
-        cell:
-          column: 1
-          row: 0
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showDiverging
-      - type: LayoutBox
-        cell:
-          column: 0
-          row: 1
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showHeat
-      - type: LayoutBox
-        cell:
-          column: 1
-          row: 1
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showWaffle
-      - type: LayoutBox
-        cell:
-          column: 0
-          row: 2
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showPicto
-      - type: LayoutBox
-        cell:
-          column: 1
-          row: 2
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showParliament
-      - type: LayoutBox
-        cell:
-          column: 0
-          row: 3
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showProfile
-      - type: LayoutBox
-        cell:
-          column: 1
-          row: 3
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showMeans
   - type: CollapseBox
     label: Stacked bars – settings
     collapsed: true
@@ -372,6 +372,26 @@ children:
             stretchFactor: 1
             children:
               - type: TextBox
+                name: waffleRows
+                format: number
+                enable: (showWaffle)
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: waffleCols
+                format: number
+                enable: (showWaffle)
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: TextBox
                 name: waffleGap
                 format: number
                 enable: (showWaffle)
@@ -390,13 +410,33 @@ children:
               row: 0
             stretchFactor: 1
             children:
+              - type: TextBox
+                name: pictoRows
+                format: number
+                enable: (showPicto)
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: pictoCols
+                format: number
+                enable: (showPicto)
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
               - type: ComboBox
                 name: pictoShape
                 enable: (showPicto)
           - type: LayoutBox
             cell:
               column: 1
-              row: 0
+              row: 1
             stretchFactor: 1
             children:
               - type: TextBox

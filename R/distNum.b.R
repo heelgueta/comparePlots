@@ -82,10 +82,10 @@ distNumClass <- R6::R6Class(
             # first variable on top (horizontal) or on the left (vertical)
             pos   <- if (horiz) rev(seq_len(n)) else seq_len(n)
             names(pos) <- lv
-            cols  <- vdp_palette(o$palette, n, o$reversePalette, spread = TRUE)
+            cols  <- cp_palette(o$colourPalette, n, o$reversePalette, spread = TRUE)
             names(cols) <- lv
             list(o = o, horiz = horiz, lv = lv, n = n, pos = pos, cols = cols,
-                 alpha = o$alpha / 100, lw = vdp_line_width(o$lineWidth))
+                 alpha = o$alpha / 100, lw = cp_line_width(o$lineWidth))
         },
 
         .build = function(key, long, vars) {
@@ -115,7 +115,7 @@ distNumClass <- R6::R6Class(
             p <- p +
                 ggplot2::scale_fill_manual(values = ctx$cols, guide = if (overlay) "legend" else "none") +
                 ggplot2::scale_colour_manual(values = ctx$cols, guide = if (overlay) "legend" else "none") +
-                vdp_theme(o$theme, o$textSize) +
+                cp_theme(o$plotTheme, o$textSize) +
                 ggplot2::theme(
                     legend.position  = if (overlay) o$legendPos else "none",
                     legend.title     = ggplot2::element_blank(),
@@ -142,10 +142,10 @@ distNumClass <- R6::R6Class(
             caption <- if (isTRUE(o$showN))
                 paste(paste0(names(n_per), " (n=", n_per, ")"), collapse = "   ") else NULL
             if (key == "errorbar") {
-                extra <- vdp_interval_label(o$ebCenter, o$ebInterval, o$ebLevel, o$ebMult)
+                extra <- cp_interval_label(o$ebCenter, o$ebInterval, o$ebLevel, o$ebMult)
                 caption <- paste(c(extra, caption), collapse = "\n")
             }
-            p + ggplot2::labs(title = vdp_title(o$title), caption = caption)
+            p + ggplot2::labs(title = cp_title(o$title), caption = caption)
         },
 
         # variable axis (numeric positions labelled with the variable names)
@@ -218,7 +218,7 @@ distNumClass <- R6::R6Class(
         .p_errorbar = function(long, ctx) {
             o <- ctx$o
             s <- do.call(rbind, lapply(ctx$lv, function(v) {
-                r <- vdp_summary(long$value[long$variable == v], o$ebCenter, o$ebInterval,
+                r <- cp_summary(long$value[long$variable == v], o$ebCenter, o$ebInterval,
                                  o$ebLevel, o$ebMult)
                 data.frame(variable = v, pos = unname(ctx$pos[v]), centre = r[1], lo = r[2], hi = r[3])
             }))

@@ -37,8 +37,8 @@ nominal_df <- data.frame(
     Afternoon = factor(sample(dr, n, TRUE, prob = c(.30, .30, .22, .10, .08)), levels = dr),
     Evening   = factor(sample(dr, n, TRUE, prob = c(.05, .28, .35, .07, .25)), levels = dr))
 
-out <- list(vdp_numeric_example = numeric_df, vdp_ordinal_example = ordinal_df,
-            vdp_nominal_example = nominal_df)
+out <- list(cp_numeric_example = numeric_df, cp_ordinal_example = ordinal_df,
+            cp_nominal_example = nominal_df)
 dir <- "data"
 for (nm in names(out)) {
     utils::write.csv(out[[nm]], file.path(dir, paste0(nm, ".csv")), row.names = FALSE, na = "")

@@ -14,6 +14,93 @@ children:
           - type: VariablesListBox
             name: vars
             isTarget: true
+  - type: Label
+    label: Plots to show
+    children: []
+  - type: LayoutBox
+    margin: large
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        cell:
+          column: 0
+          row: 0
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showBox
+      - type: LayoutBox
+        cell:
+          column: 1
+          row: 0
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showViolin
+      - type: LayoutBox
+        cell:
+          column: 0
+          row: 1
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showErrorBar
+      - type: LayoutBox
+        cell:
+          column: 1
+          row: 1
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showRaincloud
+      - type: LayoutBox
+        cell:
+          column: 0
+          row: 2
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showRidge
+      - type: LayoutBox
+        cell:
+          column: 1
+          row: 2
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showHist
+      - type: LayoutBox
+        cell:
+          column: 0
+          row: 3
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showDensity
+      - type: LayoutBox
+        cell:
+          column: 1
+          row: 3
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showEcdf
+      - type: LayoutBox
+        cell:
+          column: 0
+          row: 4
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showStrip
+      - type: LayoutBox
+        cell:
+          column: 1
+          row: 4
+        stretchFactor: 1
+        children:
+          - type: CheckBox
+            name: showBarcode
   - type: CollapseBox
     label: Appearance
     collapsed: false
@@ -46,7 +133,7 @@ children:
             stretchFactor: 1
             children:
               - type: ComboBox
-                name: palette
+                name: colourPalette
           - type: LayoutBox
             cell:
               column: 1
@@ -62,7 +149,7 @@ children:
             stretchFactor: 1
             children:
               - type: ComboBox
-                name: theme
+                name: plotTheme
           - type: LayoutBox
             cell:
               column: 1
@@ -175,93 +262,6 @@ children:
                 format: number
                 suffix: px
                 enable: '(!autoSize)'
-  - type: Label
-    label: Plots to show
-    children: []
-  - type: LayoutBox
-    margin: large
-    stretchFactor: 1
-    children:
-      - type: LayoutBox
-        cell:
-          column: 0
-          row: 0
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showBox
-      - type: LayoutBox
-        cell:
-          column: 1
-          row: 0
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showViolin
-      - type: LayoutBox
-        cell:
-          column: 0
-          row: 1
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showErrorBar
-      - type: LayoutBox
-        cell:
-          column: 1
-          row: 1
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showRaincloud
-      - type: LayoutBox
-        cell:
-          column: 0
-          row: 2
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showRidge
-      - type: LayoutBox
-        cell:
-          column: 1
-          row: 2
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showHist
-      - type: LayoutBox
-        cell:
-          column: 0
-          row: 3
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showDensity
-      - type: LayoutBox
-        cell:
-          column: 1
-          row: 3
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showEcdf
-      - type: LayoutBox
-        cell:
-          column: 0
-          row: 4
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showStrip
-      - type: LayoutBox
-        cell:
-          column: 1
-          row: 4
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showBarcode
   - type: CollapseBox
     label: Box plot – settings
     collapsed: true

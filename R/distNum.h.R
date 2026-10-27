@@ -9,9 +9,9 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             vars = NULL,
             orientation = "horizontal",
             invertVars = FALSE,
-            palette = "viridis",
+            colourPalette = "viridis",
             reversePalette = FALSE,
-            theme = "minimal",
+            plotTheme = "minimal",
             textSize = 12,
             alpha = 80,
             lineWidth = 2,
@@ -74,7 +74,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             barcodeHeight = 70, ...) {
 
             super$initialize(
-                package="VarDistPlots",
+                package="ComparePlots",
                 name="distNum",
                 requiresData=TRUE,
                 ...)
@@ -97,9 +97,9 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "invertVars",
                 invertVars,
                 default=FALSE)
-            private$..palette <- jmvcore::OptionList$new(
-                "palette",
-                palette,
+            private$..colourPalette <- jmvcore::OptionList$new(
+                "colourPalette",
+                colourPalette,
                 options=list(
                     "viridis",
                     "plasma",
@@ -124,9 +124,9 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "reversePalette",
                 reversePalette,
                 default=FALSE)
-            private$..theme <- jmvcore::OptionList$new(
-                "theme",
-                theme,
+            private$..plotTheme <- jmvcore::OptionList$new(
+                "plotTheme",
+                plotTheme,
                 options=list(
                     "minimal",
                     "classic",
@@ -450,9 +450,9 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..vars)
             self$.addOption(private$..orientation)
             self$.addOption(private$..invertVars)
-            self$.addOption(private$..palette)
+            self$.addOption(private$..colourPalette)
             self$.addOption(private$..reversePalette)
-            self$.addOption(private$..theme)
+            self$.addOption(private$..plotTheme)
             self$.addOption(private$..textSize)
             self$.addOption(private$..alpha)
             self$.addOption(private$..lineWidth)
@@ -518,9 +518,9 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         vars = function() private$..vars$value,
         orientation = function() private$..orientation$value,
         invertVars = function() private$..invertVars$value,
-        palette = function() private$..palette$value,
+        colourPalette = function() private$..colourPalette$value,
         reversePalette = function() private$..reversePalette$value,
-        theme = function() private$..theme$value,
+        plotTheme = function() private$..plotTheme$value,
         textSize = function() private$..textSize$value,
         alpha = function() private$..alpha$value,
         lineWidth = function() private$..lineWidth$value,
@@ -585,9 +585,9 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..vars = NA,
         ..orientation = NA,
         ..invertVars = NA,
-        ..palette = NA,
+        ..colourPalette = NA,
         ..reversePalette = NA,
-        ..theme = NA,
+        ..plotTheme = NA,
         ..textSize = NA,
         ..alpha = NA,
         ..lineWidth = NA,
@@ -690,9 +690,9 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "invertVars",
-                    "palette",
+                    "colourPalette",
                     "reversePalette",
-                    "theme",
+                    "plotTheme",
                     "textSize",
                     "alpha",
                     "lineWidth",
@@ -722,9 +722,9 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "invertVars",
-                    "palette",
+                    "colourPalette",
                     "reversePalette",
-                    "theme",
+                    "plotTheme",
                     "textSize",
                     "alpha",
                     "lineWidth",
@@ -755,9 +755,9 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "invertVars",
-                    "palette",
+                    "colourPalette",
                     "reversePalette",
-                    "theme",
+                    "plotTheme",
                     "textSize",
                     "alpha",
                     "lineWidth",
@@ -791,9 +791,9 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "invertVars",
-                    "palette",
+                    "colourPalette",
                     "reversePalette",
-                    "theme",
+                    "plotTheme",
                     "textSize",
                     "alpha",
                     "lineWidth",
@@ -822,9 +822,9 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "invertVars",
-                    "palette",
+                    "colourPalette",
                     "reversePalette",
-                    "theme",
+                    "plotTheme",
                     "textSize",
                     "alpha",
                     "lineWidth",
@@ -853,9 +853,9 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "invertVars",
-                    "palette",
+                    "colourPalette",
                     "reversePalette",
-                    "theme",
+                    "plotTheme",
                     "textSize",
                     "alpha",
                     "lineWidth",
@@ -884,9 +884,9 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "invertVars",
-                    "palette",
+                    "colourPalette",
                     "reversePalette",
-                    "theme",
+                    "plotTheme",
                     "textSize",
                     "alpha",
                     "lineWidth",
@@ -914,9 +914,9 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "invertVars",
-                    "palette",
+                    "colourPalette",
                     "reversePalette",
-                    "theme",
+                    "plotTheme",
                     "textSize",
                     "alpha",
                     "lineWidth",
@@ -942,9 +942,9 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "invertVars",
-                    "palette",
+                    "colourPalette",
                     "reversePalette",
-                    "theme",
+                    "plotTheme",
                     "textSize",
                     "alpha",
                     "lineWidth",
@@ -970,9 +970,9 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "invertVars",
-                    "palette",
+                    "colourPalette",
                     "reversePalette",
-                    "theme",
+                    "plotTheme",
                     "textSize",
                     "alpha",
                     "lineWidth",
@@ -992,7 +992,7 @@ distNumBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     public = list(
         initialize = function(options, data=NULL, datasetId="", analysisId="", revision=0) {
             super$initialize(
-                package = "VarDistPlots",
+                package = "ComparePlots",
                 name = "distNum",
                 version = c(0,4,0),
                 options = options,
@@ -1014,9 +1014,9 @@ distNumBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param vars .
 #' @param orientation .
 #' @param invertVars .
-#' @param palette .
+#' @param colourPalette .
 #' @param reversePalette .
-#' @param theme .
+#' @param plotTheme .
 #' @param textSize .
 #' @param alpha .
 #' @param lineWidth .
@@ -1098,9 +1098,9 @@ distNum <- function(
     vars,
     orientation = "horizontal",
     invertVars = FALSE,
-    palette = "viridis",
+    colourPalette = "viridis",
     reversePalette = FALSE,
-    theme = "minimal",
+    plotTheme = "minimal",
     textSize = 12,
     alpha = 80,
     lineWidth = 2,
@@ -1176,9 +1176,9 @@ distNum <- function(
         vars = vars,
         orientation = orientation,
         invertVars = invertVars,
-        palette = palette,
+        colourPalette = colourPalette,
         reversePalette = reversePalette,
-        theme = theme,
+        plotTheme = plotTheme,
         textSize = textSize,
         alpha = alpha,
         lineWidth = lineWidth,
