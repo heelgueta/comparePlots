@@ -8,7 +8,7 @@ Description: A jamovi module to compare the distributions of several numeric,
     ordinal or nominal variables side by side on a shared scale, with a choice
     of plots (box, violin, means with error bars, raincloud, ridgeline,
     histogram, density, ECDF, stacked and diverging bars, heatmap, waffle and more).
-URL: https://github.com/heelgueta/PolyUniPlots
+URL: https://github.com/heelgueta/ComparePlots
 License: GPL (>= 2)
 Imports:
     jmvcore (>= 0.8.6),
