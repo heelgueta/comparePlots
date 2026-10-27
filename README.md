@@ -61,9 +61,9 @@ Shared appearance: orientation (horizontal: charts stacked top to bottom; vertic
 
 | File | Contents |
 |---|---|
-| `data/cp_numeric_example` | Six 0–100 scales with different shapes: normal, skewed, bimodal, narrow (n = 240) |
-| `data/cp_ordinal_example` | Six Likert items with different response patterns (n = 300) |
-| `data/cp_nominal_example` | One five-category nominal variable at three times of day (n = 250) |
+| `data/example_numeric` | Six 0–100 scales with different shapes: normal, skewed, bimodal, narrow (n = 240) |
+| `data/example_ordinal` | Six Likert items with different response patterns (n = 300) |
+| `data/example_nominal` | One five-category nominal variable at three times of day (n = 250) |
 
 Each is provided as `.omv` (variable types already set) and `.csv`. Regenerate with `Rscript tools/make_examples.R`.
 
@@ -88,7 +88,7 @@ jamovi/    0000.yaml (manifest), *.a.yaml (options), *.r.yaml (results), *.u.yam
 R/         *.b.R (implementation), utils.R (shared helpers), *.h.R (generated)
 data/      example datasets (shown in jamovi's Data Library)
 tools/     make_examples.R: regenerates the example datasets
-icons/     analysis icons
+icons/     module icon (ComparePlots.svg, 74 x 44, jamovi ribbon style)
 dist/      prebuilt .jmo
 ```
 

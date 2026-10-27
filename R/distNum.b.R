@@ -150,10 +150,10 @@ distNumClass <- R6::R6Class(
             pos   <- if (horiz) rev(seq_len(n)) else seq_len(n)
             names(pos) <- lv
             # spread = TRUE drops the pale middle of diverging palettes (see utils.R)
-            cols  <- cp_palette(o$colourPalette, n, o$reversePalette, spread = TRUE)
+            cols  <- cmp_palette(o$colourPalette, n, o$reversePalette, spread = TRUE)
             names(cols) <- lv
             list(o = o, horiz = horiz, lv = lv, n = n, pos = pos, cols = cols,
-                 alpha = o$alpha / 100, lw = cp_line_width(o$lineWidth))
+                 alpha = o$alpha / 100, lw = cmp_line_width(o$lineWidth))
         },
 
         # Build the ggplot for one plot key: attach `variable` (factor, drawing
@@ -192,7 +192,7 @@ distNumClass <- R6::R6Class(
             p <- p +
                 ggplot2::scale_fill_manual(values = ctx$cols, guide = if (overlay) "legend" else "none") +
                 ggplot2::scale_colour_manual(values = ctx$cols, guide = if (overlay) "legend" else "none") +
-                cp_theme(o$plotTheme, o$textSize) +
+                cmp_theme(o$plotTheme, o$textSize) +
                 ggplot2::theme(
                     legend.position  = if (overlay) o$legendPos else "none",
                     legend.title     = ggplot2::element_blank(),
@@ -223,10 +223,10 @@ distNumClass <- R6::R6Class(
             caption <- if (isTRUE(o$showN))
                 paste(paste0(names(n_per), " (n=", n_per, ")"), collapse = "   ") else NULL
             if (key == "errorbar") {
-                extra <- cp_interval_label(o$ebCenter, o$ebInterval, o$ebLevel, o$ebMult)
+                extra <- cmp_interval_label(o$ebCenter, o$ebInterval, o$ebLevel, o$ebMult)
                 caption <- paste(c(extra, caption), collapse = "\n")
             }
-            p + ggplot2::labs(title = cp_title(o$title), caption = caption)
+            p + ggplot2::labs(title = cmp_title(o$title), caption = caption)
         },
 
         # ---------------------------------------------------------------------
@@ -331,12 +331,12 @@ distNumClass <- R6::R6Class(
         },
 
         # ── Means (or medians) with error bars ─────────────────────────────
-        # Summary statistics come from cp_summary() in utils.R (centre, lower,
+        # Summary statistics come from cmp_summary() in utils.R (centre, lower,
         # upper per variable). The raw data can be drawn faintly behind.
         .p_errorbar = function(long, ctx) {
             o <- ctx$o
             s <- do.call(rbind, lapply(ctx$lv, function(v) {
-                r <- cp_summary(long$value[long$variable == v], o$ebCenter, o$ebInterval,
+                r <- cmp_summary(long$value[long$variable == v], o$ebCenter, o$ebInterval,
                                  o$ebLevel, o$ebMult)
                 data.frame(variable = v, pos = unname(ctx$pos[v]), centre = r[1], lo = r[2], hi = r[3])
             }))

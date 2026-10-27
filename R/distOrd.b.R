@@ -213,9 +213,9 @@ distOrdClass <- R6::R6Class(
             npv <- tapply(long$n, long$variable, function(z) z[1])   # valid n per variable
             labs <- if (o$showN) paste0(lv, " (n=", npv[lv], ")") else lv
 
-            cat_cols <- cp_palette(o$colourPalette, k, o$reversePalette)
+            cat_cols <- cmp_palette(o$colourPalette, k, o$reversePalette)
             names(cat_cols) <- cats
-            var_cols <- cp_palette(o$colourPalette, n, o$reversePalette, spread = TRUE)
+            var_cols <- cmp_palette(o$colourPalette, n, o$reversePalette, spread = TRUE)
             names(var_cols) <- lv
 
             # legend wraps onto several rows when it would be wider than the plot
@@ -223,7 +223,7 @@ distOrdClass <- R6::R6Class(
                 max(1L, ceiling(k / max(2, floor(st$width / 130)))) else NULL
 
             list(o = o, horiz = horiz, lv = lv, n = n, pos = pos, k = k, cats = cats,
-                 labs = cp_wrap(labs), cat_cols = cat_cols, var_cols = var_cols,
+                 labs = cmp_wrap(labs), cat_cols = cat_cols, var_cols = var_cols,
                  leg_rows = leg_rows, npv = npv)
         },
 
@@ -271,7 +271,7 @@ distOrdClass <- R6::R6Class(
                 waffle = , picto = , parliament = ggplot2::theme(
                     panel.grid = blank, axis.ticks = blank, axis.title = blank),
                 NULL)
-            p + cp_theme(o$plotTheme, o$textSize) + extra +
+            p + cmp_theme(o$plotTheme, o$textSize) + extra +
                 ggplot2::theme(
                     legend.position    = if (legend_key) o$legendPos else "none",
                     legend.title       = if (nchar(trimws(o$legendTitle)) > 0) ggplot2::element_text() else ggplot2::element_blank(),
@@ -279,7 +279,7 @@ distOrdClass <- R6::R6Class(
                     panel.grid.minor   = ggplot2::element_blank(),
                     plot.caption       = ggplot2::element_text(size = o$textSize * 0.65, colour = "grey45", hjust = 0),
                     plot.margin        = ggplot2::margin(10, 16, 8, 10)) +
-                ggplot2::labs(title = cp_title(o$title))
+                ggplot2::labs(title = cmp_title(o$title))
         },
 
         # ---------------------------------------------------------------------
@@ -287,7 +287,7 @@ distOrdClass <- R6::R6Class(
         # ---------------------------------------------------------------------
 
         # legend title: NULL (no title) when the option is empty
-        .leg_title = function(ctx) cp_title(ctx$o$legendTitle),
+        .leg_title = function(ctx) cmp_title(ctx$o$legendTitle),
 
         # fill scale mapping category -> colour, with the legend wrapped in rows
         # (`drop = FALSE` keeps categories with 0% in the legend)
@@ -340,7 +340,7 @@ distOrdClass <- R6::R6Class(
                 ld <- long[long$pct >= max(o$barMinLabel, 0.01), ]     # skip tiny segments
                 ld$label <- private$.pct_fmt(ld$pct, ctx)
                 # black or white text depending on the fill it sits on
-                ld$tc <- cp_text_col(ctx$cat_cols[as.character(ld$category)])
+                ld$tc <- cmp_text_col(ctx$cat_cols[as.character(ld$category)])
                 p <- p + ggplot2::geom_text(
                     data = ld, ggplot2::aes(x = pos, y = (lo + hi) / 2, label = label, colour = tc),
                     size = o$textSize * 0.28, fontface = "bold", show.legend = FALSE) +
@@ -420,7 +420,7 @@ distOrdClass <- R6::R6Class(
             if (o$divLabels) {
                 ld <- dv[dv$pct >= max(o$divMinLabel, 0.01), ]
                 ld$label <- private$.pct_fmt(ld$pct, ctx)
-                ld$tc <- cp_text_col(ctx$cat_cols[as.character(ld$category)])
+                ld$tc <- cmp_text_col(ctx$cat_cols[as.character(ld$category)])
                 p <- p + ggplot2::geom_text(
                     data = ld, ggplot2::aes(x = pos, y = (lo + hi) / 2, label = label, colour = tc),
                     size = o$textSize * 0.28, fontface = "bold", show.legend = FALSE) +
@@ -465,7 +465,7 @@ distOrdClass <- R6::R6Class(
                 ggplot2::geom_tile(width = 1 - gap, height = 1 - gap)
             if (o$heatLabels) {
                 # label colour chosen from the tile colour the value maps to
-                tcol <- cp_text_col(scales::col_numeric(cols, c(0, top))(long$pct))
+                tcol <- cmp_text_col(scales::col_numeric(cols, c(0, top))(long$pct))
                 long$label <- private$.pct_fmt(long$pct, ctx)
                 p <- p + ggplot2::geom_text(
                     data = long, ggplot2::aes(label = label), colour = tcol,
@@ -473,7 +473,7 @@ distOrdClass <- R6::R6Class(
             }
             p <- p + private$.cat_axis(ctx) +
                 ggplot2::scale_y_continuous(breaks = if (ctx$horiz) seq_len(k) else k - seq_len(k) + 1,
-                                            labels = cp_wrap(ctx$cats, 14), expand = ggplot2::expansion(add = 0.5)) +
+                                            labels = cmp_wrap(ctx$cats, 14), expand = ggplot2::expansion(add = 0.5)) +
                 ggplot2::scale_fill_gradientn(colours = cols, limits = c(0, top),
                                               name = if (is.null(private$.leg_title(ctx))) "%" else private$.leg_title(ctx),
                                               guide = ggplot2::guide_colourbar(barwidth = ggplot2::unit(9, "lines")),
@@ -486,7 +486,7 @@ distOrdClass <- R6::R6Class(
         # One rows x cols grid of cells per variable; every cell stands for
         # 100 / (rows * cols) percent (1% for the 10 x 10 default). The number of
         # cells given to each category is the percentage rounded with the
-        # largest-remainder method (cp_alloc) so the grid is always exactly full.
+        # largest-remainder method (cmp_alloc) so the grid is always exactly full.
         # Cells are filled row by row from the top-left corner in category order.
         # Layout on a plain x/y plane (not the canvas): charts of different
         # variables are offset by (cols+2) or (rows+2) so there is a gap between them;
@@ -500,7 +500,7 @@ distOrdClass <- R6::R6Class(
             gx <- ncol_ + 2; gy <- nrow_ + 2          # grid pitch including the gap
             df <- do.call(rbind, lapply(ctx$lv, function(v) {
                 d <- long[long$variable == v, ]
-                cnt <- cp_alloc(d$pct, cells)         # cells per category, sums to `cells`
+                cnt <- cmp_alloc(d$pct, cells)         # cells per category, sums to `cells`
                 i <- seq_len(cells) - 1L              # cell index 0..cells-1
                 ox <- if (ctx$horiz) 0 else (ctx$pos[v] - 1) * gx
                 oy <- if (ctx$horiz) (ctx$pos[v] - 1) * gy else 0
@@ -536,13 +536,13 @@ distOrdClass <- R6::R6Class(
         # Seats on concentric half-circles, one chart per variable. Seats are
         # shared among the rows in proportion to the row's radius (longer arcs get
         # more), then sorted by angle from left to right so each category forms a
-        # wedge, as in parliament diagrams. Categories get seats by cp_alloc().
+        # wedge, as in parliament diagrams. Categories get seats by cmp_alloc().
         .p_parliament = function(long, ctx) {
             o <- ctx$o
             nrow_ <- o$parlRows
             radii <- seq(0.8, 1.8, length.out = max(nrow_, 2))[seq_len(nrow_)]
             if (nrow_ == 1) radii <- 1.5
-            per_row <- cp_alloc(radii, o$parlSeats)       # seats on each row
+            per_row <- cmp_alloc(radii, o$parlSeats)       # seats on each row
             gx <- 4.4; gy <- 2.3                          # offsets between the charts
             seats <- do.call(rbind, lapply(seq_len(nrow_), function(r) {
                 m <- per_row[r]
@@ -553,7 +553,7 @@ distOrdClass <- R6::R6Class(
             seats <- seats[order(-seats$ang, seats$rad), ]       # sweep left to right
             df <- do.call(rbind, lapply(ctx$lv, function(v) {
                 d <- long[long$variable == v, ]
-                cnt <- cp_alloc(d$pct, nrow(seats))              # seats per category
+                cnt <- cmp_alloc(d$pct, nrow(seats))              # seats per category
                 ox <- if (ctx$horiz) 0 else (ctx$pos[v] - 1) * gx
                 oy <- if (ctx$horiz) (ctx$pos[v] - 1) * gy else 0
                 data.frame(variable = v, cx = ox + seats$rad * cos(seats$ang), cy = oy + seats$rad * sin(seats$ang),
@@ -603,7 +603,7 @@ distOrdClass <- R6::R6Class(
                                             nudge_x = 0.0, vjust = -0.9, size = o$textSize * 0.26, show.legend = FALSE)
             p <- p +
                 ggplot2::scale_x_continuous(breaks = if (ctx$horiz) k - seq_len(k) + 1 else seq_len(k),
-                                            labels = cp_wrap(ctx$cats, 14),
+                                            labels = cmp_wrap(ctx$cats, 14),
                                             expand = ggplot2::expansion(add = 0.4)) +
                 ggplot2::scale_y_continuous(labels = function(x) paste0(x, "%"),
                                             expand = ggplot2::expansion(mult = c(0.02, 0.12))) +
@@ -644,7 +644,7 @@ distOrdClass <- R6::R6Class(
                                             nudge_x = 0.3, size = o$textSize * 0.28, colour = "grey20")
             # the value axis is labelled with the category names at 1..k
             p <- p + private$.cat_axis(ctx) +
-                ggplot2::scale_y_continuous(breaks = seq_len(k), labels = cp_wrap(ctx$cats, 14),
+                ggplot2::scale_y_continuous(breaks = seq_len(k), labels = cmp_wrap(ctx$cats, 14),
                                             limits = c(1, k), expand = ggplot2::expansion(mult = 0.05)) +
                 ggplot2::scale_colour_manual(values = ctx$var_cols, guide = "none") +
                 ggplot2::scale_fill_manual(values = ctx$var_cols, guide = "none") +

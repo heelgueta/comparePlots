@@ -51,8 +51,8 @@ nominal_df <- data.frame(
     Evening   = factor(sample(dr, n, TRUE, prob = c(.05, .28, .35, .07, .25)), levels = dr))
 
 # name -> data frame; the name becomes the file name
-out <- list(cp_numeric_example = numeric_df, cp_ordinal_example = ordinal_df,
-            cp_nominal_example = nominal_df)
+out <- list(example_numeric = numeric_df, example_ordinal = ordinal_df,
+            example_nominal = nominal_df)
 dir <- "data"
 for (nm in names(out)) {
     utils::write.csv(out[[nm]], file.path(dir, paste0(nm, ".csv")), row.names = FALSE, na = "")

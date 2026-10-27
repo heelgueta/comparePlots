@@ -36,13 +36,13 @@ analyses:
     description: Compare the response distributions of several ordinal or nominal variables.
 datasets:
   - name: Well-being scales (numeric example)
-    path: cp_numeric_example.omv
+    path: example_numeric.omv
     description: Six 0-100 scales with different shapes (normal, skewed, bimodal, narrow), n = 240
   - name: Course evaluation (ordinal example)
-    path: cp_ordinal_example.omv
+    path: example_ordinal.omv
     description: Six Likert items with different response patterns, n = 300
   - name: Drink preference (nominal example)
-    path: cp_nominal_example.omv
+    path: example_nominal.omv
     description: The same five-category nominal variable at three times of day, n = 250
 usesNative: true
 ...
