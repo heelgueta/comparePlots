@@ -33,7 +33,7 @@
 #   jmvcore's `Options` class already owns the names `theme` and `palette` (for
 #   jamovi's global plot settings), so this analysis calls them `plotTheme` and
 #   `colourPalette`. Do not rename them back: the global setting silently wins.
-#   Both default to "jamovi default": the plots then use jamovi's own `ggtheme`
+#   Both default to "jamovi current": the plots then use jamovi's own `ggtheme`
 #   and the accent colour of `theme`, so they match the other plots in the results.
 #
 # Shared helpers (palettes, themes, summary statistics) are in R/utils.R.
@@ -165,10 +165,20 @@ distNumClass <- R6::R6Class(
             pos   <- if (horiz) rev(seq_len(n)) else seq_len(n)
             names(pos) <- lv
             # spread = TRUE drops the pale middle of diverging palettes (see utils.R)
-            cols  <- cmp_palette(o$colourPalette, n, o$reversePalette, spread = TRUE, theme = theme)
+            # Black & white: black lines/points, white fills, no colour at all. The
+            # variable names are on the axis, so no legend is needed (overlay plots
+            # tell the variables apart by line type instead).
+            bw    <- identical(o$colourPalette, "bw")
+            cols  <- if (bw) rep("black", n)
+                     else cmp_palette(o$colourPalette, n, o$reversePalette, spread = TRUE, theme = theme)
+            fills <- if (bw) rep("white", n) else cols
             names(cols) <- lv
-            list(o = o, horiz = horiz, lv = lv, n = n, pos = pos, cols = cols, ggtheme = ggtheme,
-                 alpha = o$alpha / 100, lw = cmp_line_width(o$lineWidth))
+            names(fills) <- lv
+            # labels: variable name, or its description from the Data tab (option)
+            lab <- cmp_var_labels(self$data, lv, o$useDesc)
+            list(o = o, horiz = horiz, lv = lv, n = n, pos = pos, cols = cols, fills = fills, bw = bw,
+                 lab = lab, ggtheme = ggtheme,
+                 alpha = if (bw) 1 else o$alpha / 100, lw = cmp_line_width(o$lineWidth))
         },
 
         # Build the ggplot for one plot key: attach `variable` (factor, drawing
@@ -206,8 +216,12 @@ distNumClass <- R6::R6Class(
             overlay <- key %in% c("density", "ecdf")   # variables share one panel -> need a legend
             facets  <- key == "hist"                   # one panel per variable -> strip labels
             p <- p +
-                ggplot2::scale_fill_manual(values = ctx$cols, guide = if (overlay) "legend" else "none") +
-                ggplot2::scale_colour_manual(values = ctx$cols, guide = if (overlay) "legend" else "none") +
+                ggplot2::scale_fill_manual(values = ctx$fills, labels = ctx$lab, guide = if (overlay) "legend" else "none") +
+                ggplot2::scale_colour_manual(values = ctx$cols, labels = ctx$lab, guide = if (overlay) "legend" else "none") +
+                ggplot2::scale_linetype_manual(
+                    values = stats::setNames(if (ctx$bw) rep_len(c("solid", "dashed", "dotted", "dotdash", "longdash", "twodash"), ctx$n)
+                                             else rep("solid", ctx$n), ctx$lv),
+                    labels = ctx$lab, guide = if (overlay && ctx$bw) "legend" else "none") +
                 cmp_theme(o$plotTheme, o$textSize, ctx$ggtheme) +
                 ggplot2::theme(
                     legend.position  = if (overlay) o$legendPos else "none",
@@ -238,7 +252,7 @@ distNumClass <- R6::R6Class(
             n_per   <- table(long$variable)
             # wrapped so a long list of variables does not run off the edge of a small plot
             caption <- if (isTRUE(o$showN))
-                paste(strwrap(paste(paste0(names(n_per), " (n=", n_per, ")"), collapse = "   "), 55), collapse = "\n") else NULL
+                paste(strwrap(paste(paste0(gsub("\n", " ", unname(ctx$lab[names(n_per)])), " (n=", n_per, ")"), collapse = "   "), 55), collapse = "\n") else NULL
             if (key == "errorbar") {
                 extra <- cmp_interval_label(o$ebCenter, o$ebInterval, o$ebLevel, o$ebMult)
                 caption <- paste(c(extra, caption), collapse = "\n")
@@ -255,7 +269,7 @@ distNumClass <- R6::R6Class(
         # beyond the last variable's baseline).
         .cat_axis = function(ctx, upper = 0.6) {
             ggplot2::scale_x_continuous(
-                breaks = unname(ctx$pos), labels = names(ctx$pos),
+                breaks = unname(ctx$pos), labels = unname(ctx$lab[names(ctx$pos)]),
                 expand = ggplot2::expansion(add = c(0.6, upper)))
         },
 
@@ -472,7 +486,7 @@ distNumClass <- R6::R6Class(
                 ggplot2::aes(y = ggplot2::after_stat(density)))
             p <- ggplot2::ggplot(long, ggplot2::aes(x = value, fill = variable)) +
                 ggplot2::geom_histogram(ymap, binwidth = bw, boundary = min(long$value),
-                                        colour = "white", linewidth = 0.15, alpha = ctx$alpha)
+                                        colour = if (ctx$bw) "black" else "white", linewidth = 0.15, alpha = ctx$alpha)
             if (o$histDensity) {
                 # density curve rescaled to the same units as the bars
                 dmap <- switch(o$histStat,
@@ -483,9 +497,11 @@ distNumClass <- R6::R6Class(
             }
             scales <- if (o$histFreeY) "free_y" else "fixed"
             if (ctx$horiz) {
-                p <- p + ggplot2::facet_grid(rows = ggplot2::vars(variable), scales = scales, switch = "y")
+                p <- p + ggplot2::facet_grid(rows = ggplot2::vars(variable), scales = scales, switch = "y",
+                                              labeller = ggplot2::as_labeller(ctx$lab))
             } else {
-                p <- p + ggplot2::facet_grid(cols = ggplot2::vars(variable), scales = scales) +
+                p <- p + ggplot2::facet_grid(cols = ggplot2::vars(variable), scales = scales,
+                                              labeller = ggplot2::as_labeller(ctx$lab)) +
                     ggplot2::coord_flip()
             }
             ylab <- switch(o$histStat, count = "Count", percent = "Percent", "Density")
@@ -496,7 +512,8 @@ distNumClass <- R6::R6Class(
         # All variables in one panel; value on x, so use .flip_x().
         .p_density = function(long, ctx) {
             o <- ctx$o
-            p <- ggplot2::ggplot(long, ggplot2::aes(x = value, fill = variable, colour = variable)) +
+            p <- ggplot2::ggplot(long, ggplot2::aes(x = value, fill = variable, colour = variable,
+                                                    linetype = variable)) +
                 ggplot2::geom_density(adjust = o$densAdjust, trim = o$densTrim,
                                       alpha = if (o$densFilled) ctx$alpha * 0.55 else 0,
                                       linewidth = ctx$lw) +
@@ -508,7 +525,7 @@ distNumClass <- R6::R6Class(
         # pad = FALSE: do not extend the step lines to +/- infinity.
         .p_ecdf = function(long, ctx) {
             o <- ctx$o
-            p <- ggplot2::ggplot(long, ggplot2::aes(x = value, colour = variable))
+            p <- ggplot2::ggplot(long, ggplot2::aes(x = value, colour = variable, linetype = variable))
             if (o$ecdfMedian)   # dashed guide at 50%: where each curve crosses is its median
                 p <- p + ggplot2::geom_hline(yintercept = 0.5, linetype = "dashed", colour = "grey60", linewidth = 0.4)
             p <- p + ggplot2::stat_ecdf(geom = "step", linewidth = ctx$lw * 1.3, pad = FALSE) +

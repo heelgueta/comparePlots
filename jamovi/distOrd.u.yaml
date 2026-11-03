@@ -1,8 +1,8 @@
-# Compare Categorical (distOrd): USER INTERFACE, hand-written.
+# Compare Ordinal (distOrd): USER INTERFACE, hand-written.
 # compilerMode is `tame`: jmc keeps this layout and only adds controls for NEW options.
 # Each plot has its own CollapseBox that holds the plot's checkbox AND its settings; the settings are
 # greyed out (enable:) while the checkbox is off, or while a sibling option they depend on is off.
-title: Compare Categorical
+title: Compare Ordinal
 name: distOrd
 jus: '3.0'
 stage: 0
@@ -92,7 +92,7 @@ children:
             stretchFactor: 1
             children:
               - type: TextBox
-                name: decimals
+                name: gridCols
                 format: number
           - type: LayoutBox
             cell:
@@ -100,12 +100,29 @@ children:
               row: 4
             stretchFactor: 1
             children:
+              - type: CheckBox
+                name: useDesc
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 4
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: decimals
+                format: number
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 5
+            stretchFactor: 1
+            children:
               - type: ComboBox
                 name: legendPos
           - type: LayoutBox
             cell:
               column: 1
-              row: 4
+              row: 5
             stretchFactor: 1
             children:
               - type: TextBox
@@ -114,7 +131,7 @@ children:
           - type: LayoutBox
             cell:
               column: 0
-              row: 5
+              row: 6
             stretchFactor: 1
             children:
               - type: TextBox
@@ -123,7 +140,7 @@ children:
           - type: LayoutBox
             cell:
               column: 1
-              row: 5
+              row: 6
             stretchFactor: 1
             children:
               - type: CheckBox

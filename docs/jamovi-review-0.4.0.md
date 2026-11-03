@@ -20,8 +20,8 @@ the module in jamovi (no R/jamovi was available when the changes were written), 
 | 4 | Remove manual plot-size options | `autoSize`, `plotWidth`, `plotHeight` removed (also from `clearWith`). **Maintainer wants to explore first** whether fixed sizes look good; an optional "Advanced" size setting at the end of the panel may come back later | done; see *Open ideas* |
 | 5 | Fonts too small | Default text size 12 -> 16 (range 8-32); caption/ title sizes are relative to the theme | needs check |
 | 6 | Transparent backgrounds | `cmp_theme()` makes plot, legend and key backgrounds transparent for every theme | done |
-| 7 | Use jamovi's built-in themes | New first/default item **jamovi default** in *Theme*: uses the `ggtheme` jamovi passes to the render function. Our own themes stay selectable | needs check |
-| 8 | (maintainer) Palette: do not force jamovi's palettes, but fit with them by default | New first/default item **jamovi default** in *Palette*: n shades around the accent colour of jamovi's `theme$fill`. Our palettes (Viridis, diverging, Okabe-Ito...) stay selectable and unchanged | needs check (how jamovi fills `theme`) |
+| 7 | Use jamovi's built-in themes | New first/default item **jamovi current** in *Theme*: uses the `ggtheme` jamovi passes to the render function. Our own themes stay selectable | needs check |
+| 8 | (maintainer) Palette: do not force jamovi's palettes, but fit with them by default | New first/default item **jamovi current** in *Palette*: n shades around the accent colour of jamovi's `theme$fill`. Our palettes (Viridis, diverging, Okabe-Ito...) stay selectable and unchanged | needs check (how jamovi fills `theme`) |
 | 9 | Plot checkbox inside the plot's own collapsible section | Each plot now has one CollapseBox that starts with its checkbox; the "Plots to show" block is gone. Box Plot / Stacked Bars start expanded | done |
 | 10 | Remove units from labels (`%` is already after the box) | Titles stripped of "(%)"; every percent TextBox has `suffix: '%'` | done |
 | 11 | Transparency *or* opacity | **Opacity** (higher = more solid). Option name `alpha` kept so saved analyses keep working; title is now *Opacity* | done |
@@ -61,7 +61,7 @@ the module in jamovi (no R/jamovi was available when the changes were written), 
 
 1. **Binary nominal variables in the mean-category plot** are still coded by position on the shared axis, so their "mean" is only a proportion when the axis has two categories. Options: restrict the plot to ordinal variables, or add a 0/1 proportion mode.
 2. **Advanced size setting** (maintainer's idea): decide after trying the fixed sizes in jamovi with many variables. Reviewer says jamovi will add typed sizes itself, so this may not be needed.
-3. **Text size** now matters only for our own themes and in-plot labels; with *jamovi default* the axis text size comes from jamovi's theme.
+3. **Text size** now matters only for our own themes and in-plot labels; with *jamovi current* the axis text size comes from jamovi's theme.
 4. Reply to the reviewer's email when resubmitting, noting the deviation in item 14.
 
 ## Build log (2026-11-03)

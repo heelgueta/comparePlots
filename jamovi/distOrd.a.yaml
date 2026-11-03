@@ -1,11 +1,12 @@
 ---
-# Compare Categorical (distOrd): OPTIONS.
+# Compare Ordinal (distOrd): OPTIONS.
 # Defines every option of the analysis. jmvtools compiles this file (with the .r.yaml) into R/distOrd.h.R;
 # never edit the .h.R by hand. The user interface is in distOrd.u.yaml and the plotting code in R/distOrd.b.R.
 name: distOrd
-title: Compare Categorical
+title: Compare Ordinal
 category: plots
-menuGroup: .
+menuGroup: ComparePlots
+menuSubgroup: Ordinal
 version: '1.0.0'
 jas: '1.2'
 options:
@@ -22,7 +23,7 @@ options:
       - factor
   # APPEARANCE: options shared by every plot of this analysis.
   # NOTE: do not name an option `theme` or `palette`; jmvcore reserves both for jamovi's global plot settings.
-  # Hence `plotTheme` and `colourPalette`. Both default to "jamovi default", which follows the user's
+  # Hence `plotTheme` and `colourPalette`. Both default to "jamovi current", which follows the user's
   # global jamovi theme/palette (the `ggtheme` and `theme` arguments of the render functions).
   - name: orientation
     title: Orientation
@@ -33,6 +34,16 @@ options:
       - name: vertical
         title: Vertical
     default: horizontal
+  - name: useDesc
+    title: Variable descriptions as labels
+    type: Bool
+    default: false
+  - name: gridCols
+    title: Charts per row
+    type: Integer
+    min: 1
+    max: 10
+    default: 3
   - name: invertVars
     title: Reverse the order
     type: Bool
@@ -42,7 +53,7 @@ options:
     type: List
     options:
       - name: jamovi
-        title: jamovi default
+        title: jamovi current
       - name: viridis
         title: Viridis
       - name: plasma
@@ -89,7 +100,7 @@ options:
     type: List
     options:
       - name: jamovi
-        title: jamovi default
+        title: jamovi current
       - name: minimal
         title: Minimal
       - name: classic
@@ -114,17 +125,17 @@ options:
       - name: none
         title: Entry order
       - name: name
-        title: Alphabetically
+        title: Alphabetical
       - name: mean
-        title: Mean category (lowest first)
+        title: Mean
       - name: median
-        title: Median category (lowest first)
+        title: Median
       - name: first
-        title: '% in first category (highest first)'
+        title: '% in first category'
       - name: last
-        title: '% in last category (highest first)'
+        title: '% in last category'
       - name: net
-        title: 'Net % (positive minus negative, highest first)'
+        title: Net %
     default: none
   - name: decimals
     title: 'Decimals in % labels'

@@ -9,8 +9,8 @@
 # -----------------------------------------------------------------------------
 # cmp_palette(): n colours for a palette chosen in the UI.
 #   scheme  the option value of `colourPalette` (see the .a.yaml for the list).
-#           "jamovi" (the default) builds the colours from the user's global jamovi
-#           theme, see cmp_jamovi_palette()
+#           "jamovi" (shown as "jamovi current") builds the colours from the user's
+#           global jamovi theme, see cmp_jamovi_palette()
 #   n       how many colours are needed
 #   reverse TRUE when the user ticked "Invert palette colours"
 #   spread  TRUE when colours are for individual VARIABLES (lines, points, one
@@ -60,7 +60,9 @@ cmp_palette <- function(scheme, n, reverse = FALSE, spread = FALSE, theme = NULL
 # hold the accent colours of the user's chosen theme/palette (jamovi's own plots
 # use theme$fill[2] for filled shapes). One colour is not enough to tell several
 # variables or categories apart, so n shades are spread from dark to light around
-# that accent colour. Without a theme (e.g. in tests) a neutral blue is used.
+# that accent colour. The ramp stops well short of white (about 40% of the way),
+# because pale shades vanish on a white page and made some categories unreadable.
+# Without a theme (e.g. in tests) a neutral blue is used.
 # -----------------------------------------------------------------------------
 cmp_jamovi_palette <- function(theme, n) {
     base <- NULL
@@ -69,16 +71,16 @@ cmp_jamovi_palette <- function(theme, n) {
     if (is.null(base)) base <- "#3E6DA6"
     if (n == 1L) return(base)
     rgb <- as.numeric(grDevices::col2rgb(base))
-    dark  <- grDevices::rgb(rgb[1] * 0.55, rgb[2] * 0.55, rgb[3] * 0.55, maxColorValue = 255)
-    light <- grDevices::rgb(rgb[1] + (255 - rgb[1]) * 0.7, rgb[2] + (255 - rgb[2]) * 0.7,
-                            rgb[3] + (255 - rgb[3]) * 0.7, maxColorValue = 255)
+    dark  <- grDevices::rgb(rgb[1] * 0.45, rgb[2] * 0.45, rgb[3] * 0.45, maxColorValue = 255)
+    light <- grDevices::rgb(rgb[1] + (255 - rgb[1]) * 0.4, rgb[2] + (255 - rgb[2]) * 0.4,
+                            rgb[3] + (255 - rgb[3]) * 0.4, maxColorValue = 255)
     grDevices::colorRampPalette(c(dark, base, light))(n)
 }
 
 
 # -----------------------------------------------------------------------------
 # cmp_theme(): the complete ggplot2 theme for the `plotTheme` option.
-#   name     option value; "jamovi" (the default) returns `ggtheme`, the theme
+#   name     option value; "jamovi" ("jamovi current", the default) returns `ggtheme`, the theme
 #            jamovi passes to the render function, so the plots follow the user's
 #            global theme settings. Other values give one of ggplot2's own themes
 #            at `size`. Unknown values fall back to theme_minimal.
@@ -319,4 +321,20 @@ cmp_split_cats <- function(cats, centre = TRUE) {
         h <- floor(k / 2)
         list(neg = cats[seq_len(h)], neu = character(0), pos = cats[(h + 1):k])
     }
+}
+
+
+# -----------------------------------------------------------------------------
+# cmp_var_labels(): the label shown for each variable. With `use` TRUE the
+# variable's description from jamovi's Data tab (attribute "jmv-desc") is used
+# when it is not empty; otherwise, and by default, the variable name.
+# Returns a named character vector (names = variable names), wrapped so long
+# descriptions do not eat the plot.
+# -----------------------------------------------------------------------------
+cmp_var_labels <- function(data, vars, use = FALSE, width = 30) {
+    labs <- vapply(vars, function(v) {
+        d <- if (isTRUE(use)) attr(data[[v]], "jmv-desc") else NULL
+        if (is.character(d) && length(d) == 1 && !is.na(d) && nzchar(trimws(d))) trimws(d) else v
+    }, "")
+    stats::setNames(cmp_wrap(labs, width), vars)
 }

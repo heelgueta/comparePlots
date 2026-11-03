@@ -1,8 +1,8 @@
 ---
-# Compare Categorical (distOrd): RESULTS.
+# Compare Ordinal (distOrd): RESULTS.
 # One Image per plot. Each is drawn by the function named in `renderFun` (R/distOrd.b.R) from the state saved in .run().
 name: distOrd
-title: Compare Categorical
+title: Compare Ordinal
 jrs: '1.1'
 items:
   # Html note shown above the plots only when something needs explaining (set in .run() of R/distOrd.b.R).
@@ -28,6 +28,8 @@ items:
       - plotTheme
       - textSize
       - sortVars
+      - useDesc
+      - divNeutral
       - decimals
       - legendPos
       - legendTitle
@@ -54,6 +56,8 @@ items:
       - plotTheme
       - textSize
       - sortVars
+      - useDesc
+      - divNeutral
       - decimals
       - legendPos
       - legendTitle
@@ -82,6 +86,8 @@ items:
       - plotTheme
       - textSize
       - sortVars
+      - useDesc
+      - divNeutral
       - decimals
       - legendPos
       - legendTitle
@@ -100,6 +106,7 @@ items:
     renderFun: .plot_waffle
     visible: (showWaffle)
     clearWith:
+      - gridCols
       - vars
       - orientation
       - invertVars
@@ -108,6 +115,8 @@ items:
       - plotTheme
       - textSize
       - sortVars
+      - useDesc
+      - divNeutral
       - decimals
       - legendPos
       - legendTitle
@@ -126,6 +135,7 @@ items:
     renderFun: .plot_picto
     visible: (showPicto)
     clearWith:
+      - gridCols
       - vars
       - orientation
       - invertVars
@@ -134,6 +144,8 @@ items:
       - plotTheme
       - textSize
       - sortVars
+      - useDesc
+      - divNeutral
       - decimals
       - legendPos
       - legendTitle
@@ -153,6 +165,7 @@ items:
     renderFun: .plot_parliament
     visible: (showParliament)
     clearWith:
+      - gridCols
       - vars
       - orientation
       - invertVars
@@ -161,6 +174,8 @@ items:
       - plotTheme
       - textSize
       - sortVars
+      - useDesc
+      - divNeutral
       - decimals
       - legendPos
       - legendTitle
@@ -187,6 +202,8 @@ items:
       - plotTheme
       - textSize
       - sortVars
+      - useDesc
+      - divNeutral
       - decimals
       - legendPos
       - legendTitle
@@ -213,6 +230,8 @@ items:
       - plotTheme
       - textSize
       - sortVars
+      - useDesc
+      - divNeutral
       - decimals
       - legendPos
       - legendTitle

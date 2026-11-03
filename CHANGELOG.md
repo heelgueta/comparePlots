@@ -6,7 +6,7 @@ Full tracking of the review, decisions and status: [docs/jamovi-review-0.4.0.md]
 
 ### Added
 - **Order variables by** in both analyses. Numeric: entry order, alphabetical, median, mean. Categorical: entry order, alphabetical, mean category, median category, % in first / last category, net %. *Reverse the order* flips any of them.
-- *jamovi default* theme and palette (the new defaults): plots follow the user's jamovi theme settings. All previous themes and palettes remain available.
+- *jamovi current* theme and palette (the new defaults): plots follow the user's jamovi theme settings. All previous themes and palettes remain available.
 - Unit tests (`tests/testthat`).
 
 ### Changed

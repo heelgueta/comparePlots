@@ -1,9 +1,4 @@
 ---
-# ComparePlots: module manifest (jamovi reads this; jmvtools extends it at build time).
-# Author: Herman E. Elgueta, Departamento de Psicologia, Universidad de Magallanes.
-# Developed for the Laboratorio Austral de Medicion Psicosocial (LAMP), Universidad de Magallanes.
-# `analyses` is the menu: one entry per analysis (the definitions are in jamovi/<name>.{a,r,u}.yaml).
-# `datasets` are the example files offered in jamovi's Data Library (files live in data/).
 title: ComparePlots
 name: ComparePlots
 version: 1.0.0
@@ -18,27 +13,55 @@ description: >-
   Compare the distributions of several variables on one shared scale. Numeric
   variables: box, violin, means with error bars, raincloud, ridgeline,
   histogram, density, ECDF, data points and barcode plots. Ordinal and nominal
-  variables: stacked and diverging bars, heatmap, waffle, pictogram,
-  parliament, response profile and mean-category plots.
+  variables: stacked and diverging bars, heatmap, waffle, pictogram, parliament,
+  response profile and mean-category plots.
 analyses:
   - title: Compare Numeric
     name: distNum
     ns: ComparePlots
     category: plots
-    menuGroup: .
+    menuGroup: ComparePlots
+    menuSubgroup: Numeric
     menuTitle: Compare Numeric
     description: Compare the distributions of several numeric variables on one shared axis.
-  - title: Compare Categorical
+  - title: Compare Ordinal
     name: distOrd
     ns: ComparePlots
     category: plots
-    menuGroup: .
-    menuTitle: Compare Categorical
-    description: Compare the response distributions of several ordinal or nominal variables.
+    menuGroup: ComparePlots
+    menuSubgroup: Ordinal
+    menuTitle: Compare Ordinal
+    description: Compare the response distributions of several ordinal variables (e.g. Likert items).
+  - title: Compare Ordinal 2
+    name: distOrd2
+    ns: ComparePlots
+    category: plots
+    menuGroup: ComparePlots
+    menuSubgroup: Ordinal (test)
+    menuTitle: Compare Ordinal 2
+    description: Test version 2 of Compare Ordinal, grid plots sized from the number of variables.
+  - title: Compare Ordinal 3
+    name: distOrd3
+    ns: ComparePlots
+    category: plots
+    menuGroup: ComparePlots
+    menuSubgroup: Ordinal (test)
+    menuTitle: Compare Ordinal 3
+    description: Test version 3 of Compare Ordinal, every plot sized from the number of variables.
+  - title: Compare Nominal
+    name: distNom
+    ns: ComparePlots
+    category: plots
+    menuGroup: ComparePlots
+    menuSubgroup: Nominal
+    menuTitle: Compare Nominal
+    description: Compare the category distributions of several nominal variables.
 datasets:
   - name: Well-being scales (numeric example)
     path: example_numeric.omv
-    description: Six 0-100 scales with different shapes (normal, skewed, bimodal, narrow), n = 240
+    description: >-
+      Six 0-100 scales with different shapes (normal, skewed, bimodal, narrow),
+      n = 240
   - name: Course evaluation (ordinal example)
     path: example_ordinal.omv
     description: Six Likert items with different response patterns, n = 300
@@ -46,4 +69,6 @@ datasets:
     path: example_nominal.omv
     description: The same five-category nominal variable at three times of day, n = 250
 usesNative: true
+minApp: 1.0.8
+
 ...

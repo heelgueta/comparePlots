@@ -1,0 +1,380 @@
+---
+# Compare Nominal (distNom): OPTIONS.
+# Defines every option of the analysis. jmvtools compiles this file (with the .r.yaml) into R/distNom.h.R;
+# never edit the .h.R by hand. The user interface is in distNom.u.yaml and the plotting code in R/distNom.b.R.
+name: distNom
+title: Compare Nominal
+category: plots
+menuGroup: ComparePlots
+menuSubgroup: Nominal
+version: '1.0.0'
+jas: '1.2'
+options:
+  # DATA AND VARIABLES. `data` is the dataset; `vars` is the list of variables the user drops in.
+  - name: data
+    type: Data
+  - name: vars
+    title: Variables
+    type: Variables
+    suggested:
+      - nominal
+    permitted:
+      - factor
+  # APPEARANCE: options shared by every plot of this analysis.
+  # NOTE: do not name an option `theme` or `palette`; jmvcore reserves both for jamovi's global plot settings.
+  # Hence `plotTheme` and `colourPalette`. Both default to "jamovi current", which follows the user's
+  # global jamovi theme/palette (the `ggtheme` and `theme` arguments of the render functions).
+  - name: orientation
+    title: Orientation
+    type: List
+    options:
+      - name: horizontal
+        title: Horizontal
+      - name: vertical
+        title: Vertical
+    default: horizontal
+  - name: useDesc
+    title: Variable descriptions as labels
+    type: Bool
+    default: false
+  - name: gridCols
+    title: Charts per row
+    type: Integer
+    min: 1
+    max: 10
+    default: 3
+  - name: sortVars
+    title: Order variables by
+    type: List
+    options:
+      - name: none
+        title: Entry order
+      - name: name
+        title: Alphabetical
+      - name: top
+        title: Largest category share
+      - name: diverse
+        title: Diversity of answers
+    default: none
+  - name: catSort
+    title: Order categories by
+    type: List
+    options:
+      - name: levels
+        title: Order in the data
+      - name: frequency
+        title: Overall frequency
+    default: levels
+  - name: invertVars
+    title: Reverse the order
+    type: Bool
+    default: false
+  - name: colourPalette
+    title: Palette (categories)
+    type: List
+    options:
+      - name: jamovi
+        title: jamovi current
+      - name: viridis
+        title: Viridis
+      - name: plasma
+        title: Plasma
+      - name: magma
+        title: Magma
+      - name: inferno
+        title: Inferno
+      - name: cividis
+        title: Cividis
+      - name: mako
+        title: Mako
+      - name: rocket
+        title: Rocket
+      - name: turbo
+        title: Turbo
+      - name: rdbu
+        title: Red–Blue (diverging)
+      - name: rdylgn
+        title: Red–Yellow–Green (diverging)
+      - name: piyg
+        title: Pink–Green (diverging)
+      - name: prgn
+        title: Purple–Green (diverging)
+      - name: brbg
+        title: Brown–Teal (diverging)
+      - name: set2
+        title: Set 2
+      - name: dark2
+        title: Dark 2
+      - name: pastel
+        title: Pastel 1
+      - name: okabe
+        title: Okabe–Ito (colour-blind safe)
+      - name: grays
+        title: Greys
+    default: jamovi
+  - name: reversePalette
+    title: Invert palette
+    type: Bool
+    default: false
+  - name: plotTheme
+    title: Theme
+    type: List
+    options:
+      - name: jamovi
+        title: jamovi current
+      - name: minimal
+        title: Minimal
+      - name: classic
+        title: Classic
+      - name: bw
+        title: 'Black & white'
+      - name: light
+        title: Light
+      - name: gray
+        title: Grey
+    default: jamovi
+  - name: textSize
+    title: Text size
+    type: Integer
+    min: 8
+    max: 32
+    default: 16
+  - name: decimals
+    title: 'Decimals in % labels'
+    type: Integer
+    min: 0
+    max: 3
+    default: 0
+  - name: legendPos
+    title: Legend position
+    type: List
+    options:
+      - name: bottom
+        title: Bottom
+      - name: right
+        title: Right
+      - name: top
+        title: Top
+      - name: none
+        title: None
+    default: bottom
+  - name: legendTitle
+    title: Legend title
+    type: String
+    default: ''
+  - name: title
+    title: Plot title
+    type: String
+    default: ''
+  - name: showN
+    title: n per variable
+    type: Bool
+    default: false
+  # PLOT: Stacked bars (100%). `showBars` switches it on; the options after it are its settings.
+  - name: showBars
+    title: 'Stacked bars (100%)'
+    type: Bool
+    default: true
+  - name: barWidth
+    title: Bar thickness
+    type: Integer
+    min: 10
+    max: 100
+    default: 70
+  - name: barLabels
+    title: '% labels'
+    type: Bool
+    default: true
+  - name: barMinLabel
+    title: 'Smallest % to label'
+    type: Integer
+    min: 0
+    max: 50
+    default: 5
+  # PLOT: Heatmap. `showHeat` switches it on; the options after it are its settings.
+  - name: showHeat
+    title: Heatmap
+    type: Bool
+    default: false
+  - name: heatPalette
+    title: Heatmap colours
+    type: List
+    options:
+      - name: blues
+        title: Blues
+      - name: greens
+        title: Greens
+      - name: reds
+        title: Reds
+      - name: purples
+        title: Purples
+      - name: oranges
+        title: Oranges
+      - name: ylorrd
+        title: Yellow–Orange–Red
+      - name: mako
+        title: Mako
+      - name: rocket
+        title: Rocket
+      - name: grays
+        title: Greys
+    default: blues
+  - name: heatLabels
+    title: '% in the tiles'
+    type: Bool
+    default: true
+  - name: heatGap
+    title: Tile gap
+    type: Integer
+    min: 0
+    max: 40
+    default: 4
+  # PLOT: Waffle chart. `showWaffle` switches it on; the options after it are its settings.
+  - name: showWaffle
+    title: Waffle chart
+    type: Bool
+    default: false
+  - name: waffleRows
+    title: Rows per chart
+    type: Integer
+    min: 1
+    max: 50
+    default: 10
+  - name: waffleCols
+    title: Columns per chart
+    type: Integer
+    min: 1
+    max: 50
+    default: 10
+  - name: waffleGap
+    title: Gap between squares
+    type: Integer
+    min: 0
+    max: 50
+    default: 10
+  # PLOT: Dot pictogram. `showPicto` switches it on; the options after it are its settings.
+  - name: showPicto
+    title: Dot pictogram
+    type: Bool
+    default: false
+  - name: pictoRows
+    title: Rows per chart
+    type: Integer
+    min: 1
+    max: 50
+    default: 10
+  - name: pictoCols
+    title: Columns per chart
+    type: Integer
+    min: 1
+    max: 50
+    default: 10
+  - name: pictoShape
+    title: Shape
+    type: List
+    options:
+      - name: circle
+        title: Circle
+      - name: square
+        title: Square
+      - name: diamond
+        title: Diamond
+      - name: triangle
+        title: Triangle
+    default: circle
+  - name: pictoSize
+    title: Dot size
+    type: Number
+    min: 1
+    max: 12
+    default: 4.5
+  # PLOT: Parliament (arc) chart. `showParliament` switches it on; the options after it are its settings.
+  - name: showParliament
+    title: Parliament (arc) chart
+    type: Bool
+    default: false
+  - name: parlSeats
+    title: Number of seats
+    type: Integer
+    min: 20
+    max: 400
+    default: 100
+  - name: parlRows
+    title: Number of rows
+    type: Integer
+    min: 1
+    max: 10
+    default: 4
+  - name: parlSize
+    title: Seat size
+    type: Number
+    min: 1
+    max: 10
+    default: 3.2
+  # PLOT: Pie chart.
+  - name: showPie
+    title: Pie chart
+    type: Bool
+    default: false
+  - name: pieLabels
+    title: '% labels'
+    type: Bool
+    default: true
+  - name: pieMinLabel
+    title: Smallest % to label
+    type: Integer
+    min: 0
+    max: 50
+    default: 5
+  # PLOT: Donut chart.
+  - name: showDonut
+    title: Donut chart
+    type: Bool
+    default: false
+  - name: donutHole
+    title: Hole size
+    type: Integer
+    min: 10
+    max: 90
+    default: 55
+  - name: donutLabels
+    title: '% labels'
+    type: Bool
+    default: true
+  - name: donutMinLabel
+    title: Smallest % to label
+    type: Integer
+    min: 0
+    max: 50
+    default: 6
+  - name: donutN
+    title: n in the centre
+    type: Bool
+    default: true
+  # PLOT: Grouped bars.
+  - name: showGrouped
+    title: Grouped bars
+    type: Bool
+    default: false
+  - name: groupWidth
+    title: Bar thickness
+    type: Integer
+    min: 10
+    max: 100
+    default: 85
+  - name: groupLabels
+    title: '% labels'
+    type: Bool
+    default: true
+  # PLOT: Lollipop (dot) plot.
+  - name: showLollipop
+    title: Lollipop (dot) plot
+    type: Bool
+    default: false
+  - name: lolliSize
+    title: Dot size
+    type: Number
+    min: 1
+    max: 12
+    default: 4
+...

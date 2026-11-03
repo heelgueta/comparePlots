@@ -8,6 +8,8 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         initialize = function(
             vars = NULL,
             orientation = "horizontal",
+            useDesc = FALSE,
+            gridCols = 3,
             invertVars = FALSE,
             colourPalette = "jamovi",
             reversePalette = FALSE,
@@ -76,6 +78,16 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "horizontal",
                     "vertical"),
                 default="horizontal")
+            private$..useDesc <- jmvcore::OptionBool$new(
+                "useDesc",
+                useDesc,
+                default=FALSE)
+            private$..gridCols <- jmvcore::OptionInteger$new(
+                "gridCols",
+                gridCols,
+                min=1,
+                max=10,
+                default=3)
             private$..invertVars <- jmvcore::OptionBool$new(
                 "invertVars",
                 invertVars,
@@ -355,6 +367,8 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 
             self$.addOption(private$..vars)
             self$.addOption(private$..orientation)
+            self$.addOption(private$..useDesc)
+            self$.addOption(private$..gridCols)
             self$.addOption(private$..invertVars)
             self$.addOption(private$..colourPalette)
             self$.addOption(private$..reversePalette)
@@ -405,6 +419,8 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         vars = function() private$..vars$value,
         orientation = function() private$..orientation$value,
+        useDesc = function() private$..useDesc$value,
+        gridCols = function() private$..gridCols$value,
         invertVars = function() private$..invertVars$value,
         colourPalette = function() private$..colourPalette$value,
         reversePalette = function() private$..reversePalette$value,
@@ -454,6 +470,8 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     private = list(
         ..vars = NA,
         ..orientation = NA,
+        ..useDesc = NA,
+        ..gridCols = NA,
         ..invertVars = NA,
         ..colourPalette = NA,
         ..reversePalette = NA,
@@ -521,7 +539,7 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="Compare Categorical")
+                title="Compare Ordinal")
             self$add(jmvcore::Html$new(
                 options=options,
                 name="hint",
@@ -544,6 +562,8 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "plotTheme",
                     "textSize",
                     "sortVars",
+                    "useDesc",
+                    "divNeutral",
                     "decimals",
                     "legendPos",
                     "legendTitle",
@@ -569,6 +589,8 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "plotTheme",
                     "textSize",
                     "sortVars",
+                    "useDesc",
+                    "divNeutral",
                     "decimals",
                     "legendPos",
                     "legendTitle",
@@ -596,6 +618,8 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "plotTheme",
                     "textSize",
                     "sortVars",
+                    "useDesc",
+                    "divNeutral",
                     "decimals",
                     "legendPos",
                     "legendTitle",
@@ -613,6 +637,7 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot_waffle",
                 visible="(showWaffle)",
                 clearWith=list(
+                    "gridCols",
                     "vars",
                     "orientation",
                     "invertVars",
@@ -621,6 +646,8 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "plotTheme",
                     "textSize",
                     "sortVars",
+                    "useDesc",
+                    "divNeutral",
                     "decimals",
                     "legendPos",
                     "legendTitle",
@@ -638,6 +665,7 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot_picto",
                 visible="(showPicto)",
                 clearWith=list(
+                    "gridCols",
                     "vars",
                     "orientation",
                     "invertVars",
@@ -646,6 +674,8 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "plotTheme",
                     "textSize",
                     "sortVars",
+                    "useDesc",
+                    "divNeutral",
                     "decimals",
                     "legendPos",
                     "legendTitle",
@@ -664,6 +694,7 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot_parliament",
                 visible="(showParliament)",
                 clearWith=list(
+                    "gridCols",
                     "vars",
                     "orientation",
                     "invertVars",
@@ -672,6 +703,8 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "plotTheme",
                     "textSize",
                     "sortVars",
+                    "useDesc",
+                    "divNeutral",
                     "decimals",
                     "legendPos",
                     "legendTitle",
@@ -697,6 +730,8 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "plotTheme",
                     "textSize",
                     "sortVars",
+                    "useDesc",
+                    "divNeutral",
                     "decimals",
                     "legendPos",
                     "legendTitle",
@@ -722,6 +757,8 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "plotTheme",
                     "textSize",
                     "sortVars",
+                    "useDesc",
+                    "divNeutral",
                     "decimals",
                     "legendPos",
                     "legendTitle",
@@ -752,12 +789,14 @@ distOrdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 weightsSupport = 'auto')
         }))
 
-#' Compare Categorical
+#' Compare Ordinal
 #'
 #' 
 #' @param data .
 #' @param vars .
 #' @param orientation .
+#' @param useDesc .
+#' @param gridCols .
 #' @param invertVars .
 #' @param colourPalette .
 #' @param reversePalette .
@@ -822,6 +861,8 @@ distOrd <- function(
     data,
     vars,
     orientation = "horizontal",
+    useDesc = FALSE,
+    gridCols = 3,
     invertVars = FALSE,
     colourPalette = "jamovi",
     reversePalette = FALSE,
@@ -883,6 +924,8 @@ distOrd <- function(
     options <- distOrdOptions$new(
         vars = vars,
         orientation = orientation,
+        useDesc = useDesc,
+        gridCols = gridCols,
         invertVars = invertVars,
         colourPalette = colourPalette,
         reversePalette = reversePalette,

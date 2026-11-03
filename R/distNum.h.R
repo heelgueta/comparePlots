@@ -9,6 +9,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             vars = NULL,
             orientation = "horizontal",
             sortVars = "none",
+            useDesc = FALSE,
             invertVars = FALSE,
             colourPalette = "jamovi",
             reversePalette = FALSE,
@@ -100,6 +101,10 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "median",
                     "mean"),
                 default="none")
+            private$..useDesc <- jmvcore::OptionBool$new(
+                "useDesc",
+                useDesc,
+                default=FALSE)
             private$..invertVars <- jmvcore::OptionBool$new(
                 "invertVars",
                 invertVars,
@@ -109,6 +114,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 colourPalette,
                 options=list(
                     "jamovi",
+                    "bw",
                     "viridis",
                     "plasma",
                     "magma",
@@ -443,6 +449,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..vars)
             self$.addOption(private$..orientation)
             self$.addOption(private$..sortVars)
+            self$.addOption(private$..useDesc)
             self$.addOption(private$..invertVars)
             self$.addOption(private$..colourPalette)
             self$.addOption(private$..reversePalette)
@@ -509,6 +516,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         vars = function() private$..vars$value,
         orientation = function() private$..orientation$value,
         sortVars = function() private$..sortVars$value,
+        useDesc = function() private$..useDesc$value,
         invertVars = function() private$..invertVars$value,
         colourPalette = function() private$..colourPalette$value,
         reversePalette = function() private$..reversePalette$value,
@@ -574,6 +582,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..vars = NA,
         ..orientation = NA,
         ..sortVars = NA,
+        ..useDesc = NA,
         ..invertVars = NA,
         ..colourPalette = NA,
         ..reversePalette = NA,
@@ -677,6 +686,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "useDesc",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -708,6 +718,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "useDesc",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -740,6 +751,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "useDesc",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -775,6 +787,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "useDesc",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -805,6 +818,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "useDesc",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -835,6 +849,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "useDesc",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -865,6 +880,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "useDesc",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -894,6 +910,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "useDesc",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -921,6 +938,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "useDesc",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -948,6 +966,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "useDesc",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -991,6 +1010,7 @@ distNumBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param vars .
 #' @param orientation .
 #' @param sortVars .
+#' @param useDesc .
 #' @param invertVars .
 #' @param colourPalette .
 #' @param reversePalette .
@@ -1073,6 +1093,7 @@ distNum <- function(
     vars,
     orientation = "horizontal",
     sortVars = "none",
+    useDesc = FALSE,
     invertVars = FALSE,
     colourPalette = "jamovi",
     reversePalette = FALSE,
@@ -1149,6 +1170,7 @@ distNum <- function(
         vars = vars,
         orientation = orientation,
         sortVars = sortVars,
+        useDesc = useDesc,
         invertVars = invertVars,
         colourPalette = colourPalette,
         reversePalette = reversePalette,

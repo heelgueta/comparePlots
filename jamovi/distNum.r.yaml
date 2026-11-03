@@ -24,6 +24,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - useDesc
       - invertVars
       - colourPalette
       - reversePalette
@@ -56,6 +57,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - useDesc
       - invertVars
       - colourPalette
       - reversePalette
@@ -89,6 +91,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - useDesc
       - invertVars
       - colourPalette
       - reversePalette
@@ -125,6 +128,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - useDesc
       - invertVars
       - colourPalette
       - reversePalette
@@ -156,6 +160,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - useDesc
       - invertVars
       - colourPalette
       - reversePalette
@@ -187,6 +192,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - useDesc
       - invertVars
       - colourPalette
       - reversePalette
@@ -218,6 +224,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - useDesc
       - invertVars
       - colourPalette
       - reversePalette
@@ -248,6 +255,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - useDesc
       - invertVars
       - colourPalette
       - reversePalette
@@ -276,6 +284,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - useDesc
       - invertVars
       - colourPalette
       - reversePalette
@@ -304,6 +313,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - useDesc
       - invertVars
       - colourPalette
       - reversePalette
