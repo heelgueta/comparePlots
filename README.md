@@ -24,7 +24,7 @@ Example datasets are included and appear under **Open → Data Library → Compa
 
 ## Compare Numeric
 
-Shared appearance: orientation (horizontal by default) · order variables by (entry order, name, median, mean) · reverse the order · palette and theme (both follow jamovi's own settings by default; own palettes and themes are available) · invert palette · text size · opacity · line thickness · point size · jitter spread · axis label · title. Plots have a fixed default size; drag a plot's corner in jamovi to resize it.
+Shared appearance: orientation (horizontal by default) · transform values (none, centred, z, T, percent of range, percentile rank, ln, square root, square) · order variables by (entry order, name, median, mean) · reverse the order · palette and theme (both follow jamovi's own settings by default; own palettes and themes are available) · invert palette · text size · opacity · line thickness · point size · jitter spread · axis label · title. Plots have a fixed default size (drag a plot's corner to resize it), or tick *Fit plot size to the number of variables*.
 
 | Plot | Settings |
 |---|---|

@@ -10,6 +10,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             orientation = "horizontal",
             sortVars = "none",
             useDesc = FALSE,
+            transform = "none",
             invertVars = FALSE,
             colourPalette = "jamovi",
             reversePalette = FALSE,
@@ -21,6 +22,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             jitterSpread = 40,
             valueLabel = "Value",
             title = "",
+            autoFit = FALSE,
             showN = TRUE,
             legendPos = "bottom",
             showBox = TRUE,
@@ -105,6 +107,20 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "useDesc",
                 useDesc,
                 default=FALSE)
+            private$..transform <- jmvcore::OptionList$new(
+                "transform",
+                transform,
+                options=list(
+                    "none",
+                    "centre",
+                    "z",
+                    "t",
+                    "pomp",
+                    "percentile",
+                    "log",
+                    "sqrt",
+                    "square"),
+                default="none")
             private$..invertVars <- jmvcore::OptionBool$new(
                 "invertVars",
                 invertVars,
@@ -187,6 +203,10 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "title",
                 title,
                 default="")
+            private$..autoFit <- jmvcore::OptionBool$new(
+                "autoFit",
+                autoFit,
+                default=FALSE)
             private$..showN <- jmvcore::OptionBool$new(
                 "showN",
                 showN,
@@ -450,6 +470,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..orientation)
             self$.addOption(private$..sortVars)
             self$.addOption(private$..useDesc)
+            self$.addOption(private$..transform)
             self$.addOption(private$..invertVars)
             self$.addOption(private$..colourPalette)
             self$.addOption(private$..reversePalette)
@@ -461,6 +482,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..jitterSpread)
             self$.addOption(private$..valueLabel)
             self$.addOption(private$..title)
+            self$.addOption(private$..autoFit)
             self$.addOption(private$..showN)
             self$.addOption(private$..legendPos)
             self$.addOption(private$..showBox)
@@ -517,6 +539,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         orientation = function() private$..orientation$value,
         sortVars = function() private$..sortVars$value,
         useDesc = function() private$..useDesc$value,
+        transform = function() private$..transform$value,
         invertVars = function() private$..invertVars$value,
         colourPalette = function() private$..colourPalette$value,
         reversePalette = function() private$..reversePalette$value,
@@ -528,6 +551,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         jitterSpread = function() private$..jitterSpread$value,
         valueLabel = function() private$..valueLabel$value,
         title = function() private$..title$value,
+        autoFit = function() private$..autoFit$value,
         showN = function() private$..showN$value,
         legendPos = function() private$..legendPos$value,
         showBox = function() private$..showBox$value,
@@ -583,6 +607,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..orientation = NA,
         ..sortVars = NA,
         ..useDesc = NA,
+        ..transform = NA,
         ..invertVars = NA,
         ..colourPalette = NA,
         ..reversePalette = NA,
@@ -594,6 +619,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..jitterSpread = NA,
         ..valueLabel = NA,
         ..title = NA,
+        ..autoFit = NA,
         ..showN = NA,
         ..legendPos = NA,
         ..showBox = NA,
@@ -686,6 +712,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "transform",
                     "useDesc",
                     "invertVars",
                     "colourPalette",
@@ -718,6 +745,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "transform",
                     "useDesc",
                     "invertVars",
                     "colourPalette",
@@ -751,6 +779,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "transform",
                     "useDesc",
                     "invertVars",
                     "colourPalette",
@@ -787,6 +816,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "transform",
                     "useDesc",
                     "invertVars",
                     "colourPalette",
@@ -818,6 +848,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "transform",
                     "useDesc",
                     "invertVars",
                     "colourPalette",
@@ -849,6 +880,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "transform",
                     "useDesc",
                     "invertVars",
                     "colourPalette",
@@ -880,6 +912,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "transform",
                     "useDesc",
                     "invertVars",
                     "colourPalette",
@@ -910,6 +943,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "transform",
                     "useDesc",
                     "invertVars",
                     "colourPalette",
@@ -938,6 +972,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "transform",
                     "useDesc",
                     "invertVars",
                     "colourPalette",
@@ -966,6 +1001,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "vars",
                     "orientation",
                     "sortVars",
+                    "transform",
                     "useDesc",
                     "invertVars",
                     "colourPalette",
@@ -1011,6 +1047,7 @@ distNumBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param orientation .
 #' @param sortVars .
 #' @param useDesc .
+#' @param transform .
 #' @param invertVars .
 #' @param colourPalette .
 #' @param reversePalette .
@@ -1022,6 +1059,7 @@ distNumBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param jitterSpread .
 #' @param valueLabel .
 #' @param title .
+#' @param autoFit .
 #' @param showN .
 #' @param legendPos .
 #' @param showBox .
@@ -1094,6 +1132,7 @@ distNum <- function(
     orientation = "horizontal",
     sortVars = "none",
     useDesc = FALSE,
+    transform = "none",
     invertVars = FALSE,
     colourPalette = "jamovi",
     reversePalette = FALSE,
@@ -1105,6 +1144,7 @@ distNum <- function(
     jitterSpread = 40,
     valueLabel = "Value",
     title = "",
+    autoFit = FALSE,
     showN = TRUE,
     legendPos = "bottom",
     showBox = TRUE,
@@ -1171,6 +1211,7 @@ distNum <- function(
         orientation = orientation,
         sortVars = sortVars,
         useDesc = useDesc,
+        transform = transform,
         invertVars = invertVars,
         colourPalette = colourPalette,
         reversePalette = reversePalette,
@@ -1182,6 +1223,7 @@ distNum <- function(
         jitterSpread = jitterSpread,
         valueLabel = valueLabel,
         title = title,
+        autoFit = autoFit,
         showN = showN,
         legendPos = legendPos,
         showBox = showBox,

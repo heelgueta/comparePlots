@@ -21,6 +21,7 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             legendPos = "bottom",
             legendTitle = "",
             title = "",
+            autoFit = FALSE,
             showN = FALSE,
             showBars = TRUE,
             barWidth = 70,
@@ -175,6 +176,10 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "title",
                 title,
                 default="")
+            private$..autoFit <- jmvcore::OptionBool$new(
+                "autoFit",
+                autoFit,
+                default=FALSE)
             private$..showN <- jmvcore::OptionBool$new(
                 "showN",
                 showN,
@@ -380,6 +385,7 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..legendPos)
             self$.addOption(private$..legendTitle)
             self$.addOption(private$..title)
+            self$.addOption(private$..autoFit)
             self$.addOption(private$..showN)
             self$.addOption(private$..showBars)
             self$.addOption(private$..barWidth)
@@ -432,6 +438,7 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         legendPos = function() private$..legendPos$value,
         legendTitle = function() private$..legendTitle$value,
         title = function() private$..title$value,
+        autoFit = function() private$..autoFit$value,
         showN = function() private$..showN$value,
         showBars = function() private$..showBars$value,
         barWidth = function() private$..barWidth$value,
@@ -483,6 +490,7 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..legendPos = NA,
         ..legendTitle = NA,
         ..title = NA,
+        ..autoFit = NA,
         ..showN = NA,
         ..showBars = NA,
         ..barWidth = NA,
@@ -833,6 +841,7 @@ distNomBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param legendPos .
 #' @param legendTitle .
 #' @param title .
+#' @param autoFit .
 #' @param showN .
 #' @param showBars .
 #' @param barWidth .
@@ -900,6 +909,7 @@ distNom <- function(
     legendPos = "bottom",
     legendTitle = "",
     title = "",
+    autoFit = FALSE,
     showN = FALSE,
     showBars = TRUE,
     barWidth = 70,
@@ -963,6 +973,7 @@ distNom <- function(
         legendPos = legendPos,
         legendTitle = legendTitle,
         title = title,
+        autoFit = autoFit,
         showN = showN,
         showBars = showBars,
         barWidth = barWidth,

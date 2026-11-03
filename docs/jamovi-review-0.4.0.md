@@ -90,3 +90,10 @@ the module in jamovi (no R/jamovi was available when the changes were written), 
 - `tools/gen_categorical_yaml.py` writes the yaml of Compare Ordinal 2/3 and Compare Nominal from the Compare Ordinal master; `tools/gen_numeric_ui.py` writes the numeric UI. Edit the master, then rerun.
 - All categorical code is in `R/catCommon.R`; `R/distOrd*.b.R` and `R/distNom.b.R` only say which plots each analysis offers and which sizing variant it is.
 - Not done / ideas: treemap and mosaic plots for nominal data (need extra packages or a lot of hand-built geometry); word cloud rejected (category counts are tiny); text labels in black & white mode for the categorical plots.
+
+## Round 3 (2026-11-03)
+
+- The three sizing test menus are gone. **Compare Ordinal** is the default; the behaviour of test version 3 is now the checkbox **Fit plot size to the number of variables** in the shared options of all three analyses (sizes set in `.init()`).
+- **Compare Numeric** was sitting outside the ComparePlots dropdown (`menuGroup: .` left in `distNum.a.yaml`). Now all three analyses are direct items of the **ComparePlots** group in the Plots tab, no sub-menus.
+- New **Transform values** option in Compare Numeric: centred, z-scores, T-scores, percent of range, percentile rank, ln, square root, square. The value axis says which transformation was applied; values a transformation cannot handle are left out with a warning.
+- Everything still undecided is in `docs/OPEN-DECISIONS.md` (temporary file). Build instructions for another machine: `docs/dev-setup.md`.
