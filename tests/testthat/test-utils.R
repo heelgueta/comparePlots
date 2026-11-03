@@ -110,3 +110,21 @@ test_that("helpers: text colour, wrapping, titles", {
     expect_null(cmp_title("  ")); expect_equal(cmp_title("T"), "T")
     expect_equal(cmp_line_width(99), 2.2)
 })
+
+test_that("cmp_var_labels: names by default, descriptions on request, wrapped", {
+    d <- data.frame(a = 1:2, b = 3:4)
+    attr(d$a, "jmv-desc") <- "A long description of the first variable"
+    expect_equal(unname(cmp_var_labels(d, c("a", "b"), FALSE)), c("a", "b"))
+    l <- cmp_var_labels(d, c("a", "b"), TRUE, width = 20)
+    expect_equal(names(l), c("a", "b"))
+    expect_equal(unname(l["b"]), "b")                              # no description: falls back to the name
+    expect_true(grepl("\n", l[["a"]]))                             # long description is wrapped
+    expect_equal(gsub("\n", " ", l[["a"]]), "A long description of the first variable")
+})
+
+test_that("jamovi palette stops well short of white", {
+    th <- list(fill = c("#FFFFFF", "#3E6DA6"))
+    cols <- cmp_palette("jamovi", 8, theme = th)
+    lum <- colSums(grDevices::col2rgb(cols) * c(0.299, 0.587, 0.114)) / 255
+    expect_true(max(lum) < 0.75)                                   # no near-white shade
+})

@@ -5,6 +5,10 @@
 Full tracking of the review, decisions and status: [docs/jamovi-review-0.4.0.md](docs/jamovi-review-0.4.0.md).
 
 ### Added
+- Three analyses: **Compare Numeric**, **Compare Ordinal**, **Compare Nominal** in a *ComparePlots* group inside the Plots tab (the same arrangement as vijPlots). Variables of the wrong measure type are rejected with a hint.
+- Nominal plots: pie, donut, grouped bars, lollipop; category order by frequency.
+- *Black & white (no colour)* palette for the numeric plots.
+- *Variable descriptions as labels* and *Charts per row* (waffle, pictogram, parliament, pie, donut are now a grid of charts).
 - **Order variables by** in both analyses. Numeric: entry order, alphabetical, median, mean. Categorical: entry order, alphabetical, mean category, median category, % in first / last category, net %. *Reverse the order* flips any of them.
 - *jamovi current* theme and palette (the new defaults): plots follow the user's jamovi theme settings. All previous themes and palettes remain available.
 - Unit tests (`tests/testthat`).

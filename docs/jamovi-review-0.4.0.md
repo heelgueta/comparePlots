@@ -71,3 +71,22 @@ the module in jamovi (no R/jamovi was available when the changes were written), 
 - Unit tests: all pass. Headless smoke test: all 10 numeric and 8 categorical plots render; a sparse first item (no "Neutral") keeps the category axis in order.
 - Fixed while testing: the n-per-variable caption ran off the edge of the smaller plots (now wrapped).
 - Generated `R/dist*.h.R` regenerated and committed.
+
+## Round 2 (2026-11-03, after the first test in jamovi)
+
+| # | Request | What was done | Status |
+|---|---------|---------------|--------|
+| 1 | Is the Plots tab required? | **Yes**: the reviewer wrote "that's where this module belongs". vijPlots (accepted) uses `category: plots` + `menuGroup: vijPlots`, i.e. its own named dropdown *inside* the Plots tab. We do the same: `category: plots`, `menuGroup: ComparePlots`, sub-groups Numeric / Ordinal / Nominal | needs check in jamovi |
+| 2 | Three analyses | **Compare Numeric**, **Compare Ordinal**, **Compare Nominal**. Each rejects variables of the wrong measure type with a message saying what to do. Binary-nominal mean-category question is gone (mean category is ordinal-only) | done |
+| 2b | Nominal plots | Stacked bars, heatmap, waffle, pictogram, parliament **plus** pie, donut (hole size, n in the centre), grouped bars, lollipop. Option *Order categories by* (data order / overall frequency). Variables can be ordered by largest category share or by diversity | done |
+| 3 | "jamovi default" -> "jamovi current" | Renamed in the option lists, code comments and docs. The option value is still `jamovi` | done |
+| 4 | Palette too pale | jamovi-current shades now run from 45% of the accent colour (dark) to only 40% of the way to white (before: 70%). Our own palettes untouched | needs visual check |
+| 5 | Strong black & white | Palette item **Black & white (no colour)** in Compare Numeric: black lines/points, white fills, thicker lines. Density and ECDF (variables share one panel) use line types plus their normal legend; every other plot needs no legend | done |
+| 6 | Waffle / dot / parliament too small | Charts are now facets of one grid, **Charts per row** (default 3), label under each chart. Pie and donut use the same grid. Three sizing strategies to test side by side (submenu *Ordinal (test)*): **Compare Ordinal** = fixed size; **2** = grid plots sized in `.init()` from variables and charts per row; **3** = every plot sized in `.init()`. Nominal currently uses strategy 2. Rationale for pushing back: the reviewer's rule is "never resize in `.run()`"; `.init()` runs before the first draw, so the plot never jumps | **decision pending** (you test, then we delete two) |
+| 6b | Labels | Option *Variable descriptions as labels* (default off) uses the description from jamovi's Data tab (column attribute `jmv-desc`); falls back to the name | needs check with real descriptions |
+| 7 | "Order variables by" too long | Labels shortened (Entry order, Alphabetical, Mean, Median, % in first category, % in last category, Net %) | done |
+
+### Notes
+- `tools/gen_categorical_yaml.py` writes the yaml of Compare Ordinal 2/3 and Compare Nominal from the Compare Ordinal master; `tools/gen_numeric_ui.py` writes the numeric UI. Edit the master, then rerun.
+- All categorical code is in `R/catCommon.R`; `R/distOrd*.b.R` and `R/distNom.b.R` only say which plots each analysis offers and which sizing variant it is.
+- Not done / ideas: treemap and mosaic plots for nominal data (need extra packages or a lot of hand-built geometry); word cloud rejected (category counts are tiny); text labels in black & white mode for the categorical plots.

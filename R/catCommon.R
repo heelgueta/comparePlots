@@ -52,7 +52,7 @@ cmp_cat_private <- function() {
             cats <- ax$cats
             # nominal categories have no natural order: optionally sort the shared
             # axis by overall frequency, most frequent first
-            if (identical(opts$catSort, "frequency") && length(cats) > 1) {
+            if (identical(private$.opt("catSort"), "frequency") && length(cats) > 1) {
                 tot <- vapply(cats, function(cc) sum(vapply(vars, function(v) sum(as.character(data[[v]]) == cc, na.rm = TRUE), 0)), 0)
                 cats <- cats[order(-tot, seq_along(cats))]
             }
@@ -88,7 +88,7 @@ cmp_cat_private <- function() {
                 is.ordered(self$data[[v]]) || sum(long$count[long$variable == v] > 0) == 2
             }, logical(1))
             names(ok) <- vars
-            if (isTRUE(opts$showMeans) && !all(ok)) {
+            if (isTRUE(private$.opt("showMeans")) && !all(ok)) {
                 private$.warn(".meansSkipped", paste0(
                     if (!any(ok)) "Mean category was not drawn: it needs ordinal variables or variables with exactly two categories. "
                     else "Mean category skips nominal variables with more than two categories: ",
@@ -141,6 +141,10 @@ cmp_cat_private <- function() {
             if (identical(o$orientation, "horizontal")) c(500, max(300, 130 + 55 * n))
             else c(max(450, 120 + 85 * n), 380)
         },
+
+        # An option that only some of the categorical analyses have (e.g. `catSort` exists
+        # for nominal variables only); NULL when this analysis does not have it.
+        .opt = function(name) tryCatch(self$options[[name]], error = function(e) NULL),
 
         # Report something about the results as a jmvcore Notice (a proper warning
         # in the results tree, in the results theme), at the top of the results.
@@ -201,7 +205,7 @@ cmp_cat_private <- function() {
             # "Reverse the order" then flips whichever order was chosen.
             # Categories are coded 1..k by their position on the shared axis.
             stat_of <- function(f) vapply(vars, function(v) f(long[long$variable == v, ]), 0)
-            sp <- cmp_split_cats(cats, !identical(o$divNeutral, "none"))
+            sp <- cmp_split_cats(cats, !identical(private$.opt("divNeutral"), "none"))
             stat <- switch(o$sortVars,
                 mean   = stat_of(function(d) sum(d$cidx * d$count) / max(sum(d$count), 1)),
                 median = stat_of(function(d) { cs <- cumsum(d$pct); d$cidx[which(cs >= 50 - 1e-9)[1]] }),
@@ -233,6 +237,7 @@ cmp_cat_private <- function() {
 
             list(o = o, horiz = horiz, lv = lv, n = n, pos = pos, k = k, cats = cats,
                  labs = cmp_wrap(labs), lab = lab, gcols = max(1L, as.integer(o$gridCols)),
+                 lab_grid = stats::setNames(cmp_wrap(gsub("\n", " ", lab), 20), names(lab)),
                  cat_cols = cat_cols, var_cols = var_cols,
                  leg_rows = leg_rows, npv = npv, ggtheme = ggtheme)
         },
@@ -284,7 +289,7 @@ cmp_cat_private <- function() {
                 heat = ggplot2::theme(panel.grid = blank),
                 waffle = , picto = , parliament = , pie = , donut = ggplot2::theme(
                     panel.grid = blank, axis.ticks = blank, axis.title = blank, axis.text = blank,
-                    strip.background = blank, strip.text = ggplot2::element_text(size = ggplot2::rel(0.9)),
+                    panel.border = blank, strip.background = blank, strip.text = ggplot2::element_text(size = ggplot2::rel(0.9)),
                     panel.spacing = ggplot2::unit(0.6, "lines")),
                 NULL)
             p + cmp_theme(o$plotTheme, o$textSize, ctx$ggtheme) + extra +
@@ -574,7 +579,7 @@ cmp_cat_private <- function() {
         .chart_grid = function(ctx, equal = TRUE) {
             list(
                 ggplot2::facet_wrap(ggplot2::vars(variable), ncol = ctx$gcols, strip.position = "bottom",
-                                    labeller = ggplot2::as_labeller(ctx$lab)),
+                                    labeller = ggplot2::as_labeller(ctx$lab_grid)),
                 if (equal) ggplot2::coord_equal(),
                 ggplot2::scale_x_continuous(breaks = NULL, expand = ggplot2::expansion(add = 0.6)),
                 ggplot2::scale_y_continuous(breaks = NULL, expand = ggplot2::expansion(add = 0.6)),
@@ -616,7 +621,7 @@ cmp_cat_private <- function() {
                 ggplot2::scale_x_continuous(limits = c(0, 1), expand = ggplot2::expansion(0)) +
                 ggplot2::scale_y_continuous(limits = c(0, 100), expand = ggplot2::expansion(0)) +
                 ggplot2::facet_wrap(ggplot2::vars(variable), ncol = ctx$gcols, strip.position = "bottom",
-                                    labeller = ggplot2::as_labeller(ctx$lab)) +
+                                    labeller = ggplot2::as_labeller(ctx$lab_grid)) +
                 private$.fill_scale(ctx) + ggplot2::labs(x = NULL, y = NULL)
         },
 

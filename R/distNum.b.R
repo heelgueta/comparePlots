@@ -178,7 +178,7 @@ distNumClass <- R6::R6Class(
             lab <- cmp_var_labels(self$data, lv, o$useDesc)
             list(o = o, horiz = horiz, lv = lv, n = n, pos = pos, cols = cols, fills = fills, bw = bw,
                  lab = lab, ggtheme = ggtheme,
-                 alpha = if (bw) 1 else o$alpha / 100, lw = cmp_line_width(o$lineWidth))
+                 alpha = if (bw) 1 else o$alpha / 100, lw = cmp_line_width(o$lineWidth) * (if (bw) 1.5 else 1))
         },
 
         # Build the ggplot for one plot key: attach `variable` (factor, drawing
@@ -215,13 +215,16 @@ distNumClass <- R6::R6Class(
             o <- ctx$o
             overlay <- key %in% c("density", "ecdf")   # variables share one panel -> need a legend
             facets  <- key == "hist"                   # one panel per variable -> strip labels
+            # legend of the overlay plots: long labels wrap onto several rows
+            leg <- if (overlay) ggplot2::guide_legend(
+                nrow = if (o$legendPos %in% c("bottom", "top")) max(1L, ceiling(ctx$n / 2)) else NULL) else "none"
             p <- p +
-                ggplot2::scale_fill_manual(values = ctx$fills, labels = ctx$lab, guide = if (overlay) "legend" else "none") +
-                ggplot2::scale_colour_manual(values = ctx$cols, labels = ctx$lab, guide = if (overlay) "legend" else "none") +
+                ggplot2::scale_fill_manual(values = ctx$fills, labels = ctx$lab, guide = leg) +
+                ggplot2::scale_colour_manual(values = ctx$cols, labels = ctx$lab, guide = leg) +
                 ggplot2::scale_linetype_manual(
                     values = stats::setNames(if (ctx$bw) rep_len(c("solid", "dashed", "dotted", "dotdash", "longdash", "twodash"), ctx$n)
                                              else rep("solid", ctx$n), ctx$lv),
-                    labels = ctx$lab, guide = if (overlay && ctx$bw) "legend" else "none") +
+                    labels = ctx$lab, guide = if (overlay && ctx$bw) leg else "none") +
                 cmp_theme(o$plotTheme, o$textSize, ctx$ggtheme) +
                 ggplot2::theme(
                     legend.position  = if (overlay) o$legendPos else "none",
@@ -252,7 +255,7 @@ distNumClass <- R6::R6Class(
             n_per   <- table(long$variable)
             # wrapped so a long list of variables does not run off the edge of a small plot
             caption <- if (isTRUE(o$showN))
-                paste(strwrap(paste(paste0(gsub("\n", " ", unname(ctx$lab[names(n_per)])), " (n=", n_per, ")"), collapse = "   "), 55), collapse = "\n") else NULL
+                paste(strwrap(paste(paste0(gsub("\n", " ", unname(ctx$lab[names(n_per)])), " (n=", n_per, ")"), collapse = "   "), 40), collapse = "\n") else NULL
             if (key == "errorbar") {
                 extra <- cmp_interval_label(o$ebCenter, o$ebInterval, o$ebLevel, o$ebMult)
                 caption <- paste(c(extra, caption), collapse = "\n")
@@ -515,7 +518,7 @@ distNumClass <- R6::R6Class(
             p <- ggplot2::ggplot(long, ggplot2::aes(x = value, fill = variable, colour = variable,
                                                     linetype = variable)) +
                 ggplot2::geom_density(adjust = o$densAdjust, trim = o$densTrim,
-                                      alpha = if (o$densFilled) ctx$alpha * 0.55 else 0,
+                                      alpha = if (o$densFilled && !ctx$bw) ctx$alpha * 0.55 else 0,
                                       linewidth = ctx$lw) +
                 ggplot2::labs(x = o$valueLabel, y = "Density")
             private$.flip_x(p, ctx)

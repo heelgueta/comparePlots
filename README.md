@@ -5,7 +5,8 @@ A jamovi module to **compare the distributions of several variables at once**, s
 Two analyses, in jamovi's **Plots** tab:
 
 - **Compare Numeric**
-- **Compare Categorical**
+- **Compare Ordinal** (Likert-type items)
+- **Compare Nominal**
 
 Both work the same way: pick variables, set a few shared appearance options, then **tick any combination of plots**. Every plot appears as its own result and has its own collapsible settings panel.
 
@@ -38,7 +39,7 @@ Shared appearance: orientation (horizontal by default) · order variables by (en
 | Data points (strip) | mean/median line |
 | Barcode plot | tick height |
 
-## Compare Categorical
+## Compare Ordinal and Compare Nominal
 
 Shared appearance: orientation (horizontal: charts stacked top to bottom; vertical: side by side) · order variables by (entry order, name, mean category, median category, % in first/last category, net %) · reverse the order · palette and theme (both follow jamovi's own settings by default) · invert palette · text size · decimals · legend position/title · title · n per variable.
 
