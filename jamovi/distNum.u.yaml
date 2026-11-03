@@ -1,13 +1,13 @@
-# Comparison of Numeric Variables (distNum): USER INTERFACE, hand-written.
-# compilerMode is `tame`: jmc keeps this layout and only adds controls for NEW options (aggressive mode would overwrite it).
-# Each control is named after its option in distNum.a.yaml. Layout: LayoutBox with `cell: column/row` makes a two-column grid.
-title: Comparison of Numeric Variables
+# Compare Numeric (distNum): USER INTERFACE, hand-written.
+# compilerMode is `tame`: jmc keeps this layout and only adds controls for NEW options.
+# Each plot has its own CollapseBox that holds the plot's checkbox AND its settings; the settings are
+# greyed out (enable:) while the checkbox is off, or while a sibling option they depend on is off.
+title: Compare Numeric
 name: distNum
 jus: '3.0'
 stage: 0
 compilerMode: tame
 children:
-  # 1. Variable list (drag variables into the Variables box).
   - type: VariableSupplier
     persistentItems: false
     stretchFactor: 1
@@ -18,98 +18,6 @@ children:
           - type: VariablesListBox
             name: vars
             isTarget: true
-  # 2. "Plots to show": one checkbox per plot (two columns).
-  - type: Label
-    label: Plots to show
-    children: []
-  - type: LayoutBox
-    margin: large
-    stretchFactor: 1
-    children:
-      - type: LayoutBox
-        cell:
-          column: 0
-          row: 0
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showBox
-      - type: LayoutBox
-        cell:
-          column: 1
-          row: 0
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showViolin
-      - type: LayoutBox
-        cell:
-          column: 0
-          row: 1
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showErrorBar
-      - type: LayoutBox
-        cell:
-          column: 1
-          row: 1
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showRaincloud
-      - type: LayoutBox
-        cell:
-          column: 0
-          row: 2
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showRidge
-      - type: LayoutBox
-        cell:
-          column: 1
-          row: 2
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showHist
-      - type: LayoutBox
-        cell:
-          column: 0
-          row: 3
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showDensity
-      - type: LayoutBox
-        cell:
-          column: 1
-          row: 3
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showEcdf
-      - type: LayoutBox
-        cell:
-          column: 0
-          row: 4
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showStrip
-      - type: LayoutBox
-        cell:
-          column: 1
-          row: 4
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showBarcode
-  # 3. "Settings": everything below configures the plots.
-  - type: Label
-    label: Settings
-    children: []
   # Appearance: options shared by all plots. Open by default.
   - type: CollapseBox
     label: Appearance
@@ -134,11 +42,19 @@ children:
               row: 0
             stretchFactor: 1
             children:
+              - type: ComboBox
+                name: sortVars
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
               - type: CheckBox
                 name: invertVars
           - type: LayoutBox
             cell:
-              column: 0
+              column: 1
               row: 1
             stretchFactor: 1
             children:
@@ -146,15 +62,15 @@ children:
                 name: colourPalette
           - type: LayoutBox
             cell:
-              column: 1
-              row: 1
+              column: 0
+              row: 2
             stretchFactor: 1
             children:
               - type: CheckBox
                 name: reversePalette
           - type: LayoutBox
             cell:
-              column: 0
+              column: 1
               row: 2
             stretchFactor: 1
             children:
@@ -162,8 +78,8 @@ children:
                 name: plotTheme
           - type: LayoutBox
             cell:
-              column: 1
-              row: 2
+              column: 0
+              row: 3
             stretchFactor: 1
             children:
               - type: TextBox
@@ -171,7 +87,7 @@ children:
                 format: number
           - type: LayoutBox
             cell:
-              column: 0
+              column: 1
               row: 3
             stretchFactor: 1
             children:
@@ -181,15 +97,15 @@ children:
                 suffix: '%'
           - type: LayoutBox
             cell:
-              column: 1
-              row: 3
+              column: 0
+              row: 4
             stretchFactor: 1
             children:
               - type: ComboBox
                 name: legendPos
           - type: LayoutBox
             cell:
-              column: 0
+              column: 1
               row: 4
             stretchFactor: 1
             children:
@@ -198,8 +114,8 @@ children:
                 format: number
           - type: LayoutBox
             cell:
-              column: 1
-              row: 4
+              column: 0
+              row: 5
             stretchFactor: 1
             children:
               - type: TextBox
@@ -207,7 +123,7 @@ children:
                 format: number
           - type: LayoutBox
             cell:
-              column: 0
+              column: 1
               row: 5
             stretchFactor: 1
             children:
@@ -217,15 +133,15 @@ children:
                 suffix: '%'
           - type: LayoutBox
             cell:
-              column: 1
-              row: 5
+              column: 0
+              row: 6
             stretchFactor: 1
             children:
               - type: CheckBox
                 name: showN
           - type: LayoutBox
             cell:
-              column: 0
+              column: 1
               row: 6
             stretchFactor: 1
             children:
@@ -234,50 +150,23 @@ children:
                 format: string
           - type: LayoutBox
             cell:
-              column: 1
-              row: 6
+              column: 0
+              row: 7
             stretchFactor: 1
             children:
               - type: TextBox
                 name: title
                 format: string
+  - type: CollapseBox
+    label: Box Plot
+    collapsed: false
+    stretchFactor: 1
+    children:
       - type: LayoutBox
         margin: large
         children:
           - type: CheckBox
-            name: autoSize
-      - type: LayoutBox
-        margin: large
-        stretchFactor: 1
-        children:
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 0
-            stretchFactor: 1
-            children:
-              - type: TextBox
-                name: plotWidth
-                format: number
-                suffix: px
-                enable: '(!autoSize)'
-          - type: LayoutBox
-            cell:
-              column: 1
-              row: 0
-            stretchFactor: 1
-            children:
-              - type: TextBox
-                name: plotHeight
-                format: number
-                suffix: px
-                enable: '(!autoSize)'
-  # Settings of the "Box plot" plot (collapsed). Its controls are greyed out while `showBox` is unticked.
-  - type: CollapseBox
-    label: Box plot
-    collapsed: true
-    stretchFactor: 1
-    children:
+            name: showBox
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -291,7 +180,8 @@ children:
               - type: TextBox
                 name: boxWidth
                 format: number
-                enable: (showBox)
+                suffix: '%'
+                enable: '(showBox)'
           - type: LayoutBox
             cell:
               column: 1
@@ -300,7 +190,7 @@ children:
             children:
               - type: CheckBox
                 name: boxOutliers
-                enable: (showBox)
+                enable: '(showBox)'
           - type: LayoutBox
             cell:
               column: 0
@@ -309,7 +199,7 @@ children:
             children:
               - type: CheckBox
                 name: boxNotch
-                enable: (showBox)
+                enable: '(showBox)'
           - type: LayoutBox
             cell:
               column: 1
@@ -318,7 +208,7 @@ children:
             children:
               - type: CheckBox
                 name: boxMean
-                enable: (showBox)
+                enable: '(showBox)'
           - type: LayoutBox
             cell:
               column: 0
@@ -327,13 +217,17 @@ children:
             children:
               - type: CheckBox
                 name: boxJitter
-                enable: (showBox)
-  # Settings of the "Violin plot" plot (collapsed). Its controls are greyed out while `showViolin` is unticked.
+                enable: '(showBox)'
   - type: CollapseBox
-    label: Violin plot
+    label: Violin Plot
     collapsed: true
     stretchFactor: 1
     children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showViolin
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -347,7 +241,8 @@ children:
               - type: TextBox
                 name: violinWidth
                 format: number
-                enable: (showViolin)
+                suffix: '%'
+                enable: '(showViolin)'
           - type: LayoutBox
             cell:
               column: 1
@@ -356,7 +251,7 @@ children:
             children:
               - type: ComboBox
                 name: violinScale
-                enable: (showViolin)
+                enable: '(showViolin)'
           - type: LayoutBox
             cell:
               column: 0
@@ -366,7 +261,7 @@ children:
               - type: TextBox
                 name: violinAdjust
                 format: number
-                enable: (showViolin)
+                enable: '(showViolin)'
           - type: LayoutBox
             cell:
               column: 1
@@ -375,7 +270,7 @@ children:
             children:
               - type: CheckBox
                 name: violinTrim
-                enable: (showViolin)
+                enable: '(showViolin)'
           - type: LayoutBox
             cell:
               column: 0
@@ -384,7 +279,7 @@ children:
             children:
               - type: ComboBox
                 name: violinInner
-                enable: (showViolin)
+                enable: '(showViolin)'
           - type: LayoutBox
             cell:
               column: 1
@@ -393,13 +288,17 @@ children:
             children:
               - type: CheckBox
                 name: violinJitter
-                enable: (showViolin)
-  # Settings of the "Means and error bars" plot (collapsed). Its controls are greyed out while `showErrorBar` is unticked.
+                enable: '(showViolin)'
   - type: CollapseBox
-    label: Means and error bars
+    label: Means and Error Bars
     collapsed: true
     stretchFactor: 1
     children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showErrorBar
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -412,7 +311,7 @@ children:
             children:
               - type: ComboBox
                 name: ebCenter
-                enable: (showErrorBar)
+                enable: '(showErrorBar)'
           - type: LayoutBox
             cell:
               column: 1
@@ -421,7 +320,7 @@ children:
             children:
               - type: ComboBox
                 name: ebInterval
-                enable: (showErrorBar)
+                enable: '(showErrorBar)'
           - type: LayoutBox
             cell:
               column: 0
@@ -431,7 +330,8 @@ children:
               - type: TextBox
                 name: ebLevel
                 format: number
-                enable: (showErrorBar)
+                suffix: '%'
+                enable: '(showErrorBar && (ebInterval:ci || ebInterval:pctile))'
           - type: LayoutBox
             cell:
               column: 1
@@ -441,7 +341,7 @@ children:
               - type: TextBox
                 name: ebMult
                 format: number
-                enable: (showErrorBar)
+                enable: '(showErrorBar && (ebInterval:se || ebInterval:sd))'
           - type: LayoutBox
             cell:
               column: 0
@@ -450,7 +350,7 @@ children:
             children:
               - type: CheckBox
                 name: ebJitter
-                enable: (showErrorBar)
+                enable: '(showErrorBar)'
           - type: LayoutBox
             cell:
               column: 1
@@ -460,7 +360,7 @@ children:
               - type: TextBox
                 name: ebSize
                 format: number
-                enable: (showErrorBar)
+                enable: '(showErrorBar)'
           - type: LayoutBox
             cell:
               column: 0
@@ -470,7 +370,8 @@ children:
               - type: TextBox
                 name: ebCap
                 format: number
-                enable: (showErrorBar)
+                suffix: '%'
+                enable: '(showErrorBar)'
           - type: LayoutBox
             cell:
               column: 1
@@ -479,7 +380,7 @@ children:
             children:
               - type: CheckBox
                 name: ebConnect
-                enable: (showErrorBar)
+                enable: '(showErrorBar)'
           - type: LayoutBox
             cell:
               column: 0
@@ -488,13 +389,17 @@ children:
             children:
               - type: CheckBox
                 name: ebLabels
-                enable: (showErrorBar)
-  # Settings of the "Raincloud plot" plot (collapsed). Its controls are greyed out while `showRaincloud` is unticked.
+                enable: '(showErrorBar)'
   - type: CollapseBox
-    label: Raincloud plot
+    label: Raincloud Plot
     collapsed: true
     stretchFactor: 1
     children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showRaincloud
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -508,7 +413,8 @@ children:
               - type: TextBox
                 name: rcCloudWidth
                 format: number
-                enable: (showRaincloud)
+                suffix: '%'
+                enable: '(showRaincloud)'
           - type: LayoutBox
             cell:
               column: 1
@@ -518,7 +424,7 @@ children:
               - type: TextBox
                 name: rcAdjust
                 format: number
-                enable: (showRaincloud)
+                enable: '(showRaincloud)'
           - type: LayoutBox
             cell:
               column: 0
@@ -527,7 +433,7 @@ children:
             children:
               - type: CheckBox
                 name: rcRain
-                enable: (showRaincloud)
+                enable: '(showRaincloud)'
           - type: LayoutBox
             cell:
               column: 1
@@ -536,13 +442,17 @@ children:
             children:
               - type: CheckBox
                 name: rcBox
-                enable: (showRaincloud)
-  # Settings of the "Ridgeline (density) plot" plot (collapsed). Its controls are greyed out while `showRidge` is unticked.
+                enable: '(showRaincloud)'
   - type: CollapseBox
-    label: Ridgeline (density) plot
+    label: Ridgeline (Density) Plot
     collapsed: true
     stretchFactor: 1
     children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showRidge
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -556,7 +466,8 @@ children:
               - type: TextBox
                 name: ridgeOverlap
                 format: number
-                enable: (showRidge)
+                suffix: '%'
+                enable: '(showRidge)'
           - type: LayoutBox
             cell:
               column: 1
@@ -566,7 +477,7 @@ children:
               - type: TextBox
                 name: ridgeAdjust
                 format: number
-                enable: (showRidge)
+                enable: '(showRidge)'
           - type: LayoutBox
             cell:
               column: 0
@@ -575,7 +486,7 @@ children:
             children:
               - type: CheckBox
                 name: ridgeTrim
-                enable: (showRidge)
+                enable: '(showRidge)'
           - type: LayoutBox
             cell:
               column: 1
@@ -584,13 +495,17 @@ children:
             children:
               - type: CheckBox
                 name: ridgeMedian
-                enable: (showRidge)
-  # Settings of the "Histogram" plot (collapsed). Its controls are greyed out while `showHist` is unticked.
+                enable: '(showRidge)'
   - type: CollapseBox
     label: Histogram
     collapsed: true
     stretchFactor: 1
     children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showHist
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -604,7 +519,7 @@ children:
               - type: TextBox
                 name: histBins
                 format: number
-                enable: (showHist)
+                enable: '(showHist)'
           - type: LayoutBox
             cell:
               column: 1
@@ -613,7 +528,7 @@ children:
             children:
               - type: ComboBox
                 name: histStat
-                enable: (showHist)
+                enable: '(showHist)'
           - type: LayoutBox
             cell:
               column: 0
@@ -622,7 +537,7 @@ children:
             children:
               - type: CheckBox
                 name: histDensity
-                enable: (showHist)
+                enable: '(showHist)'
           - type: LayoutBox
             cell:
               column: 1
@@ -631,13 +546,17 @@ children:
             children:
               - type: CheckBox
                 name: histFreeY
-                enable: (showHist)
-  # Settings of the "Overlaid densities" plot (collapsed). Its controls are greyed out while `showDensity` is unticked.
+                enable: '(showHist)'
   - type: CollapseBox
-    label: Overlaid densities
+    label: Overlaid Densities
     collapsed: true
     stretchFactor: 1
     children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showDensity
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -651,7 +570,7 @@ children:
               - type: TextBox
                 name: densAdjust
                 format: number
-                enable: (showDensity)
+                enable: '(showDensity)'
           - type: LayoutBox
             cell:
               column: 1
@@ -660,7 +579,7 @@ children:
             children:
               - type: CheckBox
                 name: densFilled
-                enable: (showDensity)
+                enable: '(showDensity)'
           - type: LayoutBox
             cell:
               column: 0
@@ -669,13 +588,17 @@ children:
             children:
               - type: CheckBox
                 name: densTrim
-                enable: (showDensity)
-  # Settings of the "Cumulative distribution (ECDF)" plot (collapsed). Its controls are greyed out while `showEcdf` is unticked.
+                enable: '(showDensity)'
   - type: CollapseBox
-    label: Cumulative distribution (ECDF)
+    label: Cumulative Distribution (ECDF)
     collapsed: true
     stretchFactor: 1
     children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showEcdf
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -688,13 +611,17 @@ children:
             children:
               - type: CheckBox
                 name: ecdfMedian
-                enable: (showEcdf)
-  # Settings of the "Data points (strip plot)" plot (collapsed). Its controls are greyed out while `showStrip` is unticked.
+                enable: '(showEcdf)'
   - type: CollapseBox
-    label: Data points (strip plot)
+    label: Data Points (Strip Plot)
     collapsed: true
     stretchFactor: 1
     children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showStrip
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -707,13 +634,17 @@ children:
             children:
               - type: ComboBox
                 name: stripSummary
-                enable: (showStrip)
-  # Settings of the "Barcode plot" plot (collapsed). Its controls are greyed out while `showBarcode` is unticked.
+                enable: '(showStrip)'
   - type: CollapseBox
-    label: Barcode plot
+    label: Barcode Plot
     collapsed: true
     stretchFactor: 1
     children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showBarcode
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -727,4 +658,5 @@ children:
               - type: TextBox
                 name: barcodeHeight
                 format: number
-                enable: (showBarcode)
+                suffix: '%'
+                enable: '(showBarcode)'

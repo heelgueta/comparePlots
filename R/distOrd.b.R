@@ -1,5 +1,5 @@
 # =============================================================================
-# distOrd: "Comparison of Ordinal/Nominal Variables"
+# distOrd: "Compare Categorical"
 #
 # Implementation of the analysis. Options, results and UI are defined in
 # jamovi/distOrd.{a,r,u}.yaml; jmvtools generates R/distOrd.h.R (do not edit)
@@ -7,17 +7,20 @@
 #
 # HOW AN ANALYSIS RUNS IN JAMOVI (same lifecycle as distNum.b.R)
 #   1. `.run()` runs when options/data change. It tabulates the data and hands
-#      the result to each ticked plot with `image$setState()`. No drawing.
-#   2. jamovi then calls each image's render function (`.plot_<key>`), which
-#      reads `image$state` and prints a ggplot2 object. Data are not available
-#      at render time, so everything the plots need is in the state.
+#      the result to each ticked plot with `image$setState()`. No drawing, and
+#      no resizing: plot sizes are fixed in the .r.yaml.
+#   2. jamovi then calls each image's render function (`.plot_<key>`) with the
+#      user's `ggtheme` and `theme`. It reads `image$state` (a small table of
+#      counts and percentages) and prints a ggplot2 object. The images do not
+#      need the raw data, so they do not declare `requiresData`.
 #
 # DATA MODEL
 #   `long` has one row per (variable, category): the variable, the category as
 #   a factor, its index `cidx` (1..k, the order of the levels), the raw `count`,
 #   `pct` (percent of that variable's valid answers) and `n`. All variables are
-#   put on the SAME category axis: the union of their levels, in order of first
-#   appearance. A variable that lacks a category simply has 0% there.
+#   put on the SAME category axis, built by cmp_cat_axis() (utils.R): the union
+#   of their levels in which every variable keeps its own order (numeric levels
+#   are sorted numerically). A variable that lacks a category has 0% there.
 #
 # HOW THE PLOTS ARE BUILT
 #   Bar-like plots (stacked, diverging, heatmap, means, profile) use a *canvas*:
@@ -57,23 +60,35 @@ distOrdClass <- R6::R6Class(
             vars <- opts$vars
             on   <- vapply(private$.switches, function(k) isTRUE(opts[[k]]), logical(1))
 
-            # `notes` are messages shown in the Html element `hint` above the plots
+            # `hint` explains the empty state (no plot ticked); nothing else goes there
             hint <- self$results$hint
-            notes <- character(0)
-            if (length(vars) > 0 && !any(on))
-                notes <- "Tick at least one plot under <b>Plots to show</b>."
-            if (length(vars) == 0 || !any(on)) {
-                private$.set_hint(hint, notes)
-                return()
+            if (length(vars) > 0 && !any(on)) {
+                hint$setContent("<p>Open a plot's section below and tick its checkbox to draw it.</p>")
+                hint$setVisible(TRUE)
+            } else {
+                hint$setVisible(FALSE)
             }
+            if (length(vars) == 0 || !any(on)) return()
 
             # make sure every variable is a factor (jamovi passes ordinal as
             # ordered factors and nominal as plain factors already)
             data <- self$data[, vars, drop = FALSE]
             for (v in vars) if (!is.factor(data[[v]])) data[[v]] <- as.factor(data[[v]])
-            # common category axis: union of all levels, in order of appearance
-            cats <- unique(unlist(lapply(vars, function(v) levels(data[[v]]))))
-            if (length(cats) == 0) return()
+
+            # Common category axis. A column's levels are only the values that occur
+            # in it, so the axis has to be merged carefully (see cmp_cat_axis()).
+            ax   <- cmp_cat_axis(lapply(stats::setNames(vars, vars), function(v) levels(data[[v]])))
+            cats <- ax$cats
+            if (length(cats) == 0)
+                jmvcore::reject("The selected variables have no categories.")
+            if (length(ax$conflict) > 0)
+                private$.warn(".catConflict", paste0(
+                    "The categories of ", paste(ax$conflict, collapse = ", "),
+                    " cannot be put in the same order as those of the other variables, so the shared category axis may be misordered."))
+            if (length(ax$disjoint) > 0)
+                private$.warn(".catDisjoint", paste0(
+                    paste(ax$disjoint, collapse = ", "),
+                    " share no categories with the other variables; their categories are placed on the same axis by position only."))
 
             # one row per (variable, category); missing answers are excluded from n
             long <- do.call(rbind, lapply(vars, function(v) {
@@ -85,87 +100,57 @@ distOrdClass <- R6::R6Class(
                            pct = if (n > 0) as.numeric(tab) / n * 100 else 0, n = n,
                            stringsAsFactors = FALSE)
             }))
-            if (all(long$n == 0)) return()
+            if (all(long$n == 0))
+                jmvcore::reject("The selected variables have no non-missing values.")
 
-            # The mean-category plot treats categories as numbers 1..k, which is
-            # only defensible for ordinal variables or for two-category variables
-            # (where it is a proportion). `ok` flags the variables that qualify;
-            # the others are skipped and named in a note.
+            # The mean-category plot treats categories as numbers 1..k (their
+            # position on the shared axis), which is only defensible for ordinal
+            # variables or for two-category variables (where it is a proportion).
+            # `ok` flags the variables that qualify; the others are skipped.
             ok <- vapply(vars, function(v) {
                 is.ordered(self$data[[v]]) || sum(long$count[long$variable == v] > 0) == 2
             }, logical(1))
             names(ok) <- vars
             if (isTRUE(opts$showMeans) && !all(ok)) {
-                skipped <- paste(vars[!ok], collapse = ", ")
-                notes <- c(notes, if (!any(ok))
-                    paste0("<b>Mean category</b> was not drawn: it needs ordinal variables or variables with exactly two categories (",
-                           skipped, " are nominal with more than two).")
-                    else paste0("<b>Mean category</b> skips nominal variables with more than two categories: ", skipped, "."))
+                private$.warn(".meansSkipped", paste0(
+                    if (!any(ok)) "Mean category was not drawn: it needs ordinal variables or variables with exactly two categories. "
+                    else "Mean category skips nominal variables with more than two categories: ",
+                    paste(vars[!ok], collapse = ", "), "."))
             }
-            private$.set_hint(hint, notes)
 
-            # hand the data to each ticked image; `width` lets the plot decide how
-            # many legend rows it needs, `ok` is read by the means plot
+            # hand the (small) table to each ticked image; `ok` is read by the means plot
             for (key in names(private$.switches)[on]) {
                 if (key == "means" && !any(ok)) next     # nothing to draw
                 image <- self$results[[paste0("plot_", key)]]
-                sz <- private$.size(key, length(vars))
-                image$setSize(sz[1], sz[2])
-                image$setState(list(long = long, vars = vars, cats = cats, width = sz[1], ok = ok))
+                image$setState(list(long = long, vars = vars, cats = cats, ok = ok))
             }
         },
 
-        # Show the given HTML notes in the `hint` element, or hide it if none.
-        .set_hint = function(hint, notes) {
-            if (length(notes) == 0) {
-                hint$setVisible(FALSE)
-            } else {
-                hint$setContent(paste0("<p>", notes, "</p>", collapse = ""))
-                hint$setVisible(TRUE)
-            }
-        },
-
-        # Plot size in pixels. With "Size plots automatically" it grows with the
-        # number of variables `n` (and, for waffle/pictogram, with the grid size);
-        # otherwise the user's width/height are used. Numbers are empirical.
-        .size = function(key, n) {
-            o <- self$options
-            if (!o$autoSize) return(c(o$plotWidth, o$plotHeight))
-            horiz <- o$orientation == "horizontal"
-            if (key %in% c("profile", "means")) return(c(700, 460))   # single panel
-            if (key %in% c("waffle", "picto")) {
-                rows <- if (key == "waffle") o$waffleRows else o$pictoRows
-                cols <- if (key == "waffle") o$waffleCols else o$pictoCols
-                # horizontal: charts stacked, height grows with n and rows
-                # vertical: charts side by side, width grows with n and columns
-                return(if (horiz) c(max(520, 190 + 12 * cols), max(240, 120 + n * (22 + 11 * rows)))
-                       else c(max(450, 110 + n * (26 + 11 * cols)), max(380, 150 + 13 * rows)))
-            }
-            if (horiz) {
-                per <- switch(key, bars = 56, diverging = 56, heat = 52, 100)   # px per variable
-                c(700, max(240, 120 + per * n))
-            } else {
-                per <- switch(key, bars = 95, diverging = 95, heat = 90, 105)
-                c(max(450, 110 + per * n), if (key %in% c("bars", "diverging", "heat")) 480 else 430)
-            }
+        # Report something about the results as a jmvcore Notice (a proper warning
+        # in the results tree, in the results theme), at the top of the results.
+        .warn = function(name, content) {
+            notice <- jmvcore::Notice$new(
+                self$options, name = name, type = jmvcore::NoticeType$WARNING, content = content)
+            self$results$insert(1, notice)
         },
 
         # Render entry points; jamovi calls these by name (renderFun in the .r.yaml).
-        .plot_bars       = function(image, ...) private$.render(image, "bars"),
-        .plot_diverging  = function(image, ...) private$.render(image, "diverging"),
-        .plot_heat       = function(image, ...) private$.render(image, "heat"),
-        .plot_waffle     = function(image, ...) private$.render(image, "waffle"),
-        .plot_picto      = function(image, ...) private$.render(image, "picto"),
-        .plot_parliament = function(image, ...) private$.render(image, "parliament"),
-        .plot_profile    = function(image, ...) private$.render(image, "profile"),
-        .plot_means      = function(image, ...) private$.render(image, "means"),
+        .plot_bars       = function(image, ggtheme, theme, ...) private$.render(image, "bars", ggtheme, theme),
+        .plot_diverging  = function(image, ggtheme, theme, ...) private$.render(image, "diverging", ggtheme, theme),
+        .plot_heat       = function(image, ggtheme, theme, ...) private$.render(image, "heat", ggtheme, theme),
+        .plot_waffle     = function(image, ggtheme, theme, ...) private$.render(image, "waffle", ggtheme, theme),
+        .plot_picto      = function(image, ggtheme, theme, ...) private$.render(image, "picto", ggtheme, theme),
+        .plot_parliament = function(image, ggtheme, theme, ...) private$.render(image, "parliament", ggtheme, theme),
+        .plot_profile    = function(image, ggtheme, theme, ...) private$.render(image, "profile", ggtheme, theme),
+        .plot_means      = function(image, ggtheme, theme, ...) private$.render(image, "means", ggtheme, theme),
 
         # Read the state, build, print. FALSE = nothing drawn, TRUE = drawn.
         # Warnings are muted: they would only add noise to the results.
-        .render = function(image, key) {
+        .render = function(image, key, ggtheme = NULL, theme = NULL) {
             st <- image$state
             if (is.null(st)) return(FALSE)
-            p <- private$.build(key, st)
+            st$width <- image$width          # lets the plot decide how many legend rows it needs
+            p <- private$.build(key, st, ggtheme, theme)
             if (is.null(p)) return(FALSE)
             suppressWarnings(suppressMessages(print(p)))
             TRUE
@@ -183,7 +168,7 @@ distOrdClass <- R6::R6Class(
         #             diverging palettes so lines/points stay visible
         #   leg_rows  number of legend rows so a long legend wraps
         # ---------------------------------------------------------------------
-        .context = function(st) {
+        .context = function(st, ggtheme = NULL, theme = NULL) {
             o     <- self$options
             long  <- st$long
             vars  <- st$vars
@@ -191,19 +176,20 @@ distOrdClass <- R6::R6Class(
             k     <- length(cats)
             horiz <- identical(o$orientation, "horizontal")
 
-            # helpers for the "Sort variables" option
-            first <- function(v) long$pct[long$variable == v & long$cidx == 1]
-            last  <- function(v) long$pct[long$variable == v & long$cidx == k]
-            mean_code <- function(v) {          # mean of the category codes 1..k
-                d <- long[long$variable == v, ]
-                sum(d$cidx * d$count) / max(sum(d$count), 1)
-            }
-            ord <- switch(o$sortVars,
-                name  = sort(vars),
-                first = vars[order(-vapply(vars, first, 0))],   # most in first category on top
-                last  = vars[order(-vapply(vars, last, 0))],
-                mean  = vars[order(vapply(vars, mean_code, 0))],
-                vars)                                           # "none": as entered
+            # "Order variables by": entry order, name, or a statistic of the category
+            # distribution (lowest first, or highest first for the % options).
+            # "Reverse the order" then flips whichever order was chosen.
+            # Categories are coded 1..k by their position on the shared axis.
+            stat_of <- function(f) vapply(vars, function(v) f(long[long$variable == v, ]), 0)
+            sp <- cmp_split_cats(cats, o$divNeutral == "auto")
+            stat <- switch(o$sortVars,
+                mean   = stat_of(function(d) sum(d$cidx * d$count) / max(sum(d$count), 1)),
+                median = stat_of(function(d) { cs <- cumsum(d$pct); d$cidx[which(cs >= 50 - 1e-9)[1]] }),
+                first  = -stat_of(function(d) d$pct[d$cidx == 1]),     # most in first category on top
+                last   = -stat_of(function(d) d$pct[d$cidx == k]),
+                net    = -stat_of(function(d) sum(d$pct[d$category %in% sp$pos]) - sum(d$pct[d$category %in% sp$neg])),
+                NULL)
+            ord <- cmp_order_vars(vars, o$sortVars, stat)
             lv <- if (o$invertVars) rev(ord) else ord
             n  <- length(lv)
             # first variable on top (horizontal, after coord_flip) or on the left (vertical)
@@ -213,9 +199,9 @@ distOrdClass <- R6::R6Class(
             npv <- tapply(long$n, long$variable, function(z) z[1])   # valid n per variable
             labs <- if (o$showN) paste0(lv, " (n=", npv[lv], ")") else lv
 
-            cat_cols <- cmp_palette(o$colourPalette, k, o$reversePalette)
+            cat_cols <- cmp_palette(o$colourPalette, k, o$reversePalette, theme = theme)
             names(cat_cols) <- cats
-            var_cols <- cmp_palette(o$colourPalette, n, o$reversePalette, spread = TRUE)
+            var_cols <- cmp_palette(o$colourPalette, n, o$reversePalette, spread = TRUE, theme = theme)
             names(var_cols) <- lv
 
             # legend wraps onto several rows when it would be wider than the plot
@@ -224,12 +210,12 @@ distOrdClass <- R6::R6Class(
 
             list(o = o, horiz = horiz, lv = lv, n = n, pos = pos, k = k, cats = cats,
                  labs = cmp_wrap(labs), cat_cols = cat_cols, var_cols = var_cols,
-                 leg_rows = leg_rows, npv = npv)
+                 leg_rows = leg_rows, npv = npv, ggtheme = ggtheme)
         },
 
         # Build the ggplot for one key: prepare the data (+ `pos`), dispatch to the
         # `.p_<key>` builder, then apply the common theme in `.finish()`.
-        .build = function(key, st) {
+        .build = function(key, st, ggtheme = NULL, theme = NULL) {
             skipped <- character(0)
             if (key == "means") {
                 # keep only the variables that qualify (see .run); rebuild the
@@ -240,7 +226,7 @@ distOrdClass <- R6::R6Class(
                 st$vars <- keep
                 st$long <- st$long[st$long$variable %in% keep, ]
             }
-            ctx <- private$.context(st)
+            ctx <- private$.context(st, ggtheme, theme)
             long <- st$long
             long$variable <- factor(long$variable, levels = ctx$lv)
             long$pos <- unname(ctx$pos[as.character(long$variable)])
@@ -271,13 +257,13 @@ distOrdClass <- R6::R6Class(
                 waffle = , picto = , parliament = ggplot2::theme(
                     panel.grid = blank, axis.ticks = blank, axis.title = blank),
                 NULL)
-            p + cmp_theme(o$plotTheme, o$textSize) + extra +
+            p + cmp_theme(o$plotTheme, o$textSize, ctx$ggtheme) + extra +
                 ggplot2::theme(
                     legend.position    = if (legend_key) o$legendPos else "none",
                     legend.title       = if (nchar(trimws(o$legendTitle)) > 0) ggplot2::element_text() else ggplot2::element_blank(),
                     plot.title         = ggplot2::element_text(face = "bold", hjust = 0.5),
                     panel.grid.minor   = ggplot2::element_blank(),
-                    plot.caption       = ggplot2::element_text(size = o$textSize * 0.65, colour = "grey45", hjust = 0),
+                    plot.caption       = ggplot2::element_text(size = ggplot2::rel(0.7), colour = "grey45", hjust = 0),
                     plot.margin        = ggplot2::margin(10, 16, 8, 10)) +
                 ggplot2::labs(title = cmp_title(o$title))
         },
@@ -369,14 +355,8 @@ distOrdClass <- R6::R6Class(
             cats <- ctx$cats
             k <- length(cats)
             if (k < 2) return(NULL)                 # needs at least two categories
-            mid <- o$divNeutral == "auto" && k %% 2 == 1 && k >= 3
-            if (mid) {
-                m <- (k + 1) / 2
-                neg <- cats[seq_len(m - 1)]; neu <- cats[m]; pos <- cats[(m + 1):k]
-            } else {
-                h <- floor(k / 2)
-                neg <- cats[seq_len(h)]; neu <- character(0); pos <- cats[(h + 1):k]
-            }
+            sp <- cmp_split_cats(cats, o$divNeutral == "auto")
+            neg <- sp$neg; neu <- sp$neu; pos <- sp$pos
 
             # per variable: start (lo) and end (hi) of every segment on the % axis
             rows <- lapply(ctx$lv, function(v) {

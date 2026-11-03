@@ -1,13 +1,13 @@
-# Comparison of Ordinal/Nominal Variables (distOrd): USER INTERFACE, hand-written.
-# compilerMode is `tame`: jmc keeps this layout and only adds controls for NEW options (aggressive mode would overwrite it).
-# Each control is named after its option in distOrd.a.yaml. Layout: LayoutBox with `cell: column/row` makes a two-column grid.
-title: Comparison of Ordinal/Nominal Variables
+# Compare Categorical (distOrd): USER INTERFACE, hand-written.
+# compilerMode is `tame`: jmc keeps this layout and only adds controls for NEW options.
+# Each plot has its own CollapseBox that holds the plot's checkbox AND its settings; the settings are
+# greyed out (enable:) while the checkbox is off, or while a sibling option they depend on is off.
+title: Compare Categorical
 name: distOrd
 jus: '3.0'
 stage: 0
 compilerMode: tame
 children:
-  # 1. Variable list (drag variables into the Variables box).
   - type: VariableSupplier
     persistentItems: false
     stretchFactor: 1
@@ -18,82 +18,6 @@ children:
           - type: VariablesListBox
             name: vars
             isTarget: true
-  # 2. "Plots to show": one checkbox per plot (two columns).
-  - type: Label
-    label: Plots to show
-    children: []
-  - type: LayoutBox
-    margin: large
-    stretchFactor: 1
-    children:
-      - type: LayoutBox
-        cell:
-          column: 0
-          row: 0
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showBars
-      - type: LayoutBox
-        cell:
-          column: 1
-          row: 0
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showDiverging
-      - type: LayoutBox
-        cell:
-          column: 0
-          row: 1
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showHeat
-      - type: LayoutBox
-        cell:
-          column: 1
-          row: 1
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showWaffle
-      - type: LayoutBox
-        cell:
-          column: 0
-          row: 2
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showPicto
-      - type: LayoutBox
-        cell:
-          column: 1
-          row: 2
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showParliament
-      - type: LayoutBox
-        cell:
-          column: 0
-          row: 3
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showProfile
-      - type: LayoutBox
-        cell:
-          column: 1
-          row: 3
-        stretchFactor: 1
-        children:
-          - type: CheckBox
-            name: showMeans
-  # 3. "Settings": everything below configures the plots.
-  - type: Label
-    label: Settings
-    children: []
   # Appearance: options shared by all plots. Open by default.
   - type: CollapseBox
     label: Appearance
@@ -118,11 +42,19 @@ children:
               row: 0
             stretchFactor: 1
             children:
+              - type: ComboBox
+                name: sortVars
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
               - type: CheckBox
                 name: invertVars
           - type: LayoutBox
             cell:
-              column: 0
+              column: 1
               row: 1
             stretchFactor: 1
             children:
@@ -130,15 +62,15 @@ children:
                 name: colourPalette
           - type: LayoutBox
             cell:
-              column: 1
-              row: 1
+              column: 0
+              row: 2
             stretchFactor: 1
             children:
               - type: CheckBox
                 name: reversePalette
           - type: LayoutBox
             cell:
-              column: 0
+              column: 1
               row: 2
             stretchFactor: 1
             children:
@@ -146,21 +78,13 @@ children:
                 name: plotTheme
           - type: LayoutBox
             cell:
-              column: 1
-              row: 2
+              column: 0
+              row: 3
             stretchFactor: 1
             children:
               - type: TextBox
                 name: textSize
                 format: number
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 3
-            stretchFactor: 1
-            children:
-              - type: ComboBox
-                name: sortVars
           - type: LayoutBox
             cell:
               column: 1
@@ -204,43 +128,16 @@ children:
             children:
               - type: CheckBox
                 name: showN
+  - type: CollapseBox
+    label: Stacked Bars
+    collapsed: false
+    stretchFactor: 1
+    children:
       - type: LayoutBox
         margin: large
         children:
           - type: CheckBox
-            name: autoSize
-      - type: LayoutBox
-        margin: large
-        stretchFactor: 1
-        children:
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 0
-            stretchFactor: 1
-            children:
-              - type: TextBox
-                name: plotWidth
-                format: number
-                suffix: px
-                enable: '(!autoSize)'
-          - type: LayoutBox
-            cell:
-              column: 1
-              row: 0
-            stretchFactor: 1
-            children:
-              - type: TextBox
-                name: plotHeight
-                format: number
-                suffix: px
-                enable: '(!autoSize)'
-  # Settings of the "Stacked bars (100%)" plot (collapsed). Its controls are greyed out while `showBars` is unticked.
-  - type: CollapseBox
-    label: Stacked bars
-    collapsed: true
-    stretchFactor: 1
-    children:
+            name: showBars
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -254,7 +151,8 @@ children:
               - type: TextBox
                 name: barWidth
                 format: number
-                enable: (showBars)
+                suffix: '%'
+                enable: '(showBars)'
           - type: LayoutBox
             cell:
               column: 1
@@ -263,7 +161,7 @@ children:
             children:
               - type: CheckBox
                 name: barLabels
-                enable: (showBars)
+                enable: '(showBars)'
           - type: LayoutBox
             cell:
               column: 0
@@ -273,13 +171,18 @@ children:
               - type: TextBox
                 name: barMinLabel
                 format: number
-                enable: (showBars)
-  # Settings of the "Diverging bars (Likert style)" plot (collapsed). Its controls are greyed out while `showDiverging` is unticked.
+                suffix: '%'
+                enable: '(showBars && barLabels)'
   - type: CollapseBox
-    label: Diverging bars
+    label: Diverging Bars
     collapsed: true
     stretchFactor: 1
     children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showDiverging
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -293,7 +196,8 @@ children:
               - type: TextBox
                 name: divWidth
                 format: number
-                enable: (showDiverging)
+                suffix: '%'
+                enable: '(showDiverging)'
           - type: LayoutBox
             cell:
               column: 1
@@ -302,7 +206,7 @@ children:
             children:
               - type: ComboBox
                 name: divNeutral
-                enable: (showDiverging)
+                enable: '(showDiverging)'
           - type: LayoutBox
             cell:
               column: 0
@@ -311,7 +215,7 @@ children:
             children:
               - type: CheckBox
                 name: divLabels
-                enable: (showDiverging)
+                enable: '(showDiverging)'
           - type: LayoutBox
             cell:
               column: 1
@@ -321,7 +225,8 @@ children:
               - type: TextBox
                 name: divMinLabel
                 format: number
-                enable: (showDiverging)
+                suffix: '%'
+                enable: '(showDiverging && divLabels)'
           - type: LayoutBox
             cell:
               column: 0
@@ -330,13 +235,17 @@ children:
             children:
               - type: CheckBox
                 name: divNet
-                enable: (showDiverging)
-  # Settings of the "Heatmap" plot (collapsed). Its controls are greyed out while `showHeat` is unticked.
+                enable: '(showDiverging)'
   - type: CollapseBox
     label: Heatmap
     collapsed: true
     stretchFactor: 1
     children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showHeat
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -349,7 +258,7 @@ children:
             children:
               - type: ComboBox
                 name: heatPalette
-                enable: (showHeat)
+                enable: '(showHeat)'
           - type: LayoutBox
             cell:
               column: 1
@@ -358,7 +267,7 @@ children:
             children:
               - type: CheckBox
                 name: heatLabels
-                enable: (showHeat)
+                enable: '(showHeat)'
           - type: LayoutBox
             cell:
               column: 0
@@ -368,13 +277,18 @@ children:
               - type: TextBox
                 name: heatGap
                 format: number
-                enable: (showHeat)
-  # Settings of the "Waffle chart" plot (collapsed). Its controls are greyed out while `showWaffle` is unticked.
+                suffix: '%'
+                enable: '(showHeat)'
   - type: CollapseBox
-    label: Waffle chart
+    label: Waffle Chart
     collapsed: true
     stretchFactor: 1
     children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showWaffle
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -388,7 +302,7 @@ children:
               - type: TextBox
                 name: waffleRows
                 format: number
-                enable: (showWaffle)
+                enable: '(showWaffle)'
           - type: LayoutBox
             cell:
               column: 1
@@ -398,7 +312,7 @@ children:
               - type: TextBox
                 name: waffleCols
                 format: number
-                enable: (showWaffle)
+                enable: '(showWaffle)'
           - type: LayoutBox
             cell:
               column: 0
@@ -408,13 +322,18 @@ children:
               - type: TextBox
                 name: waffleGap
                 format: number
-                enable: (showWaffle)
-  # Settings of the "Dot pictogram" plot (collapsed). Its controls are greyed out while `showPicto` is unticked.
+                suffix: '%'
+                enable: '(showWaffle)'
   - type: CollapseBox
-    label: Dot pictogram
+    label: Dot Pictogram
     collapsed: true
     stretchFactor: 1
     children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showPicto
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -428,7 +347,7 @@ children:
               - type: TextBox
                 name: pictoRows
                 format: number
-                enable: (showPicto)
+                enable: '(showPicto)'
           - type: LayoutBox
             cell:
               column: 1
@@ -438,7 +357,7 @@ children:
               - type: TextBox
                 name: pictoCols
                 format: number
-                enable: (showPicto)
+                enable: '(showPicto)'
           - type: LayoutBox
             cell:
               column: 0
@@ -447,7 +366,7 @@ children:
             children:
               - type: ComboBox
                 name: pictoShape
-                enable: (showPicto)
+                enable: '(showPicto)'
           - type: LayoutBox
             cell:
               column: 1
@@ -457,13 +376,17 @@ children:
               - type: TextBox
                 name: pictoSize
                 format: number
-                enable: (showPicto)
-  # Settings of the "Parliament (arc) chart" plot (collapsed). Its controls are greyed out while `showParliament` is unticked.
+                enable: '(showPicto)'
   - type: CollapseBox
-    label: Parliament
+    label: Parliament Chart
     collapsed: true
     stretchFactor: 1
     children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showParliament
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -477,7 +400,7 @@ children:
               - type: TextBox
                 name: parlSeats
                 format: number
-                enable: (showParliament)
+                enable: '(showParliament)'
           - type: LayoutBox
             cell:
               column: 1
@@ -487,7 +410,7 @@ children:
               - type: TextBox
                 name: parlRows
                 format: number
-                enable: (showParliament)
+                enable: '(showParliament)'
           - type: LayoutBox
             cell:
               column: 0
@@ -497,13 +420,17 @@ children:
               - type: TextBox
                 name: parlSize
                 format: number
-                enable: (showParliament)
-  # Settings of the "Response profile (lines)" plot (collapsed). Its controls are greyed out while `showProfile` is unticked.
+                enable: '(showParliament)'
   - type: CollapseBox
-    label: Response profile
+    label: Response Profile
     collapsed: true
     stretchFactor: 1
     children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showProfile
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -516,7 +443,7 @@ children:
             children:
               - type: CheckBox
                 name: profLines
-                enable: (showProfile)
+                enable: '(showProfile)'
           - type: LayoutBox
             cell:
               column: 1
@@ -525,7 +452,7 @@ children:
             children:
               - type: CheckBox
                 name: profPoints
-                enable: (showProfile)
+                enable: '(showProfile)'
           - type: LayoutBox
             cell:
               column: 0
@@ -534,13 +461,17 @@ children:
             children:
               - type: CheckBox
                 name: profLabels
-                enable: (showProfile)
-  # Settings of the "Mean category and CI (ordinal or two-category variables)" plot (collapsed). Its controls are greyed out while `showMeans` is unticked.
+                enable: '(showProfile)'
   - type: CollapseBox
-    label: Mean category and CI
+    label: Mean Category and CI
     collapsed: true
     stretchFactor: 1
     children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showMeans
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -553,7 +484,7 @@ children:
             children:
               - type: CheckBox
                 name: meansCi
-                enable: (showMeans)
+                enable: '(showMeans)'
           - type: LayoutBox
             cell:
               column: 1
@@ -563,7 +494,8 @@ children:
               - type: TextBox
                 name: meansLevel
                 format: number
-                enable: (showMeans)
+                suffix: '%'
+                enable: '(showMeans && meansCi)'
           - type: LayoutBox
             cell:
               column: 0
@@ -572,4 +504,4 @@ children:
             children:
               - type: CheckBox
                 name: meansLabels
-                enable: (showMeans)
+                enable: '(showMeans)'

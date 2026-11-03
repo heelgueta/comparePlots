@@ -1,11 +1,12 @@
 ---
-# Comparison of Numeric Variables (distNum): OPTIONS.
+# Compare Numeric (distNum): OPTIONS.
 # Defines every option of the analysis. jmvtools compiles this file (with the .r.yaml) into R/distNum.h.R;
 # never edit the .h.R by hand. The user interface is in distNum.u.yaml and the plotting code in R/distNum.b.R.
 name: distNum
-title: Comparison of Numeric Variables
-menuGroup: ComparePlots
-version: '0.4.0'
+title: Compare Numeric
+category: plots
+menuGroup: .
+version: '1.0.0'
 jas: '1.2'
 options:
   # DATA AND VARIABLES. `data` is the dataset; `vars` is the list of variables the user drops in.
@@ -20,7 +21,8 @@ options:
       - numeric
   # APPEARANCE: options shared by every plot of this analysis.
   # NOTE: do not name an option `theme` or `palette`; jmvcore reserves both for jamovi's global plot settings.
-  # Hence `plotTheme` and `colourPalette`.
+  # Hence `plotTheme` and `colourPalette`. Both default to "jamovi default", which follows the user's
+  # global jamovi theme/palette (the `ggtheme` and `theme` arguments of the render functions).
   - name: orientation
     title: Orientation
     type: List
@@ -30,14 +32,29 @@ options:
       - name: vertical
         title: Vertical
     default: horizontal
+  - name: sortVars
+    title: Order variables by
+    type: List
+    options:
+      - name: none
+        title: Entry order
+      - name: name
+        title: Alphabetically
+      - name: median
+        title: Median (lowest first)
+      - name: mean
+        title: Mean (lowest first)
+    default: none
   - name: invertVars
-    title: Invert variable order
+    title: Reverse the order
     type: Bool
     default: false
   - name: colourPalette
     title: Palette
     type: List
     options:
+      - name: jamovi
+        title: jamovi default
       - name: viridis
         title: Viridis
       - name: plasma
@@ -73,16 +90,18 @@ options:
       - name: okabe
         title: Okabe–Ito (colour-blind safe)
       - name: grays
-        title: Grays
-    default: viridis
+        title: Greys
+    default: jamovi
   - name: reversePalette
-    title: Invert palette colours
+    title: Invert palette
     type: Bool
     default: false
   - name: plotTheme
     title: Theme
     type: List
     options:
+      - name: jamovi
+        title: jamovi default
       - name: minimal
         title: Minimal
       - name: classic
@@ -92,16 +111,16 @@ options:
       - name: light
         title: Light
       - name: gray
-        title: Gray
-    default: minimal
+        title: Grey
+    default: jamovi
   - name: textSize
     title: Text size
     type: Integer
     min: 8
-    max: 24
-    default: 12
+    max: 32
+    default: 16
   - name: alpha
-    title: 'Transparency (opacity %)'
+    title: Opacity
     type: Integer
     min: 5
     max: 100
@@ -119,7 +138,7 @@ options:
     max: 6
     default: 1.4
   - name: jitterSpread
-    title: 'Jitter spread (%)'
+    title: Jitter spread
     type: Integer
     min: 0
     max: 100
@@ -133,7 +152,7 @@ options:
     type: String
     default: ''
   - name: showN
-    title: Show n per variable
+    title: n per variable
     type: Bool
     default: true
   - name: legendPos
@@ -149,35 +168,19 @@ options:
       - name: none
         title: None
     default: bottom
-  - name: autoSize
-    title: Size plots automatically
-    type: Bool
-    default: true
-  - name: plotWidth
-    title: Width (px)
-    type: Integer
-    min: 300
-    max: 2400
-    default: 700
-  - name: plotHeight
-    title: Height (px)
-    type: Integer
-    min: 200
-    max: 2400
-    default: 480
   # PLOT: Box plot. `showBox` switches it on; the options after it are its settings.
   - name: showBox
     title: Box plot
     type: Bool
     default: true
   - name: boxWidth
-    title: 'Box width (%)'
+    title: Box width
     type: Integer
     min: 5
     max: 100
     default: 60
   - name: boxOutliers
-    title: Show outliers
+    title: Outliers
     type: Bool
     default: true
   - name: boxNotch
@@ -185,11 +188,11 @@ options:
     type: Bool
     default: false
   - name: boxMean
-    title: Mark the mean
+    title: Mean marker
     type: Bool
     default: false
   - name: boxJitter
-    title: Show data points (jittered)
+    title: Data points (jittered)
     type: Bool
     default: false
   # PLOT: Violin plot. `showViolin` switches it on; the options after it are its settings.
@@ -198,7 +201,7 @@ options:
     type: Bool
     default: false
   - name: violinWidth
-    title: 'Violin width (%)'
+    title: Violin width
     type: Integer
     min: 5
     max: 100
@@ -234,7 +237,7 @@ options:
         title: None
     default: box
   - name: violinJitter
-    title: Show data points (jittered)
+    title: Data points (jittered)
     type: Bool
     default: false
   # PLOT: Means and error bars. `showErrorBar` switches it on; the options after it are its settings.
@@ -269,7 +272,7 @@ options:
         title: Min–max
     default: ci
   - name: ebLevel
-    title: 'Level (%) for CI / central %'
+    title: Level for CI / central %
     type: Integer
     min: 50
     max: 99
@@ -281,7 +284,7 @@ options:
     max: 5
     default: 1
   - name: ebJitter
-    title: Show data points (jittered)
+    title: Data points (jittered)
     type: Bool
     default: true
   - name: ebSize
@@ -291,17 +294,17 @@ options:
     max: 10
     default: 3.5
   - name: ebCap
-    title: 'Cap width (%)'
+    title: Cap width
     type: Integer
     min: 0
     max: 100
     default: 30
   - name: ebConnect
-    title: Connect the centres with a line
+    title: Line connecting the centres
     type: Bool
     default: false
   - name: ebLabels
-    title: Print centre values
+    title: Centre values
     type: Bool
     default: false
   # PLOT: Raincloud plot. `showRaincloud` switches it on; the options after it are its settings.
@@ -310,7 +313,7 @@ options:
     type: Bool
     default: false
   - name: rcCloudWidth
-    title: 'Cloud height (%)'
+    title: Cloud height
     type: Integer
     min: 10
     max: 100
@@ -322,11 +325,11 @@ options:
     max: 5
     default: 1
   - name: rcRain
-    title: Show the rain (data points)
+    title: Rain (data points)
     type: Bool
     default: true
   - name: rcBox
-    title: Show the box
+    title: Box
     type: Bool
     default: true
   # PLOT: Ridgeline (density) plot. `showRidge` switches it on; the options after it are its settings.
@@ -335,7 +338,7 @@ options:
     type: Bool
     default: false
   - name: ridgeOverlap
-    title: 'Overlap (%)'
+    title: Overlap
     type: Integer
     min: 0
     max: 300
@@ -351,7 +354,7 @@ options:
     type: Bool
     default: false
   - name: ridgeMedian
-    title: Mark the median
+    title: Median marker
     type: Bool
     default: false
   # PLOT: Histogram. `showHist` switches it on; the options after it are its settings.
@@ -409,7 +412,7 @@ options:
     type: Bool
     default: false
   - name: ecdfMedian
-    title: 'Mark the median (50%)'
+    title: 'Median marker (50%)'
     type: Bool
     default: true
   # PLOT: Data points (strip plot). `showStrip` switches it on; the options after it are its settings.
@@ -434,7 +437,7 @@ options:
     type: Bool
     default: false
   - name: barcodeHeight
-    title: 'Tick height (%)'
+    title: Tick height
     type: Integer
     min: 10
     max: 100

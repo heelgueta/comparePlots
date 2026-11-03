@@ -1,11 +1,12 @@
 ---
-# Comparison of Ordinal/Nominal Variables (distOrd): OPTIONS.
+# Compare Categorical (distOrd): OPTIONS.
 # Defines every option of the analysis. jmvtools compiles this file (with the .r.yaml) into R/distOrd.h.R;
 # never edit the .h.R by hand. The user interface is in distOrd.u.yaml and the plotting code in R/distOrd.b.R.
 name: distOrd
-title: Comparison of Ordinal/Nominal Variables
-menuGroup: ComparePlots
-version: '0.4.0'
+title: Compare Categorical
+category: plots
+menuGroup: .
+version: '1.0.0'
 jas: '1.2'
 options:
   # DATA AND VARIABLES. `data` is the dataset; `vars` is the list of variables the user drops in.
@@ -21,7 +22,8 @@ options:
       - factor
   # APPEARANCE: options shared by every plot of this analysis.
   # NOTE: do not name an option `theme` or `palette`; jmvcore reserves both for jamovi's global plot settings.
-  # Hence `plotTheme` and `colourPalette`.
+  # Hence `plotTheme` and `colourPalette`. Both default to "jamovi default", which follows the user's
+  # global jamovi theme/palette (the `ggtheme` and `theme` arguments of the render functions).
   - name: orientation
     title: Orientation
     type: List
@@ -32,13 +34,15 @@ options:
         title: Vertical
     default: horizontal
   - name: invertVars
-    title: Invert variable order
+    title: Reverse the order
     type: Bool
     default: false
   - name: colourPalette
     title: Palette (categories)
     type: List
     options:
+      - name: jamovi
+        title: jamovi default
       - name: viridis
         title: Viridis
       - name: plasma
@@ -74,16 +78,18 @@ options:
       - name: okabe
         title: Okabe–Ito (colour-blind safe)
       - name: grays
-        title: Grays
-    default: rdbu
+        title: Greys
+    default: jamovi
   - name: reversePalette
-    title: Invert palette colours
+    title: Invert palette
     type: Bool
     default: false
   - name: plotTheme
     title: Theme
     type: List
     options:
+      - name: jamovi
+        title: jamovi default
       - name: minimal
         title: Minimal
       - name: classic
@@ -93,28 +99,32 @@ options:
       - name: light
         title: Light
       - name: gray
-        title: Gray
-    default: minimal
+        title: Grey
+    default: jamovi
   - name: textSize
     title: Text size
     type: Integer
     min: 8
-    max: 24
-    default: 12
+    max: 32
+    default: 16
   - name: sortVars
-    title: Sort variables
+    title: Order variables by
     type: List
     options:
       - name: none
-        title: As entered
+        title: Entry order
       - name: name
         title: Alphabetically
-      - name: first
-        title: 'By % in first category'
-      - name: last
-        title: 'By % in last category'
       - name: mean
-        title: By mean category (levels coded 1…k)
+        title: Mean category (lowest first)
+      - name: median
+        title: Median category (lowest first)
+      - name: first
+        title: '% in first category (highest first)'
+      - name: last
+        title: '% in last category (highest first)'
+      - name: net
+        title: 'Net % (positive minus negative, highest first)'
     default: none
   - name: decimals
     title: 'Decimals in % labels'
@@ -144,38 +154,22 @@ options:
     type: String
     default: ''
   - name: showN
-    title: Show n per variable
+    title: n per variable
     type: Bool
     default: false
-  - name: autoSize
-    title: Size plots automatically
-    type: Bool
-    default: true
-  - name: plotWidth
-    title: Width (px)
-    type: Integer
-    min: 300
-    max: 2400
-    default: 700
-  - name: plotHeight
-    title: Height (px)
-    type: Integer
-    min: 200
-    max: 2400
-    default: 420
   # PLOT: Stacked bars (100%). `showBars` switches it on; the options after it are its settings.
   - name: showBars
     title: 'Stacked bars (100%)'
     type: Bool
     default: true
   - name: barWidth
-    title: 'Bar thickness (%)'
+    title: Bar thickness
     type: Integer
     min: 10
     max: 100
     default: 70
   - name: barLabels
-    title: 'Show % labels'
+    title: '% labels'
     type: Bool
     default: true
   - name: barMinLabel
@@ -190,7 +184,7 @@ options:
     type: Bool
     default: false
   - name: divWidth
-    title: 'Bar thickness (%)'
+    title: Bar thickness
     type: Integer
     min: 10
     max: 100
@@ -205,7 +199,7 @@ options:
         title: Never centre
     default: auto
   - name: divLabels
-    title: 'Show % labels'
+    title: '% labels'
     type: Bool
     default: true
   - name: divMinLabel
@@ -215,7 +209,7 @@ options:
     max: 50
     default: 8
   - name: divNet
-    title: 'Show net % on each side'
+    title: 'Net % on each side'
     type: Bool
     default: false
   # PLOT: Heatmap. `showHeat` switches it on; the options after it are its settings.
@@ -244,14 +238,14 @@ options:
       - name: rocket
         title: Rocket
       - name: grays
-        title: Grays
+        title: Greys
     default: blues
   - name: heatLabels
-    title: 'Show % in the tiles'
+    title: '% in the tiles'
     type: Bool
     default: true
   - name: heatGap
-    title: 'Tile gap (%)'
+    title: Tile gap
     type: Integer
     min: 0
     max: 40
@@ -274,7 +268,7 @@ options:
     max: 50
     default: 10
   - name: waffleGap
-    title: 'Gap between squares (%)'
+    title: Gap between squares
     type: Integer
     min: 0
     max: 50
@@ -348,11 +342,11 @@ options:
     type: Bool
     default: true
   - name: profPoints
-    title: Show points
+    title: Points
     type: Bool
     default: true
   - name: profLabels
-    title: 'Print % values'
+    title: '% values'
     type: Bool
     default: false
   # PLOT: Mean category and CI (ordinal or two-category variables). `showMeans` switches it on; the options after it are its settings.
@@ -361,17 +355,17 @@ options:
     type: Bool
     default: false
   - name: meansCi
-    title: Show confidence interval
+    title: Confidence interval
     type: Bool
     default: true
   - name: meansLevel
-    title: 'CI level (%)'
+    title: CI level
     type: Integer
     min: 50
     max: 99
     default: 95
   - name: meansLabels
-    title: Print mean values
+    title: Mean values
     type: Bool
     default: false
 ...

@@ -8,7 +8,9 @@
 
 # -----------------------------------------------------------------------------
 # cmp_palette(): n colours for a palette chosen in the UI.
-#   scheme  the option value of `colourPalette` (see the .a.yaml for the list)
+#   scheme  the option value of `colourPalette` (see the .a.yaml for the list).
+#           "jamovi" (the default) builds the colours from the user's global jamovi
+#           theme, see cmp_jamovi_palette()
 #   n       how many colours are needed
 #   reverse TRUE when the user ticked "Invert palette colours"
 #   spread  TRUE when colours are for individual VARIABLES (lines, points, one
@@ -20,8 +22,12 @@
 # qualitative ones from grDevices::hcl.colors(); "okabe" is the colour-blind-safe
 # Okabe-Ito set (without its black) and is recycled if more colours are needed.
 # -----------------------------------------------------------------------------
-cmp_palette <- function(scheme, n, reverse = FALSE, spread = FALSE) {
+cmp_palette <- function(scheme, n, reverse = FALSE, spread = FALSE, theme = NULL) {
     n <- max(as.integer(n), 1L)
+    if (identical(scheme, "jamovi")) {
+        cols <- cmp_jamovi_palette(theme, n)
+        return(if (reverse) rev(cols) else cols)
+    }
     if (spread && scheme %in% c("rdbu", "rdylgn", "piyg", "prgn", "brbg") && n > 1L) {
         cols <- cmp_palette(scheme, n + 2L, reverse = FALSE)
         rgb  <- grDevices::col2rgb(cols)
@@ -49,16 +55,51 @@ cmp_palette <- function(scheme, n, reverse = FALSE, spread = FALSE) {
 
 
 # -----------------------------------------------------------------------------
-# cmp_theme(): the complete ggplot2 theme for the `plotTheme` option.
-# Unknown values fall back to theme_minimal, the module's default.
+# cmp_jamovi_palette(): n colours that follow jamovi's global plot settings.
+# jamovi hands every render function a `theme` list whose `fill` (and `color`)
+# hold the accent colours of the user's chosen theme/palette (jamovi's own plots
+# use theme$fill[2] for filled shapes). One colour is not enough to tell several
+# variables or categories apart, so n shades are spread from dark to light around
+# that accent colour. Without a theme (e.g. in tests) a neutral blue is used.
 # -----------------------------------------------------------------------------
-cmp_theme <- function(name, size = 12) {
-    switch(name,
-        classic = ggplot2::theme_classic(base_size = size),
-        bw      = ggplot2::theme_bw(base_size = size),
-        light   = ggplot2::theme_light(base_size = size),
-        gray    = ggplot2::theme_gray(base_size = size),
-        ggplot2::theme_minimal(base_size = size))
+cmp_jamovi_palette <- function(theme, n) {
+    base <- NULL
+    for (cand in list(theme$fill[2], theme$fill[1], theme$color[1]))
+        if (length(cand) == 1 && !is.na(cand) && is.character(cand)) { base <- cand; break }
+    if (is.null(base)) base <- "#3E6DA6"
+    if (n == 1L) return(base)
+    rgb <- as.numeric(grDevices::col2rgb(base))
+    dark  <- grDevices::rgb(rgb[1] * 0.55, rgb[2] * 0.55, rgb[3] * 0.55, maxColorValue = 255)
+    light <- grDevices::rgb(rgb[1] + (255 - rgb[1]) * 0.7, rgb[2] + (255 - rgb[2]) * 0.7,
+                            rgb[3] + (255 - rgb[3]) * 0.7, maxColorValue = 255)
+    grDevices::colorRampPalette(c(dark, base, light))(n)
+}
+
+
+# -----------------------------------------------------------------------------
+# cmp_theme(): the complete ggplot2 theme for the `plotTheme` option.
+#   name     option value; "jamovi" (the default) returns `ggtheme`, the theme
+#            jamovi passes to the render function, so the plots follow the user's
+#            global theme settings. Other values give one of ggplot2's own themes
+#            at `size`. Unknown values fall back to theme_minimal.
+#   ggtheme  the theme object jamovi supplies (NULL outside jamovi -> minimal)
+# Whatever the theme, the plot and legend backgrounds are made transparent, like
+# jamovi's own plots, so the results look right on any page colour.
+# -----------------------------------------------------------------------------
+cmp_theme <- function(name, size = 16, ggtheme = NULL) {
+    base <- if (identical(name, "jamovi") && inherits(ggtheme, "theme")) {
+        ggtheme
+    } else {
+        switch(name,
+            classic = ggplot2::theme_classic(base_size = size),
+            bw      = ggplot2::theme_bw(base_size = size),
+            light   = ggplot2::theme_light(base_size = size),
+            gray    = ggplot2::theme_gray(base_size = size),
+            ggplot2::theme_minimal(base_size = size))
+    }
+    clear <- ggplot2::element_rect(fill = NA, colour = NA)
+    base + ggplot2::theme(plot.background = clear, legend.background = clear,
+                          legend.key = clear, legend.box.background = clear)
 }
 
 
@@ -197,4 +238,85 @@ cmp_interval_label <- function(center, interval, level, mult) {
         range  = "min-max",
         paste0(level, "% CI"))
     paste0(c_lab, " and ", i_lab)
+}
+
+
+# -----------------------------------------------------------------------------
+# cmp_cat_axis(): the shared category axis of the ordinal/nominal analysis.
+# In jamovi a column's levels are only the values that occur in it, so an item
+# nobody answered "3" on has levels 1, 2, 4, 5. A union "in order of appearance"
+# would then put 3 last. This builds the union so that every variable keeps its
+# own level order:
+#   * all levels numeric (integer-coded Likert items): sorted numerically;
+#   * otherwise: start from the variable with the most levels and slot each
+#     missing level in right after the level that precedes it in its own variable.
+# `levs` is a named list, variable name -> character vector of levels. Returns
+#   cats      the common axis
+#   conflict  variables whose own order cannot be kept (they disagree with another
+#             variable about which category comes first)
+#   disjoint  variables that share no level at all with the others
+# The caller reports conflict/disjoint with a warning; nothing is guessed silently.
+# -----------------------------------------------------------------------------
+cmp_cat_axis <- function(levs) {
+    levs <- lapply(levs, as.character)
+    all_lv <- unique(unlist(levs, use.names = FALSE))
+    if (length(all_lv) == 0) return(list(cats = character(0), conflict = character(0), disjoint = character(0)))
+    num <- suppressWarnings(as.numeric(all_lv))
+    cats <- if (!anyNA(num)) {
+        all_lv[order(num)]
+    } else {
+        tmpl <- levs[[which.max(vapply(levs, length, 1L))]]
+        res <- tmpl
+        for (lv in levs) {
+            last <- 0L                                   # index in `res` of the previous level of this variable
+            for (x in lv) {
+                i <- match(x, res)
+                if (is.na(i)) {
+                    res <- append(res, x, after = last)
+                    last <- last + 1L
+                } else {
+                    last <- i
+                }
+            }
+        }
+        res
+    }
+    nm <- names(levs)
+    conflict <- nm[vapply(levs, function(lv) is.unsorted(match(lv, cats)), logical(1))]
+    disjoint <- if (length(levs) > 1)
+        nm[vapply(seq_along(levs), function(i) !any(levs[[i]] %in% unlist(levs[-i], use.names = FALSE)), logical(1))]
+    else character(0)
+    list(cats = cats, conflict = conflict, disjoint = disjoint)
+}
+
+
+# -----------------------------------------------------------------------------
+# cmp_order_vars(): the order in which variables are drawn (before "reverse").
+#   how    the `sortVars` option: "none" (entry order), "name", or a statistic
+#          name; `stat` is then a named numeric vector (one value per variable)
+#          and variables are sorted by it, lowest first. NAs go last and ties
+#          keep their entry order.
+# -----------------------------------------------------------------------------
+cmp_order_vars <- function(vars, how = "none", stat = NULL) {
+    if (identical(how, "name")) return(vars[order(tolower(vars), vars)])
+    if (identical(how, "none") || is.null(stat)) return(vars)
+    vars[order(unname(stat[vars]), na.last = TRUE)]
+}
+
+
+# -----------------------------------------------------------------------------
+# cmp_split_cats(): which categories count as negative, neutral and positive
+# in the diverging bars (and in the "net %" ordering). With an odd number (>= 3)
+# of categories and `centre` TRUE the middle one is neutral; otherwise the first
+# floor(k/2) categories are negative and the rest positive.
+# -----------------------------------------------------------------------------
+cmp_split_cats <- function(cats, centre = TRUE) {
+    k <- length(cats)
+    if (centre && k %% 2 == 1 && k >= 3) {
+        m <- (k + 1) / 2
+        list(neg = cats[seq_len(m - 1)], neu = cats[m], pos = cats[(m + 1):k])
+    } else {
+        h <- floor(k / 2)
+        list(neg = cats[seq_len(h)], neu = character(0), pos = cats[(h + 1):k])
+    }
 }

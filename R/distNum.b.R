@@ -1,5 +1,5 @@
 # =============================================================================
-# distNum: "Comparison of Numeric Variables"
+# distNum: "Compare Numeric"
 #
 # Implementation of the analysis. The option, result and UI definitions live in
 # jamovi/distNum.{a,r,u}.yaml; jamovi's compiler (jmvtools) turns the .a.yaml and
@@ -8,13 +8,15 @@
 #
 # HOW AN ANALYSIS RUNS IN JAMOVI
 #   1. `.run()` is called whenever an option or the data change. It must be quick:
-#      it only prepares the data and hands it to each *enabled* image through
-#      `image$setState()`. Nothing is drawn here.
+#      it checks the data and hands a *small* state to each enabled image through
+#      `image$setState()` (the variable names; for the means plot also its summary
+#      table, so the bootstrap is not repeated on every redraw). Nothing is drawn
+#      here and plots are NEVER resized here: their size is fixed in the .r.yaml.
 #   2. jamovi then calls each image's render function (`.plot_<key>`, named in
-#      distNum.r.yaml via `renderFun`). Those read the state back with
-#      `image$state` and print a ggplot2 object to the graphics device that
-#      jamovi has opened. Data are NOT available at render time, which is why
-#      everything the plots need travels inside the state.
+#      distNum.r.yaml via `renderFun`) with the user's `ggtheme` and `theme`.
+#      The images declare `requiresData: true`, so the raw data are available in
+#      `self$data` at render time; `.render()` rebuilds the long-format table
+#      from them instead of storing a copy of the data in every image's state.
 #
 # HOW THE PLOTS ARE BUILT (read this before touching any `.p_*` function)
 #   Every plot that has one variable per slot on a "variable axis" is drawn on a
@@ -31,6 +33,8 @@
 #   jmvcore's `Options` class already owns the names `theme` and `palette` (for
 #   jamovi's global plot settings), so this analysis calls them `plotTheme` and
 #   `colourPalette`. Do not rename them back: the global setting silently wins.
+#   Both default to "jamovi default": the plots then use jamovi's own `ggtheme`
+#   and the accent colour of `theme`, so they match the other plots in the results.
 #
 # Shared helpers (palettes, themes, summary statistics) are in R/utils.R.
 # =============================================================================
@@ -60,72 +64,76 @@ distNumClass <- R6::R6Class(
             # `hint` is an Html result element that is only shown when helpful
             hint <- self$results$hint
             if (length(vars) > 0 && !any(on)) {
-                hint$setContent("<p>Tick at least one plot under <b>Plots to show</b>.</p>")
+                hint$setContent("<p>Open a plot's section below and tick its checkbox to draw it.</p>")
                 hint$setVisible(TRUE)
             } else {
                 hint$setVisible(FALSE)
             }
             if (length(vars) == 0 || !any(on)) return()
 
-            # Long format: one row per observation, columns `variable` and `value`.
-            # Missing / non-finite values are dropped per variable, so variables
-            # may have different n (it is shown in the caption).
+            # Nothing usable at all: say so (jamovi greys the results and shows the
+            # message) instead of leaving a set of empty plots.
+            long <- private$.long(vars)
+            if (nrow(long) == 0)
+                jmvcore::reject("The selected variables have no non-missing values.")
+
+            # Hand a small state to each enabled image. Images that are not ticked
+            # get no state and (via `visible:` in the .r.yaml) are not shown.
+            # Only the means plot has something worth caching: its summary table
+            # (the median's confidence interval needs 1000 bootstrap resamples per
+            # variable, which must not be repeated every time jamovi redraws).
+            for (key in names(private$.switches)[on]) {
+                image <- self$results[[paste0("plot_", key)]]
+                st <- list(vars = vars)
+                if (key == "errorbar") st$summary <- private$.summary(long, vars)
+                image$setState(st)
+            }
+        },
+
+        # Long format: one row per observation, columns `variable` and `value`.
+        # Missing / non-finite values are dropped per variable, so variables may
+        # have different n (it is shown in the caption).
+        .long = function(vars) {
             long <- do.call(rbind, lapply(vars, function(v) {
                 data.frame(variable = v, value = as.numeric(self$data[[v]]),
                            stringsAsFactors = FALSE)
             }))
-            long <- long[is.finite(long$value), , drop = FALSE]
-            if (nrow(long) == 0) return()
-
-            # Hand the data to each enabled image. Images that are not ticked get
-            # no state and (via `visible:` in the .r.yaml) are not shown at all.
-            for (key in names(private$.switches)[on]) {
-                image <- self$results[[paste0("plot_", key)]]
-                sz <- private$.size(key, length(vars))
-                image$setSize(sz[1], sz[2])
-                image$setState(list(long = long, vars = vars))
-            }
+            long[is.finite(long$value), , drop = FALSE]
         },
 
-        # Plot size in pixels. With "Size plots automatically" the size grows with
-        # the number of variables `n`; otherwise the user's width/height are used.
-        # The numbers are empirical: they keep labels readable up to ~10 variables.
-        .size = function(key, n) {
+        # Centre and interval of every variable for the means plot (see cmp_summary()).
+        .summary = function(long, vars) {
             o <- self$options
-            if (!o$autoSize) return(c(o$plotWidth, o$plotHeight))
-            horiz <- o$orientation == "horizontal"
-            if (key %in% c("density", "ecdf")) return(c(700, 460))   # single panel
-            if (key == "ridge")      # ridges need extra room because they overlap upwards
-                return(if (horiz) c(700, max(300, 150 + 80 * n)) else c(max(450, 160 + 120 * n), 500))
-            if (key == "hist")       # one facet per variable
-                return(if (horiz) c(700, max(320, 100 + 115 * n)) else c(max(480, 110 + 190 * n), 440))
-            # all other plots: one slot per variable on the variable axis
-            if (horiz) c(700, max(250, 110 + 64 * n)) else c(max(430, 130 + 100 * n), 470)
+            do.call(rbind, lapply(vars, function(v) {
+                r <- cmp_summary(long$value[long$variable == v], o$ebCenter, o$ebInterval,
+                                 o$ebLevel, o$ebMult)
+                data.frame(variable = v, centre = r[1], lo = r[2], hi = r[3], stringsAsFactors = FALSE)
+            }))
         },
 
         # ---------------------------------------------------------------------
         # Render entry points. jamovi calls these by name (renderFun in the
         # .r.yaml); each just forwards to the shared `.render()` with its key.
         # ---------------------------------------------------------------------
-        .plot_box       = function(image, ...) private$.render(image, "box"),
-        .plot_violin    = function(image, ...) private$.render(image, "violin"),
-        .plot_errorbar  = function(image, ...) private$.render(image, "errorbar"),
-        .plot_raincloud = function(image, ...) private$.render(image, "raincloud"),
-        .plot_ridge     = function(image, ...) private$.render(image, "ridge"),
-        .plot_hist      = function(image, ...) private$.render(image, "hist"),
-        .plot_density   = function(image, ...) private$.render(image, "density"),
-        .plot_ecdf      = function(image, ...) private$.render(image, "ecdf"),
-        .plot_strip     = function(image, ...) private$.render(image, "strip"),
-        .plot_barcode   = function(image, ...) private$.render(image, "barcode"),
+        .plot_box       = function(image, ggtheme, theme, ...) private$.render(image, "box", ggtheme, theme),
+        .plot_violin    = function(image, ggtheme, theme, ...) private$.render(image, "violin", ggtheme, theme),
+        .plot_errorbar  = function(image, ggtheme, theme, ...) private$.render(image, "errorbar", ggtheme, theme),
+        .plot_raincloud = function(image, ggtheme, theme, ...) private$.render(image, "raincloud", ggtheme, theme),
+        .plot_ridge     = function(image, ggtheme, theme, ...) private$.render(image, "ridge", ggtheme, theme),
+        .plot_hist      = function(image, ggtheme, theme, ...) private$.render(image, "hist", ggtheme, theme),
+        .plot_density   = function(image, ggtheme, theme, ...) private$.render(image, "density", ggtheme, theme),
+        .plot_ecdf      = function(image, ggtheme, theme, ...) private$.render(image, "ecdf", ggtheme, theme),
+        .plot_strip     = function(image, ggtheme, theme, ...) private$.render(image, "strip", ggtheme, theme),
+        .plot_barcode   = function(image, ggtheme, theme, ...) private$.render(image, "barcode", ggtheme, theme),
 
         # Read the state, build the ggplot, print it. Returning FALSE tells jamovi
         # that nothing was drawn; returning TRUE means the plot is on the device.
         # Warnings (e.g. "notch went outside hinges" with tiny n) are muted
         # because they would otherwise surface as noise in the results.
-        .render = function(image, key) {
+        .render = function(image, key, ggtheme = NULL, theme = NULL) {
             st <- image$state
             if (is.null(st)) return(FALSE)
-            p <- private$.build(key, st$long, st$vars)
+            p <- private$.build(key, private$.long(st$vars), st, ggtheme, theme)
             if (is.null(p)) return(FALSE)
             suppressWarnings(suppressMessages(print(p)))
             TRUE
@@ -142,25 +150,33 @@ distNumClass <- R6::R6Class(
         #   cols  : named character vector, variable -> colour
         #   alpha, lw : fill opacity (0-1) and line width in ggplot units
         # ---------------------------------------------------------------------
-        .context = function(vars) {
+        .context = function(vars, long, ggtheme = NULL, theme = NULL) {
             o     <- self$options
             horiz <- identical(o$orientation, "horizontal")
-            lv    <- if (o$invertVars) rev(vars) else vars
+            # "Order variables by": entry order, name, or a statistic (lowest first);
+            # "Reverse the order" then flips whichever order was chosen.
+            stat <- switch(o$sortVars,
+                mean   = tapply(long$value, long$variable, mean),
+                median = tapply(long$value, long$variable, stats::median),
+                NULL)
+            ord   <- cmp_order_vars(vars, o$sortVars, stat)
+            lv    <- if (o$invertVars) rev(ord) else ord
             n     <- length(lv)
             pos   <- if (horiz) rev(seq_len(n)) else seq_len(n)
             names(pos) <- lv
             # spread = TRUE drops the pale middle of diverging palettes (see utils.R)
-            cols  <- cmp_palette(o$colourPalette, n, o$reversePalette, spread = TRUE)
+            cols  <- cmp_palette(o$colourPalette, n, o$reversePalette, spread = TRUE, theme = theme)
             names(cols) <- lv
-            list(o = o, horiz = horiz, lv = lv, n = n, pos = pos, cols = cols,
+            list(o = o, horiz = horiz, lv = lv, n = n, pos = pos, cols = cols, ggtheme = ggtheme,
                  alpha = o$alpha / 100, lw = cmp_line_width(o$lineWidth))
         },
 
         # Build the ggplot for one plot key: attach `variable` (factor, drawing
         # order) and `pos` to the data, dispatch to the `.p_<key>` builder, then
         # apply the theme/labels common to all plots in `.finish()`.
-        .build = function(key, long, vars) {
-            ctx <- private$.context(vars)
+        .build = function(key, long, st, ggtheme = NULL, theme = NULL) {
+            ctx <- private$.context(st$vars, long, ggtheme, theme)
+            ctx$summary <- st$summary
             long$variable <- factor(long$variable, levels = ctx$lv)
             long$pos <- unname(ctx$pos[as.character(long$variable)])
             p <- switch(key,
@@ -192,13 +208,13 @@ distNumClass <- R6::R6Class(
             p <- p +
                 ggplot2::scale_fill_manual(values = ctx$cols, guide = if (overlay) "legend" else "none") +
                 ggplot2::scale_colour_manual(values = ctx$cols, guide = if (overlay) "legend" else "none") +
-                cmp_theme(o$plotTheme, o$textSize) +
+                cmp_theme(o$plotTheme, o$textSize, ctx$ggtheme) +
                 ggplot2::theme(
                     legend.position  = if (overlay) o$legendPos else "none",
                     legend.title     = ggplot2::element_blank(),
                     plot.title       = ggplot2::element_text(face = "bold", hjust = 0.5),
                     panel.grid.minor = ggplot2::element_blank(),
-                    plot.caption     = ggplot2::element_text(size = o$textSize * 0.65, colour = "grey45", hjust = 0),
+                    plot.caption     = ggplot2::element_text(size = ggplot2::rel(0.7), colour = "grey45", hjust = 0),
                     plot.margin      = ggplot2::margin(10, 16, 8, 10))
 
             # histogram facets: horizontal strip text on the left, no boxes
@@ -332,14 +348,13 @@ distNumClass <- R6::R6Class(
 
         # ── Means (or medians) with error bars ─────────────────────────────
         # Summary statistics come from cmp_summary() in utils.R (centre, lower,
-        # upper per variable). The raw data can be drawn faintly behind.
+        # upper per variable), computed in .run(). The raw data can be drawn faintly behind.
         .p_errorbar = function(long, ctx) {
             o <- ctx$o
-            s <- do.call(rbind, lapply(ctx$lv, function(v) {
-                r <- cmp_summary(long$value[long$variable == v], o$ebCenter, o$ebInterval,
-                                 o$ebLevel, o$ebMult)
-                data.frame(variable = v, pos = unname(ctx$pos[v]), centre = r[1], lo = r[2], hi = r[3])
-            }))
+            # centre/lo/hi per variable were computed once in .run() and travel in
+            # the state; here they only get their position on the variable axis
+            s <- ctx$summary
+            s$pos <- unname(ctx$pos[s$variable])
             s$variable <- factor(s$variable, levels = ctx$lv)
             s <- s[order(s$pos), ]    # needed so the optional connecting line goes in order
 

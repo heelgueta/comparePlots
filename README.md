@@ -2,10 +2,10 @@
 
 A jamovi module to **compare the distributions of several variables at once**, side by side on one shared scale. Drop your variables in, tick the plots you want, and get them all in one go. No code needed.
 
-Two analyses, under their own **ComparePlots** menu:
+Two analyses, in jamovi's **Plots** tab:
 
-- **Comparison of Numeric Variables**
-- **Comparison of Ordinal/Nominal Variables**
+- **Compare Numeric**
+- **Compare Categorical**
 
 Both work the same way: pick variables, set a few shared appearance options, then **tick any combination of plots**. Every plot appears as its own result and has its own collapsible settings panel.
 
@@ -21,9 +21,9 @@ Example datasets are included and appear under **Open → Data Library → Compa
 
 ---
 
-## Comparison of Numeric Variables
+## Compare Numeric
 
-Shared appearance: orientation (horizontal by default) · invert variable order · palette (viridis by default) · invert palette colours · theme · text size · transparency · line thickness · point size · jitter spread · axis label · title · automatic or manual plot size.
+Shared appearance: orientation (horizontal by default) · order variables by (entry order, name, median, mean) · reverse the order · palette and theme (both follow jamovi's own settings by default; own palettes and themes are available) · invert palette · text size · opacity · line thickness · point size · jitter spread · axis label · title. Plots have a fixed default size; drag a plot's corner in jamovi to resize it.
 
 | Plot | Settings |
 |---|---|
@@ -38,9 +38,9 @@ Shared appearance: orientation (horizontal by default) · invert variable order 
 | Data points (strip) | mean/median line |
 | Barcode plot | tick height |
 
-## Comparison of Ordinal/Nominal Variables
+## Compare Categorical
 
-Shared appearance: orientation (horizontal: charts stacked top to bottom; vertical: side by side) · invert variable order · palette (red–blue diverging by default) · invert palette colours · theme · text size · sort variables (as entered, name, % in first/last category, mean category) · decimals · legend position/title · title · n per variable · automatic or manual plot size.
+Shared appearance: orientation (horizontal: charts stacked top to bottom; vertical: side by side) · order variables by (entry order, name, mean category, median category, % in first/last category, net %) · reverse the order · palette and theme (both follow jamovi's own settings by default) · invert palette · text size · decimals · legend position/title · title · n per variable.
 
 | Plot | Settings |
 |---|---|
