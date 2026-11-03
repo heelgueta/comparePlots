@@ -63,3 +63,11 @@ the module in jamovi (no R/jamovi was available when the changes were written), 
 2. **Advanced size setting** (maintainer's idea): decide after trying the fixed sizes in jamovi with many variables. Reviewer says jamovi will add typed sizes itself, so this may not be needed.
 3. **Text size** now matters only for our own themes and in-plot labels; with *jamovi default* the axis text size comes from jamovi's theme.
 4. Reply to the reviewer's email when resubmitting, noting the deviation in item 14.
+
+## Build log (2026-11-03)
+
+- Tooling: jamovi's bundled R 4.5.0 (`/Applications/jamovi.app/Contents/Frameworks/R.framework`) plus `jmvtools` 28.4 installed in `~/jmvtools-lib`; environment in `~/.jmvenv.sh` (`source` it, then add `R_LIBS=$HOME/jmvtools-lib:$R_LIBS`).
+- `jmvtools::install(home = "/Applications/jamovi.app")` builds `ComparePlots_1.0.0.jmo` (git-ignored) and installs it. It rewrites `jamovi/0000.yaml` without comments: `git checkout jamovi/0000.yaml` afterwards.
+- Unit tests: all pass. Headless smoke test: all 10 numeric and 8 categorical plots render; a sparse first item (no "Neutral") keeps the category axis in order.
+- Fixed while testing: the n-per-variable caption ran off the edge of the smaller plots (now wrapped).
+- Generated `R/dist*.h.R` regenerated and committed.

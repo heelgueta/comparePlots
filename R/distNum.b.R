@@ -236,8 +236,9 @@ distNumClass <- R6::R6Class(
             # Caption: n per variable (optional), plus a description of what the
             # error bars show for the means plot.
             n_per   <- table(long$variable)
+            # wrapped so a long list of variables does not run off the edge of a small plot
             caption <- if (isTRUE(o$showN))
-                paste(paste0(names(n_per), " (n=", n_per, ")"), collapse = "   ") else NULL
+                paste(strwrap(paste(paste0(names(n_per), " (n=", n_per, ")"), collapse = "   "), 55), collapse = "\n") else NULL
             if (key == "errorbar") {
                 extra <- cmp_interval_label(o$ebCenter, o$ebInterval, o$ebLevel, o$ebMult)
                 caption <- paste(c(extra, caption), collapse = "\n")

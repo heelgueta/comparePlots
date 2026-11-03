@@ -8,11 +8,12 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         initialize = function(
             vars = NULL,
             orientation = "horizontal",
+            sortVars = "none",
             invertVars = FALSE,
-            colourPalette = "viridis",
+            colourPalette = "jamovi",
             reversePalette = FALSE,
-            plotTheme = "minimal",
-            textSize = 12,
+            plotTheme = "jamovi",
+            textSize = 16,
             alpha = 80,
             lineWidth = 2,
             pointSize = 1.4,
@@ -21,9 +22,6 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             title = "",
             showN = TRUE,
             legendPos = "bottom",
-            autoSize = TRUE,
-            plotWidth = 700,
-            plotHeight = 480,
             showBox = TRUE,
             boxWidth = 60,
             boxOutliers = TRUE,
@@ -93,6 +91,15 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "horizontal",
                     "vertical"),
                 default="horizontal")
+            private$..sortVars <- jmvcore::OptionList$new(
+                "sortVars",
+                sortVars,
+                options=list(
+                    "none",
+                    "name",
+                    "median",
+                    "mean"),
+                default="none")
             private$..invertVars <- jmvcore::OptionBool$new(
                 "invertVars",
                 invertVars,
@@ -101,6 +108,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "colourPalette",
                 colourPalette,
                 options=list(
+                    "jamovi",
                     "viridis",
                     "plasma",
                     "magma",
@@ -119,7 +127,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "pastel",
                     "okabe",
                     "grays"),
-                default="viridis")
+                default="jamovi")
             private$..reversePalette <- jmvcore::OptionBool$new(
                 "reversePalette",
                 reversePalette,
@@ -128,18 +136,19 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plotTheme",
                 plotTheme,
                 options=list(
+                    "jamovi",
                     "minimal",
                     "classic",
                     "bw",
                     "light",
                     "gray"),
-                default="minimal")
+                default="jamovi")
             private$..textSize <- jmvcore::OptionInteger$new(
                 "textSize",
                 textSize,
                 min=8,
-                max=24,
-                default=12)
+                max=32,
+                default=16)
             private$..alpha <- jmvcore::OptionInteger$new(
                 "alpha",
                 alpha,
@@ -185,22 +194,6 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "top",
                     "none"),
                 default="bottom")
-            private$..autoSize <- jmvcore::OptionBool$new(
-                "autoSize",
-                autoSize,
-                default=TRUE)
-            private$..plotWidth <- jmvcore::OptionInteger$new(
-                "plotWidth",
-                plotWidth,
-                min=300,
-                max=2400,
-                default=700)
-            private$..plotHeight <- jmvcore::OptionInteger$new(
-                "plotHeight",
-                plotHeight,
-                min=200,
-                max=2400,
-                default=480)
             private$..showBox <- jmvcore::OptionBool$new(
                 "showBox",
                 showBox,
@@ -449,6 +442,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 
             self$.addOption(private$..vars)
             self$.addOption(private$..orientation)
+            self$.addOption(private$..sortVars)
             self$.addOption(private$..invertVars)
             self$.addOption(private$..colourPalette)
             self$.addOption(private$..reversePalette)
@@ -462,9 +456,6 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..title)
             self$.addOption(private$..showN)
             self$.addOption(private$..legendPos)
-            self$.addOption(private$..autoSize)
-            self$.addOption(private$..plotWidth)
-            self$.addOption(private$..plotHeight)
             self$.addOption(private$..showBox)
             self$.addOption(private$..boxWidth)
             self$.addOption(private$..boxOutliers)
@@ -517,6 +508,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     active = list(
         vars = function() private$..vars$value,
         orientation = function() private$..orientation$value,
+        sortVars = function() private$..sortVars$value,
         invertVars = function() private$..invertVars$value,
         colourPalette = function() private$..colourPalette$value,
         reversePalette = function() private$..reversePalette$value,
@@ -530,9 +522,6 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         title = function() private$..title$value,
         showN = function() private$..showN$value,
         legendPos = function() private$..legendPos$value,
-        autoSize = function() private$..autoSize$value,
-        plotWidth = function() private$..plotWidth$value,
-        plotHeight = function() private$..plotHeight$value,
         showBox = function() private$..showBox$value,
         boxWidth = function() private$..boxWidth$value,
         boxOutliers = function() private$..boxOutliers$value,
@@ -584,6 +573,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     private = list(
         ..vars = NA,
         ..orientation = NA,
+        ..sortVars = NA,
         ..invertVars = NA,
         ..colourPalette = NA,
         ..reversePalette = NA,
@@ -597,9 +587,6 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..title = NA,
         ..showN = NA,
         ..legendPos = NA,
-        ..autoSize = NA,
-        ..plotWidth = NA,
-        ..plotHeight = NA,
         ..showBox = NA,
         ..boxWidth = NA,
         ..boxOutliers = NA,
@@ -671,7 +658,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="Comparison of Numeric Variables")
+                title="Compare Numeric")
             self$add(jmvcore::Html$new(
                 options=options,
                 name="hint",
@@ -681,14 +668,15 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 options=options,
                 name="plot_box",
                 title="Box plot",
-                width=700,
-                height=480,
+                width=450,
+                height=350,
                 renderFun=".plot_box",
                 visible="(showBox)",
                 requiresData=TRUE,
                 clearWith=list(
                     "vars",
                     "orientation",
+                    "sortVars",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -706,21 +694,20 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "boxOutliers",
                     "boxNotch",
                     "boxMean",
-                    "boxJitter"),
-                refs=list(
-                    "ggplot2")))
+                    "boxJitter")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_violin",
                 title="Violin plot",
-                width=700,
-                height=480,
+                width=450,
+                height=350,
                 renderFun=".plot_violin",
                 visible="(showViolin)",
                 requiresData=TRUE,
                 clearWith=list(
                     "vars",
                     "orientation",
+                    "sortVars",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -739,21 +726,20 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "violinAdjust",
                     "violinTrim",
                     "violinInner",
-                    "violinJitter"),
-                refs=list(
-                    "ggplot2")))
+                    "violinJitter")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_errorbar",
                 title="Means and error bars",
-                width=700,
-                height=480,
+                width=450,
+                height=350,
                 renderFun=".plot_errorbar",
                 visible="(showErrorBar)",
                 requiresData=TRUE,
                 clearWith=list(
                     "vars",
                     "orientation",
+                    "sortVars",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -775,21 +761,20 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "ebSize",
                     "ebCap",
                     "ebConnect",
-                    "ebLabels"),
-                refs=list(
-                    "ggplot2")))
+                    "ebLabels")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_raincloud",
                 title="Raincloud plot",
-                width=700,
-                height=480,
+                width=450,
+                height=350,
                 renderFun=".plot_raincloud",
                 visible="(showRaincloud)",
                 requiresData=TRUE,
                 clearWith=list(
                     "vars",
                     "orientation",
+                    "sortVars",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -806,21 +791,20 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "rcCloudWidth",
                     "rcAdjust",
                     "rcRain",
-                    "rcBox"),
-                refs=list(
-                    "ggplot2")))
+                    "rcBox")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_ridge",
                 title="Ridgeline (density) plot",
-                width=700,
-                height=480,
+                width=450,
+                height=400,
                 renderFun=".plot_ridge",
                 visible="(showRidge)",
                 requiresData=TRUE,
                 clearWith=list(
                     "vars",
                     "orientation",
+                    "sortVars",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -837,21 +821,20 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "ridgeOverlap",
                     "ridgeAdjust",
                     "ridgeTrim",
-                    "ridgeMedian"),
-                refs=list(
-                    "ggplot2")))
+                    "ridgeMedian")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_hist",
                 title="Histogram",
-                width=700,
-                height=480,
+                width=450,
+                height=400,
                 renderFun=".plot_hist",
                 visible="(showHist)",
                 requiresData=TRUE,
                 clearWith=list(
                     "vars",
                     "orientation",
+                    "sortVars",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -868,21 +851,20 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "histBins",
                     "histStat",
                     "histDensity",
-                    "histFreeY"),
-                refs=list(
-                    "ggplot2")))
+                    "histFreeY")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_density",
                 title="Overlaid densities",
-                width=700,
-                height=480,
+                width=450,
+                height=350,
                 renderFun=".plot_density",
                 visible="(showDensity)",
                 requiresData=TRUE,
                 clearWith=list(
                     "vars",
                     "orientation",
+                    "sortVars",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -898,21 +880,20 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendPos",
                     "densAdjust",
                     "densFilled",
-                    "densTrim"),
-                refs=list(
-                    "ggplot2")))
+                    "densTrim")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_ecdf",
                 title="Cumulative distribution (ECDF)",
-                width=700,
-                height=480,
+                width=450,
+                height=350,
                 renderFun=".plot_ecdf",
                 visible="(showEcdf)",
                 requiresData=TRUE,
                 clearWith=list(
                     "vars",
                     "orientation",
+                    "sortVars",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -926,21 +907,20 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "title",
                     "showN",
                     "legendPos",
-                    "ecdfMedian"),
-                refs=list(
-                    "ggplot2")))
+                    "ecdfMedian")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_strip",
                 title="Data points (strip plot)",
-                width=700,
-                height=480,
+                width=450,
+                height=350,
                 renderFun=".plot_strip",
                 visible="(showStrip)",
                 requiresData=TRUE,
                 clearWith=list(
                     "vars",
                     "orientation",
+                    "sortVars",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -954,21 +934,20 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "title",
                     "showN",
                     "legendPos",
-                    "stripSummary"),
-                refs=list(
-                    "ggplot2")))
+                    "stripSummary")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_barcode",
                 title="Barcode plot",
-                width=700,
-                height=480,
+                width=450,
+                height=350,
                 renderFun=".plot_barcode",
                 visible="(showBarcode)",
                 requiresData=TRUE,
                 clearWith=list(
                     "vars",
                     "orientation",
+                    "sortVars",
                     "invertVars",
                     "colourPalette",
                     "reversePalette",
@@ -982,9 +961,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "title",
                     "showN",
                     "legendPos",
-                    "barcodeHeight"),
-                refs=list(
-                    "ggplot2")))}))
+                    "barcodeHeight")))}))
 
 distNumBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "distNumBase",
@@ -994,7 +971,7 @@ distNumBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 package = "ComparePlots",
                 name = "distNum",
-                version = c(0,4,0),
+                version = c(1,0,0),
                 options = options,
                 results = distNumResults$new(options=options),
                 data = data,
@@ -1007,12 +984,13 @@ distNumBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 weightsSupport = 'auto')
         }))
 
-#' Comparison of Numeric Variables
+#' Compare Numeric
 #'
 #' 
 #' @param data .
 #' @param vars .
 #' @param orientation .
+#' @param sortVars .
 #' @param invertVars .
 #' @param colourPalette .
 #' @param reversePalette .
@@ -1026,9 +1004,6 @@ distNumBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param title .
 #' @param showN .
 #' @param legendPos .
-#' @param autoSize .
-#' @param plotWidth .
-#' @param plotHeight .
 #' @param showBox .
 #' @param boxWidth .
 #' @param boxOutliers .
@@ -1097,11 +1072,12 @@ distNum <- function(
     data,
     vars,
     orientation = "horizontal",
+    sortVars = "none",
     invertVars = FALSE,
-    colourPalette = "viridis",
+    colourPalette = "jamovi",
     reversePalette = FALSE,
-    plotTheme = "minimal",
-    textSize = 12,
+    plotTheme = "jamovi",
+    textSize = 16,
     alpha = 80,
     lineWidth = 2,
     pointSize = 1.4,
@@ -1110,9 +1086,6 @@ distNum <- function(
     title = "",
     showN = TRUE,
     legendPos = "bottom",
-    autoSize = TRUE,
-    plotWidth = 700,
-    plotHeight = 480,
     showBox = TRUE,
     boxWidth = 60,
     boxOutliers = TRUE,
@@ -1175,6 +1148,7 @@ distNum <- function(
     options <- distNumOptions$new(
         vars = vars,
         orientation = orientation,
+        sortVars = sortVars,
         invertVars = invertVars,
         colourPalette = colourPalette,
         reversePalette = reversePalette,
@@ -1188,9 +1162,6 @@ distNum <- function(
         title = title,
         showN = showN,
         legendPos = legendPos,
-        autoSize = autoSize,
-        plotWidth = plotWidth,
-        plotHeight = plotHeight,
         showBox = showBox,
         boxWidth = boxWidth,
         boxOutliers = boxOutliers,

@@ -9,19 +9,16 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             vars = NULL,
             orientation = "horizontal",
             invertVars = FALSE,
-            colourPalette = "rdbu",
+            colourPalette = "jamovi",
             reversePalette = FALSE,
-            plotTheme = "minimal",
-            textSize = 12,
+            plotTheme = "jamovi",
+            textSize = 16,
             sortVars = "none",
             decimals = 0,
             legendPos = "bottom",
             legendTitle = "",
             title = "",
             showN = FALSE,
-            autoSize = TRUE,
-            plotWidth = 700,
-            plotHeight = 420,
             showBars = TRUE,
             barWidth = 70,
             barLabels = TRUE,
@@ -87,6 +84,7 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "colourPalette",
                 colourPalette,
                 options=list(
+                    "jamovi",
                     "viridis",
                     "plasma",
                     "magma",
@@ -105,7 +103,7 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "pastel",
                     "okabe",
                     "grays"),
-                default="rdbu")
+                default="jamovi")
             private$..reversePalette <- jmvcore::OptionBool$new(
                 "reversePalette",
                 reversePalette,
@@ -114,27 +112,30 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "plotTheme",
                 plotTheme,
                 options=list(
+                    "jamovi",
                     "minimal",
                     "classic",
                     "bw",
                     "light",
                     "gray"),
-                default="minimal")
+                default="jamovi")
             private$..textSize <- jmvcore::OptionInteger$new(
                 "textSize",
                 textSize,
                 min=8,
-                max=24,
-                default=12)
+                max=32,
+                default=16)
             private$..sortVars <- jmvcore::OptionList$new(
                 "sortVars",
                 sortVars,
                 options=list(
                     "none",
                     "name",
+                    "mean",
+                    "median",
                     "first",
                     "last",
-                    "mean"),
+                    "net"),
                 default="none")
             private$..decimals <- jmvcore::OptionInteger$new(
                 "decimals",
@@ -163,22 +164,6 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "showN",
                 showN,
                 default=FALSE)
-            private$..autoSize <- jmvcore::OptionBool$new(
-                "autoSize",
-                autoSize,
-                default=TRUE)
-            private$..plotWidth <- jmvcore::OptionInteger$new(
-                "plotWidth",
-                plotWidth,
-                min=300,
-                max=2400,
-                default=700)
-            private$..plotHeight <- jmvcore::OptionInteger$new(
-                "plotHeight",
-                plotHeight,
-                min=200,
-                max=2400,
-                default=420)
             private$..showBars <- jmvcore::OptionBool$new(
                 "showBars",
                 showBars,
@@ -381,9 +366,6 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..legendTitle)
             self$.addOption(private$..title)
             self$.addOption(private$..showN)
-            self$.addOption(private$..autoSize)
-            self$.addOption(private$..plotWidth)
-            self$.addOption(private$..plotHeight)
             self$.addOption(private$..showBars)
             self$.addOption(private$..barWidth)
             self$.addOption(private$..barLabels)
@@ -434,9 +416,6 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         legendTitle = function() private$..legendTitle$value,
         title = function() private$..title$value,
         showN = function() private$..showN$value,
-        autoSize = function() private$..autoSize$value,
-        plotWidth = function() private$..plotWidth$value,
-        plotHeight = function() private$..plotHeight$value,
         showBars = function() private$..showBars$value,
         barWidth = function() private$..barWidth$value,
         barLabels = function() private$..barLabels$value,
@@ -486,9 +465,6 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..legendTitle = NA,
         ..title = NA,
         ..showN = NA,
-        ..autoSize = NA,
-        ..plotWidth = NA,
-        ..plotHeight = NA,
         ..showBars = NA,
         ..barWidth = NA,
         ..barLabels = NA,
@@ -545,7 +521,7 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="Comparison of Ordinal/Nominal Variables")
+                title="Compare Categorical")
             self$add(jmvcore::Html$new(
                 options=options,
                 name="hint",
@@ -555,11 +531,10 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 options=options,
                 name="plot_bars",
                 title="Stacked bars (100%)",
-                width=700,
-                height=420,
+                width=450,
+                height=350,
                 renderFun=".plot_bars",
                 visible="(showBars)",
-                requiresData=TRUE,
                 clearWith=list(
                     "vars",
                     "orientation",
@@ -576,18 +551,15 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "showN",
                     "barWidth",
                     "barLabels",
-                    "barMinLabel"),
-                refs=list(
-                    "ggplot2")))
+                    "barMinLabel")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_diverging",
                 title="Diverging bars (Likert style)",
-                width=700,
-                height=420,
+                width=450,
+                height=350,
                 renderFun=".plot_diverging",
                 visible="(showDiverging)",
-                requiresData=TRUE,
                 clearWith=list(
                     "vars",
                     "orientation",
@@ -606,18 +578,15 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "divNeutral",
                     "divLabels",
                     "divMinLabel",
-                    "divNet"),
-                refs=list(
-                    "ggplot2")))
+                    "divNet")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_heat",
                 title="Heatmap",
-                width=700,
-                height=420,
+                width=450,
+                height=350,
                 renderFun=".plot_heat",
                 visible="(showHeat)",
-                requiresData=TRUE,
                 clearWith=list(
                     "vars",
                     "orientation",
@@ -634,18 +603,15 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "showN",
                     "heatPalette",
                     "heatLabels",
-                    "heatGap"),
-                refs=list(
-                    "ggplot2")))
+                    "heatGap")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_waffle",
                 title="Waffle chart",
-                width=700,
-                height=420,
+                width=450,
+                height=400,
                 renderFun=".plot_waffle",
                 visible="(showWaffle)",
-                requiresData=TRUE,
                 clearWith=list(
                     "vars",
                     "orientation",
@@ -662,18 +628,15 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "showN",
                     "waffleRows",
                     "waffleCols",
-                    "waffleGap"),
-                refs=list(
-                    "ggplot2")))
+                    "waffleGap")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_picto",
                 title="Dot pictogram",
-                width=700,
-                height=420,
+                width=450,
+                height=400,
                 renderFun=".plot_picto",
                 visible="(showPicto)",
-                requiresData=TRUE,
                 clearWith=list(
                     "vars",
                     "orientation",
@@ -691,18 +654,15 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "pictoRows",
                     "pictoCols",
                     "pictoShape",
-                    "pictoSize"),
-                refs=list(
-                    "ggplot2")))
+                    "pictoSize")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_parliament",
                 title="Parliament (arc) chart",
-                width=700,
-                height=420,
+                width=450,
+                height=350,
                 renderFun=".plot_parliament",
                 visible="(showParliament)",
-                requiresData=TRUE,
                 clearWith=list(
                     "vars",
                     "orientation",
@@ -719,18 +679,15 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "showN",
                     "parlSeats",
                     "parlRows",
-                    "parlSize"),
-                refs=list(
-                    "ggplot2")))
+                    "parlSize")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_profile",
                 title="Response profile (lines)",
-                width=700,
-                height=420,
+                width=450,
+                height=350,
                 renderFun=".plot_profile",
                 visible="(showProfile)",
-                requiresData=TRUE,
                 clearWith=list(
                     "vars",
                     "orientation",
@@ -747,18 +704,15 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "showN",
                     "profLines",
                     "profPoints",
-                    "profLabels"),
-                refs=list(
-                    "ggplot2")))
+                    "profLabels")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_means",
                 title="Mean category and CI (ordinal or two-category variables)",
-                width=700,
-                height=420,
+                width=450,
+                height=350,
                 renderFun=".plot_means",
                 visible="(showMeans)",
-                requiresData=TRUE,
                 clearWith=list(
                     "vars",
                     "orientation",
@@ -775,9 +729,7 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "showN",
                     "meansCi",
                     "meansLevel",
-                    "meansLabels"),
-                refs=list(
-                    "ggplot2")))}))
+                    "meansLabels")))}))
 
 distOrdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "distOrdBase",
@@ -787,7 +739,7 @@ distOrdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 package = "ComparePlots",
                 name = "distOrd",
-                version = c(0,4,0),
+                version = c(1,0,0),
                 options = options,
                 results = distOrdResults$new(options=options),
                 data = data,
@@ -800,7 +752,7 @@ distOrdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 weightsSupport = 'auto')
         }))
 
-#' Comparison of Ordinal/Nominal Variables
+#' Compare Categorical
 #'
 #' 
 #' @param data .
@@ -817,9 +769,6 @@ distOrdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param legendTitle .
 #' @param title .
 #' @param showN .
-#' @param autoSize .
-#' @param plotWidth .
-#' @param plotHeight .
 #' @param showBars .
 #' @param barWidth .
 #' @param barLabels .
@@ -874,19 +823,16 @@ distOrd <- function(
     vars,
     orientation = "horizontal",
     invertVars = FALSE,
-    colourPalette = "rdbu",
+    colourPalette = "jamovi",
     reversePalette = FALSE,
-    plotTheme = "minimal",
-    textSize = 12,
+    plotTheme = "jamovi",
+    textSize = 16,
     sortVars = "none",
     decimals = 0,
     legendPos = "bottom",
     legendTitle = "",
     title = "",
     showN = FALSE,
-    autoSize = TRUE,
-    plotWidth = 700,
-    plotHeight = 420,
     showBars = TRUE,
     barWidth = 70,
     barLabels = TRUE,
@@ -948,9 +894,6 @@ distOrd <- function(
         legendTitle = legendTitle,
         title = title,
         showN = showN,
-        autoSize = autoSize,
-        plotWidth = plotWidth,
-        plotHeight = plotHeight,
         showBars = showBars,
         barWidth = barWidth,
         barLabels = barLabels,
