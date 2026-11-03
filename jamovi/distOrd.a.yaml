@@ -6,7 +6,6 @@ name: distOrd
 title: Compare Ordinal
 category: plots
 menuGroup: ComparePlots
-menuSubgroup: Ordinal
 version: '1.0.0'
 jas: '1.2'
 options:
@@ -164,6 +163,10 @@ options:
     title: Plot title
     type: String
     default: ''
+  - name: autoFit
+    title: Fit plot size to the number of variables
+    type: Bool
+    default: false
   - name: showN
     title: n per variable
     type: Bool

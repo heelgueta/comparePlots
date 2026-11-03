@@ -338,3 +338,39 @@ cmp_var_labels <- function(data, vars, use = FALSE, width = 30) {
     }, "")
     stats::setNames(cmp_wrap(labs, width), vars)
 }
+
+
+# -----------------------------------------------------------------------------
+# cmp_transform(): re-express one numeric vector before plotting (option
+# `transform`, applied per variable). Values the transformation cannot handle
+# (log of <= 0, square root of < 0, z/T/percent-of-range of a constant) become NA;
+# the caller counts them and reports them.
+#   centre      x - mean
+#   z           (x - mean) / SD
+#   t           50 + 10 z   (T-scores)
+#   pomp        percent of the observed range, 0-100 ("percent of maximum possible")
+#   percentile  percentile rank, 0-100, ties share the average rank
+#   log, sqrt, square   the usual functions
+# -----------------------------------------------------------------------------
+cmp_transform <- function(x, how = "none") {
+    x <- as.numeric(x)
+    z <- function(v) (v - mean(v, na.rm = TRUE)) / stats::sd(v, na.rm = TRUE)
+    out <- suppressWarnings(switch(how,
+        centre     = x - mean(x, na.rm = TRUE),
+        z          = z(x),
+        t          = 50 + 10 * z(x),
+        pomp       = (x - min(x, na.rm = TRUE)) / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE)) * 100,
+        percentile = (rank(x, na.last = "keep", ties.method = "average") - 0.5) / sum(!is.na(x)) * 100,
+        log        = ifelse(x > 0, log(x), NA_real_),
+        sqrt       = ifelse(x >= 0, sqrt(x), NA_real_),
+        square     = x^2,
+        x))
+    out[!is.finite(out)] <- NA_real_
+    out
+}
+
+# short name of a transformation for the value-axis label, e.g. "z-scores"
+cmp_transform_label <- function(how) {
+    switch(how, centre = "centred", z = "z-scores", t = "T-scores", pomp = "% of range",
+           percentile = "percentile rank", log = "ln", sqrt = "square root", square = "squared", "")
+}

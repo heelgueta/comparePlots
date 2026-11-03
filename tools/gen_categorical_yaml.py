@@ -2,8 +2,6 @@
 """Generates the yaml of the sibling categorical analyses from the ordinal one.
 
 distOrd.{a,r}.yaml is the master (edit THAT); this script writes
-  distOrd2 / distOrd3 : copies of distOrd that differ only in name/title (they exist to test
-                        the three plot-sizing strategies side by side; delete two once one wins)
   distNom             : the nominal analysis (no diverging / profile / mean-category plots,
                         plus pie, donut, grouped bars and lollipop; category order by frequency)
 and the three .u.yaml files. Run from the repository root:  python3 tools/gen_categorical_yaml.py
@@ -38,7 +36,13 @@ def join(head, chunks, tail=()):
 def ensure_master():
     p = ROOT + "distOrd.a.yaml"; t = open(p).read()
     t = t.replace("title: Compare Categorical", "title: Compare Ordinal").replace("Compare Categorical (distOrd)", "Compare Ordinal (distOrd)")
-    t = re.sub(r"category: plots\nmenuGroup: \.", "category: plots\nmenuGroup: ComparePlots\nmenuSubgroup: Ordinal", t)
+    t = re.sub(r"category: plots\nmenuGroup: [^\n]*\n(menuSubgroup: [^\n]*\n)?", "category: plots\nmenuGroup: ComparePlots\n", t)
+    if "name: autoFit" not in t:
+        t = t.replace("  - name: showN\n", """  - name: autoFit
+    title: Fit plot size to the number of variables
+    type: Bool
+    default: false
+  - name: showN\n""", 1)
     if "name: gridCols" not in t:
         t = t.replace("  - name: invertVars\n", """  - name: useDesc
     title: Variable descriptions as labels
@@ -85,16 +89,6 @@ def ensure_master():
 ensure_master()
 a_txt = open(ROOT + "distOrd.a.yaml").read()
 r_txt = open(ROOT + "distOrd.r.yaml").read()
-
-# ---------------------------------------------------------------- ordinal siblings
-def rename(txt, name, title):
-    txt = txt.replace("distOrd", name).replace("Compare Ordinal", title)
-    return txt.replace("menuSubgroup: Ordinal", "menuSubgroup: Ordinal")
-for name, n in (("distOrd2", 2), ("distOrd3", 3)):
-    title = f"Compare Ordinal {n}"
-    open(ROOT + name + ".a.yaml", "w").write(rename(a_txt, name, title).replace("menuSubgroup: Ordinal", "menuSubgroup: Ordinal (test)"))
-    open(ROOT + name + ".r.yaml", "w").write(rename(r_txt, name, title))
-open(ROOT + "distOrd.a.yaml", "w").write(a_txt.replace("menuSubgroup: Ordinal", "menuSubgroup: Ordinal"))
 
 # ---------------------------------------------------------------- nominal
 head, chunks, tail = split_chunks(a_txt)
@@ -196,7 +190,6 @@ NEW_OPTS = """  # PLOT: Pie chart.
     max: 12
     default: 4"""
 nom_a = join(head, out, [NEW_OPTS, "..."]).replace("distOrd", "distNom").replace("Compare Ordinal", "Compare Nominal")
-nom_a = nom_a.replace("menuSubgroup: Ordinal", "menuSubgroup: Nominal")
 nom_a = re.sub(r"      - ordinal\n      - nominal\n", "      - nominal\n", nom_a)
 nom_a = re.sub(r"\.\.\.\n\.\.\.\s*$", "...\n", nom_a)
 nom_a = nom_a.replace("    suggested:\n      - nominal\n    permitted:\n      - factor", "    suggested:\n      - nominal\n    permitted:\n      - factor")
@@ -234,7 +227,7 @@ sys.path.insert(0, "tools")
 from ui_gen import *
 def appearance_items(extra_after_invert=()):
     return [D("orientation"), D("sortVars"), C("invertVars"), D("colourPalette"), C("reversePalette"), D("plotTheme"),
-            T("textSize"), T("gridCols"), C("useDesc"), T("decimals"), D("legendPos"), S("legendTitle"), S("title"), C("showN")]
+            T("textSize"), T("gridCols"), C("useDesc"), C("autoFit"), T("decimals"), D("legendPos"), S("legendTitle"), S("title"), C("showN")]
 ORD_BOXES = [
  ("Stacked Bars", "showBars", [T("barWidth", "(showBars)", "%"), C("barLabels", "(showBars)"), T("barMinLabel", "(showBars && barLabels)", "%")], False),
  ("Diverging Bars", "showDiverging", [T("divWidth", "(showDiverging)", "%"), D("divNeutral", "(showDiverging)"), C("divLabels", "(showDiverging)"),
@@ -251,8 +244,6 @@ def ui(name, title, boxes, items):
         s += box(label, check, its, collapsed=collapsed)
     open(ROOT + name + ".u.yaml", "w").write(s)
 ui("distOrd", "Compare Ordinal", ORD_BOXES, appearance_items())
-ui("distOrd2", "Compare Ordinal 2", ORD_BOXES, appearance_items())
-ui("distOrd3", "Compare Ordinal 3", ORD_BOXES, appearance_items())
 NOM_BOXES = [b for b in ORD_BOXES if b[1] in ("showBars", "showHeat", "showWaffle", "showPicto", "showParliament")] + [
  ("Pie Chart", "showPie", [C("pieLabels", "(showPie)"), T("pieMinLabel", "(showPie && pieLabels)", "%")], True),
  ("Donut Chart", "showDonut", [T("donutHole", "(showDonut)", "%"), C("donutLabels", "(showDonut)"), T("donutMinLabel", "(showDonut && donutLabels)", "%"), C("donutN", "(showDonut)")], True),

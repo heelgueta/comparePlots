@@ -6,8 +6,8 @@ from ui_gen import *
 # ---------------- distNum ----------------
 num = head_ui("Compare Numeric", "distNum")
 num += appearance([
-    D("orientation"), D("sortVars"), C("invertVars"), D("colourPalette"), C("reversePalette"), D("plotTheme"),
-    T("textSize"), C("useDesc"), T("alpha", suffix="%"), D("legendPos"), T("lineWidth"), T("pointSize"),
+    D("orientation"), D("sortVars"), D("transform"), C("invertVars"), D("colourPalette"), C("reversePalette"), D("plotTheme"),
+    T("textSize"), C("useDesc"), C("autoFit"), T("alpha", suffix="%"), D("legendPos"), T("lineWidth"), T("pointSize"),
     T("jitterSpread", suffix="%"), C("showN"), S("valueLabel"), S("title")])
 num += box("Box Plot", "showBox", [T("boxWidth", "(showBox)", "%"), C("boxOutliers", "(showBox)"), C("boxNotch", "(showBox)"),
                                    C("boxMean", "(showBox)"), C("boxJitter", "(showBox)")], collapsed=False)

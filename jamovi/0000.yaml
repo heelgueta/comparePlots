@@ -21,7 +21,6 @@ analyses:
     ns: ComparePlots
     category: plots
     menuGroup: ComparePlots
-    menuSubgroup: Numeric
     menuTitle: Compare Numeric
     description: Compare the distributions of several numeric variables on one shared axis.
   - title: Compare Ordinal
@@ -29,31 +28,13 @@ analyses:
     ns: ComparePlots
     category: plots
     menuGroup: ComparePlots
-    menuSubgroup: Ordinal
     menuTitle: Compare Ordinal
     description: Compare the response distributions of several ordinal variables (e.g. Likert items).
-  - title: Compare Ordinal 2
-    name: distOrd2
-    ns: ComparePlots
-    category: plots
-    menuGroup: ComparePlots
-    menuSubgroup: Ordinal (test)
-    menuTitle: Compare Ordinal 2
-    description: Test version 2 of Compare Ordinal, grid plots sized from the number of variables.
-  - title: Compare Ordinal 3
-    name: distOrd3
-    ns: ComparePlots
-    category: plots
-    menuGroup: ComparePlots
-    menuSubgroup: Ordinal (test)
-    menuTitle: Compare Ordinal 3
-    description: Test version 3 of Compare Ordinal, every plot sized from the number of variables.
   - title: Compare Nominal
     name: distNom
     ns: ComparePlots
     category: plots
     menuGroup: ComparePlots
-    menuSubgroup: Nominal
     menuTitle: Compare Nominal
     description: Compare the category distributions of several nominal variables.
 datasets:

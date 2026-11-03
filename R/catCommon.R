@@ -1,10 +1,9 @@
 # =============================================================================
-# catCommon.R: the code shared by the categorical analyses (distOrd 1-3 for ordinal
+# catCommon.R: the code shared by the categorical analyses (distOrd for ordinal
 # variables, distNom for nominal ones). Each analysis class (R/dist*.b.R) takes
 # these private methods and adds three fields of its own:
 #   .switches  plot key -> checkbox option (which plots the analysis offers)
 #   .kind      "ordinal" or "nominal"
-#   .variant   1, 2 or 3: how plot sizes are set (see `.init()` below)
 # This file must load before the analysis files; R loads R/ files alphabetically,
 # which is why it is called catCommon.R.
 # The text below is the former body of distOrd.b.R; see that file's header for the
@@ -104,25 +103,19 @@ cmp_cat_private <- function() {
             }
         },
 
-        # .init() runs before the first draw and before .run(), and sees the options
-        # but not the data. Plot sizes are set here, NEVER in .run(): the size then
-        # is right from the very first draw and only changes when the number of
-        # variables or the grid layout changes. How much of this is used depends on
-        # the sizing variant being tested (see .variant):
-        #   1 = nothing here (fixed sizes from the .r.yaml; the grid plots just
-        #       lay the charts out in `gridCols` columns)
-        #   2 = the grid plots (waffle, pictogram, parliament, pie, donut) are sized
-        #       from the number of variables and `gridCols`
-        #   3 = as 2, and every other plot also grows with the number of variables
+        # .init() runs before the first draw and before .run(); it sees the options
+        # but not the data. With "Fit plot size to the number of variables" ticked the
+        # plot sizes are set HERE (never in .run(), which the jamovi review forbids):
+        # the size is then right from the first draw and only changes when the number
+        # of variables or the grid layout changes. Without it the fixed sizes of the
+        # .r.yaml apply (the grid plots still lay their charts out in `gridCols`).
         .init = function() {
-            v <- private$.variant
             vars <- self$options$vars
-            if (v == 1L || length(vars) == 0) return()
+            if (!isTRUE(self$options$autoFit) || length(vars) == 0) return()
             n <- length(vars)
             for (key in names(private$.switches)) {
                 if (!isTRUE(self$options[[private$.switches[[key]]]])) next
                 grid <- key %in% c("waffle", "picto", "parliament", "pie", "donut")
-                if (!grid && v < 3L) next
                 sz <- private$.size(key, n, grid)
                 self$results[[paste0("plot_", key)]]$setSize(sz[1], sz[2])
             }

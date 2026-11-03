@@ -40,15 +40,14 @@
 #
 # Shared helpers (palettes, themes, text colour, rounding) are in R/utils.R.
 # =============================================================================
-# THE CODE ITSELF lives in R/catCommon.R (shared with distOrd2, distOrd3 and distNom);
-# this file only says which plots this analysis offers and which sizing variant it is.
+# THE CODE ITSELF lives in R/catCommon.R (shared with distNom);
+# this file only says which plots this analysis offers and which kind of variables it takes.
 # =============================================================================
 distOrdClass <- R6::R6Class(
     "distOrdClass",
     inherit = distOrdBase,
     private = c(cmp_cat_private(), list(
         .kind = "ordinal",
-        .variant = 1L,
         # Plot key -> checkbox option. The key is also the suffix of the result item
         # (`plot_<key>`) and of the render function (`.plot_<key>`).
         .switches = c(

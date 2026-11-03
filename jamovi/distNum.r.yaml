@@ -24,6 +24,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - transform
       - useDesc
       - invertVars
       - colourPalette
@@ -57,6 +58,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - transform
       - useDesc
       - invertVars
       - colourPalette
@@ -91,6 +93,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - transform
       - useDesc
       - invertVars
       - colourPalette
@@ -128,6 +131,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - transform
       - useDesc
       - invertVars
       - colourPalette
@@ -160,6 +164,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - transform
       - useDesc
       - invertVars
       - colourPalette
@@ -192,6 +197,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - transform
       - useDesc
       - invertVars
       - colourPalette
@@ -224,6 +230,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - transform
       - useDesc
       - invertVars
       - colourPalette
@@ -255,6 +262,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - transform
       - useDesc
       - invertVars
       - colourPalette
@@ -284,6 +292,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - transform
       - useDesc
       - invertVars
       - colourPalette
@@ -313,6 +322,7 @@ items:
       - vars
       - orientation
       - sortVars
+      - transform
       - useDesc
       - invertVars
       - colourPalette

@@ -5,7 +5,7 @@
 name: distNum
 title: Compare Numeric
 category: plots
-menuGroup: .
+menuGroup: ComparePlots
 version: '1.0.0'
 jas: '1.2'
 options:
@@ -49,6 +49,29 @@ options:
     title: Variable descriptions as labels
     type: Bool
     default: false
+  - name: transform
+    title: Transform values
+    type: List
+    options:
+      - name: none
+        title: None
+      - name: centre
+        title: Centred (mean = 0)
+      - name: z
+        title: z-scores
+      - name: t
+        title: T-scores (mean 50, SD 10)
+      - name: pomp
+        title: Percent of range (0-100)
+      - name: percentile
+        title: Percentile rank
+      - name: log
+        title: Natural logarithm
+      - name: sqrt
+        title: Square root
+      - name: square
+        title: Square
+    default: none
   - name: invertVars
     title: Reverse the order
     type: Bool
@@ -157,6 +180,10 @@ options:
     title: Plot title
     type: String
     default: ''
+  - name: autoFit
+    title: Fit plot size to the number of variables
+    type: Bool
+    default: false
   - name: showN
     title: n per variable
     type: Bool

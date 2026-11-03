@@ -73,7 +73,7 @@ distNumClass <- R6::R6Class(
 
             # Nothing usable at all: say so (jamovi greys the results and shows the
             # message) instead of leaving a set of empty plots.
-            long <- private$.long(vars)
+            long <- private$.long(vars, warn = TRUE)
             if (nrow(long) == 0)
                 jmvcore::reject("The selected variables have no non-missing values.")
 
@@ -91,14 +91,59 @@ distNumClass <- R6::R6Class(
         },
 
         # Long format: one row per observation, columns `variable` and `value`.
-        # Missing / non-finite values are dropped per variable, so variables may
-        # have different n (it is shown in the caption).
-        .long = function(vars) {
+        # Each variable is first re-expressed by the "Transform values" option, then
+        # missing / non-finite values are dropped per variable, so variables may have
+        # different n (it is shown in the caption). With `warn` TRUE (only in .run())
+        # values the transformation cannot handle are reported in a Notice.
+        .long = function(vars, warn = FALSE) {
+            how <- self$options$transform
+            lost <- character(0)
             long <- do.call(rbind, lapply(vars, function(v) {
-                data.frame(variable = v, value = as.numeric(self$data[[v]]),
-                           stringsAsFactors = FALSE)
+                raw <- as.numeric(self$data[[v]])
+                x <- cmp_transform(raw, how)
+                n_lost <- sum(is.finite(raw)) - sum(is.finite(x))
+                if (how != "none" && n_lost > 0) lost <<- c(lost, paste0(v, " (", n_lost, ")"))
+                data.frame(variable = v, value = x, stringsAsFactors = FALSE)
             }))
+            if (warn && length(lost) > 0)
+                private$.warn(".transformLost", paste0(
+                    "The transformation (", cmp_transform_label(how), ") could not be applied to some values, which were left out: ",
+                    paste(lost, collapse = ", "), "."))
             long[is.finite(long$value), , drop = FALSE]
+        },
+
+        # Report something as a jmvcore Notice (a proper warning in the results tree)
+        .warn = function(name, content) {
+            notice <- jmvcore::Notice$new(
+                self$options, name = name, type = jmvcore::NoticeType$WARNING, content = content)
+            self$results$insert(1, notice)
+        },
+
+        # .init() runs before the first draw and before .run(); it sees the options
+        # but not the data. With "Fit plot size to the number of variables" ticked the
+        # sizes are set HERE (never in .run(), which the jamovi review forbids), so
+        # they are right from the first draw and change only with the number of
+        # variables. Without it the fixed sizes of the .r.yaml apply.
+        .init = function() {
+            vars <- self$options$vars
+            if (!isTRUE(self$options$autoFit) || length(vars) == 0) return()
+            for (key in names(private$.switches)) {
+                if (!isTRUE(self$options[[private$.switches[[key]]]])) next
+                sz <- private$.size(key, length(vars))
+                self$results[[paste0("plot_", key)]]$setSize(sz[1], sz[2])
+            }
+        },
+
+        # Pixel size from the number of variables `n`; empirical numbers that keep
+        # labels readable up to about 10 variables.
+        .size = function(key, n) {
+            horiz <- self$options$orientation == "horizontal"
+            if (key %in% c("density", "ecdf")) return(c(450, 350))          # single panel
+            if (key == "ridge")      # ridges overlap upwards and need extra room
+                return(if (horiz) c(450, max(320, 120 + 60 * n)) else c(max(450, 140 + 100 * n), 400))
+            if (key == "hist")       # one facet per variable
+                return(if (horiz) c(450, max(340, 110 + 85 * n)) else c(max(450, 110 + 140 * n), 380))
+            if (horiz) c(450, max(300, 110 + 48 * n)) else c(max(450, 120 + 80 * n), 380)
         },
 
         # Centre and interval of every variable for the means plot (see cmp_summary()).
@@ -176,8 +221,11 @@ distNumClass <- R6::R6Class(
             names(fills) <- lv
             # labels: variable name, or its description from the Data tab (option)
             lab <- cmp_var_labels(self$data, lv, o$useDesc)
+            # value-axis label, with the transformation named when one is applied
+            vlab <- if (o$transform == "none") o$valueLabel
+                    else paste0(o$valueLabel, " (", cmp_transform_label(o$transform), ")")
             list(o = o, horiz = horiz, lv = lv, n = n, pos = pos, cols = cols, fills = fills, bw = bw,
-                 lab = lab, ggtheme = ggtheme,
+                 lab = lab, vlab = vlab, ggtheme = ggtheme,
                  alpha = if (bw) 1 else o$alpha / 100, lw = cmp_line_width(o$lineWidth) * (if (bw) 1.5 else 1))
         },
 
@@ -278,7 +326,7 @@ distNumClass <- R6::R6Class(
 
         # Axis titles for canvas plots: nothing on the variable axis, the user's
         # label on the value axis (ggplot2 keeps `y` for the value even when flipped).
-        .value_axis = function(ctx) ggplot2::labs(x = NULL, y = ctx$o$valueLabel),
+        .value_axis = function(ctx) ggplot2::labs(x = NULL, y = ctx$vlab),
 
         # Canvas has variable on x and value on y. Flip when values should run
         # horizontally.
@@ -508,7 +556,7 @@ distNumClass <- R6::R6Class(
                     ggplot2::coord_flip()
             }
             ylab <- switch(o$histStat, count = "Count", percent = "Percent", "Density")
-            p + ggplot2::labs(x = o$valueLabel, y = ylab)
+            p + ggplot2::labs(x = ctx$vlab, y = ylab)
         },
 
         # ── Overlaid densities ─────────────────────────────────────────────
@@ -520,7 +568,7 @@ distNumClass <- R6::R6Class(
                 ggplot2::geom_density(adjust = o$densAdjust, trim = o$densTrim,
                                       alpha = if (o$densFilled && !ctx$bw) ctx$alpha * 0.55 else 0,
                                       linewidth = ctx$lw) +
-                ggplot2::labs(x = o$valueLabel, y = "Density")
+                ggplot2::labs(x = ctx$vlab, y = "Density")
             private$.flip_x(p, ctx)
         },
 
@@ -533,7 +581,7 @@ distNumClass <- R6::R6Class(
                 p <- p + ggplot2::geom_hline(yintercept = 0.5, linetype = "dashed", colour = "grey60", linewidth = 0.4)
             p <- p + ggplot2::stat_ecdf(geom = "step", linewidth = ctx$lw * 1.3, pad = FALSE) +
                 ggplot2::scale_y_continuous(labels = function(x) paste0(round(x * 100), "%")) +
-                ggplot2::labs(x = o$valueLabel, y = "Cumulative proportion")
+                ggplot2::labs(x = ctx$vlab, y = "Cumulative proportion")
             private$.flip_x(p, ctx)
         },
 

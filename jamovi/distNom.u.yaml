@@ -116,20 +116,28 @@ children:
               row: 5
             stretchFactor: 1
             children:
-              - type: TextBox
-                name: decimals
-                format: number
+              - type: CheckBox
+                name: autoFit
           - type: LayoutBox
             cell:
               column: 1
               row: 5
             stretchFactor: 1
             children:
+              - type: TextBox
+                name: decimals
+                format: number
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 6
+            stretchFactor: 1
+            children:
               - type: ComboBox
                 name: legendPos
           - type: LayoutBox
             cell:
-              column: 0
+              column: 1
               row: 6
             stretchFactor: 1
             children:
@@ -138,8 +146,8 @@ children:
                 format: string
           - type: LayoutBox
             cell:
-              column: 1
-              row: 6
+              column: 0
+              row: 7
             stretchFactor: 1
             children:
               - type: TextBox
@@ -147,7 +155,7 @@ children:
                 format: string
           - type: LayoutBox
             cell:
-              column: 0
+              column: 1
               row: 7
             stretchFactor: 1
             children:
