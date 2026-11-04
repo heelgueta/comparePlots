@@ -12,26 +12,6 @@ All three work the same way: pick variables, set a few shared appearance options
 
 ---
 
-## What it looks like
-
-Made with the [example datasets](#example-data). Each plot is one tick box; you can have as many as you like at once.
-
-**Ridgeline plot** (Compare Numeric): six scales on one 0-100 axis, with the medians marked.
-
-<p align="center"><img src="docs/images/ridgeline.png" width="420" alt="Ridgeline plot of six well-being scales"></p>
-
-**Diverging bars** (Compare Ordinal): six Likert items.
-
-<p align="center"><img src="docs/images/diverging-bars.png" width="460" alt="Diverging bars of six Likert items"></p>
-
-**Waffle charts** (Compare Nominal): the same drink question at three times of the day; one square is 1%.
-
-<p align="center"><img src="docs/images/waffle.png" width="460" alt="Waffle charts of drink preference at three times of the day"></p>
-
-Complete jamovi results with several plots each: [numeric](docs/examples/numeric-example.pdf) · [ordinal](docs/examples/ordinal-example.pdf) · [nominal](docs/examples/nominal-example.pdf) (PDF exports).
-
----
-
 ## Install
 
 Build and install the module into jamovi with [jmvtools](https://dev.jamovi.org/tuts0101-getting-started.html); see [Build from source](#build-from-source) below. This produces a `.jmo` for your own system, which can also be shared and installed in jamovi via:
@@ -84,6 +64,24 @@ Shared appearance: orientation (horizontal: charts stacked top to bottom; vertic
 | `data/example_nominal` | One five-category nominal variable at three times of day (n = 250) |
 
 Each is provided as `.omv` (variable types already set) and `.csv`. Regenerate with `Rscript tools/make_examples.R`.
+
+---
+
+## What it looks like
+
+These are only a small subset of the plots available. Complete jamovi results with several plots each (PDF exports): [numeric](docs/examples/numeric-example.pdf) · [ordinal](docs/examples/ordinal-example.pdf) · [nominal](docs/examples/nominal-example.pdf).
+
+**Ridgeline plot** (Compare Numeric): six scales on one 0-100 axis, with the medians marked.
+
+<p align="center"><img src="docs/images/ridgeline.png" width="420" alt="Ridgeline plot of six well-being scales"></p>
+
+**Diverging bars** (Compare Ordinal): six Likert items.
+
+<p align="center"><img src="docs/images/diverging-bars.png" width="460" alt="Diverging bars of six Likert items"></p>
+
+**Waffle charts** (Compare Nominal): the same drink question at three times of the day; one square is 1%.
+
+<p align="center"><img src="docs/images/waffle.png" width="460" alt="Waffle charts of drink preference at three times of the day"></p>
 
 ---
 
