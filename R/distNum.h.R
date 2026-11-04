@@ -18,12 +18,13 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             textSize = 16,
             alpha = 80,
             lineWidth = 2,
-            pointSize = 1.4,
+            pointSize = 0.8,
+            pointAlpha = 30,
+            pointColour = "variable",
             jitterSpread = 40,
             valueLabel = "Value",
             title = "",
-            autoFit = FALSE,
-            showN = TRUE,
+            showN = FALSE,
             legendPos = "bottom",
             showBox = TRUE,
             boxWidth = 60,
@@ -75,7 +76,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             barcodeHeight = 70, ...) {
 
             super$initialize(
-                package="ComparePlots",
+                package="comparePlots",
                 name="distNum",
                 requiresData=TRUE,
                 ...)
@@ -188,7 +189,20 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 pointSize,
                 min=0.2,
                 max=6,
-                default=1.4)
+                default=0.8)
+            private$..pointAlpha <- jmvcore::OptionInteger$new(
+                "pointAlpha",
+                pointAlpha,
+                min=5,
+                max=100,
+                default=30)
+            private$..pointColour <- jmvcore::OptionList$new(
+                "pointColour",
+                pointColour,
+                options=list(
+                    "variable",
+                    "grey"),
+                default="variable")
             private$..jitterSpread <- jmvcore::OptionInteger$new(
                 "jitterSpread",
                 jitterSpread,
@@ -203,14 +217,10 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "title",
                 title,
                 default="")
-            private$..autoFit <- jmvcore::OptionBool$new(
-                "autoFit",
-                autoFit,
-                default=FALSE)
             private$..showN <- jmvcore::OptionBool$new(
                 "showN",
                 showN,
-                default=TRUE)
+                default=FALSE)
             private$..legendPos <- jmvcore::OptionList$new(
                 "legendPos",
                 legendPos,
@@ -479,10 +489,11 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..alpha)
             self$.addOption(private$..lineWidth)
             self$.addOption(private$..pointSize)
+            self$.addOption(private$..pointAlpha)
+            self$.addOption(private$..pointColour)
             self$.addOption(private$..jitterSpread)
             self$.addOption(private$..valueLabel)
             self$.addOption(private$..title)
-            self$.addOption(private$..autoFit)
             self$.addOption(private$..showN)
             self$.addOption(private$..legendPos)
             self$.addOption(private$..showBox)
@@ -548,10 +559,11 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         alpha = function() private$..alpha$value,
         lineWidth = function() private$..lineWidth$value,
         pointSize = function() private$..pointSize$value,
+        pointAlpha = function() private$..pointAlpha$value,
+        pointColour = function() private$..pointColour$value,
         jitterSpread = function() private$..jitterSpread$value,
         valueLabel = function() private$..valueLabel$value,
         title = function() private$..title$value,
-        autoFit = function() private$..autoFit$value,
         showN = function() private$..showN$value,
         legendPos = function() private$..legendPos$value,
         showBox = function() private$..showBox$value,
@@ -616,10 +628,11 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..alpha = NA,
         ..lineWidth = NA,
         ..pointSize = NA,
+        ..pointAlpha = NA,
+        ..pointColour = NA,
         ..jitterSpread = NA,
         ..valueLabel = NA,
         ..title = NA,
-        ..autoFit = NA,
         ..showN = NA,
         ..legendPos = NA,
         ..showBox = NA,
@@ -693,7 +706,10 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="Compare Numeric")
+                title="Compare Numeric",
+                refs=list(
+                    "comparePlots",
+                    "ggplot2"))
             self$add(jmvcore::Html$new(
                 options=options,
                 name="hint",
@@ -722,6 +738,8 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "alpha",
                     "lineWidth",
                     "pointSize",
+                    "pointAlpha",
+                    "pointColour",
                     "jitterSpread",
                     "valueLabel",
                     "title",
@@ -755,6 +773,8 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "alpha",
                     "lineWidth",
                     "pointSize",
+                    "pointAlpha",
+                    "pointColour",
                     "jitterSpread",
                     "valueLabel",
                     "title",
@@ -789,6 +809,8 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "alpha",
                     "lineWidth",
                     "pointSize",
+                    "pointAlpha",
+                    "pointColour",
                     "jitterSpread",
                     "valueLabel",
                     "title",
@@ -826,6 +848,8 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "alpha",
                     "lineWidth",
                     "pointSize",
+                    "pointAlpha",
+                    "pointColour",
                     "jitterSpread",
                     "valueLabel",
                     "title",
@@ -858,6 +882,8 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "alpha",
                     "lineWidth",
                     "pointSize",
+                    "pointAlpha",
+                    "pointColour",
                     "jitterSpread",
                     "valueLabel",
                     "title",
@@ -890,6 +916,8 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "alpha",
                     "lineWidth",
                     "pointSize",
+                    "pointAlpha",
+                    "pointColour",
                     "jitterSpread",
                     "valueLabel",
                     "title",
@@ -922,6 +950,8 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "alpha",
                     "lineWidth",
                     "pointSize",
+                    "pointAlpha",
+                    "pointColour",
                     "jitterSpread",
                     "valueLabel",
                     "title",
@@ -953,6 +983,8 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "alpha",
                     "lineWidth",
                     "pointSize",
+                    "pointAlpha",
+                    "pointColour",
                     "jitterSpread",
                     "valueLabel",
                     "title",
@@ -982,6 +1014,8 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "alpha",
                     "lineWidth",
                     "pointSize",
+                    "pointAlpha",
+                    "pointColour",
                     "jitterSpread",
                     "valueLabel",
                     "title",
@@ -1011,6 +1045,8 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "alpha",
                     "lineWidth",
                     "pointSize",
+                    "pointAlpha",
+                    "pointColour",
                     "jitterSpread",
                     "valueLabel",
                     "title",
@@ -1024,7 +1060,7 @@ distNumBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     public = list(
         initialize = function(options, data=NULL, datasetId="", analysisId="", revision=0) {
             super$initialize(
-                package = "ComparePlots",
+                package = "comparePlots",
                 name = "distNum",
                 version = c(1,0,0),
                 options = options,
@@ -1056,10 +1092,11 @@ distNumBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param alpha .
 #' @param lineWidth .
 #' @param pointSize .
+#' @param pointAlpha .
+#' @param pointColour .
 #' @param jitterSpread .
 #' @param valueLabel .
 #' @param title .
-#' @param autoFit .
 #' @param showN .
 #' @param legendPos .
 #' @param showBox .
@@ -1140,12 +1177,13 @@ distNum <- function(
     textSize = 16,
     alpha = 80,
     lineWidth = 2,
-    pointSize = 1.4,
+    pointSize = 0.8,
+    pointAlpha = 30,
+    pointColour = "variable",
     jitterSpread = 40,
     valueLabel = "Value",
     title = "",
-    autoFit = FALSE,
-    showN = TRUE,
+    showN = FALSE,
     legendPos = "bottom",
     showBox = TRUE,
     boxWidth = 60,
@@ -1220,10 +1258,11 @@ distNum <- function(
         alpha = alpha,
         lineWidth = lineWidth,
         pointSize = pointSize,
+        pointAlpha = pointAlpha,
+        pointColour = pointColour,
         jitterSpread = jitterSpread,
         valueLabel = valueLabel,
         title = title,
-        autoFit = autoFit,
         showN = showN,
         legendPos = legendPos,
         showBox = showBox,

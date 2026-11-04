@@ -45,7 +45,7 @@ cmp_palette <- function(scheme, n, reverse = FALSE, spread = FALSE, theme = NULL
         viridisLite::viridis(n, option = vir[[scheme]])
     } else if (scheme == "grays") {
         # not hcl's Grays, whose light end is almost white and vanishes on a white page
-        grDevices::gray.colors(n, start = 0.12, end = 0.78, gamma = 1)
+        grDevices::gray.colors(n, start = 0.12, end = 0.7, gamma = 1)
     } else if (scheme == "okabe") {
         rep_len(unname(grDevices::palette.colors(8, "Okabe-Ito")[-1]), n)
     } else if (scheme %in% names(hcl)) {

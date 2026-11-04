@@ -41,7 +41,7 @@ Shared appearance: orientation (horizontal by default) · transform values (none
 
 ## Compare Ordinal and Compare Nominal
 
-Shared appearance: orientation (horizontal: charts stacked top to bottom; vertical: side by side) · order variables by (entry order, name, mean category, median category, % in first/last category, net %) · reverse the order · palette and theme (both follow jamovi's own settings by default) · invert palette · text size · decimals · legend position/title · title · n per variable.
+Shared appearance: orientation (horizontal: charts stacked top to bottom; vertical: side by side) · order variables (entry order, A–Z, mean, median, % in first/last category, net %) · reverse the order · palette and theme (both follow jamovi's own settings by default) · invert palette · text size · opacity · line thickness · decimals · legend position/title · title · n per variable · ignore missing cases.
 
 | Plot | Settings |
 |---|---|
@@ -52,7 +52,6 @@ Shared appearance: orientation (horizontal: charts stacked top to bottom; vertic
 | Dot pictogram | rows × columns per chart (10 × 10 by default), shape, size |
 | Parliament chart | seats, rows, seat size |
 | Response profile (lines) | lines, points, % values |
-| Mean category with CI | CI level, value labels (levels coded 1…k). Only ordinal or two-category variables are drawn; nominal variables with more than two categories are skipped with a note |
 
 ---
 

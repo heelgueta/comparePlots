@@ -9,7 +9,6 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             vars = NULL,
             orientation = "horizontal",
             useDesc = FALSE,
-            gridCols = 3,
             invertVars = FALSE,
             colourPalette = "jamovi",
             reversePalette = FALSE,
@@ -20,7 +19,9 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             legendPos = "bottom",
             legendTitle = "",
             title = "",
-            autoFit = FALSE,
+            alpha = 80,
+            lineWidth = 2,
+            ignoreMissing = TRUE,
             showN = FALSE,
             showBars = TRUE,
             barWidth = 70,
@@ -40,26 +41,25 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             waffleRows = 10,
             waffleCols = 10,
             waffleGap = 10,
+            waffleGrid = 3,
             showPicto = FALSE,
             pictoRows = 10,
             pictoCols = 10,
             pictoShape = "circle",
             pictoSize = 4.5,
+            pictoGrid = 3,
             showParliament = FALSE,
             parlSeats = 100,
             parlRows = 4,
             parlSize = 3.2,
+            parlGrid = 3,
             showProfile = FALSE,
             profLines = TRUE,
             profPoints = TRUE,
-            profLabels = FALSE,
-            showMeans = FALSE,
-            meansCi = TRUE,
-            meansLevel = 95,
-            meansLabels = FALSE, ...) {
+            profLabels = FALSE, ...) {
 
             super$initialize(
-                package="ComparePlots",
+                package="comparePlots",
                 name="distOrd",
                 requiresData=TRUE,
                 ...)
@@ -83,12 +83,6 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "useDesc",
                 useDesc,
                 default=FALSE)
-            private$..gridCols <- jmvcore::OptionInteger$new(
-                "gridCols",
-                gridCols,
-                min=1,
-                max=10,
-                default=3)
             private$..invertVars <- jmvcore::OptionBool$new(
                 "invertVars",
                 invertVars,
@@ -173,10 +167,22 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "title",
                 title,
                 default="")
-            private$..autoFit <- jmvcore::OptionBool$new(
-                "autoFit",
-                autoFit,
-                default=FALSE)
+            private$..alpha <- jmvcore::OptionInteger$new(
+                "alpha",
+                alpha,
+                min=5,
+                max=100,
+                default=80)
+            private$..lineWidth <- jmvcore::OptionInteger$new(
+                "lineWidth",
+                lineWidth,
+                min=1,
+                max=5,
+                default=2)
+            private$..ignoreMissing <- jmvcore::OptionBool$new(
+                "ignoreMissing",
+                ignoreMissing,
+                default=TRUE)
             private$..showN <- jmvcore::OptionBool$new(
                 "showN",
                 showN,
@@ -282,6 +288,12 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=0,
                 max=50,
                 default=10)
+            private$..waffleGrid <- jmvcore::OptionInteger$new(
+                "waffleGrid",
+                waffleGrid,
+                min=1,
+                max=10,
+                default=3)
             private$..showPicto <- jmvcore::OptionBool$new(
                 "showPicto",
                 showPicto,
@@ -313,6 +325,12 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=1,
                 max=12,
                 default=4.5)
+            private$..pictoGrid <- jmvcore::OptionInteger$new(
+                "pictoGrid",
+                pictoGrid,
+                min=1,
+                max=10,
+                default=3)
             private$..showParliament <- jmvcore::OptionBool$new(
                 "showParliament",
                 showParliament,
@@ -335,6 +353,12 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=1,
                 max=10,
                 default=3.2)
+            private$..parlGrid <- jmvcore::OptionInteger$new(
+                "parlGrid",
+                parlGrid,
+                min=1,
+                max=10,
+                default=3)
             private$..showProfile <- jmvcore::OptionBool$new(
                 "showProfile",
                 showProfile,
@@ -351,29 +375,10 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "profLabels",
                 profLabels,
                 default=FALSE)
-            private$..showMeans <- jmvcore::OptionBool$new(
-                "showMeans",
-                showMeans,
-                default=FALSE)
-            private$..meansCi <- jmvcore::OptionBool$new(
-                "meansCi",
-                meansCi,
-                default=TRUE)
-            private$..meansLevel <- jmvcore::OptionInteger$new(
-                "meansLevel",
-                meansLevel,
-                min=50,
-                max=99,
-                default=95)
-            private$..meansLabels <- jmvcore::OptionBool$new(
-                "meansLabels",
-                meansLabels,
-                default=FALSE)
 
             self$.addOption(private$..vars)
             self$.addOption(private$..orientation)
             self$.addOption(private$..useDesc)
-            self$.addOption(private$..gridCols)
             self$.addOption(private$..invertVars)
             self$.addOption(private$..colourPalette)
             self$.addOption(private$..reversePalette)
@@ -384,7 +389,9 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..legendPos)
             self$.addOption(private$..legendTitle)
             self$.addOption(private$..title)
-            self$.addOption(private$..autoFit)
+            self$.addOption(private$..alpha)
+            self$.addOption(private$..lineWidth)
+            self$.addOption(private$..ignoreMissing)
             self$.addOption(private$..showN)
             self$.addOption(private$..showBars)
             self$.addOption(private$..barWidth)
@@ -404,29 +411,27 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..waffleRows)
             self$.addOption(private$..waffleCols)
             self$.addOption(private$..waffleGap)
+            self$.addOption(private$..waffleGrid)
             self$.addOption(private$..showPicto)
             self$.addOption(private$..pictoRows)
             self$.addOption(private$..pictoCols)
             self$.addOption(private$..pictoShape)
             self$.addOption(private$..pictoSize)
+            self$.addOption(private$..pictoGrid)
             self$.addOption(private$..showParliament)
             self$.addOption(private$..parlSeats)
             self$.addOption(private$..parlRows)
             self$.addOption(private$..parlSize)
+            self$.addOption(private$..parlGrid)
             self$.addOption(private$..showProfile)
             self$.addOption(private$..profLines)
             self$.addOption(private$..profPoints)
             self$.addOption(private$..profLabels)
-            self$.addOption(private$..showMeans)
-            self$.addOption(private$..meansCi)
-            self$.addOption(private$..meansLevel)
-            self$.addOption(private$..meansLabels)
         }),
     active = list(
         vars = function() private$..vars$value,
         orientation = function() private$..orientation$value,
         useDesc = function() private$..useDesc$value,
-        gridCols = function() private$..gridCols$value,
         invertVars = function() private$..invertVars$value,
         colourPalette = function() private$..colourPalette$value,
         reversePalette = function() private$..reversePalette$value,
@@ -437,7 +442,9 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         legendPos = function() private$..legendPos$value,
         legendTitle = function() private$..legendTitle$value,
         title = function() private$..title$value,
-        autoFit = function() private$..autoFit$value,
+        alpha = function() private$..alpha$value,
+        lineWidth = function() private$..lineWidth$value,
+        ignoreMissing = function() private$..ignoreMissing$value,
         showN = function() private$..showN$value,
         showBars = function() private$..showBars$value,
         barWidth = function() private$..barWidth$value,
@@ -457,28 +464,26 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         waffleRows = function() private$..waffleRows$value,
         waffleCols = function() private$..waffleCols$value,
         waffleGap = function() private$..waffleGap$value,
+        waffleGrid = function() private$..waffleGrid$value,
         showPicto = function() private$..showPicto$value,
         pictoRows = function() private$..pictoRows$value,
         pictoCols = function() private$..pictoCols$value,
         pictoShape = function() private$..pictoShape$value,
         pictoSize = function() private$..pictoSize$value,
+        pictoGrid = function() private$..pictoGrid$value,
         showParliament = function() private$..showParliament$value,
         parlSeats = function() private$..parlSeats$value,
         parlRows = function() private$..parlRows$value,
         parlSize = function() private$..parlSize$value,
+        parlGrid = function() private$..parlGrid$value,
         showProfile = function() private$..showProfile$value,
         profLines = function() private$..profLines$value,
         profPoints = function() private$..profPoints$value,
-        profLabels = function() private$..profLabels$value,
-        showMeans = function() private$..showMeans$value,
-        meansCi = function() private$..meansCi$value,
-        meansLevel = function() private$..meansLevel$value,
-        meansLabels = function() private$..meansLabels$value),
+        profLabels = function() private$..profLabels$value),
     private = list(
         ..vars = NA,
         ..orientation = NA,
         ..useDesc = NA,
-        ..gridCols = NA,
         ..invertVars = NA,
         ..colourPalette = NA,
         ..reversePalette = NA,
@@ -489,7 +494,9 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..legendPos = NA,
         ..legendTitle = NA,
         ..title = NA,
-        ..autoFit = NA,
+        ..alpha = NA,
+        ..lineWidth = NA,
+        ..ignoreMissing = NA,
         ..showN = NA,
         ..showBars = NA,
         ..barWidth = NA,
@@ -509,23 +516,22 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..waffleRows = NA,
         ..waffleCols = NA,
         ..waffleGap = NA,
+        ..waffleGrid = NA,
         ..showPicto = NA,
         ..pictoRows = NA,
         ..pictoCols = NA,
         ..pictoShape = NA,
         ..pictoSize = NA,
+        ..pictoGrid = NA,
         ..showParliament = NA,
         ..parlSeats = NA,
         ..parlRows = NA,
         ..parlSize = NA,
+        ..parlGrid = NA,
         ..showProfile = NA,
         ..profLines = NA,
         ..profPoints = NA,
-        ..profLabels = NA,
-        ..showMeans = NA,
-        ..meansCi = NA,
-        ..meansLevel = NA,
-        ..meansLabels = NA)
+        ..profLabels = NA)
 )
 
 distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -539,15 +545,17 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot_waffle = function() private$.items[["plot_waffle"]],
         plot_picto = function() private$.items[["plot_picto"]],
         plot_parliament = function() private$.items[["plot_parliament"]],
-        plot_profile = function() private$.items[["plot_profile"]],
-        plot_means = function() private$.items[["plot_means"]]),
+        plot_profile = function() private$.items[["plot_profile"]]),
     private = list(),
     public=list(
         initialize=function(options) {
             super$initialize(
                 options=options,
                 name="",
-                title="Compare Ordinal")
+                title="Compare Ordinal",
+                refs=list(
+                    "comparePlots",
+                    "ggplot2"))
             self$add(jmvcore::Html$new(
                 options=options,
                 name="hint",
@@ -577,6 +585,9 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "alpha",
+                    "lineWidth",
+                    "ignoreMissing",
                     "barWidth",
                     "barLabels",
                     "barMinLabel")))
@@ -604,6 +615,9 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "alpha",
+                    "lineWidth",
+                    "ignoreMissing",
                     "divWidth",
                     "divNeutral",
                     "divLabels",
@@ -633,6 +647,9 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "alpha",
+                    "lineWidth",
+                    "ignoreMissing",
                     "heatPalette",
                     "heatLabels",
                     "heatGap")))
@@ -645,7 +662,7 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot_waffle",
                 visible="(showWaffle)",
                 clearWith=list(
-                    "gridCols",
+                    "waffleGrid",
                     "vars",
                     "orientation",
                     "invertVars",
@@ -661,6 +678,9 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "alpha",
+                    "lineWidth",
+                    "ignoreMissing",
                     "waffleRows",
                     "waffleCols",
                     "waffleGap")))
@@ -673,7 +693,7 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot_picto",
                 visible="(showPicto)",
                 clearWith=list(
-                    "gridCols",
+                    "pictoGrid",
                     "vars",
                     "orientation",
                     "invertVars",
@@ -689,6 +709,9 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "alpha",
+                    "lineWidth",
+                    "ignoreMissing",
                     "pictoRows",
                     "pictoCols",
                     "pictoShape",
@@ -702,7 +725,7 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot_parliament",
                 visible="(showParliament)",
                 clearWith=list(
-                    "gridCols",
+                    "parlGrid",
                     "vars",
                     "orientation",
                     "invertVars",
@@ -718,6 +741,9 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "alpha",
+                    "lineWidth",
+                    "ignoreMissing",
                     "parlSeats",
                     "parlRows",
                     "parlSize")))
@@ -745,36 +771,12 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "alpha",
+                    "lineWidth",
+                    "ignoreMissing",
                     "profLines",
                     "profPoints",
-                    "profLabels")))
-            self$add(jmvcore::Image$new(
-                options=options,
-                name="plot_means",
-                title="Mean category and CI (ordinal or two-category variables)",
-                width=450,
-                height=350,
-                renderFun=".plot_means",
-                visible="(showMeans)",
-                clearWith=list(
-                    "vars",
-                    "orientation",
-                    "invertVars",
-                    "colourPalette",
-                    "reversePalette",
-                    "plotTheme",
-                    "textSize",
-                    "sortVars",
-                    "useDesc",
-                    "divNeutral",
-                    "decimals",
-                    "legendPos",
-                    "legendTitle",
-                    "title",
-                    "showN",
-                    "meansCi",
-                    "meansLevel",
-                    "meansLabels")))}))
+                    "profLabels")))}))
 
 distOrdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     "distOrdBase",
@@ -782,7 +784,7 @@ distOrdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     public = list(
         initialize = function(options, data=NULL, datasetId="", analysisId="", revision=0) {
             super$initialize(
-                package = "ComparePlots",
+                package = "comparePlots",
                 name = "distOrd",
                 version = c(1,0,0),
                 options = options,
@@ -804,7 +806,6 @@ distOrdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param vars .
 #' @param orientation .
 #' @param useDesc .
-#' @param gridCols .
 #' @param invertVars .
 #' @param colourPalette .
 #' @param reversePalette .
@@ -815,7 +816,9 @@ distOrdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param legendPos .
 #' @param legendTitle .
 #' @param title .
-#' @param autoFit .
+#' @param alpha .
+#' @param lineWidth .
+#' @param ignoreMissing .
 #' @param showN .
 #' @param showBars .
 #' @param barWidth .
@@ -835,23 +838,22 @@ distOrdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param waffleRows .
 #' @param waffleCols .
 #' @param waffleGap .
+#' @param waffleGrid .
 #' @param showPicto .
 #' @param pictoRows .
 #' @param pictoCols .
 #' @param pictoShape .
 #' @param pictoSize .
+#' @param pictoGrid .
 #' @param showParliament .
 #' @param parlSeats .
 #' @param parlRows .
 #' @param parlSize .
+#' @param parlGrid .
 #' @param showProfile .
 #' @param profLines .
 #' @param profPoints .
 #' @param profLabels .
-#' @param showMeans .
-#' @param meansCi .
-#' @param meansLevel .
-#' @param meansLabels .
 #' @return A results object containing:
 #' \tabular{llllll}{
 #'   \code{results$hint} \tab \tab \tab \tab \tab a html \cr
@@ -862,7 +864,6 @@ distOrdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot_picto} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot_parliament} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot_profile} \tab \tab \tab \tab \tab an image \cr
-#'   \code{results$plot_means} \tab \tab \tab \tab \tab an image \cr
 #' }
 #'
 #' @export
@@ -871,7 +872,6 @@ distOrd <- function(
     vars,
     orientation = "horizontal",
     useDesc = FALSE,
-    gridCols = 3,
     invertVars = FALSE,
     colourPalette = "jamovi",
     reversePalette = FALSE,
@@ -882,7 +882,9 @@ distOrd <- function(
     legendPos = "bottom",
     legendTitle = "",
     title = "",
-    autoFit = FALSE,
+    alpha = 80,
+    lineWidth = 2,
+    ignoreMissing = TRUE,
     showN = FALSE,
     showBars = TRUE,
     barWidth = 70,
@@ -902,23 +904,22 @@ distOrd <- function(
     waffleRows = 10,
     waffleCols = 10,
     waffleGap = 10,
+    waffleGrid = 3,
     showPicto = FALSE,
     pictoRows = 10,
     pictoCols = 10,
     pictoShape = "circle",
     pictoSize = 4.5,
+    pictoGrid = 3,
     showParliament = FALSE,
     parlSeats = 100,
     parlRows = 4,
     parlSize = 3.2,
+    parlGrid = 3,
     showProfile = FALSE,
     profLines = TRUE,
     profPoints = TRUE,
-    profLabels = FALSE,
-    showMeans = FALSE,
-    meansCi = TRUE,
-    meansLevel = 95,
-    meansLabels = FALSE) {
+    profLabels = FALSE) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("distOrd requires jmvcore to be installed (restart may be required)")
@@ -935,7 +936,6 @@ distOrd <- function(
         vars = vars,
         orientation = orientation,
         useDesc = useDesc,
-        gridCols = gridCols,
         invertVars = invertVars,
         colourPalette = colourPalette,
         reversePalette = reversePalette,
@@ -946,7 +946,9 @@ distOrd <- function(
         legendPos = legendPos,
         legendTitle = legendTitle,
         title = title,
-        autoFit = autoFit,
+        alpha = alpha,
+        lineWidth = lineWidth,
+        ignoreMissing = ignoreMissing,
         showN = showN,
         showBars = showBars,
         barWidth = barWidth,
@@ -966,23 +968,22 @@ distOrd <- function(
         waffleRows = waffleRows,
         waffleCols = waffleCols,
         waffleGap = waffleGap,
+        waffleGrid = waffleGrid,
         showPicto = showPicto,
         pictoRows = pictoRows,
         pictoCols = pictoCols,
         pictoShape = pictoShape,
         pictoSize = pictoSize,
+        pictoGrid = pictoGrid,
         showParliament = showParliament,
         parlSeats = parlSeats,
         parlRows = parlRows,
         parlSize = parlSize,
+        parlGrid = parlGrid,
         showProfile = showProfile,
         profLines = profLines,
         profPoints = profPoints,
-        profLabels = profLabels,
-        showMeans = showMeans,
-        meansCi = meansCi,
-        meansLevel = meansLevel,
-        meansLabels = meansLabels)
+        profLabels = profLabels)
 
     analysis <- distOrdClass$new(
         options = options,

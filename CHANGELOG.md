@@ -2,11 +2,21 @@
 
 ## 1.0.0 (unreleased) - changes requested by the jamovi library review
 
+### Round 4 (2026-11-04)
+- **Renamed to comparePlots** (module name, menu group, package, icon). Rename the GitHub repo to `heelgueta/comparePlots` too.
+- Ridgeline and raincloud: removed the large empty space above the top plot.
+- Vertical orientation: variable names (and category names) that would collide are cut with an ellipsis; example data now has short variable names.
+- Numeric: data points take the variable's colour (new *Data point colour*: As variable / Grey), default point size 0.8, new shared *Data point opacity* (default 30%, was a fixed 40%).
+- Palettes: Greys no longer ends near white; *Okabe-Ito* without brackets; no "(diverging)" suffixes; "jamovi current" is now just "jamovi".
+- Categorical: *Opacity* (default 80%) and *Line thickness* for everything filled; *Ignore missing cases* (on by default: every variable's bar totals 100%); *Charts per row* moved into the waffle, pictogram, parliament, pie and donut sections; *Order categories by* gained A-Z (nominal); lollipop dot size capped at 6 and the plot is just "Lollipop plot".
+- Removed: *Mean category and CI* plot, the *Fit plot size* checkbox, *n per variable* is off by default everywhere.
+- Shorter option labels in the *Order variables* and *Transform values* lists so the UI does not break.
+- Our own entry in the results' References (`jamovi/00refs.yaml`, cited by all three analyses).
+
 Full tracking of the review, decisions and status: [docs/jamovi-review-0.4.0.md](docs/jamovi-review-0.4.0.md).
 
 ### Added
 - *Transform values* (Compare Numeric): centred, z-scores, T-scores, percent of range, percentile rank, ln, square root, square.
-- *Fit plot size to the number of variables* in all three analyses (plots sized in `.init()`, off by default).
 - Three analyses: **Compare Numeric**, **Compare Ordinal**, **Compare Nominal** in a *ComparePlots* group inside the Plots tab (the same arrangement as vijPlots). Variables of the wrong measure type are rejected with a hint.
 - Nominal plots: pie, donut, grouped bars, lollipop; category order by frequency.
 - *Black & white (no colour)* palette for the numeric plots.
