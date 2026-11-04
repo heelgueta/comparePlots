@@ -1,47 +1,41 @@
 # Changelog
 
-## 1.0.0 (unreleased) - changes requested by the jamovi library review
+## 1.0.0 (2026-11-04)
 
-### Round 4 (2026-11-04)
-- **Renamed to comparePlots** (module name, menu group, package, icon). Rename the GitHub repo to `heelgueta/comparePlots` too.
-- Ridgeline and raincloud: removed the large empty space above the top plot.
-- Vertical orientation: variable names (and category names) that would collide are cut with an ellipsis; example data now has short variable names.
-- Numeric: data points take the variable's colour (new *Data point colour*: As variable / Grey), default point size 0.8, new shared *Data point opacity* (default 30%, was a fixed 40%).
-- Palettes: Greys no longer ends near white; *Okabe-Ito* without brackets; no "(diverging)" suffixes; "jamovi current" is now just "jamovi".
-- Categorical: *Opacity* (default 80%) and *Line thickness* for everything filled; *Ignore missing cases* (on by default: every variable's bar totals 100%); *Charts per row* moved into the waffle, pictogram, parliament, pie and donut sections; *Order categories by* gained A-Z (nominal); lollipop dot size capped at 6 and the plot is just "Lollipop plot".
-- Removed: *Mean category and CI* plot, the *Fit plot size* checkbox, *n per variable* is off by default everywhere.
-- Shorter option labels in the *Order variables* and *Transform values* lists so the UI does not break.
-- Shared options are one open *Appearance* box with section headings (Variables / Appearance / Data points / Text and labels); the plots keep their own collapsible sections.
-- Transform values reduced to none, z-scores, ln, square root, square. Default *Data point opacity* 50%. "several" dropped from the module description.
-- Violin: *Inner box* is a checkbox (on by default) and the inner box has no fill. Section headings in the Appearance box are bold.
-- Fixed: a stacked bar (and pie) could lose its last slice when the running percentages summed to 100.00000000000001 (the axis limits dropped it); this was the PANAS_08 case. Removed the Set 2 and Dark 2 palettes. New module icon in the colours of jamovi's own plot icons. Bold "Variables" heading in Ordinal/Nominal.
-- New *Rainbow* palette (red to violet).
-- Our own entry in the results' References (`jamovi/00refs.yaml`, cited by all three analyses).
+First release for the jamovi library. It builds on 0.4.0, which was reviewed by the jamovi team; their feedback
+(menu placement, plot sizes, fonts, themes, palettes, wording of the options, data handling, tests) shaped most
+of the changes below. Version 1.0.0 also adds features of our own.
 
-Full tracking of the review, decisions and status: [docs/jamovi-review-0.4.0.md](docs/jamovi-review-0.4.0.md).
+### Compared with 0.4.0
 
-### Added
+**Structure**
+- The module is named **comparePlots** (it was ComparePlots).
+- Three analyses instead of two, grouped in a **comparePlots** dropdown inside jamovi's Plots tab: **Compare Numeric**, **Compare Ordinal** and **Compare Nominal**. Variables of the wrong measure type are rejected with a hint.
+- Compare Nominal is new, with pie, donut, grouped bars and lollipop plots, and categories ordered by data order, frequency or A-Z.
+- Each plot's checkbox now sits inside its own collapsible section, together with that plot's settings.
+- The shared options are one *Appearance* box with section headings.
+- The module cites itself and ggplot2 in the results' References.
+
+**Look and feel (jamovi's feedback)**
+- Plots follow the user's jamovi theme and palette by default (*jamovi* theme and palette); our own themes and palettes remain selectable (Viridis, diverging, Okabe-Ito, Greys, Rainbow...).
+- Transparent plot backgrounds, larger default text, smaller fixed default plot sizes (plots are never resized while running; the manual size options were removed).
+- *Transparency* is now **Opacity**; labels follow jamovi's conventions (no units where `%` follows the box, no verbs on checkboxes, title case headings, Grey spelling); dependent options are greyed out with their parent.
+
+**New features**
+- Order variables (entry order, A-Z, mean, median; for ordinal also % in first / last category and net %), with *Reverse the order*.
 - *Transform values* (Compare Numeric): z-scores, ln, square root, square.
-- Three analyses: **Compare Numeric**, **Compare Ordinal**, **Compare Nominal** in a *ComparePlots* group inside the Plots tab (the same arrangement as vijPlots). Variables of the wrong measure type are rejected with a hint.
-- Nominal plots: pie, donut, grouped bars, lollipop; category order by frequency.
-- *Black & white (no colour)* palette for the numeric plots.
-- *Variable descriptions as labels* and *Charts per row* (waffle, pictogram, parliament, pie, donut are now a grid of charts).
-- **Order variables by** in both analyses. Numeric: entry order, alphabetical, median, mean. Categorical: entry order, alphabetical, mean category, median category, % in first / last category, net %. *Reverse the order* flips any of them.
-- *jamovi current* theme and palette (the new defaults): plots follow the user's jamovi theme settings. All previous themes and palettes remain available.
-- Unit tests (`tests/testthat`).
+- Variable descriptions from the Data tab can be used as labels; long names are cut in the vertical orientation so they do not overlap.
+- Compare Numeric: data points in the variable's colour with their own opacity and size, a black & white palette, an optional inner box in the violin plot.
+- Compare Ordinal and Nominal: opacity, line thickness, *Ignore missing cases*, and *Charts per row* for the waffle, pictogram, parliament, pie and donut plots.
+- The mean-category plot of 0.4.0 was removed because it was easy to misread.
+- Unit tests (`tests/testthat`) and example datasets with example output.
 
-### Changed
-- Analyses renamed **Compare Numeric** and **Compare Categorical**, moved to jamovi's Plots tab; menu subtitles removed.
-- Each plot's checkbox now sits inside its own collapsible section.
-- Smaller fixed default plot sizes; plots are no longer resized while running. The manual/automatic size options were removed.
-- Larger default text (16), transparent plot backgrounds.
-- *Transparency (opacity %)* is now simply **Opacity**.
-- Labels: units removed where `%` follows the box, checkbox verbs dropped, headings in title case, Grey spelling, dependent options greyed out together with the option they depend on.
-- Numeric plots no longer store a copy of the data in each plot; the means-and-error-bars summary (including the median bootstrap) is computed once.
-- Version 1.0.0.
-
-### Fixed
-- The shared category axis of *Compare Categorical* no longer misorders categories when an item lacks a category (e.g. nobody chose "3"); this affected stacked/diverging bars, heatmap, waffle, pictogram, parliament, profile and the mean-category plot. Conflicting orders and variables with no shared category now raise a warning.
+**Fixes**
+- The shared category axis no longer misorders categories when an item lacks one (e.g. nobody chose "3"); conflicting orders and variables with no shared category raise a warning.
+- Stacked bars and pies could lose their last slice because of floating-point rounding.
+- Variables with no usable data now give a message instead of blank plots; notes about skipped or conflicting data are proper jamovi notices.
+- Plots no longer store a copy of the data, and the error-bar summary (including the median bootstrap) is computed once.
 
 ### Removed
-- Broken `ggplot2` references, `dist/` from version control.
+- The mean-category plot, the manual plot size options and the broken `ggplot2` references.
+- Prebuilt `.jmo` files are no longer kept in the repository; they are attached to GitHub releases.

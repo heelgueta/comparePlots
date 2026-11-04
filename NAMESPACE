@@ -1,3 +1,4 @@
+export(distNom)
 export(distNum)
 export(distOrd)
 importFrom(jmvcore, .)

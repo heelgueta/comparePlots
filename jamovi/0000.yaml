@@ -50,6 +50,6 @@ datasets:
     path: example_nominal.omv
     description: The same five-category nominal variable at three times of day, n = 250
 usesNative: true
-minApp: 1.0.8
+minApp: 2.4.0
 
 ...
