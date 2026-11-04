@@ -37,13 +37,6 @@ analyses:
     menuGroup: comparePlots
     menuTitle: Compare Nominal
     description: Compare the category distributions of nominal variables.
-  - title: Ridgeline (green-blue-red)
-    name: distRidge
-    ns: comparePlots
-    category: plots
-    menuGroup: comparePlots
-    menuTitle: Ridgeline (green-blue-red)
-    description: Ridgeline plot of numeric variables with the ridges coloured green, blue and red from top to bottom.
 datasets:
   - name: Well-being scales (numeric example)
     path: example_numeric.omv
