@@ -6,14 +6,14 @@ from ui_gen import *
 # ---------------- distNum ----------------
 num = head_ui("Compare Numeric", "distNum")
 num += appearance_groups([
-    ("Variables", [D("orientation"), D("sortVars"), D("transform"), C("invertVars"), C("useDesc"), S("valueLabel")]),
-    ("Appearance", [D("colourPalette"), C("reversePalette"), D("plotTheme"), T("alpha", suffix="%"), T("lineWidth")]),
-    ("Data points", [T("pointSize"), T("pointAlpha", suffix="%"), D("pointColour"), T("jitterSpread", suffix="%")]),
-    ("Text and labels", [T("textSize"), S("title"), D("legendPos"), C("showN")])])
+    ("<b>Variables</b>", [D("orientation"), D("sortVars"), D("transform"), C("invertVars"), C("useDesc"), S("valueLabel")]),
+    ("<b>Appearance</b>", [D("colourPalette"), C("reversePalette"), D("plotTheme"), T("alpha", suffix="%"), T("lineWidth")]),
+    ("<b>Data points</b>", [T("pointSize"), T("pointAlpha", suffix="%"), D("pointColour"), T("jitterSpread", suffix="%")]),
+    ("<b>Text and labels</b>", [T("textSize"), S("title"), D("legendPos"), C("showN")])])
 num += box("Box Plot", "showBox", [T("boxWidth", "(showBox)", "%"), C("boxOutliers", "(showBox)"), C("boxNotch", "(showBox)"),
                                    C("boxMean", "(showBox)"), C("boxJitter", "(showBox)")], collapsed=False)
 num += box("Violin Plot", "showViolin", [T("violinWidth", "(showViolin)", "%"), D("violinScale", "(showViolin)"), T("violinAdjust", "(showViolin)"),
-                                         C("violinTrim", "(showViolin)"), D("violinInner", "(showViolin)"), C("violinJitter", "(showViolin)")])
+                                         C("violinTrim", "(showViolin)"), C("violinBox", "(showViolin)"), C("violinJitter", "(showViolin)")])
 num += box("Means and Error Bars", "showErrorBar", [
     D("ebCenter", "(showErrorBar)"), D("ebInterval", "(showErrorBar)"),
     T("ebLevel", "(showErrorBar && (ebInterval:ci || ebInterval:pctile))", "%"),

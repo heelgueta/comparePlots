@@ -58,6 +58,17 @@ cmp_palette <- function(scheme, n, reverse = FALSE, spread = FALSE, theme = NULL
 
 
 # -----------------------------------------------------------------------------
+# cmp_gbr(): n colours running green -> blue -> red (the "Ridgeline (green-blue-red)"
+# analysis). With 3 variables they are exactly green, blue, red; with more the
+# colours are interpolated between them. `reverse` gives red -> blue -> green.
+# -----------------------------------------------------------------------------
+cmp_gbr <- function(n, reverse = FALSE) {
+    cols <- if (n == 1L) "#3E6DA6" else grDevices::colorRampPalette(c("#2E9E5B", "#3E6DA6", "#D64545"))(n)
+    if (reverse) rev(cols) else cols
+}
+
+
+# -----------------------------------------------------------------------------
 # cmp_jamovi_palette(): n colours that follow jamovi's global plot settings.
 # jamovi hands every render function a `theme` list whose `fill` (and `color`)
 # hold the accent colours of the user's chosen theme/palette (jamovi's own plots

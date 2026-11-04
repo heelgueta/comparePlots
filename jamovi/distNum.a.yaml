@@ -263,15 +263,10 @@ options:
     title: Trim tails at data range
     type: Bool
     default: true
-  - name: violinInner
-    title: Inner element
-    type: List
-    options:
-      - name: box
-        title: Box
-      - name: none
-        title: None
-    default: box
+  - name: violinBox
+    title: Inner box
+    type: Bool
+    default: true
   - name: violinJitter
     title: Data points (jittered)
     type: Bool

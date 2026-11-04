@@ -84,7 +84,7 @@ items:
       - violinScale
       - violinAdjust
       - violinTrim
-      - violinInner
+      - violinBox
       - violinJitter
   # IMAGE for the "Means and error bars" plot. Shown only while `showErrorBar` is ticked; drawn by `.plot_errorbar()`.
   # clearWith = options that invalidate the image when they change (add new options here too).

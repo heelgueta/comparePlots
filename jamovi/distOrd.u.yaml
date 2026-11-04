@@ -25,7 +25,7 @@ children:
     stretchFactor: 1
     children:
       - type: Label
-        label: Variables
+        label: 'Variables'
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -71,7 +71,7 @@ children:
               - type: CheckBox
                 name: ignoreMissing
       - type: Label
-        label: Appearance
+        label: '<b>Appearance</b>'
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -120,7 +120,7 @@ children:
                 name: lineWidth
                 format: number
       - type: Label
-        label: Text and labels
+        label: '<b>Text and labels</b>'
       - type: LayoutBox
         margin: large
         stretchFactor: 1

@@ -185,8 +185,8 @@ from ui_gen import *
 def appearance_ui(nominal=False):
     vo = [D("orientation"), D("sortVars")] + ([D("catSort")] if nominal else []) + [C("invertVars"), C("useDesc"), C("ignoreMissing")]
     return [("Variables", vo),
-            ("Appearance", [D("colourPalette"), C("reversePalette"), D("plotTheme"), T("alpha", suffix="%"), T("lineWidth")]),
-            ("Text and labels", [T("textSize"), T("decimals"), S("title"), D("legendPos"), S("legendTitle"), C("showN")])]
+            ("<b>Appearance</b>", [D("colourPalette"), C("reversePalette"), D("plotTheme"), T("alpha", suffix="%"), T("lineWidth")]),
+            ("<b>Text and labels</b>", [T("textSize"), T("decimals"), S("title"), D("legendPos"), S("legendTitle"), C("showN")])]
 def ui(name, title, boxes, groups):
     s = head_ui(title, name) + appearance_groups(groups)
     for label, check, its, collapsed in boxes:

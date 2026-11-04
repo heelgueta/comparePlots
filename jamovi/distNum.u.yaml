@@ -25,7 +25,7 @@ children:
     stretchFactor: 1
     children:
       - type: Label
-        label: Variables
+        label: '<b>Variables</b>'
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -80,7 +80,7 @@ children:
                 name: valueLabel
                 format: string
       - type: Label
-        label: Appearance
+        label: '<b>Appearance</b>'
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -129,7 +129,7 @@ children:
                 name: lineWidth
                 format: number
       - type: Label
-        label: Data points
+        label: '<b>Data points</b>'
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -172,7 +172,7 @@ children:
                 format: number
                 suffix: '%'
       - type: Label
-        label: Text and labels
+        label: '<b>Text and labels</b>'
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -331,8 +331,8 @@ children:
               row: 2
             stretchFactor: 1
             children:
-              - type: ComboBox
-                name: violinInner
+              - type: CheckBox
+                name: violinBox
                 enable: '(showViolin)'
           - type: LayoutBox
             cell:

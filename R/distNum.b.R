@@ -59,7 +59,7 @@ distNumClass <- R6::R6Class(
             opts <- self$options
             vars <- opts$vars
             # logical vector, one entry per plot key: is its checkbox ticked?
-            on   <- vapply(private$.switches, function(k) isTRUE(opts[[k]]), logical(1))
+            on   <- private$.on()
 
             # `hint` is an Html result element that is only shown when helpful
             hint <- self$results$hint
@@ -89,6 +89,13 @@ distNumClass <- R6::R6Class(
                 image$setState(st)
             }
         },
+
+        # Which plots are switched on: one logical per key of `.switches`. (The
+        # ridgeline-only analysis overrides this, its plot is always on.)
+        .on = function() vapply(private$.switches, function(k) isTRUE(self$options[[k]]), logical(1)),
+
+        # An option that only some analyses have (NULL when this one lacks it).
+        .opt = function(name) tryCatch(self$options[[name]], error = function(e) NULL),
 
         # Long format: one row per observation, columns `variable` and `value`.
         # Each variable is first re-expressed by the "Transform values" option, then
@@ -187,8 +194,9 @@ distNumClass <- R6::R6Class(
             # Black & white: black lines/points, white fills, no colour at all. The
             # variable names are on the axis, so no legend is needed (overlay plots
             # tell the variables apart by line type instead).
-            bw    <- identical(o$colourPalette, "bw")
+            bw    <- identical(private$.opt("colourPalette"), "bw")
             cols  <- if (bw) rep("black", n)
+                     else if (isTRUE(private$.fixed3)) cmp_gbr(n, o$reversePalette)   # ridgeline-only analysis
                      else cmp_palette(o$colourPalette, n, o$reversePalette, spread = TRUE, theme = theme)
             fills <- if (bw) rep("white", n) else cols
             names(cols) <- lv
@@ -383,9 +391,9 @@ distNumClass <- R6::R6Class(
                 ggplot2::geom_violin(
                     width = o$violinWidth / 100, scale = o$violinScale, trim = o$violinTrim,
                     adjust = o$violinAdjust, alpha = ctx$alpha, linewidth = ctx$lw * 0.6)
-            if (o$violinInner == "box")
+            if (o$violinBox)
                 p <- p + ggplot2::geom_boxplot(
-                    width = 0.12, fill = "white", colour = "grey20", alpha = 0.9,
+                    width = 0.12, fill = NA, colour = "grey20",
                     linewidth = ctx$lw * 0.6, outlier.shape = NA)
             if (o$violinJitter) p <- p + private$.jitter(long, ctx)
             p <- p + private$.cat_axis(ctx) + private$.value_axis(ctx)

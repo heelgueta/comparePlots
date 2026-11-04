@@ -1,0 +1,195 @@
+# Ridgeline (green-blue-red) (distRidge): USER INTERFACE, hand-written.
+# compilerMode is `tame`: jmc keeps this layout and only adds controls for NEW options.
+# Each plot has its own CollapseBox that holds the plot's checkbox AND its settings; the settings are
+# greyed out (enable:) while the checkbox is off, or while a sibling option they depend on is off.
+title: Ridgeline (green-blue-red)
+name: distRidge
+jus: '3.0'
+stage: 0
+compilerMode: tame
+children:
+  - type: VariableSupplier
+    persistentItems: false
+    stretchFactor: 1
+    children:
+      - type: TargetLayoutBox
+        label: Variables
+        children:
+          - type: VariablesListBox
+            name: vars
+            isTarget: true
+  # Shared options in one box, in sections with headings (Label controls).
+  - type: CollapseBox
+    label: Appearance
+    collapsed: false
+    stretchFactor: 1
+    children:
+      - type: Label
+        label: '<b>Variables</b>'
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: orientation
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: sortVars
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: transform
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: invertVars
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: useDesc
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: valueLabel
+                format: string
+      - type: Label
+        label: '<b>Appearance</b>'
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: reversePalette
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: plotTheme
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: alpha
+                format: number
+                suffix: '%'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: lineWidth
+                format: number
+      - type: Label
+        label: '<b>Ridgeline</b>'
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: ridgeOverlap
+                format: number
+                suffix: '%'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: ridgeAdjust
+                format: number
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: ridgeTrim
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: ridgeMedian
+      - type: Label
+        label: '<b>Text and labels</b>'
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: textSize
+                format: number
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: title
+                format: string
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: showN

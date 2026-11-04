@@ -1,0 +1,39 @@
+---
+# Ridgeline, green-blue-red (distRidge): RESULTS. One image, always shown.
+name: distRidge
+title: Ridgeline (green-blue-red)
+jrs: '1.1'
+refs:
+  - comparePlots
+  - ggplot2
+items:
+  - name: hint
+    title: ''
+    type: Html
+    visible: false
+  - name: plot_ridge
+    title: Ridgeline (density) plot
+    type: Image
+    width: 450
+    height: 400
+    renderFun: .plot_ridge
+    requiresData: true
+    clearWith:
+      - vars
+      - orientation
+      - sortVars
+      - useDesc
+      - transform
+      - invertVars
+      - reversePalette
+      - plotTheme
+      - textSize
+      - alpha
+      - lineWidth
+      - valueLabel
+      - title
+      - showN
+      - ridgeOverlap
+      - ridgeAdjust
+      - ridgeTrim
+      - ridgeMedian
