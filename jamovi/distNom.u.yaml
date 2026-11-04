@@ -25,7 +25,7 @@ children:
     stretchFactor: 1
     children:
       - type: Label
-        label: 'Variables'
+        label: '<b>Variables</b>'
       - type: LayoutBox
         margin: large
         stretchFactor: 1

@@ -7,7 +7,7 @@ State of the branch `jamovi-review-1.0` as of 2026-11-04. Everything below is bu
 
 1. **Nominal default palette.** Compare Nominal still defaults to *jamovi*, which gives shades of one colour
    from dark to light; that suggests an order nominal categories do not have. Suggestion: default to a qualitative
-   palette (Set 2 or Okabe-Ito) for nominal only. (Contradicts "jamovi current everywhere", so it is your call.)
+   palette (Pastel or Okabe-Ito) for nominal only. (Contradicts "jamovi current everywhere", so it is your call.)
 2. **Plot sizes.** The *Fit plot size* checkbox was removed (round 4), so sizes are fixed per plot (450x350 etc.). With
    many variables (8+) the user must resize by hand. Decide whether to bring back automatic sizing in `.init()`
    (reviewer only forbids resizing in `.run()`); the old code is in git history (commit d642c36).

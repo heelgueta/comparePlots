@@ -40,7 +40,7 @@ cmp_palette <- function(scheme, n, reverse = FALSE, spread = FALSE, theme = NULL
              cividis = "cividis", mako = "mako", rocket = "rocket", turbo = "turbo")
     # option value -> hcl.colors() palette name
     hcl <- c(rdbu = "RdBu", rdylgn = "RdYlGn", piyg = "PiYG", prgn = "PRGn", brbg = "BrBG",
-             set2 = "Set 2", dark2 = "Dark 2", pastel = "Pastel 1", grays = "Grays")
+             pastel = "Pastel 1", grays = "Grays")
     cols <- if (scheme %in% names(vir)) {
         viridisLite::viridis(n, option = vir[[scheme]])
     } else if (scheme == "grays") {

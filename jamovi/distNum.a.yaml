@@ -102,10 +102,6 @@ options:
         title: Purple–Green
       - name: brbg
         title: Brown–Teal
-      - name: set2
-        title: Set 2
-      - name: dark2
-        title: Dark 2
       - name: pastel
         title: Pastel 1
       - name: okabe

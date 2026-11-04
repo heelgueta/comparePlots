@@ -184,7 +184,7 @@ sys.path.insert(0, "tools")
 from ui_gen import *
 def appearance_ui(nominal=False):
     vo = [D("orientation"), D("sortVars")] + ([D("catSort")] if nominal else []) + [C("invertVars"), C("useDesc"), C("ignoreMissing")]
-    return [("Variables", vo),
+    return [("<b>Variables</b>", vo),
             ("<b>Appearance</b>", [D("colourPalette"), C("reversePalette"), D("plotTheme"), T("alpha", suffix="%"), T("lineWidth")]),
             ("<b>Text and labels</b>", [T("textSize"), T("decimals"), S("title"), D("legendPos"), S("legendTitle"), C("showN")])]
 def ui(name, title, boxes, groups):

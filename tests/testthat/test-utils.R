@@ -87,7 +87,7 @@ test_that("cmp_summary: mean CI, median, degenerate input", {
 })
 
 test_that("cmp_palette: right length, jamovi default follows the theme, reverse works", {
-    for (s in c("viridis", "rdbu", "set2", "okabe", "grays", "jamovi")) expect_length(cmp_palette(s, 6), 6)
+    for (s in c("viridis", "rdbu", "pastel", "okabe", "grays", "jamovi")) expect_length(cmp_palette(s, 6), 6)
     expect_length(cmp_palette("rdbu", 4, spread = TRUE), 4)
     expect_equal(cmp_palette("viridis", 3, reverse = TRUE), rev(cmp_palette("viridis", 3)))
     th <- list(fill = c("#FFFFFF", "#FF0000"), color = "#000000")

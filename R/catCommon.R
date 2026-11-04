@@ -306,7 +306,9 @@ cmp_cat_private <- function() {
             o <- ctx$o
             bw <- o$barWidth / 100
             long <- long[order(long$variable, long$cidx), ]
-            long$hi <- ave(long$pct, long$variable, FUN = cumsum)   # running total = segment end
+            # running total = segment end; capped at 100 because float sums can overshoot
+            # (100.00000000000001), and the axis limits would then silently drop the last segment
+            long$hi <- pmin(ave(long$pct, long$variable, FUN = cumsum), 100)
             long$lo <- long$hi - long$pct                           # segment start
             p <- ggplot2::ggplot(long) +
                 ggplot2::geom_rect(
@@ -323,7 +325,7 @@ cmp_cat_private <- function() {
                     ggplot2::scale_colour_identity()    # `tc` already holds colour names
             }
             p <- p + private$.cat_axis(ctx) +
-                ggplot2::scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 25),
+                ggplot2::scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, 25), oob = scales::oob_keep,
                                             labels = function(x) paste0(x, "%"),
                                             expand = ggplot2::expansion(0)) +
                 private$.fill_scale(ctx) + ggplot2::labs(x = NULL, y = NULL)
@@ -550,7 +552,7 @@ cmp_cat_private <- function() {
         .p_pie = function(long, ctx, donut = FALSE) {
             o <- ctx$o
             long <- long[order(long$variable, long$cidx), ]
-            long$hi <- ave(long$pct, long$variable, FUN = cumsum)
+            long$hi <- pmin(ave(long$pct, long$variable, FUN = cumsum), 100)
             long$lo <- long$hi - long$pct
             r0 <- if (donut) max(0.05, min(o$donutHole / 100, 0.9)) else 0
             show_labels <- if (donut) isTRUE(o$donutLabels) else isTRUE(o$pieLabels)
@@ -575,7 +577,7 @@ cmp_cat_private <- function() {
             }
             p + ggplot2::coord_polar(theta = "y", start = 0) +
                 ggplot2::scale_x_continuous(limits = c(0, 1), expand = ggplot2::expansion(0)) +
-                ggplot2::scale_y_continuous(limits = c(0, 100), expand = ggplot2::expansion(0)) +
+                ggplot2::scale_y_continuous(limits = c(0, 100), oob = scales::oob_keep, expand = ggplot2::expansion(0)) +
                 ggplot2::facet_wrap(ggplot2::vars(variable), ncol = ctx$gcols, strip.position = "bottom",
                                     labeller = ggplot2::as_labeller(ctx$lab_grid)) +
                 private$.fill_scale(ctx) + ggplot2::labs(x = NULL, y = NULL)
@@ -622,7 +624,7 @@ cmp_cat_private <- function() {
             dodge <- ggplot2::position_dodge(width = 0.6)
             p <- ggplot2::ggplot(long, ggplot2::aes(x = x, y = pct, colour = variable, group = variable)) +
                 ggplot2::geom_linerange(ggplot2::aes(ymin = 0, ymax = pct), position = dodge, linewidth = ctx$lw_line * 0.75) +
-                ggplot2::geom_point(position = dodge, size = min(o$lolliSize, 6), shape = 16, alpha = ctx$alpha) +
+                ggplot2::geom_point(position = dodge, size = max(1, min(o$lolliSize, 6)), shape = 16, alpha = ctx$alpha) +
                 ggplot2::scale_x_continuous(breaks = if (ctx$horiz) k - seq_len(k) + 1 else seq_len(k),
                                             labels = private$.cat_labels(ctx, !ctx$horiz), expand = ggplot2::expansion(add = 0.5)) +
                 ggplot2::scale_y_continuous(labels = function(x) paste0(x, "%"), expand = ggplot2::expansion(mult = c(0.02, 0.1))) +

@@ -105,8 +105,6 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "piyg",
                     "prgn",
                     "brbg",
-                    "set2",
-                    "dark2",
                     "pastel",
                     "okabe",
                     "grays"),
