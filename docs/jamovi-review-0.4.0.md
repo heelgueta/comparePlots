@@ -96,4 +96,4 @@ the module in jamovi (no R/jamovi was available when the changes were written), 
 - The three sizing test menus are gone. **Compare Ordinal** is the default; the behaviour of test version 3 is now the checkbox **Fit plot size to the number of variables** in the shared options of all three analyses (sizes set in `.init()`).
 - **Compare Numeric** was sitting outside the comparePlots dropdown (`menuGroup: .` left in `distNum.a.yaml`). Now all three analyses are direct items of the **comparePlots** group in the Plots tab, no sub-menus.
 - New **Transform values** option in Compare Numeric: z-scores, ln, square root, square. The value axis says which transformation was applied; values a transformation cannot handle are left out with a warning.
-- Everything still undecided is in `docs/OPEN-DECISIONS.md` (temporary file). Build instructions for another machine: `docs/dev-setup.md`.
+- Build instructions for another machine: `docs/dev-setup.md`.
