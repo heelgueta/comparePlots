@@ -48,3 +48,12 @@ def appearance(items):
             "  - type: CollapseBox\n    label: Appearance\n    collapsed: false\n    stretchFactor: 1\n    children:\n"
             + grid(items, 6))
 
+
+
+def appearance_groups(groups):
+    """Several CollapseBoxes (one per group of shared options). groups: [(label, items, collapsed)]"""
+    s = "  # Shared options, in groups: what is drawn / colours / text and labels (/ data points).\n"
+    for label, items, collapsed in groups:
+        s += (f"  - type: CollapseBox\n    label: {label}\n    collapsed: {'true' if collapsed else 'false'}\n"
+              "    stretchFactor: 1\n    children:\n" + grid(items, 6))
+    return s

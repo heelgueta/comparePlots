@@ -18,9 +18,9 @@ children:
           - type: VariablesListBox
             name: vars
             isTarget: true
-  # Appearance: options shared by all plots. Open by default.
+  # Shared options, in groups: what is drawn / colours / text and labels (/ data points).
   - type: CollapseBox
-    label: Appearance
+    label: Variables and Order
     collapsed: false
     stretchFactor: 1
     children:
@@ -66,12 +66,38 @@ children:
               row: 2
             stretchFactor: 1
             children:
+              - type: CheckBox
+                name: useDesc
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: valueLabel
+                format: string
+  - type: CollapseBox
+    label: Colours
+    collapsed: false
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
               - type: ComboBox
                 name: colourPalette
           - type: LayoutBox
             cell:
               column: 1
-              row: 2
+              row: 0
             stretchFactor: 1
             children:
               - type: CheckBox
@@ -79,7 +105,7 @@ children:
           - type: LayoutBox
             cell:
               column: 0
-              row: 3
+              row: 1
             stretchFactor: 1
             children:
               - type: ComboBox
@@ -87,24 +113,7 @@ children:
           - type: LayoutBox
             cell:
               column: 1
-              row: 3
-            stretchFactor: 1
-            children:
-              - type: TextBox
-                name: textSize
-                format: number
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 4
-            stretchFactor: 1
-            children:
-              - type: CheckBox
-                name: useDesc
-          - type: LayoutBox
-            cell:
-              column: 1
-              row: 4
+              row: 1
             stretchFactor: 1
             children:
               - type: TextBox
@@ -114,24 +123,25 @@ children:
           - type: LayoutBox
             cell:
               column: 0
-              row: 5
-            stretchFactor: 1
-            children:
-              - type: ComboBox
-                name: legendPos
-          - type: LayoutBox
-            cell:
-              column: 1
-              row: 5
+              row: 2
             stretchFactor: 1
             children:
               - type: TextBox
                 name: lineWidth
                 format: number
+  - type: CollapseBox
+    label: Data Points
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
           - type: LayoutBox
             cell:
               column: 0
-              row: 6
+              row: 0
             stretchFactor: 1
             children:
               - type: TextBox
@@ -140,7 +150,7 @@ children:
           - type: LayoutBox
             cell:
               column: 1
-              row: 6
+              row: 0
             stretchFactor: 1
             children:
               - type: TextBox
@@ -150,7 +160,7 @@ children:
           - type: LayoutBox
             cell:
               column: 0
-              row: 7
+              row: 1
             stretchFactor: 1
             children:
               - type: ComboBox
@@ -158,39 +168,56 @@ children:
           - type: LayoutBox
             cell:
               column: 1
-              row: 7
+              row: 1
             stretchFactor: 1
             children:
               - type: TextBox
                 name: jitterSpread
                 format: number
                 suffix: '%'
+  - type: CollapseBox
+    label: Text and Labels
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
           - type: LayoutBox
             cell:
               column: 0
-              row: 8
-            stretchFactor: 1
-            children:
-              - type: CheckBox
-                name: showN
-          - type: LayoutBox
-            cell:
-              column: 1
-              row: 8
+              row: 0
             stretchFactor: 1
             children:
               - type: TextBox
-                name: valueLabel
-                format: string
+                name: textSize
+                format: number
           - type: LayoutBox
             cell:
-              column: 0
-              row: 9
+              column: 1
+              row: 0
             stretchFactor: 1
             children:
               - type: TextBox
                 name: title
                 format: string
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: legendPos
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: showN
   - type: CollapseBox
     label: Box Plot
     collapsed: false

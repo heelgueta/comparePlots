@@ -1,3 +1,7 @@
+# Compare Ordinal (distOrd): USER INTERFACE, hand-written.
+# compilerMode is `tame`: jmc keeps this layout and only adds controls for NEW options.
+# Each plot has its own CollapseBox that holds the plot's checkbox AND its settings; the settings are
+# greyed out (enable:) while the checkbox is off, or while a sibling option they depend on is off.
 title: Compare Ordinal
 name: distOrd
 jus: '3.0'
@@ -14,8 +18,9 @@ children:
           - type: VariablesListBox
             name: vars
             isTarget: true
+  # Shared options, in groups: what is drawn / colours / text and labels (/ data points).
   - type: CollapseBox
-    label: Appearance
+    label: Variables and Order
     collapsed: false
     stretchFactor: 1
     children:
@@ -53,8 +58,8 @@ children:
               row: 1
             stretchFactor: 1
             children:
-              - type: ComboBox
-                name: colourPalette
+              - type: CheckBox
+                name: useDesc
           - type: LayoutBox
             cell:
               column: 0
@@ -62,19 +67,72 @@ children:
             stretchFactor: 1
             children:
               - type: CheckBox
-                name: reversePalette
+                name: ignoreMissing
+  - type: CollapseBox
+    label: Colours
+    collapsed: false
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: colourPalette
           - type: LayoutBox
             cell:
               column: 1
-              row: 2
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: reversePalette
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
             stretchFactor: 1
             children:
               - type: ComboBox
                 name: plotTheme
           - type: LayoutBox
             cell:
+              column: 1
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: alpha
+                format: number
+                suffix: '%'
+          - type: LayoutBox
+            cell:
               column: 0
-              row: 3
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: lineWidth
+                format: number
+  - type: CollapseBox
+    label: Text and Labels
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
             stretchFactor: 1
             children:
               - type: TextBox
@@ -82,16 +140,8 @@ children:
                 format: number
           - type: LayoutBox
             cell:
-              column: 0
-              row: 4
-            stretchFactor: 1
-            children:
-              - type: CheckBox
-                name: useDesc
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 5
+              column: 1
+              row: 0
             stretchFactor: 1
             children:
               - type: TextBox
@@ -99,8 +149,17 @@ children:
                 format: number
           - type: LayoutBox
             cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: title
+                format: string
+          - type: LayoutBox
+            cell:
               column: 1
-              row: 5
+              row: 1
             stretchFactor: 1
             children:
               - type: ComboBox
@@ -108,7 +167,7 @@ children:
           - type: LayoutBox
             cell:
               column: 0
-              row: 6
+              row: 2
             stretchFactor: 1
             children:
               - type: TextBox
@@ -117,16 +176,7 @@ children:
           - type: LayoutBox
             cell:
               column: 1
-              row: 6
-            stretchFactor: 1
-            children:
-              - type: TextBox
-                name: title
-                format: string
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 7
+              row: 2
             stretchFactor: 1
             children:
               - type: CheckBox
@@ -155,7 +205,7 @@ children:
                 name: barWidth
                 format: number
                 suffix: '%'
-                enable: (showBars)
+                enable: '(showBars)'
           - type: LayoutBox
             cell:
               column: 1
@@ -164,7 +214,7 @@ children:
             children:
               - type: CheckBox
                 name: barLabels
-                enable: (showBars)
+                enable: '(showBars)'
           - type: LayoutBox
             cell:
               column: 0
@@ -175,13 +225,7 @@ children:
                 name: barMinLabel
                 format: number
                 suffix: '%'
-                enable: (showBars && barLabels)
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: TextBox
-        name: alpha
-        format: number
+                enable: '(showBars && barLabels)'
   - type: CollapseBox
     label: Diverging Bars
     collapsed: true
@@ -206,7 +250,7 @@ children:
                 name: divWidth
                 format: number
                 suffix: '%'
-                enable: (showDiverging)
+                enable: '(showDiverging)'
           - type: LayoutBox
             cell:
               column: 1
@@ -215,7 +259,7 @@ children:
             children:
               - type: ComboBox
                 name: divNeutral
-                enable: (showDiverging)
+                enable: '(showDiverging)'
           - type: LayoutBox
             cell:
               column: 0
@@ -224,7 +268,7 @@ children:
             children:
               - type: CheckBox
                 name: divLabels
-                enable: (showDiverging)
+                enable: '(showDiverging)'
           - type: LayoutBox
             cell:
               column: 1
@@ -235,7 +279,7 @@ children:
                 name: divMinLabel
                 format: number
                 suffix: '%'
-                enable: (showDiverging && divLabels)
+                enable: '(showDiverging && divLabels)'
           - type: LayoutBox
             cell:
               column: 0
@@ -244,13 +288,7 @@ children:
             children:
               - type: CheckBox
                 name: divNet
-                enable: (showDiverging)
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: TextBox
-        name: lineWidth
-        format: number
+                enable: '(showDiverging)'
   - type: CollapseBox
     label: Heatmap
     collapsed: true
@@ -273,7 +311,7 @@ children:
             children:
               - type: ComboBox
                 name: heatPalette
-                enable: (showHeat)
+                enable: '(showHeat)'
           - type: LayoutBox
             cell:
               column: 1
@@ -282,7 +320,7 @@ children:
             children:
               - type: CheckBox
                 name: heatLabels
-                enable: (showHeat)
+                enable: '(showHeat)'
           - type: LayoutBox
             cell:
               column: 0
@@ -293,12 +331,7 @@ children:
                 name: heatGap
                 format: number
                 suffix: '%'
-                enable: (showHeat)
-  - type: LayoutBox
-    margin: large
-    children:
-      - type: CheckBox
-        name: ignoreMissing
+                enable: '(showHeat)'
   - type: CollapseBox
     label: Waffle Chart
     collapsed: true
@@ -322,7 +355,7 @@ children:
               - type: TextBox
                 name: waffleRows
                 format: number
-                enable: (showWaffle)
+                enable: '(showWaffle)'
           - type: LayoutBox
             cell:
               column: 1
@@ -332,7 +365,7 @@ children:
               - type: TextBox
                 name: waffleCols
                 format: number
-                enable: (showWaffle)
+                enable: '(showWaffle)'
           - type: LayoutBox
             cell:
               column: 0
@@ -343,7 +376,7 @@ children:
                 name: waffleGap
                 format: number
                 suffix: '%'
-                enable: (showWaffle)
+                enable: '(showWaffle)'
           - type: LayoutBox
             cell:
               column: 1
@@ -353,7 +386,7 @@ children:
               - type: TextBox
                 name: waffleGrid
                 format: number
-                enable: (showWaffle)
+                enable: '(showWaffle)'
   - type: CollapseBox
     label: Dot Pictogram
     collapsed: true
@@ -377,7 +410,7 @@ children:
               - type: TextBox
                 name: pictoRows
                 format: number
-                enable: (showPicto)
+                enable: '(showPicto)'
           - type: LayoutBox
             cell:
               column: 1
@@ -387,7 +420,7 @@ children:
               - type: TextBox
                 name: pictoCols
                 format: number
-                enable: (showPicto)
+                enable: '(showPicto)'
           - type: LayoutBox
             cell:
               column: 0
@@ -396,7 +429,7 @@ children:
             children:
               - type: ComboBox
                 name: pictoShape
-                enable: (showPicto)
+                enable: '(showPicto)'
           - type: LayoutBox
             cell:
               column: 1
@@ -406,7 +439,7 @@ children:
               - type: TextBox
                 name: pictoSize
                 format: number
-                enable: (showPicto)
+                enable: '(showPicto)'
           - type: LayoutBox
             cell:
               column: 0
@@ -416,7 +449,7 @@ children:
               - type: TextBox
                 name: pictoGrid
                 format: number
-                enable: (showPicto)
+                enable: '(showPicto)'
   - type: CollapseBox
     label: Parliament Chart
     collapsed: true
@@ -440,7 +473,7 @@ children:
               - type: TextBox
                 name: parlSeats
                 format: number
-                enable: (showParliament)
+                enable: '(showParliament)'
           - type: LayoutBox
             cell:
               column: 1
@@ -450,7 +483,7 @@ children:
               - type: TextBox
                 name: parlRows
                 format: number
-                enable: (showParliament)
+                enable: '(showParliament)'
           - type: LayoutBox
             cell:
               column: 0
@@ -460,7 +493,7 @@ children:
               - type: TextBox
                 name: parlSize
                 format: number
-                enable: (showParliament)
+                enable: '(showParliament)'
           - type: LayoutBox
             cell:
               column: 1
@@ -470,7 +503,7 @@ children:
               - type: TextBox
                 name: parlGrid
                 format: number
-                enable: (showParliament)
+                enable: '(showParliament)'
   - type: CollapseBox
     label: Response Profile
     collapsed: true
@@ -493,7 +526,7 @@ children:
             children:
               - type: CheckBox
                 name: profLines
-                enable: (showProfile)
+                enable: '(showProfile)'
           - type: LayoutBox
             cell:
               column: 1
@@ -502,7 +535,7 @@ children:
             children:
               - type: CheckBox
                 name: profPoints
-                enable: (showProfile)
+                enable: '(showProfile)'
           - type: LayoutBox
             cell:
               column: 0
@@ -511,4 +544,4 @@ children:
             children:
               - type: CheckBox
                 name: profLabels
-                enable: (showProfile)
+                enable: '(showProfile)'

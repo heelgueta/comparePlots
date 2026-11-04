@@ -182,9 +182,16 @@ open(ROOT + "distNom.r.yaml", "w").write(nom_r)
 # ---------------------------------------------------------------- UI
 sys.path.insert(0, "tools")
 from ui_gen import *
-def appearance_items(extra_after_invert=()):
-    return [D("orientation"), D("sortVars"), C("invertVars"), D("colourPalette"), C("reversePalette"), D("plotTheme"),
-            T("textSize"), T("gridCols"), C("useDesc"), C("autoFit"), T("decimals"), D("legendPos"), S("legendTitle"), S("title"), C("showN")]
+def appearance_ui(nominal=False):
+    vo = [D("orientation"), D("sortVars")] + ([D("catSort")] if nominal else []) + [C("invertVars"), C("useDesc"), C("ignoreMissing")]
+    return [("Variables and Order", vo, False),
+            ("Colours", [D("colourPalette"), C("reversePalette"), D("plotTheme"), T("alpha", suffix="%"), T("lineWidth")], False),
+            ("Text and Labels", [T("textSize"), T("decimals"), S("title"), D("legendPos"), S("legendTitle"), C("showN")], True)]
+def ui(name, title, boxes, groups):
+    s = head_ui(title, name) + appearance_groups(groups)
+    for label, check, its, collapsed in boxes:
+        s += box(label, check, its, collapsed=collapsed)
+    open(ROOT + name + ".u.yaml", "w").write(s)
 ORD_BOXES = [
  ("Stacked Bars", "showBars", [T("barWidth", "(showBars)", "%"), C("barLabels", "(showBars)"), T("barMinLabel", "(showBars && barLabels)", "%")], False),
  ("Diverging Bars", "showDiverging", [T("divWidth", "(showDiverging)", "%"), D("divNeutral", "(showDiverging)"), C("divLabels", "(showDiverging)"),
@@ -194,17 +201,11 @@ ORD_BOXES = [
  ("Dot Pictogram", "showPicto", [T("pictoRows", "(showPicto)"), T("pictoCols", "(showPicto)"), D("pictoShape", "(showPicto)"), T("pictoSize", "(showPicto)"), T("pictoGrid", "(showPicto)")], True),
  ("Parliament Chart", "showParliament", [T("parlSeats", "(showParliament)"), T("parlRows", "(showParliament)"), T("parlSize", "(showParliament)"), T("parlGrid", "(showParliament)")], True),
  ("Response Profile", "showProfile", [C("profLines", "(showProfile)"), C("profPoints", "(showProfile)"), C("profLabels", "(showProfile)")], True)]
-def ui(name, title, boxes, items):
-    s = head_ui(title, name) + appearance(items)
-    for label, check, its, collapsed in boxes:
-        s += box(label, check, its, collapsed=collapsed)
-    open(ROOT + name + ".u.yaml", "w").write(s)
-ui("distOrd", "Compare Ordinal", ORD_BOXES, appearance_items())
+ui("distOrd", "Compare Ordinal", ORD_BOXES, appearance_ui())
 NOM_BOXES = [b for b in ORD_BOXES if b[1] in ("showBars", "showHeat", "showWaffle", "showPicto", "showParliament")] + [
  ("Pie Chart", "showPie", [C("pieLabels", "(showPie)"), T("pieMinLabel", "(showPie && pieLabels)", "%"), T("pieGrid", "(showPie)")], True),
  ("Donut Chart", "showDonut", [T("donutHole", "(showDonut)", "%"), C("donutLabels", "(showDonut)"), T("donutMinLabel", "(showDonut && donutLabels)", "%"), C("donutN", "(showDonut)"), T("donutGrid", "(showDonut)")], True),
  ("Grouped Bars", "showGrouped", [T("groupWidth", "(showGrouped)", "%"), C("groupLabels", "(showGrouped)")], True),
  ("Lollipop Plot", "showLollipop", [T("lolliSize", "(showLollipop)")], True)]
-nitems = appearance_items(); nitems.insert(2, D("catSort"))
-ui("distNom", "Compare Nominal", NOM_BOXES, nitems)
+ui("distNom", "Compare Nominal", NOM_BOXES, appearance_ui(True))
 print("categorical yaml written")
