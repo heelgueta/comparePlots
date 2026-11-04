@@ -2,13 +2,33 @@
 
 A jamovi module to **compare the distributions of variables at once**, side by side on one shared scale. Drop your variables in, tick the plots you want, and get them all in one go. No code needed.
 
-Two analyses, in jamovi's **Plots** tab:
+Three analyses, in jamovi's **Plots** tab:
 
 - **Compare Numeric**
 - **Compare Ordinal** (Likert-type items)
 - **Compare Nominal**
 
-Both work the same way: pick variables, set a few shared appearance options, then **tick any combination of plots**. Every plot appears as its own result and has its own collapsible settings panel.
+All three work the same way: pick variables, set a few shared appearance options, then **tick any combination of plots**. Every plot appears as its own result and has its own collapsible settings panel.
+
+---
+
+## What it looks like
+
+Made with the [example datasets](#example-data). Each plot is one tick box; you can have as many as you like at once.
+
+**Ridgeline plot** (Compare Numeric): six scales on one 0-100 axis, with the medians marked.
+
+<p align="center"><img src="docs/images/ridgeline.png" width="420" alt="Ridgeline plot of six well-being scales"></p>
+
+**Diverging bars** (Compare Ordinal): six Likert items.
+
+<p align="center"><img src="docs/images/diverging-bars.png" width="460" alt="Diverging bars of six Likert items"></p>
+
+**Waffle charts** (Compare Nominal): the same drink question at three times of the day; one square is 1%.
+
+<p align="center"><img src="docs/images/waffle.png" width="460" alt="Waffle charts of drink preference at three times of the day"></p>
+
+Complete jamovi results with several plots each: [numeric](docs/examples/numeric-example.pdf) · [ordinal](docs/examples/ordinal-example.pdf) · [nominal](docs/examples/nominal-example.pdf) (PDF exports).
 
 ---
 
@@ -85,7 +105,8 @@ jmvtools::install()      # build and install into your jamovi
 jamovi/    0000.yaml (manifest), *.a.yaml (options), *.r.yaml (results), *.u.yaml (UI)
 R/         *.b.R (implementation), utils.R (shared helpers), *.h.R (generated)
 data/      example datasets (shown in jamovi's Data Library)
-tools/     make_examples.R: regenerates the example datasets
+tools/     make_examples.R (example datasets) and the generators for the UI and option files
+docs/      review notes, build instructions, example images (images/) and example results as PDF (examples/)
 icons/     module icon (comparePlots.svg, 74 x 44, jamovi ribbon style)
 ```
 
