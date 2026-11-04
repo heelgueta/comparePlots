@@ -16,7 +16,7 @@
 Full tracking of the review, decisions and status: [docs/jamovi-review-0.4.0.md](docs/jamovi-review-0.4.0.md).
 
 ### Added
-- *Transform values* (Compare Numeric): centred, z-scores, T-scores, percent of range, percentile rank, ln, square root, square.
+- *Transform values* (Compare Numeric): z-scores, ln, square root, square.
 - Three analyses: **Compare Numeric**, **Compare Ordinal**, **Compare Nominal** in a *ComparePlots* group inside the Plots tab (the same arrangement as vijPlots). Variables of the wrong measure type are rejected with a hint.
 - Nominal plots: pie, donut, grouped bars, lollipop; category order by frequency.
 - *Black & white (no colour)* palette for the numeric plots.

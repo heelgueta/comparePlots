@@ -10,7 +10,7 @@ date: '2026-11-03'
 category: plots
 type: R
 description: >-
-  Compare the distributions of several variables on one shared scale. Numeric
+  Compare the distributions of variables on one shared scale. Numeric
   variables: box, violin, means with error bars, raincloud, ridgeline,
   histogram, density, ECDF, data points and barcode plots. Ordinal and nominal
   variables: stacked and diverging bars, heatmap, waffle, pictogram, parliament,
@@ -22,21 +22,21 @@ analyses:
     category: plots
     menuGroup: comparePlots
     menuTitle: Compare Numeric
-    description: Compare the distributions of several numeric variables on one shared axis.
+    description: Compare the distributions of numeric variables on one shared axis.
   - title: Compare Ordinal
     name: distOrd
     ns: comparePlots
     category: plots
     menuGroup: comparePlots
     menuTitle: Compare Ordinal
-    description: Compare the response distributions of several ordinal variables (e.g. Likert items).
+    description: Compare the response distributions of ordinal variables (e.g. Likert items).
   - title: Compare Nominal
     name: distNom
     ns: comparePlots
     category: plots
     menuGroup: comparePlots
     menuTitle: Compare Nominal
-    description: Compare the category distributions of several nominal variables.
+    description: Compare the category distributions of nominal variables.
 datasets:
   - name: Well-being scales (numeric example)
     path: example_numeric.omv

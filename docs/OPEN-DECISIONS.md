@@ -16,8 +16,8 @@ State of the branch `jamovi-review-1.0` as of 2026-11-04. Everything below is bu
    position on the shared axis, not per variable (see `docs/jamovi-review-0.4.0.md`, item 14); three analyses.
 4. **Black & white mode** exists for Compare Numeric only. Should the categorical analyses get one (patterns or
    black/white/grey fills with labels)?
-5. **Transformations (Compare Numeric).** Offered: centred, z, T, percent of range, percentile rank, ln, square root,
-   square. Anything to add (log10, reciprocal, Box-Cox, rank)? Values a transform cannot handle (e.g. log of <= 0) are
+5. **Transformations (Compare Numeric).** Offered: z, ln, square root, square (centred, T, percent of range and percentile
+   rank were removed on request). Anything to add (log10, reciprocal, Box-Cox, rank)? Values a transform cannot handle (e.g. log of <= 0) are
    dropped with a warning notice.
 6. **Nominal plot set.** Pie, donut, grouped bars, lollipop, stacked bars, heatmap, waffle, pictogram, parliament.
    Not done: treemap, mosaic/Marimekko (extra packages or hand-built geometry).

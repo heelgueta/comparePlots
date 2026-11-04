@@ -1,6 +1,6 @@
 # comparePlots
 
-A jamovi module to **compare the distributions of several variables at once**, side by side on one shared scale. Drop your variables in, tick the plots you want, and get them all in one go. No code needed.
+A jamovi module to **compare the distributions of variables at once**, side by side on one shared scale. Drop your variables in, tick the plots you want, and get them all in one go. No code needed.
 
 Two analyses, in jamovi's **Plots** tab:
 
@@ -24,7 +24,7 @@ Example datasets are included and appear under **Open → Data Library → compa
 
 ## Compare Numeric
 
-Shared appearance: orientation (horizontal by default) · transform values (none, centred, z, T, percent of range, percentile rank, ln, square root, square) · order variables by (entry order, name, median, mean) · reverse the order · palette and theme (both follow jamovi's own settings by default; own palettes and themes are available) · invert palette · text size · opacity · line thickness · point size · jitter spread · axis label · title. Plots have a fixed default size (drag a plot's corner to resize it), or tick *Fit plot size to the number of variables*.
+Shared appearance: orientation (horizontal by default) · transform values (none, z-scores, ln, square root, square) · order variables by (entry order, name, median, mean) · reverse the order · palette and theme (both follow jamovi's own settings by default; own palettes and themes are available) · invert palette · text size · opacity · line thickness · point size · jitter spread · axis label · title. Plots have a fixed default size (drag a plot's corner to resize it).
 
 | Plot | Settings |
 |---|---|

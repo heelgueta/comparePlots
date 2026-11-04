@@ -6,7 +6,7 @@
         `type`="software", 
         `author`="Elgueta, H. E.", 
         `year`=2026, 
-        `title`="comparePlots: Compare the distributions of several variables", 
+        `title`="comparePlots: Compare the distributions of variables", 
         `publisher`="(Version 1.0) [jamovi module]. Retrieved from https://github.com/heelgueta/comparePlots", 
         `url`="https://github.com/heelgueta/comparePlots"), 
     `ggplot2`=list(

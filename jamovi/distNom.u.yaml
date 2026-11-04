@@ -18,12 +18,14 @@ children:
           - type: VariablesListBox
             name: vars
             isTarget: true
-  # Shared options, in groups: what is drawn / colours / text and labels (/ data points).
+  # Shared options in one box, in sections with headings (Label controls).
   - type: CollapseBox
-    label: Variables and Order
+    label: Appearance
     collapsed: false
     stretchFactor: 1
     children:
+      - type: Label
+        label: Variables
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -76,11 +78,8 @@ children:
             children:
               - type: CheckBox
                 name: ignoreMissing
-  - type: CollapseBox
-    label: Colours
-    collapsed: false
-    stretchFactor: 1
-    children:
+      - type: Label
+        label: Appearance
       - type: LayoutBox
         margin: large
         stretchFactor: 1
@@ -128,11 +127,8 @@ children:
               - type: TextBox
                 name: lineWidth
                 format: number
-  - type: CollapseBox
-    label: Text and Labels
-    collapsed: true
-    stretchFactor: 1
-    children:
+      - type: Label
+        label: Text and labels
       - type: LayoutBox
         margin: large
         stretchFactor: 1

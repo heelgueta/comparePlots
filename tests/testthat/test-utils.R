@@ -129,15 +129,11 @@ test_that("jamovi palette stops well short of white", {
     expect_true(max(lum) < 0.75)                                   # no near-white shade
 })
 
-test_that("cmp_transform: z, T, centre, range, percentile, functions", {
+test_that("cmp_transform: z and the functions", {
     x <- c(2, 4, 6, 8)
     expect_equal(cmp_transform(x, "none"), x)
-    expect_equal(cmp_transform(x, "centre"), c(-3, -1, 1, 3))
     z <- cmp_transform(x, "z")
     expect_equal(c(mean(z), sd(z)), c(0, 1))
-    expect_equal(cmp_transform(x, "t"), 50 + 10 * z)
-    expect_equal(cmp_transform(x, "pomp"), c(0, 100 / 3, 200 / 3, 100))
-    expect_equal(cmp_transform(x, "percentile"), c(12.5, 37.5, 62.5, 87.5))
     expect_equal(cmp_transform(c(1, 10), "log"), c(0, log(10)))
     expect_equal(cmp_transform(c(4, 9), "sqrt"), c(2, 3))
     expect_equal(cmp_transform(c(-2, 3), "square"), c(4, 9))
@@ -147,8 +143,7 @@ test_that("cmp_transform: impossible values become NA, NAs stay NA, constants do
     expect_equal(cmp_transform(c(-1, 0, 1), "log"), c(NA, NA, 0))
     expect_equal(cmp_transform(c(-4, 4), "sqrt"), c(NA, 2))
     expect_true(all(is.na(cmp_transform(c(5, 5, 5), "z"))))
-    expect_true(all(is.na(cmp_transform(c(5, 5), "pomp"))))
-    expect_equal(cmp_transform(c(1, NA, 3), "centre"), c(-1, NA, 1))
+    expect_equal(cmp_transform(c(1, NA, 3), "square"), c(1, NA, 9))
     expect_equal(cmp_transform_label("z"), "z-scores")
 })
 

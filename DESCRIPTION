@@ -1,10 +1,10 @@
 Package: comparePlots
 Type: Package
-Title: Compare the Distributions of Several Variables
+Title: Compare the Distributions of Variables
 Version: 1.0.0
 Authors@R: person("Herman E.", "Elgueta", email = "herman.elgueta@umag.cl", role = c("aut", "cre"),
     comment = c(ORCID = "0000-0002-6764-5490"))
-Description: A jamovi module to compare the distributions of several numeric,
+Description: A jamovi module to compare the distributions of numeric,
     ordinal or nominal variables side by side on a shared scale, with a choice
     of plots (box, violin, means with error bars, raincloud, ridgeline,
     histogram, density, ECDF, stacked and diverging bars, heatmap, waffle and more).
