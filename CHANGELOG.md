@@ -11,6 +11,8 @@
 - Categorical: *Opacity* (default 80%) and *Line thickness* for everything filled; *Ignore missing cases* (on by default: every variable's bar totals 100%); *Charts per row* moved into the waffle, pictogram, parliament, pie and donut sections; *Order categories by* gained A-Z (nominal); lollipop dot size capped at 6 and the plot is just "Lollipop plot".
 - Removed: *Mean category and CI* plot, the *Fit plot size* checkbox, *n per variable* is off by default everywhere.
 - Shorter option labels in the *Order variables* and *Transform values* lists so the UI does not break.
+- Shared options are one open *Appearance* box with section headings (Variables / Appearance / Data points / Text and labels); the plots keep their own collapsible sections.
+- Transform values reduced to none, z-scores, ln, square root, square. Default *Data point opacity* 50%. "several" dropped from the module description.
 - Our own entry in the results' References (`jamovi/00refs.yaml`, cited by all three analyses).
 
 Full tracking of the review, decisions and status: [docs/jamovi-review-0.4.0.md](docs/jamovi-review-0.4.0.md).

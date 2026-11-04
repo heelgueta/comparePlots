@@ -43,13 +43,6 @@ def head_ui(title, name):
             "      - type: TargetLayoutBox\n        label: Variables\n        children:\n"
             "          - type: VariablesListBox\n            name: vars\n            isTarget: true\n")
 
-def appearance(items):
-    return ("  # Appearance: options shared by all plots. Open by default.\n"
-            "  - type: CollapseBox\n    label: Appearance\n    collapsed: false\n    stretchFactor: 1\n    children:\n"
-            + grid(items, 6))
-
-
-
 def appearance_groups(groups):
     """ONE open CollapseBox "Appearance" whose sections are separated by Label headings.
     groups: [(heading, items)]"""

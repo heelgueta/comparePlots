@@ -19,7 +19,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             alpha = 80,
             lineWidth = 2,
             pointSize = 0.8,
-            pointAlpha = 30,
+            pointAlpha = 50,
             pointColour = "variable",
             jitterSpread = 40,
             valueLabel = "Value",
@@ -113,11 +113,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 transform,
                 options=list(
                     "none",
-                    "centre",
                     "z",
-                    "t",
-                    "pomp",
-                    "percentile",
                     "log",
                     "sqrt",
                     "square"),
@@ -195,7 +191,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 pointAlpha,
                 min=5,
                 max=100,
-                default=30)
+                default=50)
             private$..pointColour <- jmvcore::OptionList$new(
                 "pointColour",
                 pointColour,
@@ -1178,7 +1174,7 @@ distNum <- function(
     alpha = 80,
     lineWidth = 2,
     pointSize = 0.8,
-    pointAlpha = 30,
+    pointAlpha = 50,
     pointColour = "variable",
     jitterSpread = 40,
     valueLabel = "Value",
