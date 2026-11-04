@@ -37,7 +37,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             violinScale = "area",
             violinAdjust = 1,
             violinTrim = TRUE,
-            violinInner = "box",
+            violinBox = TRUE,
             violinJitter = FALSE,
             showErrorBar = FALSE,
             ebCenter = "mean",
@@ -280,13 +280,10 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "violinTrim",
                 violinTrim,
                 default=TRUE)
-            private$..violinInner <- jmvcore::OptionList$new(
-                "violinInner",
-                violinInner,
-                options=list(
-                    "box",
-                    "none"),
-                default="box")
+            private$..violinBox <- jmvcore::OptionBool$new(
+                "violinBox",
+                violinBox,
+                default=TRUE)
             private$..violinJitter <- jmvcore::OptionBool$new(
                 "violinJitter",
                 violinJitter,
@@ -503,7 +500,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..violinScale)
             self$.addOption(private$..violinAdjust)
             self$.addOption(private$..violinTrim)
-            self$.addOption(private$..violinInner)
+            self$.addOption(private$..violinBox)
             self$.addOption(private$..violinJitter)
             self$.addOption(private$..showErrorBar)
             self$.addOption(private$..ebCenter)
@@ -573,7 +570,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         violinScale = function() private$..violinScale$value,
         violinAdjust = function() private$..violinAdjust$value,
         violinTrim = function() private$..violinTrim$value,
-        violinInner = function() private$..violinInner$value,
+        violinBox = function() private$..violinBox$value,
         violinJitter = function() private$..violinJitter$value,
         showErrorBar = function() private$..showErrorBar$value,
         ebCenter = function() private$..ebCenter$value,
@@ -642,7 +639,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..violinScale = NA,
         ..violinAdjust = NA,
         ..violinTrim = NA,
-        ..violinInner = NA,
+        ..violinBox = NA,
         ..violinJitter = NA,
         ..showErrorBar = NA,
         ..ebCenter = NA,
@@ -780,7 +777,7 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "violinScale",
                     "violinAdjust",
                     "violinTrim",
-                    "violinInner",
+                    "violinBox",
                     "violinJitter")))
             self$add(jmvcore::Image$new(
                 options=options,
@@ -1106,7 +1103,7 @@ distNumBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param violinScale .
 #' @param violinAdjust .
 #' @param violinTrim .
-#' @param violinInner .
+#' @param violinBox .
 #' @param violinJitter .
 #' @param showErrorBar .
 #' @param ebCenter .
@@ -1192,7 +1189,7 @@ distNum <- function(
     violinScale = "area",
     violinAdjust = 1,
     violinTrim = TRUE,
-    violinInner = "box",
+    violinBox = TRUE,
     violinJitter = FALSE,
     showErrorBar = FALSE,
     ebCenter = "mean",
@@ -1272,7 +1269,7 @@ distNum <- function(
         violinScale = violinScale,
         violinAdjust = violinAdjust,
         violinTrim = violinTrim,
-        violinInner = violinInner,
+        violinBox = violinBox,
         violinJitter = violinJitter,
         showErrorBar = showErrorBar,
         ebCenter = ebCenter,
