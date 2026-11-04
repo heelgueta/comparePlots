@@ -4,6 +4,9 @@
 name: distOrd
 title: Compare Ordinal
 jrs: '1.1'
+refs:
+  - comparePlots
+  - ggplot2
 items:
   # Html note shown above the plots only when something needs explaining (set in .run() of R/distOrd.b.R).
   - name: hint
@@ -35,6 +38,9 @@ items:
       - legendTitle
       - title
       - showN
+      - alpha
+      - lineWidth
+      - ignoreMissing
       - barWidth
       - barLabels
       - barMinLabel
@@ -63,6 +69,9 @@ items:
       - legendTitle
       - title
       - showN
+      - alpha
+      - lineWidth
+      - ignoreMissing
       - divWidth
       - divNeutral
       - divLabels
@@ -93,6 +102,9 @@ items:
       - legendTitle
       - title
       - showN
+      - alpha
+      - lineWidth
+      - ignoreMissing
       - heatPalette
       - heatLabels
       - heatGap
@@ -106,7 +118,7 @@ items:
     renderFun: .plot_waffle
     visible: (showWaffle)
     clearWith:
-      - gridCols
+      - waffleGrid
       - vars
       - orientation
       - invertVars
@@ -122,6 +134,9 @@ items:
       - legendTitle
       - title
       - showN
+      - alpha
+      - lineWidth
+      - ignoreMissing
       - waffleRows
       - waffleCols
       - waffleGap
@@ -135,7 +150,7 @@ items:
     renderFun: .plot_picto
     visible: (showPicto)
     clearWith:
-      - gridCols
+      - pictoGrid
       - vars
       - orientation
       - invertVars
@@ -151,6 +166,9 @@ items:
       - legendTitle
       - title
       - showN
+      - alpha
+      - lineWidth
+      - ignoreMissing
       - pictoRows
       - pictoCols
       - pictoShape
@@ -165,7 +183,7 @@ items:
     renderFun: .plot_parliament
     visible: (showParliament)
     clearWith:
-      - gridCols
+      - parlGrid
       - vars
       - orientation
       - invertVars
@@ -181,6 +199,9 @@ items:
       - legendTitle
       - title
       - showN
+      - alpha
+      - lineWidth
+      - ignoreMissing
       - parlSeats
       - parlRows
       - parlSize
@@ -209,35 +230,10 @@ items:
       - legendTitle
       - title
       - showN
+      - alpha
+      - lineWidth
+      - ignoreMissing
       - profLines
       - profPoints
       - profLabels
-  # IMAGE for the "Mean category and CI (ordinal or two-category variables)" plot. Shown only while `showMeans` is ticked; drawn by `.plot_means()`.
-  # clearWith = options that invalidate the image when they change (add new options here too).
-  - name: plot_means
-    title: Mean category and CI (ordinal or two-category variables)
-    type: Image
-    width: 450
-    height: 350
-    renderFun: .plot_means
-    visible: (showMeans)
-    clearWith:
-      - vars
-      - orientation
-      - invertVars
-      - colourPalette
-      - reversePalette
-      - plotTheme
-      - textSize
-      - sortVars
-      - useDesc
-      - divNeutral
-      - decimals
-      - legendPos
-      - legendTitle
-      - title
-      - showN
-      - meansCi
-      - meansLevel
-      - meansLabels
 ...

@@ -9,7 +9,6 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             vars = NULL,
             orientation = "horizontal",
             useDesc = FALSE,
-            gridCols = 3,
             sortVars = "none",
             catSort = "levels",
             invertVars = FALSE,
@@ -21,7 +20,9 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             legendPos = "bottom",
             legendTitle = "",
             title = "",
-            autoFit = FALSE,
+            alpha = 80,
+            lineWidth = 2,
+            ignoreMissing = TRUE,
             showN = FALSE,
             showBars = TRUE,
             barWidth = 70,
@@ -35,31 +36,36 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             waffleRows = 10,
             waffleCols = 10,
             waffleGap = 10,
+            waffleGrid = 3,
             showPicto = FALSE,
             pictoRows = 10,
             pictoCols = 10,
             pictoShape = "circle",
             pictoSize = 4.5,
+            pictoGrid = 3,
             showParliament = FALSE,
             parlSeats = 100,
             parlRows = 4,
             parlSize = 3.2,
+            parlGrid = 3,
             showPie = FALSE,
             pieLabels = TRUE,
             pieMinLabel = 5,
+            pieGrid = 3,
             showDonut = FALSE,
             donutHole = 55,
             donutLabels = TRUE,
             donutMinLabel = 6,
             donutN = TRUE,
+            donutGrid = 3,
             showGrouped = FALSE,
             groupWidth = 85,
             groupLabels = TRUE,
             showLollipop = FALSE,
-            lolliSize = 4, ...) {
+            lolliSize = 3, ...) {
 
             super$initialize(
-                package="ComparePlots",
+                package="comparePlots",
                 name="distNom",
                 requiresData=TRUE,
                 ...)
@@ -82,12 +88,6 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "useDesc",
                 useDesc,
                 default=FALSE)
-            private$..gridCols <- jmvcore::OptionInteger$new(
-                "gridCols",
-                gridCols,
-                min=1,
-                max=10,
-                default=3)
             private$..sortVars <- jmvcore::OptionList$new(
                 "sortVars",
                 sortVars,
@@ -102,7 +102,8 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 catSort,
                 options=list(
                     "levels",
-                    "frequency"),
+                    "frequency",
+                    "name"),
                 default="levels")
             private$..invertVars <- jmvcore::OptionBool$new(
                 "invertVars",
@@ -176,10 +177,22 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "title",
                 title,
                 default="")
-            private$..autoFit <- jmvcore::OptionBool$new(
-                "autoFit",
-                autoFit,
-                default=FALSE)
+            private$..alpha <- jmvcore::OptionInteger$new(
+                "alpha",
+                alpha,
+                min=5,
+                max=100,
+                default=80)
+            private$..lineWidth <- jmvcore::OptionInteger$new(
+                "lineWidth",
+                lineWidth,
+                min=1,
+                max=5,
+                default=2)
+            private$..ignoreMissing <- jmvcore::OptionBool$new(
+                "ignoreMissing",
+                ignoreMissing,
+                default=TRUE)
             private$..showN <- jmvcore::OptionBool$new(
                 "showN",
                 showN,
@@ -254,6 +267,12 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=0,
                 max=50,
                 default=10)
+            private$..waffleGrid <- jmvcore::OptionInteger$new(
+                "waffleGrid",
+                waffleGrid,
+                min=1,
+                max=10,
+                default=3)
             private$..showPicto <- jmvcore::OptionBool$new(
                 "showPicto",
                 showPicto,
@@ -285,6 +304,12 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=1,
                 max=12,
                 default=4.5)
+            private$..pictoGrid <- jmvcore::OptionInteger$new(
+                "pictoGrid",
+                pictoGrid,
+                min=1,
+                max=10,
+                default=3)
             private$..showParliament <- jmvcore::OptionBool$new(
                 "showParliament",
                 showParliament,
@@ -307,6 +332,12 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=1,
                 max=10,
                 default=3.2)
+            private$..parlGrid <- jmvcore::OptionInteger$new(
+                "parlGrid",
+                parlGrid,
+                min=1,
+                max=10,
+                default=3)
             private$..showPie <- jmvcore::OptionBool$new(
                 "showPie",
                 showPie,
@@ -321,6 +352,12 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=0,
                 max=50,
                 default=5)
+            private$..pieGrid <- jmvcore::OptionInteger$new(
+                "pieGrid",
+                pieGrid,
+                min=1,
+                max=10,
+                default=3)
             private$..showDonut <- jmvcore::OptionBool$new(
                 "showDonut",
                 showDonut,
@@ -345,6 +382,12 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "donutN",
                 donutN,
                 default=TRUE)
+            private$..donutGrid <- jmvcore::OptionInteger$new(
+                "donutGrid",
+                donutGrid,
+                min=1,
+                max=10,
+                default=3)
             private$..showGrouped <- jmvcore::OptionBool$new(
                 "showGrouped",
                 showGrouped,
@@ -367,13 +410,12 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "lolliSize",
                 lolliSize,
                 min=1,
-                max=12,
-                default=4)
+                max=6,
+                default=3)
 
             self$.addOption(private$..vars)
             self$.addOption(private$..orientation)
             self$.addOption(private$..useDesc)
-            self$.addOption(private$..gridCols)
             self$.addOption(private$..sortVars)
             self$.addOption(private$..catSort)
             self$.addOption(private$..invertVars)
@@ -385,7 +427,9 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..legendPos)
             self$.addOption(private$..legendTitle)
             self$.addOption(private$..title)
-            self$.addOption(private$..autoFit)
+            self$.addOption(private$..alpha)
+            self$.addOption(private$..lineWidth)
+            self$.addOption(private$..ignoreMissing)
             self$.addOption(private$..showN)
             self$.addOption(private$..showBars)
             self$.addOption(private$..barWidth)
@@ -399,23 +443,28 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..waffleRows)
             self$.addOption(private$..waffleCols)
             self$.addOption(private$..waffleGap)
+            self$.addOption(private$..waffleGrid)
             self$.addOption(private$..showPicto)
             self$.addOption(private$..pictoRows)
             self$.addOption(private$..pictoCols)
             self$.addOption(private$..pictoShape)
             self$.addOption(private$..pictoSize)
+            self$.addOption(private$..pictoGrid)
             self$.addOption(private$..showParliament)
             self$.addOption(private$..parlSeats)
             self$.addOption(private$..parlRows)
             self$.addOption(private$..parlSize)
+            self$.addOption(private$..parlGrid)
             self$.addOption(private$..showPie)
             self$.addOption(private$..pieLabels)
             self$.addOption(private$..pieMinLabel)
+            self$.addOption(private$..pieGrid)
             self$.addOption(private$..showDonut)
             self$.addOption(private$..donutHole)
             self$.addOption(private$..donutLabels)
             self$.addOption(private$..donutMinLabel)
             self$.addOption(private$..donutN)
+            self$.addOption(private$..donutGrid)
             self$.addOption(private$..showGrouped)
             self$.addOption(private$..groupWidth)
             self$.addOption(private$..groupLabels)
@@ -426,7 +475,6 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         vars = function() private$..vars$value,
         orientation = function() private$..orientation$value,
         useDesc = function() private$..useDesc$value,
-        gridCols = function() private$..gridCols$value,
         sortVars = function() private$..sortVars$value,
         catSort = function() private$..catSort$value,
         invertVars = function() private$..invertVars$value,
@@ -438,7 +486,9 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         legendPos = function() private$..legendPos$value,
         legendTitle = function() private$..legendTitle$value,
         title = function() private$..title$value,
-        autoFit = function() private$..autoFit$value,
+        alpha = function() private$..alpha$value,
+        lineWidth = function() private$..lineWidth$value,
+        ignoreMissing = function() private$..ignoreMissing$value,
         showN = function() private$..showN$value,
         showBars = function() private$..showBars$value,
         barWidth = function() private$..barWidth$value,
@@ -452,23 +502,28 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         waffleRows = function() private$..waffleRows$value,
         waffleCols = function() private$..waffleCols$value,
         waffleGap = function() private$..waffleGap$value,
+        waffleGrid = function() private$..waffleGrid$value,
         showPicto = function() private$..showPicto$value,
         pictoRows = function() private$..pictoRows$value,
         pictoCols = function() private$..pictoCols$value,
         pictoShape = function() private$..pictoShape$value,
         pictoSize = function() private$..pictoSize$value,
+        pictoGrid = function() private$..pictoGrid$value,
         showParliament = function() private$..showParliament$value,
         parlSeats = function() private$..parlSeats$value,
         parlRows = function() private$..parlRows$value,
         parlSize = function() private$..parlSize$value,
+        parlGrid = function() private$..parlGrid$value,
         showPie = function() private$..showPie$value,
         pieLabels = function() private$..pieLabels$value,
         pieMinLabel = function() private$..pieMinLabel$value,
+        pieGrid = function() private$..pieGrid$value,
         showDonut = function() private$..showDonut$value,
         donutHole = function() private$..donutHole$value,
         donutLabels = function() private$..donutLabels$value,
         donutMinLabel = function() private$..donutMinLabel$value,
         donutN = function() private$..donutN$value,
+        donutGrid = function() private$..donutGrid$value,
         showGrouped = function() private$..showGrouped$value,
         groupWidth = function() private$..groupWidth$value,
         groupLabels = function() private$..groupLabels$value,
@@ -478,7 +533,6 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..vars = NA,
         ..orientation = NA,
         ..useDesc = NA,
-        ..gridCols = NA,
         ..sortVars = NA,
         ..catSort = NA,
         ..invertVars = NA,
@@ -490,7 +544,9 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..legendPos = NA,
         ..legendTitle = NA,
         ..title = NA,
-        ..autoFit = NA,
+        ..alpha = NA,
+        ..lineWidth = NA,
+        ..ignoreMissing = NA,
         ..showN = NA,
         ..showBars = NA,
         ..barWidth = NA,
@@ -504,23 +560,28 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..waffleRows = NA,
         ..waffleCols = NA,
         ..waffleGap = NA,
+        ..waffleGrid = NA,
         ..showPicto = NA,
         ..pictoRows = NA,
         ..pictoCols = NA,
         ..pictoShape = NA,
         ..pictoSize = NA,
+        ..pictoGrid = NA,
         ..showParliament = NA,
         ..parlSeats = NA,
         ..parlRows = NA,
         ..parlSize = NA,
+        ..parlGrid = NA,
         ..showPie = NA,
         ..pieLabels = NA,
         ..pieMinLabel = NA,
+        ..pieGrid = NA,
         ..showDonut = NA,
         ..donutHole = NA,
         ..donutLabels = NA,
         ..donutMinLabel = NA,
         ..donutN = NA,
+        ..donutGrid = NA,
         ..showGrouped = NA,
         ..groupWidth = NA,
         ..groupLabels = NA,
@@ -548,7 +609,10 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             super$initialize(
                 options=options,
                 name="",
-                title="Compare Nominal")
+                title="Compare Nominal",
+                refs=list(
+                    "comparePlots",
+                    "ggplot2"))
             self$add(jmvcore::Html$new(
                 options=options,
                 name="hint",
@@ -578,6 +642,9 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "alpha",
+                    "lineWidth",
+                    "ignoreMissing",
                     "barWidth",
                     "barLabels",
                     "barMinLabel")))
@@ -605,6 +672,9 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "alpha",
+                    "lineWidth",
+                    "ignoreMissing",
                     "heatPalette",
                     "heatLabels",
                     "heatGap")))
@@ -617,7 +687,7 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot_waffle",
                 visible="(showWaffle)",
                 clearWith=list(
-                    "gridCols",
+                    "waffleGrid",
                     "vars",
                     "orientation",
                     "invertVars",
@@ -633,6 +703,9 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "alpha",
+                    "lineWidth",
+                    "ignoreMissing",
                     "waffleRows",
                     "waffleCols",
                     "waffleGap")))
@@ -645,7 +718,7 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot_picto",
                 visible="(showPicto)",
                 clearWith=list(
-                    "gridCols",
+                    "pictoGrid",
                     "vars",
                     "orientation",
                     "invertVars",
@@ -661,6 +734,9 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "alpha",
+                    "lineWidth",
+                    "ignoreMissing",
                     "pictoRows",
                     "pictoCols",
                     "pictoShape",
@@ -674,7 +750,7 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 renderFun=".plot_parliament",
                 visible="(showParliament)",
                 clearWith=list(
-                    "gridCols",
+                    "parlGrid",
                     "vars",
                     "orientation",
                     "invertVars",
@@ -690,6 +766,9 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "alpha",
+                    "lineWidth",
+                    "ignoreMissing",
                     "parlSeats",
                     "parlRows",
                     "parlSize")))
@@ -717,7 +796,10 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
-                    "gridCols",
+                    "alpha",
+                    "lineWidth",
+                    "ignoreMissing",
+                    "pieGrid",
                     "pieLabels",
                     "pieMinLabel")))
             self$add(jmvcore::Image$new(
@@ -744,7 +826,10 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
-                    "gridCols",
+                    "alpha",
+                    "lineWidth",
+                    "ignoreMissing",
+                    "donutGrid",
                     "donutHole",
                     "donutLabels",
                     "donutMinLabel",
@@ -773,12 +858,15 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "alpha",
+                    "lineWidth",
+                    "ignoreMissing",
                     "groupWidth",
                     "groupLabels")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_lollipop",
-                title="Lollipop (dot) plot",
+                title="Lollipop plot",
                 width=450,
                 height=350,
                 renderFun=".plot_lollipop",
@@ -799,6 +887,9 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "alpha",
+                    "lineWidth",
+                    "ignoreMissing",
                     "lolliSize")))}))
 
 distNomBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
@@ -807,7 +898,7 @@ distNomBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
     public = list(
         initialize = function(options, data=NULL, datasetId="", analysisId="", revision=0) {
             super$initialize(
-                package = "ComparePlots",
+                package = "comparePlots",
                 name = "distNom",
                 version = c(1,0,0),
                 options = options,
@@ -829,7 +920,6 @@ distNomBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param vars .
 #' @param orientation .
 #' @param useDesc .
-#' @param gridCols .
 #' @param sortVars .
 #' @param catSort .
 #' @param invertVars .
@@ -841,7 +931,9 @@ distNomBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param legendPos .
 #' @param legendTitle .
 #' @param title .
-#' @param autoFit .
+#' @param alpha .
+#' @param lineWidth .
+#' @param ignoreMissing .
 #' @param showN .
 #' @param showBars .
 #' @param barWidth .
@@ -855,23 +947,28 @@ distNomBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param waffleRows .
 #' @param waffleCols .
 #' @param waffleGap .
+#' @param waffleGrid .
 #' @param showPicto .
 #' @param pictoRows .
 #' @param pictoCols .
 #' @param pictoShape .
 #' @param pictoSize .
+#' @param pictoGrid .
 #' @param showParliament .
 #' @param parlSeats .
 #' @param parlRows .
 #' @param parlSize .
+#' @param parlGrid .
 #' @param showPie .
 #' @param pieLabels .
 #' @param pieMinLabel .
+#' @param pieGrid .
 #' @param showDonut .
 #' @param donutHole .
 #' @param donutLabels .
 #' @param donutMinLabel .
 #' @param donutN .
+#' @param donutGrid .
 #' @param showGrouped .
 #' @param groupWidth .
 #' @param groupLabels .
@@ -897,7 +994,6 @@ distNom <- function(
     vars,
     orientation = "horizontal",
     useDesc = FALSE,
-    gridCols = 3,
     sortVars = "none",
     catSort = "levels",
     invertVars = FALSE,
@@ -909,7 +1005,9 @@ distNom <- function(
     legendPos = "bottom",
     legendTitle = "",
     title = "",
-    autoFit = FALSE,
+    alpha = 80,
+    lineWidth = 2,
+    ignoreMissing = TRUE,
     showN = FALSE,
     showBars = TRUE,
     barWidth = 70,
@@ -923,28 +1021,33 @@ distNom <- function(
     waffleRows = 10,
     waffleCols = 10,
     waffleGap = 10,
+    waffleGrid = 3,
     showPicto = FALSE,
     pictoRows = 10,
     pictoCols = 10,
     pictoShape = "circle",
     pictoSize = 4.5,
+    pictoGrid = 3,
     showParliament = FALSE,
     parlSeats = 100,
     parlRows = 4,
     parlSize = 3.2,
+    parlGrid = 3,
     showPie = FALSE,
     pieLabels = TRUE,
     pieMinLabel = 5,
+    pieGrid = 3,
     showDonut = FALSE,
     donutHole = 55,
     donutLabels = TRUE,
     donutMinLabel = 6,
     donutN = TRUE,
+    donutGrid = 3,
     showGrouped = FALSE,
     groupWidth = 85,
     groupLabels = TRUE,
     showLollipop = FALSE,
-    lolliSize = 4) {
+    lolliSize = 3) {
 
     if ( ! requireNamespace("jmvcore", quietly=TRUE))
         stop("distNom requires jmvcore to be installed (restart may be required)")
@@ -961,7 +1064,6 @@ distNom <- function(
         vars = vars,
         orientation = orientation,
         useDesc = useDesc,
-        gridCols = gridCols,
         sortVars = sortVars,
         catSort = catSort,
         invertVars = invertVars,
@@ -973,7 +1075,9 @@ distNom <- function(
         legendPos = legendPos,
         legendTitle = legendTitle,
         title = title,
-        autoFit = autoFit,
+        alpha = alpha,
+        lineWidth = lineWidth,
+        ignoreMissing = ignoreMissing,
         showN = showN,
         showBars = showBars,
         barWidth = barWidth,
@@ -987,23 +1091,28 @@ distNom <- function(
         waffleRows = waffleRows,
         waffleCols = waffleCols,
         waffleGap = waffleGap,
+        waffleGrid = waffleGrid,
         showPicto = showPicto,
         pictoRows = pictoRows,
         pictoCols = pictoCols,
         pictoShape = pictoShape,
         pictoSize = pictoSize,
+        pictoGrid = pictoGrid,
         showParliament = showParliament,
         parlSeats = parlSeats,
         parlRows = parlRows,
         parlSize = parlSize,
+        parlGrid = parlGrid,
         showPie = showPie,
         pieLabels = pieLabels,
         pieMinLabel = pieMinLabel,
+        pieGrid = pieGrid,
         showDonut = showDonut,
         donutHole = donutHole,
         donutLabels = donutLabels,
         donutMinLabel = donutMinLabel,
         donutN = donutN,
+        donutGrid = donutGrid,
         showGrouped = showGrouped,
         groupWidth = groupWidth,
         groupLabels = groupLabels,

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ComparePlots module icon, in the style of jamovi's ribbon icons (74 x 44, flat colours).
+  comparePlots module icon, in the style of jamovi's ribbon icons (74 x 44, flat colours).
   Three overlapping density "ridges" on a shared axis. They are drawn from the top one
   to the bottom one, each with an opaque fill, so the lower ridges cover the upper ones,
   as the ridgeline plot does in the module.

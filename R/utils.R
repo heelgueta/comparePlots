@@ -1,15 +1,15 @@
 # =============================================================================
-# utils.R: internal helpers shared by both analyses (distNum and distOrd).
+# utils.R: internal helpers shared by both analyses (distNum, distOrd and distNom).
 # None of these are exported; they are plain functions in the package namespace,
 # so the analysis classes (R/dist*.b.R) can call them directly. All are prefixed
-# `cmp_` (ComparePlots) to avoid clashing with anything else in jamovi's R.
+# `cmp_` (comparePlots) to avoid clashing with anything else in jamovi's R.
 # =============================================================================
 
 
 # -----------------------------------------------------------------------------
 # cmp_palette(): n colours for a palette chosen in the UI.
 #   scheme  the option value of `colourPalette` (see the .a.yaml for the list).
-#           "jamovi" (shown as "jamovi current") builds the colours from the user's
+#           "jamovi" builds the colours from the user's
 #           global jamovi theme, see cmp_jamovi_palette()
 #   n       how many colours are needed
 #   reverse TRUE when the user ticked "Invert palette colours"
@@ -43,6 +43,9 @@ cmp_palette <- function(scheme, n, reverse = FALSE, spread = FALSE, theme = NULL
              set2 = "Set 2", dark2 = "Dark 2", pastel = "Pastel 1", grays = "Grays")
     cols <- if (scheme %in% names(vir)) {
         viridisLite::viridis(n, option = vir[[scheme]])
+    } else if (scheme == "grays") {
+        # not hcl's Grays, whose light end is almost white and vanishes on a white page
+        grDevices::gray.colors(n, start = 0.12, end = 0.78, gamma = 1)
     } else if (scheme == "okabe") {
         rep_len(unname(grDevices::palette.colors(8, "Okabe-Ito")[-1]), n)
     } else if (scheme %in% names(hcl)) {
@@ -80,7 +83,7 @@ cmp_jamovi_palette <- function(theme, n) {
 
 # -----------------------------------------------------------------------------
 # cmp_theme(): the complete ggplot2 theme for the `plotTheme` option.
-#   name     option value; "jamovi" ("jamovi current", the default) returns `ggtheme`, the theme
+#   name     option value; "jamovi" (the default) returns `ggtheme`, the theme
 #            jamovi passes to the render function, so the plots follow the user's
 #            global theme settings. Other values give one of ggplot2's own themes
 #            at `size`. Unknown values fall back to theme_minimal.
@@ -154,6 +157,18 @@ cmp_wrap <- function(x, width = 26) {
 # The index is clamped so an out-of-range value cannot error.
 # -----------------------------------------------------------------------------
 cmp_line_width <- function(i) c(0.3, 0.55, 0.9, 1.4, 2.2)[max(1L, min(5L, as.integer(i)))]
+
+
+# -----------------------------------------------------------------------------
+# cmp_fit_labels(): keep vertical axis labels from running into each other. Each
+# label gets a slot of `slot_px` pixels; labels that would not fit at `size` points
+# are cut and end in an ellipsis. Newlines are first turned into spaces.
+# -----------------------------------------------------------------------------
+cmp_fit_labels <- function(x, slot_px, size = 16) {
+    x <- gsub("\n", " ", x)
+    max_chars <- max(4L, floor(slot_px / (0.8 * size * 0.55)))   # axis text is ~0.8 x base size, ~0.55 em per character
+    ifelse(nchar(x) > max_chars, paste0(substr(x, 1L, max_chars - 1L), "\u2026"), x)
+}
 
 
 # -----------------------------------------------------------------------------

@@ -55,6 +55,8 @@ cmp_cat_private <- function() {
                 tot <- vapply(cats, function(cc) sum(vapply(vars, function(v) sum(as.character(data[[v]]) == cc, na.rm = TRUE), 0)), 0)
                 cats <- cats[order(-tot, seq_along(cats))]
             }
+            if (identical(private$.opt("catSort"), "name") && length(cats) > 1)
+                cats <- cats[order(tolower(cats), cats)]
             if (length(cats) == 0)
                 jmvcore::reject("The selected variables have no categories.")
             if (length(ax$conflict) > 0)
@@ -66,11 +68,14 @@ cmp_cat_private <- function() {
                     paste(ax$disjoint, collapse = ", "),
                     " share no categories with the other variables; their categories are placed on the same axis by position only."))
 
-            # one row per (variable, category); missing answers are excluded from n
+            # One row per (variable, category). "Ignore missing cases" (default): percentages
+            # are of the cases that actually fall into a category, so every variable's
+            # bar adds up to 100% whatever its amount of missing data. Unticked: percent
+            # of ALL cases in the data set, so variables with missing answers fall short.
             long <- do.call(rbind, lapply(vars, function(v) {
                 x <- data[[v]][!is.na(data[[v]])]
-                n <- length(x)
                 tab <- table(factor(as.character(x), levels = cats))
+                n <- if (isTRUE(opts$ignoreMissing)) sum(tab) else nrow(data)
                 data.frame(variable = v, category = factor(cats, levels = cats),
                            cidx = seq_along(cats), count = as.numeric(tab),
                            pct = if (n > 0) as.numeric(tab) / n * 100 else 0, n = n,
@@ -79,60 +84,12 @@ cmp_cat_private <- function() {
             if (all(long$n == 0))
                 jmvcore::reject("The selected variables have no non-missing values.")
 
-            # The mean-category plot treats categories as numbers 1..k (their
-            # position on the shared axis), which is only defensible for ordinal
-            # variables or for two-category variables (where it is a proportion).
-            # `ok` flags the variables that qualify; the others are skipped.
-            ok <- vapply(vars, function(v) {
-                is.ordered(self$data[[v]]) || sum(long$count[long$variable == v] > 0) == 2
-            }, logical(1))
-            names(ok) <- vars
-            if (isTRUE(private$.opt("showMeans")) && !all(ok)) {
-                private$.warn(".meansSkipped", paste0(
-                    if (!any(ok)) "Mean category was not drawn: it needs ordinal variables or variables with exactly two categories. "
-                    else "Mean category skips nominal variables with more than two categories: ",
-                    paste(vars[!ok], collapse = ", "), "."))
-            }
-
-            # hand the (small) table to each ticked image; `ok` is read by the means plot
+            # hand the (small) table to each ticked image
             for (key in names(private$.switches)[on]) {
-                if (key == "means" && !any(ok)) next     # nothing to draw
                 image <- self$results[[paste0("plot_", key)]]
-                image$setState(list(long = long, vars = vars, cats = cats, ok = ok,
+                image$setState(list(long = long, vars = vars, cats = cats,
                                     labels = cmp_var_labels(self$data, vars, opts$useDesc)))
             }
-        },
-
-        # .init() runs before the first draw and before .run(); it sees the options
-        # but not the data. With "Fit plot size to the number of variables" ticked the
-        # plot sizes are set HERE (never in .run(), which the jamovi review forbids):
-        # the size is then right from the first draw and only changes when the number
-        # of variables or the grid layout changes. Without it the fixed sizes of the
-        # .r.yaml apply (the grid plots still lay their charts out in `gridCols`).
-        .init = function() {
-            vars <- self$options$vars
-            if (!isTRUE(self$options$autoFit) || length(vars) == 0) return()
-            n <- length(vars)
-            for (key in names(private$.switches)) {
-                if (!isTRUE(self$options[[private$.switches[[key]]]])) next
-                grid <- key %in% c("waffle", "picto", "parliament", "pie", "donut")
-                sz <- private$.size(key, n, grid)
-                self$results[[paste0("plot_", key)]]$setSize(sz[1], sz[2])
-            }
-        },
-
-        # Pixel size for a plot, from the number of variables `n` (see .init()).
-        .size = function(key, n, grid) {
-            o <- self$options
-            if (grid) {
-                ncol <- max(1L, min(as.integer(o$gridCols), n))
-                nrow <- ceiling(n / ncol)
-                cell <- if (key == "parliament") c(190, 120) else c(165, 165)   # width, height of one chart
-                return(c(max(450, ncol * cell[1] + 60), nrow * (cell[2] + 30) + 110))
-            }
-            if (key %in% c("profile", "means")) return(c(450, 350))
-            if (identical(o$orientation, "horizontal")) c(500, max(300, 130 + 55 * n))
-            else c(max(450, 120 + 85 * n), 380)
         },
 
         # An option that only some of the categorical analyses have (e.g. `catSort` exists
@@ -155,7 +112,6 @@ cmp_cat_private <- function() {
         .plot_picto      = function(image, ggtheme, theme, ...) private$.render(image, "picto", ggtheme, theme),
         .plot_parliament = function(image, ggtheme, theme, ...) private$.render(image, "parliament", ggtheme, theme),
         .plot_profile    = function(image, ggtheme, theme, ...) private$.render(image, "profile", ggtheme, theme),
-        .plot_means      = function(image, ggtheme, theme, ...) private$.render(image, "means", ggtheme, theme),
         .plot_pie        = function(image, ggtheme, theme, ...) private$.render(image, "pie", ggtheme, theme),
         .plot_donut      = function(image, ggtheme, theme, ...) private$.render(image, "donut", ggtheme, theme),
         .plot_grouped    = function(image, ggtheme, theme, ...) private$.render(image, "grouped", ggtheme, theme),
@@ -180,12 +136,12 @@ cmp_cat_private <- function() {
         #   labs      axis labels for the variables (wrapped; with n if requested)
         #   cat_cols  category -> colour, from the chosen palette (used by bars,
         #             waffle, ... where COLOUR = CATEGORY)
-        #   var_cols  variable -> colour (used by profile and means, where
+        #   var_cols  variable -> colour (used by profile, where
         #             COLOUR = VARIABLE); `spread` drops the pale middle of
         #             diverging palettes so lines/points stay visible
         #   leg_rows  number of legend rows so a long legend wraps
         # ---------------------------------------------------------------------
-        .context = function(st, ggtheme = NULL, theme = NULL) {
+        .context = function(st, ggtheme = NULL, theme = NULL, key = "") {
             o     <- self$options
             long  <- st$long
             vars  <- st$vars
@@ -228,8 +184,17 @@ cmp_cat_private <- function() {
             leg_rows <- if (o$legendPos %in% c("bottom", "top"))
                 max(1L, ceiling(k / max(2, floor(st$width / 130)))) else NULL
 
-            list(o = o, horiz = horiz, lv = lv, n = n, pos = pos, k = k, cats = cats,
-                 labs = cmp_wrap(labs), lab = lab, gcols = max(1L, as.integer(o$gridCols)),
+            # charts per row of the grid plots: an option of each of those plots
+            gcols <- switch(key, waffle = o$waffleGrid, picto = o$pictoGrid, parliament = o$parlGrid,
+                            pie = private$.opt("pieGrid"), donut = private$.opt("donutGrid"), 3L)
+            # Vertical orientation puts the variable names side by side along the bottom:
+            # cut the ones that would run into each other (see cmp_fit_labels()).
+            width <- if (is.null(st$width)) 450 else st$width
+            labs  <- if (horiz) cmp_wrap(labs) else cmp_fit_labels(labs, (width - 110) / max(n, 1), o$textSize)
+
+            list(o = o, horiz = horiz, lv = lv, n = n, pos = pos, k = k, cats = cats, width = width,
+                 labs = labs, lab = lab, gcols = max(1L, as.integer(gcols)),
+                 alpha = o$alpha / 100, lw_out = cmp_line_width(o$lineWidth) * 0.36, lw_line = cmp_line_width(o$lineWidth) * 2,
                  lab_grid = stats::setNames(cmp_wrap(gsub("\n", " ", lab), 20), names(lab)),
                  cat_cols = cat_cols, var_cols = var_cols,
                  leg_rows = leg_rows, npv = npv, ggtheme = ggtheme)
@@ -238,17 +203,7 @@ cmp_cat_private <- function() {
         # Build the ggplot for one key: prepare the data (+ `pos`), dispatch to the
         # `.p_<key>` builder, then apply the common theme in `.finish()`.
         .build = function(key, st, ggtheme = NULL, theme = NULL) {
-            skipped <- character(0)
-            if (key == "means") {
-                # keep only the variables that qualify (see .run); rebuild the
-                # state around them so positions have no gaps
-                keep <- st$vars[st$ok[st$vars]]
-                if (length(keep) == 0) return(NULL)
-                skipped <- setdiff(st$vars, keep)
-                st$vars <- keep
-                st$long <- st$long[st$long$variable %in% keep, ]
-            }
-            ctx <- private$.context(st, ggtheme, theme)
+            ctx <- private$.context(st, ggtheme, theme, key)
             long <- st$long
             long$variable <- factor(long$variable, levels = ctx$lv)
             long$pos <- unname(ctx$pos[as.character(long$variable)])
@@ -260,7 +215,6 @@ cmp_cat_private <- function() {
                 picto      = private$.p_dots(long, ctx, "picto"),
                 parliament = private$.p_parliament(long, ctx),
                 profile    = private$.p_profile(long, ctx),
-                means      = private$.p_means(long, ctx, st, skipped),
                 pie        = private$.p_pie(long, ctx, FALSE),
                 donut      = private$.p_pie(long, ctx, TRUE),
                 grouped    = private$.p_grouped(long, ctx),
@@ -274,11 +228,11 @@ cmp_cat_private <- function() {
         # every structural tweak is applied here, after the complete theme.
         .finish = function(p, ctx, key) {
             o <- ctx$o
-            legend_key <- key != "means"     # the means plot has no legend: variables are on the axis
+            legend_key <- TRUE
             blank <- ggplot2::element_blank()
             # per-plot structural tweaks
             extra <- switch(key,
-                bars = , diverging = , means = , grouped = , lollipop = private$.grid_theme(ctx),
+                bars = , diverging = , grouped = , lollipop = private$.grid_theme(ctx),
                 heat = ggplot2::theme(panel.grid = blank),
                 waffle = , picto = , parliament = , pie = , donut = ggplot2::theme(
                     panel.grid = blank, axis.ticks = blank, axis.title = blank, axis.text = blank,
@@ -320,6 +274,14 @@ cmp_cat_private <- function() {
                                         expand = ggplot2::expansion(add = c(0.6, upper)))
         },
 
+        # Labels for the CATEGORIES when they sit on an axis. On the screen's horizontal
+        # axis (`screen_x`) neighbours may collide, so they are cut to fit (like the
+        # variable names); on the vertical axis they are wrapped over several lines.
+        .cat_labels = function(ctx, screen_x) {
+            if (screen_x) cmp_fit_labels(ctx$cats, (ctx$width - 110) / max(ctx$k, 1), ctx$o$textSize)
+            else cmp_wrap(ctx$cats, 14)
+        },
+
         # Flip the canvas for the horizontal orientation. `clip = "off"` would let
         # labels spill outside the panel (not used at the moment).
         .flip = function(p, ctx, clip = "on") {
@@ -349,7 +311,7 @@ cmp_cat_private <- function() {
             p <- ggplot2::ggplot(long) +
                 ggplot2::geom_rect(
                     ggplot2::aes(xmin = pos - bw / 2, xmax = pos + bw / 2, ymin = lo, ymax = hi, fill = category),
-                    colour = "grey35", linewidth = 0.2)
+                    colour = "grey35", linewidth = ctx$lw_out, alpha = ctx$alpha)
             if (o$barLabels) {
                 ld <- long[long$pct >= max(o$barMinLabel, 0.01), ]     # skip tiny segments
                 ld$label <- private$.pct_fmt(ld$pct, ctx)
@@ -423,7 +385,7 @@ cmp_cat_private <- function() {
             p <- ggplot2::ggplot(dv) +
                 ggplot2::geom_rect(
                     ggplot2::aes(xmin = pos - bw / 2, xmax = pos + bw / 2, ymin = lo, ymax = hi, fill = category),
-                    colour = "grey35", linewidth = 0.2) +
+                    colour = "grey35", linewidth = ctx$lw_out, alpha = ctx$alpha) +
                 ggplot2::geom_hline(yintercept = 0, colour = "grey25", linewidth = 0.5)   # centre line
             if (o$divLabels) {
                 ld <- dv[dv$pct >= max(o$divMinLabel, 0.01), ]
@@ -470,7 +432,8 @@ cmp_cat_private <- function() {
             long$y <- if (ctx$horiz) long$cidx else k - long$cidx + 1
             gap <- o$heatGap / 100
             p <- ggplot2::ggplot(long, ggplot2::aes(x = pos, y = y, fill = pct)) +
-                ggplot2::geom_tile(width = 1 - gap, height = 1 - gap)
+                ggplot2::geom_tile(width = 1 - gap, height = 1 - gap, alpha = ctx$alpha,
+                                     colour = "grey35", linewidth = ctx$lw_out * 0.5)
             if (o$heatLabels) {
                 # label colour chosen from the tile colour the value maps to
                 tcol <- cmp_text_col(scales::col_numeric(cols, c(0, top))(long$pct))
@@ -481,7 +444,7 @@ cmp_cat_private <- function() {
             }
             p <- p + private$.cat_axis(ctx) +
                 ggplot2::scale_y_continuous(breaks = if (ctx$horiz) seq_len(k) else k - seq_len(k) + 1,
-                                            labels = cmp_wrap(ctx$cats, 14), expand = ggplot2::expansion(add = 0.5)) +
+                                            labels = private$.cat_labels(ctx, ctx$horiz), expand = ggplot2::expansion(add = 0.5)) +
                 ggplot2::scale_fill_gradientn(colours = cols, limits = c(0, top),
                                               name = if (is.null(private$.leg_title(ctx))) "%" else private$.leg_title(ctx),
                                               guide = ggplot2::guide_colourbar(barwidth = ggplot2::unit(9, "lines")),
@@ -518,14 +481,14 @@ cmp_cat_private <- function() {
             if (kind == "waffle") {
                 s <- 1 - o$waffleGap / 100            # tile size < 1 leaves the gap
                 p <- ggplot2::ggplot(df, ggplot2::aes(x = cx, y = cy, fill = category)) +
-                    ggplot2::geom_tile(width = s, height = s, colour = "grey55", linewidth = 0.2) +
+                    ggplot2::geom_tile(width = s, height = s, colour = "grey55", linewidth = ctx$lw_out, alpha = ctx$alpha) +
                     private$.fill_scale(ctx)
             } else {
                 # shapes 21-24 are filled shapes with a separate outline, so pale
                 # categories (e.g. a neutral middle) stay visible on white
                 shp <- c(circle = 21, square = 22, diamond = 23, triangle = 24)[[o$pictoShape]]
                 p <- ggplot2::ggplot(df, ggplot2::aes(x = cx, y = cy, fill = category)) +
-                    ggplot2::geom_point(shape = shp, size = o$pictoSize, colour = "grey45", stroke = 0.25) +
+                    ggplot2::geom_point(shape = shp, size = o$pictoSize, colour = "grey45", stroke = ctx$lw_out * 1.2, alpha = ctx$alpha) +
                     ggplot2::scale_fill_manual(
                         values = ctx$cat_cols, name = private$.leg_title(ctx), drop = FALSE,
                         guide = ggplot2::guide_legend(nrow = ctx$leg_rows, override.aes = list(size = 4, shape = 21)))
@@ -559,7 +522,7 @@ cmp_cat_private <- function() {
                            category = factor(rep(as.character(d$category), cnt), levels = ctx$cats))
             }))
             p <- ggplot2::ggplot(df, ggplot2::aes(x = cx, y = cy, fill = category)) +
-                ggplot2::geom_point(size = o$parlSize, shape = 21, colour = "grey45", stroke = 0.25) +
+                ggplot2::geom_point(size = o$parlSize, shape = 21, colour = "grey45", stroke = ctx$lw_out * 1.2, alpha = ctx$alpha) +
                 ggplot2::scale_fill_manual(
                     values = ctx$cat_cols, name = private$.leg_title(ctx), drop = FALSE,
                     guide = ggplot2::guide_legend(nrow = ctx$leg_rows, override.aes = list(size = 4)))
@@ -594,7 +557,7 @@ cmp_cat_private <- function() {
             min_label   <- if (donut) o$donutMinLabel else o$pieMinLabel
             p <- ggplot2::ggplot(long) +
                 ggplot2::geom_rect(ggplot2::aes(xmin = r0, xmax = 1, ymin = lo, ymax = hi, fill = category),
-                                   colour = "grey35", linewidth = 0.2)
+                                   colour = "grey35", linewidth = ctx$lw_out, alpha = ctx$alpha)
             if (show_labels) {
                 ld <- long[long$pct >= max(min_label, 0.01), ]
                 ld$label <- private$.pct_fmt(ld$pct, ctx)
@@ -630,7 +593,7 @@ cmp_cat_private <- function() {
             long$variable <- factor(as.character(long$variable), levels = if (ctx$horiz) rev(ctx$lv) else ctx$lv)
             dodge <- ggplot2::position_dodge(width = 0.85)
             p <- ggplot2::ggplot(long, ggplot2::aes(x = x, y = pct, fill = variable)) +
-                ggplot2::geom_col(position = dodge, width = o$groupWidth / 100 * 0.85, colour = "grey35", linewidth = 0.2)
+                ggplot2::geom_col(position = dodge, width = o$groupWidth / 100 * 0.85, colour = "grey35", linewidth = ctx$lw_out, alpha = ctx$alpha)
             if (isTRUE(o$groupLabels)) {
                 ld <- long[long$pct > 0, ]
                 ld$label <- private$.pct_fmt(ld$pct, ctx)
@@ -641,13 +604,13 @@ cmp_cat_private <- function() {
             }
             p <- p +
                 ggplot2::scale_x_continuous(breaks = if (ctx$horiz) k - seq_len(k) + 1 else seq_len(k),
-                                            labels = cmp_wrap(ctx$cats, 14), expand = ggplot2::expansion(add = 0.5)) +
+                                            labels = private$.cat_labels(ctx, !ctx$horiz), expand = ggplot2::expansion(add = 0.5)) +
                 ggplot2::scale_y_continuous(labels = function(x) paste0(x, "%"), expand = ggplot2::expansion(mult = c(0, 0.15))) +
                 private$.var_fill_scale(ctx) + ggplot2::labs(x = NULL, y = NULL)
             private$.flip(p, ctx)
         },
 
-        # ── Lollipop (dot) plot ────────────────────────────────────────────
+        # ── Lollipop plot ────────────────────────────────────────────
         # Same layout as the grouped bars, but each value is a dot on a thin stem
         # (colour = variable): less ink, and the dots of different variables line
         # up for an easy comparison.
@@ -658,10 +621,10 @@ cmp_cat_private <- function() {
             long$variable <- factor(as.character(long$variable), levels = if (ctx$horiz) rev(ctx$lv) else ctx$lv)
             dodge <- ggplot2::position_dodge(width = 0.6)
             p <- ggplot2::ggplot(long, ggplot2::aes(x = x, y = pct, colour = variable, group = variable)) +
-                ggplot2::geom_linerange(ggplot2::aes(ymin = 0, ymax = pct), position = dodge, linewidth = 0.8) +
-                ggplot2::geom_point(position = dodge, size = o$lolliSize, shape = 16) +
+                ggplot2::geom_linerange(ggplot2::aes(ymin = 0, ymax = pct), position = dodge, linewidth = ctx$lw_line * 0.75) +
+                ggplot2::geom_point(position = dodge, size = min(o$lolliSize, 6), shape = 16, alpha = ctx$alpha) +
                 ggplot2::scale_x_continuous(breaks = if (ctx$horiz) k - seq_len(k) + 1 else seq_len(k),
-                                            labels = cmp_wrap(ctx$cats, 14), expand = ggplot2::expansion(add = 0.5)) +
+                                            labels = private$.cat_labels(ctx, !ctx$horiz), expand = ggplot2::expansion(add = 0.5)) +
                 ggplot2::scale_y_continuous(labels = function(x) paste0(x, "%"), expand = ggplot2::expansion(mult = c(0.02, 0.1))) +
                 ggplot2::scale_colour_manual(values = ctx$var_cols, breaks = ctx$lv, labels = ctx$lab,
                                              name = private$.leg_title(ctx),
@@ -687,63 +650,20 @@ cmp_cat_private <- function() {
             long$x <- if (ctx$horiz) k - long$cidx + 1 else long$cidx
             long <- long[order(long$variable, long$cidx), ]    # lines must be drawn in category order
             p <- ggplot2::ggplot(long, ggplot2::aes(x = x, y = pct, colour = variable, group = variable))
-            if (o$profLines)  p <- p + ggplot2::geom_line(linewidth = 1.1)
+            if (o$profLines)  p <- p + ggplot2::geom_line(linewidth = ctx$lw_line)
             if (o$profPoints) p <- p + ggplot2::geom_point(size = 2.6)
             if (o$profLabels)
                 p <- p + ggplot2::geom_text(ggplot2::aes(label = private$.pct_fmt(pct, ctx)),
                                             nudge_x = 0.0, vjust = -0.9, size = o$textSize * 0.26, show.legend = FALSE)
             p <- p +
                 ggplot2::scale_x_continuous(breaks = if (ctx$horiz) k - seq_len(k) + 1 else seq_len(k),
-                                            labels = cmp_wrap(ctx$cats, 14),
+                                            labels = private$.cat_labels(ctx, !ctx$horiz),
                                             expand = ggplot2::expansion(add = 0.4)) +
                 ggplot2::scale_y_continuous(labels = function(x) paste0(x, "%"),
                                             expand = ggplot2::expansion(mult = c(0.02, 0.12))) +
                 ggplot2::scale_colour_manual(values = ctx$var_cols, labels = ctx$lab, name = private$.leg_title(ctx),
                                              guide = ggplot2::guide_legend(nrow = if (ctx$o$legendPos %in% c("bottom", "top")) max(1L, ceiling(ctx$n / 5)) else NULL)) +
                 ggplot2::labs(x = NULL, y = "Responses")
-            private$.flip(p, ctx)
-        },
-
-        # ── Mean category with CI (categories coded 1..k) ──────────────────
-        # Only called with the variables that qualified (ordinal or two-category;
-        # see .run / .build). For each variable: the mean of the category codes
-        # and a t-based confidence interval, computed from the counts expanded
-        # back to one code per respondent. `skipped` lists variables left out,
-        # which are named in the caption.
-        .p_means = function(long, ctx, st, skipped = character(0)) {
-            o <- ctx$o
-            k <- ctx$k
-            level_ci <- o$meansLevel / 100
-            s <- do.call(rbind, lapply(ctx$lv, function(v) {
-                d <- long[long$variable == v, ]
-                x <- rep(d$cidx, d$count)          # one code (1..k) per respondent
-                n <- length(x)
-                m <- mean(x)
-                se <- if (n > 1) stats::sd(x) / sqrt(n) else 0
-                tq <- if (n > 1) stats::qt(1 - (1 - level_ci) / 2, n - 1) else 0
-                data.frame(variable = factor(v, levels = ctx$lv), pos = unname(ctx$pos[v]),
-                           m = m, lo = m - tq * se, hi = m + tq * se)
-            }))
-            p <- ggplot2::ggplot(s)
-            if (o$meansCi)
-                p <- p + ggplot2::geom_errorbar(ggplot2::aes(x = pos, ymin = lo, ymax = hi, colour = variable),
-                                                width = 0.25, linewidth = 1)
-            p <- p + ggplot2::geom_point(ggplot2::aes(x = pos, y = m, fill = variable),
-                                         shape = 21, size = 3.8, colour = "grey15", stroke = 0.8)
-            if (o$meansLabels)
-                p <- p + ggplot2::geom_text(ggplot2::aes(x = pos, y = m, label = formatC(m, format = "f", digits = 2)),
-                                            nudge_x = 0.3, size = o$textSize * 0.28, colour = "grey20")
-            # the value axis is labelled with the category names at 1..k
-            p <- p + private$.cat_axis(ctx) +
-                ggplot2::scale_y_continuous(breaks = seq_len(k), labels = cmp_wrap(ctx$cats, 14),
-                                            limits = c(1, k), expand = ggplot2::expansion(mult = 0.05)) +
-                ggplot2::scale_colour_manual(values = ctx$var_cols, guide = "none") +
-                ggplot2::scale_fill_manual(values = ctx$var_cols, guide = "none") +
-                ggplot2::labs(x = NULL, y = NULL,
-                              caption = paste0("Categories coded 1 to ", k, " in the order shown",
-                                               if (o$meansCi) paste0("; bars: ", o$meansLevel, "% CI") else "",
-                                               if (length(skipped)) paste0("\nNot shown (nominal, more than two categories): ",
-                                                                           paste(skipped, collapse = ", ")) else ""))
             private$.flip(p, ctx)
         }
     )

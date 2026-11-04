@@ -349,6 +349,16 @@ children:
                 format: number
                 suffix: '%'
                 enable: '(showWaffle)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: waffleGrid
+                format: number
+                enable: '(showWaffle)'
   - type: CollapseBox
     label: Dot Pictogram
     collapsed: true
@@ -402,6 +412,16 @@ children:
                 name: pictoSize
                 format: number
                 enable: '(showPicto)'
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: pictoGrid
+                format: number
+                enable: '(showPicto)'
   - type: CollapseBox
     label: Parliament Chart
     collapsed: true
@@ -446,6 +466,16 @@ children:
                 name: parlSize
                 format: number
                 enable: '(showParliament)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: parlGrid
+                format: number
+                enable: '(showParliament)'
   - type: CollapseBox
     label: Response Profile
     collapsed: true
@@ -487,46 +517,3 @@ children:
               - type: CheckBox
                 name: profLabels
                 enable: '(showProfile)'
-  - type: CollapseBox
-    label: Mean Category and CI
-    collapsed: true
-    stretchFactor: 1
-    children:
-      - type: LayoutBox
-        margin: large
-        children:
-          - type: CheckBox
-            name: showMeans
-      - type: LayoutBox
-        margin: large
-        stretchFactor: 1
-        children:
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 0
-            stretchFactor: 1
-            children:
-              - type: CheckBox
-                name: meansCi
-                enable: '(showMeans)'
-          - type: LayoutBox
-            cell:
-              column: 1
-              row: 0
-            stretchFactor: 1
-            children:
-              - type: TextBox
-                name: meansLevel
-                format: number
-                suffix: '%'
-                enable: '(showMeans && meansCi)'
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 1
-            stretchFactor: 1
-            children:
-              - type: CheckBox
-                name: meansLabels
-                enable: '(showMeans)'

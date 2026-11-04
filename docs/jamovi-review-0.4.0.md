@@ -1,4 +1,4 @@
-# jamovi library review of ComparePlots 0.4.0: tracking
+# jamovi library review of comparePlots 0.4.0: tracking
 
 Submission 0.4.0 (15a7aac) was not accepted on 2026-11-02; the reviewer liked the module and listed changes.
 This file records every point, what we decided (with the maintainer's answers to the questions we asked first),
@@ -67,7 +67,7 @@ the module in jamovi (no R/jamovi was available when the changes were written), 
 ## Build log (2026-11-03)
 
 - Tooling: jamovi's bundled R 4.5.0 (`/Applications/jamovi.app/Contents/Frameworks/R.framework`) plus `jmvtools` 28.4 installed in `~/jmvtools-lib`; environment in `~/.jmvenv.sh` (`source` it, then add `R_LIBS=$HOME/jmvtools-lib:$R_LIBS`).
-- `jmvtools::install(home = "/Applications/jamovi.app")` builds `ComparePlots_1.0.0.jmo` (git-ignored) and installs it. It rewrites `jamovi/0000.yaml` without comments: `git checkout jamovi/0000.yaml` afterwards.
+- `jmvtools::install(home = "/Applications/jamovi.app")` builds `comparePlots_1.0.0.jmo` (git-ignored) and installs it. It rewrites `jamovi/0000.yaml` without comments: `git checkout jamovi/0000.yaml` afterwards.
 - Unit tests: all pass. Headless smoke test: all 10 numeric and 8 categorical plots render; a sparse first item (no "Neutral") keeps the category axis in order.
 - Fixed while testing: the n-per-variable caption ran off the edge of the smaller plots (now wrapped).
 - Generated `R/dist*.h.R` regenerated and committed.
@@ -76,7 +76,7 @@ the module in jamovi (no R/jamovi was available when the changes were written), 
 
 | # | Request | What was done | Status |
 |---|---------|---------------|--------|
-| 1 | Is the Plots tab required? | **Yes**: the reviewer wrote "that's where this module belongs". vijPlots (accepted) uses `category: plots` + `menuGroup: vijPlots`, i.e. its own named dropdown *inside* the Plots tab. We do the same: `category: plots`, `menuGroup: ComparePlots`, sub-groups Numeric / Ordinal / Nominal | needs check in jamovi |
+| 1 | Is the Plots tab required? | **Yes**: the reviewer wrote "that's where this module belongs". vijPlots (accepted) uses `category: plots` + `menuGroup: vijPlots`, i.e. its own named dropdown *inside* the Plots tab. We do the same: `category: plots`, `menuGroup: comparePlots`, sub-groups Numeric / Ordinal / Nominal | needs check in jamovi |
 | 2 | Three analyses | **Compare Numeric**, **Compare Ordinal**, **Compare Nominal**. Each rejects variables of the wrong measure type with a message saying what to do. Binary-nominal mean-category question is gone (mean category is ordinal-only) | done |
 | 2b | Nominal plots | Stacked bars, heatmap, waffle, pictogram, parliament **plus** pie, donut (hole size, n in the centre), grouped bars, lollipop. Option *Order categories by* (data order / overall frequency). Variables can be ordered by largest category share or by diversity | done |
 | 3 | "jamovi default" -> "jamovi current" | Renamed in the option lists, code comments and docs. The option value is still `jamovi` | done |
@@ -94,6 +94,6 @@ the module in jamovi (no R/jamovi was available when the changes were written), 
 ## Round 3 (2026-11-03)
 
 - The three sizing test menus are gone. **Compare Ordinal** is the default; the behaviour of test version 3 is now the checkbox **Fit plot size to the number of variables** in the shared options of all three analyses (sizes set in `.init()`).
-- **Compare Numeric** was sitting outside the ComparePlots dropdown (`menuGroup: .` left in `distNum.a.yaml`). Now all three analyses are direct items of the **ComparePlots** group in the Plots tab, no sub-menus.
+- **Compare Numeric** was sitting outside the comparePlots dropdown (`menuGroup: .` left in `distNum.a.yaml`). Now all three analyses are direct items of the **comparePlots** group in the Plots tab, no sub-menus.
 - New **Transform values** option in Compare Numeric: centred, z-scores, T-scores, percent of range, percentile rank, ln, square root, square. The value axis says which transformation was applied; values a transformation cannot handle are left out with a warning.
 - Everything still undecided is in `docs/OPEN-DECISIONS.md` (temporary file). Build instructions for another machine: `docs/dev-setup.md`.

@@ -1,0 +1,20 @@
+---
+# References shown in the "References" section of the results (when the user has
+# references switched on in jamovi's settings). Each analysis lists the keys it cites
+# under `refs:` in its .r.yaml. Compiled by jmvtools into the module.
+refs:
+    comparePlots:
+        type: 'software'
+        author: Elgueta, H. E.
+        year: 2026
+        title: 'comparePlots: Compare the distributions of several variables'
+        publisher: '(Version 1.0) [jamovi module]. Retrieved from https://github.com/heelgueta/comparePlots'
+        url: https://github.com/heelgueta/comparePlots
+
+    ggplot2:
+        type: 'software'
+        author: Wickham, H.
+        year: 2025
+        title: 'ggplot2: Elegant Graphics for Data Analysis'
+        publisher: '[R package]. Retrieved from https://cran.r-project.org/package=ggplot2'
+        url: https://cran.r-project.org/package=ggplot2

@@ -151,3 +151,19 @@ test_that("cmp_transform: impossible values become NA, NAs stay NA, constants do
     expect_equal(cmp_transform(c(1, NA, 3), "centre"), c(-1, NA, 1))
     expect_equal(cmp_transform_label("z"), "z-scores")
 })
+
+test_that("greys palette: darkest to a mid grey, never near white", {
+    g <- cmp_palette("grays", 6)
+    lum <- grDevices::col2rgb(g)[1, ] / 255
+    expect_length(g, 6)
+    expect_true(max(lum) < 0.85)
+    expect_true(!is.unsorted(lum))
+})
+
+test_that("cmp_fit_labels: long names are cut with an ellipsis, short ones stay", {
+    out <- cmp_fit_labels(c("Social_contact", "Mood", "Sleep quality"), slot_px = 60, size = 16)
+    expect_equal(out[2], "Mood")
+    expect_true(all(nchar(out) <= max(4, floor(60 / (0.8 * 16 * 0.55)))))
+    expect_true(grepl("…", out[1]))
+    expect_false(any(grepl("\n", cmp_fit_labels("a\nb", 500))))
+})

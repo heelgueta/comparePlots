@@ -23,7 +23,7 @@
 #   are sorted numerically). A variable that lacks a category has 0% there.
 #
 # HOW THE PLOTS ARE BUILT
-#   Bar-like plots (stacked, diverging, heatmap, means, profile) use a *canvas*:
+#   Bar-like plots (stacked, diverging, heatmap, profile) use a *canvas*:
 #   x = position of the variable (1, 2, 3, ...), y = percentage (or category).
 #   For "horizontal" the canvas is flipped with coord_flip(), which makes the
 #   bars run left to right and stacks the variables top to bottom. `.context()`
@@ -53,6 +53,6 @@ distOrdClass <- R6::R6Class(
         .switches = c(
             bars = "showBars", diverging = "showDiverging", heat = "showHeat",
             waffle = "showWaffle", picto = "showPicto", parliament = "showParliament",
-            profile = "showProfile", means = "showMeans")
+            profile = "showProfile")
     ))
 )

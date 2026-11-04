@@ -5,7 +5,7 @@
 name: distNum
 title: Compare Numeric
 category: plots
-menuGroup: ComparePlots
+menuGroup: comparePlots
 version: '1.0.0'
 jas: '1.2'
 options:
@@ -21,7 +21,7 @@ options:
       - numeric
   # APPEARANCE: options shared by every plot of this analysis.
   # NOTE: do not name an option `theme` or `palette`; jmvcore reserves both for jamovi's global plot settings.
-  # Hence `plotTheme` and `colourPalette`. Both default to "jamovi current", which follows the user's
+  # Hence `plotTheme` and `colourPalette`. Both default to "jamovi", which follows the user's
   # global jamovi theme/palette (the `ggtheme` and `theme` arguments of the render functions).
   - name: orientation
     title: Orientation
@@ -33,13 +33,13 @@ options:
         title: Vertical
     default: horizontal
   - name: sortVars
-    title: Order variables by
+    title: Order variables
     type: List
     options:
       - name: none
-        title: Entry order
+        title: Entry
       - name: name
-        title: Alphabetical
+        title: A–Z
       - name: median
         title: Median
       - name: mean
@@ -56,17 +56,17 @@ options:
       - name: none
         title: None
       - name: centre
-        title: Centred (mean = 0)
+        title: Centred
       - name: z
         title: z-scores
       - name: t
-        title: T-scores (mean 50, SD 10)
+        title: T-scores
       - name: pomp
-        title: Percent of range (0-100)
+        title: '% of range'
       - name: percentile
         title: Percentile rank
       - name: log
-        title: Natural logarithm
+        title: Natural log
       - name: sqrt
         title: Square root
       - name: square
@@ -81,9 +81,9 @@ options:
     type: List
     options:
       - name: jamovi
-        title: jamovi current
+        title: jamovi
       - name: bw
-        title: Black & white (no colour)
+        title: Black & white
       - name: viridis
         title: Viridis
       - name: plasma
@@ -101,15 +101,15 @@ options:
       - name: turbo
         title: Turbo
       - name: rdbu
-        title: Red–Blue (diverging)
+        title: Red–Blue
       - name: rdylgn
-        title: Red–Yellow–Green (diverging)
+        title: Red–Yellow–Green
       - name: piyg
-        title: Pink–Green (diverging)
+        title: Pink–Green
       - name: prgn
-        title: Purple–Green (diverging)
+        title: Purple–Green
       - name: brbg
-        title: Brown–Teal (diverging)
+        title: Brown–Teal
       - name: set2
         title: Set 2
       - name: dark2
@@ -117,7 +117,7 @@ options:
       - name: pastel
         title: Pastel 1
       - name: okabe
-        title: Okabe–Ito (colour-blind safe)
+        title: Okabe–Ito
       - name: grays
         title: Greys
     default: jamovi
@@ -130,7 +130,7 @@ options:
     type: List
     options:
       - name: jamovi
-        title: jamovi current
+        title: jamovi
       - name: minimal
         title: Minimal
       - name: classic
@@ -165,7 +165,22 @@ options:
     type: Number
     min: 0.2
     max: 6
-    default: 1.4
+    default: 0.8
+  - name: pointAlpha
+    title: Data point opacity
+    type: Integer
+    min: 5
+    max: 100
+    default: 30
+  - name: pointColour
+    title: Data point colour
+    type: List
+    options:
+      - name: variable
+        title: As variable
+      - name: grey
+        title: Grey
+    default: variable
   - name: jitterSpread
     title: Jitter spread
     type: Integer
@@ -180,14 +195,10 @@ options:
     title: Plot title
     type: String
     default: ''
-  - name: autoFit
-    title: Fit plot size to the number of variables
-    type: Bool
-    default: false
   - name: showN
     title: n per variable
     type: Bool
-    default: true
+    default: false
   - name: legendPos
     title: Legend (overlay plots)
     type: List

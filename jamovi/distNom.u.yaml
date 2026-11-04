@@ -1,7 +1,3 @@
-# Compare Nominal (distNom): USER INTERFACE, hand-written.
-# compilerMode is `tame`: jmc keeps this layout and only adds controls for NEW options.
-# Each plot has its own CollapseBox that holds the plot's checkbox AND its settings; the settings are
-# greyed out (enable:) while the checkbox is off, or while a sibling option they depend on is off.
 title: Compare Nominal
 name: distNom
 jus: '3.0'
@@ -18,7 +14,6 @@ children:
           - type: VariablesListBox
             name: vars
             isTarget: true
-  # Appearance: options shared by all plots. Open by default.
   - type: CollapseBox
     label: Appearance
     collapsed: false
@@ -95,29 +90,12 @@ children:
                 format: number
           - type: LayoutBox
             cell:
-              column: 0
-              row: 4
-            stretchFactor: 1
-            children:
-              - type: TextBox
-                name: gridCols
-                format: number
-          - type: LayoutBox
-            cell:
               column: 1
               row: 4
             stretchFactor: 1
             children:
               - type: CheckBox
                 name: useDesc
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 5
-            stretchFactor: 1
-            children:
-              - type: CheckBox
-                name: autoFit
           - type: LayoutBox
             cell:
               column: 1
@@ -185,7 +163,7 @@ children:
                 name: barWidth
                 format: number
                 suffix: '%'
-                enable: '(showBars)'
+                enable: (showBars)
           - type: LayoutBox
             cell:
               column: 1
@@ -194,7 +172,7 @@ children:
             children:
               - type: CheckBox
                 name: barLabels
-                enable: '(showBars)'
+                enable: (showBars)
           - type: LayoutBox
             cell:
               column: 0
@@ -205,7 +183,13 @@ children:
                 name: barMinLabel
                 format: number
                 suffix: '%'
-                enable: '(showBars && barLabels)'
+                enable: (showBars && barLabels)
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: TextBox
+        name: alpha
+        format: number
   - type: CollapseBox
     label: Heatmap
     collapsed: true
@@ -228,7 +212,7 @@ children:
             children:
               - type: ComboBox
                 name: heatPalette
-                enable: '(showHeat)'
+                enable: (showHeat)
           - type: LayoutBox
             cell:
               column: 1
@@ -237,7 +221,7 @@ children:
             children:
               - type: CheckBox
                 name: heatLabels
-                enable: '(showHeat)'
+                enable: (showHeat)
           - type: LayoutBox
             cell:
               column: 0
@@ -248,7 +232,13 @@ children:
                 name: heatGap
                 format: number
                 suffix: '%'
-                enable: '(showHeat)'
+                enable: (showHeat)
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: TextBox
+        name: lineWidth
+        format: number
   - type: CollapseBox
     label: Waffle Chart
     collapsed: true
@@ -272,7 +262,7 @@ children:
               - type: TextBox
                 name: waffleRows
                 format: number
-                enable: '(showWaffle)'
+                enable: (showWaffle)
           - type: LayoutBox
             cell:
               column: 1
@@ -282,7 +272,7 @@ children:
               - type: TextBox
                 name: waffleCols
                 format: number
-                enable: '(showWaffle)'
+                enable: (showWaffle)
           - type: LayoutBox
             cell:
               column: 0
@@ -293,7 +283,22 @@ children:
                 name: waffleGap
                 format: number
                 suffix: '%'
-                enable: '(showWaffle)'
+                enable: (showWaffle)
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: waffleGrid
+                format: number
+                enable: (showWaffle)
+  - type: LayoutBox
+    margin: large
+    children:
+      - type: CheckBox
+        name: ignoreMissing
   - type: CollapseBox
     label: Dot Pictogram
     collapsed: true
@@ -317,7 +322,7 @@ children:
               - type: TextBox
                 name: pictoRows
                 format: number
-                enable: '(showPicto)'
+                enable: (showPicto)
           - type: LayoutBox
             cell:
               column: 1
@@ -327,7 +332,7 @@ children:
               - type: TextBox
                 name: pictoCols
                 format: number
-                enable: '(showPicto)'
+                enable: (showPicto)
           - type: LayoutBox
             cell:
               column: 0
@@ -336,7 +341,7 @@ children:
             children:
               - type: ComboBox
                 name: pictoShape
-                enable: '(showPicto)'
+                enable: (showPicto)
           - type: LayoutBox
             cell:
               column: 1
@@ -346,7 +351,17 @@ children:
               - type: TextBox
                 name: pictoSize
                 format: number
-                enable: '(showPicto)'
+                enable: (showPicto)
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: pictoGrid
+                format: number
+                enable: (showPicto)
   - type: CollapseBox
     label: Parliament Chart
     collapsed: true
@@ -370,7 +385,7 @@ children:
               - type: TextBox
                 name: parlSeats
                 format: number
-                enable: '(showParliament)'
+                enable: (showParliament)
           - type: LayoutBox
             cell:
               column: 1
@@ -380,7 +395,7 @@ children:
               - type: TextBox
                 name: parlRows
                 format: number
-                enable: '(showParliament)'
+                enable: (showParliament)
           - type: LayoutBox
             cell:
               column: 0
@@ -390,7 +405,17 @@ children:
               - type: TextBox
                 name: parlSize
                 format: number
-                enable: '(showParliament)'
+                enable: (showParliament)
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: parlGrid
+                format: number
+                enable: (showParliament)
   - type: CollapseBox
     label: Pie Chart
     collapsed: true
@@ -413,7 +438,7 @@ children:
             children:
               - type: CheckBox
                 name: pieLabels
-                enable: '(showPie)'
+                enable: (showPie)
           - type: LayoutBox
             cell:
               column: 1
@@ -424,7 +449,17 @@ children:
                 name: pieMinLabel
                 format: number
                 suffix: '%'
-                enable: '(showPie && pieLabels)'
+                enable: (showPie && pieLabels)
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: pieGrid
+                format: number
+                enable: (showPie)
   - type: CollapseBox
     label: Donut Chart
     collapsed: true
@@ -449,7 +484,7 @@ children:
                 name: donutHole
                 format: number
                 suffix: '%'
-                enable: '(showDonut)'
+                enable: (showDonut)
           - type: LayoutBox
             cell:
               column: 1
@@ -458,7 +493,7 @@ children:
             children:
               - type: CheckBox
                 name: donutLabels
-                enable: '(showDonut)'
+                enable: (showDonut)
           - type: LayoutBox
             cell:
               column: 0
@@ -469,7 +504,7 @@ children:
                 name: donutMinLabel
                 format: number
                 suffix: '%'
-                enable: '(showDonut && donutLabels)'
+                enable: (showDonut && donutLabels)
           - type: LayoutBox
             cell:
               column: 1
@@ -478,7 +513,17 @@ children:
             children:
               - type: CheckBox
                 name: donutN
-                enable: '(showDonut)'
+                enable: (showDonut)
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: donutGrid
+                format: number
+                enable: (showDonut)
   - type: CollapseBox
     label: Grouped Bars
     collapsed: true
@@ -503,7 +548,7 @@ children:
                 name: groupWidth
                 format: number
                 suffix: '%'
-                enable: '(showGrouped)'
+                enable: (showGrouped)
           - type: LayoutBox
             cell:
               column: 1
@@ -512,9 +557,9 @@ children:
             children:
               - type: CheckBox
                 name: groupLabels
-                enable: '(showGrouped)'
+                enable: (showGrouped)
   - type: CollapseBox
-    label: Lollipop (Dot) Plot
+    label: Lollipop Plot
     collapsed: true
     stretchFactor: 1
     children:
@@ -536,4 +581,4 @@ children:
               - type: TextBox
                 name: lolliSize
                 format: number
-                enable: '(showLollipop)'
+                enable: (showLollipop)

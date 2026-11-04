@@ -1,4 +1,4 @@
-# ComparePlots
+# comparePlots
 
 A jamovi module to **compare the distributions of several variables at once**, side by side on one shared scale. Drop your variables in, tick the plots you want, and get them all in one go. No code needed.
 
@@ -18,7 +18,7 @@ Build and install the module into jamovi with [jmvtools](https://dev.jamovi.org/
 
 **Modules (+) → jamovi library → Install from file…**
 
-Example datasets are included and appear under **Open → Data Library → ComparePlots**. The same files are in [`data/`](data/).
+Example datasets are included and appear under **Open → Data Library → comparePlots**. The same files are in [`data/`](data/).
 
 ---
 
@@ -87,7 +87,7 @@ jamovi/    0000.yaml (manifest), *.a.yaml (options), *.r.yaml (results), *.u.yam
 R/         *.b.R (implementation), utils.R (shared helpers), *.h.R (generated)
 data/      example datasets (shown in jamovi's Data Library)
 tools/     make_examples.R: regenerates the example datasets
-icons/     module icon (ComparePlots.svg, 74 x 44, jamovi ribbon style)
+icons/     module icon (comparePlots.svg, 74 x 44, jamovi ribbon style)
 ```
 
 ### Where to change things

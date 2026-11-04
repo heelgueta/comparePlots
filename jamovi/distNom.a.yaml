@@ -5,7 +5,7 @@
 name: distNom
 title: Compare Nominal
 category: plots
-menuGroup: ComparePlots
+menuGroup: comparePlots
 version: '1.0.0'
 jas: '1.2'
 options:
@@ -21,7 +21,7 @@ options:
       - factor
   # APPEARANCE: options shared by every plot of this analysis.
   # NOTE: do not name an option `theme` or `palette`; jmvcore reserves both for jamovi's global plot settings.
-  # Hence `plotTheme` and `colourPalette`. Both default to "jamovi current", which follows the user's
+  # Hence `plotTheme` and `colourPalette`. Both default to "jamovi", which follows the user's
   # global jamovi theme/palette (the `ggtheme` and `theme` arguments of the render functions).
   - name: orientation
     title: Orientation
@@ -36,44 +36,40 @@ options:
     title: Variable descriptions as labels
     type: Bool
     default: false
-  - name: gridCols
-    title: Charts per row
-    type: Integer
-    min: 1
-    max: 10
-    default: 3
   - name: sortVars
-    title: Order variables by
+    title: Order variables
     type: List
     options:
       - name: none
-        title: Entry order
+        title: Entry
       - name: name
-        title: Alphabetical
+        title: A–Z
       - name: top
-        title: Largest category share
+        title: Top share
       - name: diverse
-        title: Diversity of answers
+        title: Diversity
     default: none
   - name: catSort
-    title: Order categories by
+    title: Order categories
     type: List
     options:
       - name: levels
-        title: Order in the data
+        title: Data order
       - name: frequency
-        title: Overall frequency
+        title: Frequency
+      - name: name
+        title: A–Z
     default: levels
   - name: invertVars
     title: Reverse the order
     type: Bool
     default: false
   - name: colourPalette
-    title: Palette (categories)
+    title: Palette
     type: List
     options:
       - name: jamovi
-        title: jamovi current
+        title: jamovi
       - name: viridis
         title: Viridis
       - name: plasma
@@ -91,15 +87,15 @@ options:
       - name: turbo
         title: Turbo
       - name: rdbu
-        title: Red–Blue (diverging)
+        title: Red–Blue
       - name: rdylgn
-        title: Red–Yellow–Green (diverging)
+        title: Red–Yellow–Green
       - name: piyg
-        title: Pink–Green (diverging)
+        title: Pink–Green
       - name: prgn
-        title: Purple–Green (diverging)
+        title: Purple–Green
       - name: brbg
-        title: Brown–Teal (diverging)
+        title: Brown–Teal
       - name: set2
         title: Set 2
       - name: dark2
@@ -107,7 +103,7 @@ options:
       - name: pastel
         title: Pastel 1
       - name: okabe
-        title: Okabe–Ito (colour-blind safe)
+        title: Okabe–Ito
       - name: grays
         title: Greys
     default: jamovi
@@ -120,7 +116,7 @@ options:
     type: List
     options:
       - name: jamovi
-        title: jamovi current
+        title: jamovi
       - name: minimal
         title: Minimal
       - name: classic
@@ -165,10 +161,22 @@ options:
     title: Plot title
     type: String
     default: ''
-  - name: autoFit
-    title: Fit plot size to the number of variables
+  - name: alpha
+    title: Opacity
+    type: Integer
+    min: 5
+    max: 100
+    default: 80
+  - name: lineWidth
+    title: Line thickness (1–5)
+    type: Integer
+    min: 1
+    max: 5
+    default: 2
+  - name: ignoreMissing
+    title: Ignore missing cases
     type: Bool
-    default: false
+    default: true
   - name: showN
     title: n per variable
     type: Bool
@@ -255,6 +263,12 @@ options:
     min: 0
     max: 50
     default: 10
+  - name: waffleGrid
+    title: Charts per row
+    type: Integer
+    min: 1
+    max: 10
+    default: 3
   # PLOT: Dot pictogram. `showPicto` switches it on; the options after it are its settings.
   - name: showPicto
     title: Dot pictogram
@@ -291,6 +305,12 @@ options:
     min: 1
     max: 12
     default: 4.5
+  - name: pictoGrid
+    title: Charts per row
+    type: Integer
+    min: 1
+    max: 10
+    default: 3
   # PLOT: Parliament (arc) chart. `showParliament` switches it on; the options after it are its settings.
   - name: showParliament
     title: Parliament (arc) chart
@@ -314,6 +334,12 @@ options:
     min: 1
     max: 10
     default: 3.2
+  - name: parlGrid
+    title: Charts per row
+    type: Integer
+    min: 1
+    max: 10
+    default: 3
   # PLOT: Pie chart.
   - name: showPie
     title: Pie chart
@@ -329,6 +355,12 @@ options:
     min: 0
     max: 50
     default: 5
+  - name: pieGrid
+    title: Charts per row
+    type: Integer
+    min: 1
+    max: 10
+    default: 3
   # PLOT: Donut chart.
   - name: showDonut
     title: Donut chart
@@ -354,6 +386,12 @@ options:
     title: n in the centre
     type: Bool
     default: true
+  - name: donutGrid
+    title: Charts per row
+    type: Integer
+    min: 1
+    max: 10
+    default: 3
   # PLOT: Grouped bars.
   - name: showGrouped
     title: Grouped bars
@@ -369,15 +407,15 @@ options:
     title: '% labels'
     type: Bool
     default: true
-  # PLOT: Lollipop (dot) plot.
+  # PLOT: Lollipop plot.
   - name: showLollipop
-    title: Lollipop (dot) plot
+    title: Lollipop plot
     type: Bool
     default: false
   - name: lolliSize
     title: Dot size
     type: Number
     min: 1
-    max: 12
-    default: 4
+    max: 6
+    default: 3
 ...

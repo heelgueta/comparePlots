@@ -5,7 +5,7 @@
 name: distOrd
 title: Compare Ordinal
 category: plots
-menuGroup: ComparePlots
+menuGroup: comparePlots
 version: '1.0.0'
 jas: '1.2'
 options:
@@ -22,7 +22,7 @@ options:
       - factor
   # APPEARANCE: options shared by every plot of this analysis.
   # NOTE: do not name an option `theme` or `palette`; jmvcore reserves both for jamovi's global plot settings.
-  # Hence `plotTheme` and `colourPalette`. Both default to "jamovi current", which follows the user's
+  # Hence `plotTheme` and `colourPalette`. Both default to "jamovi", which follows the user's
   # global jamovi theme/palette (the `ggtheme` and `theme` arguments of the render functions).
   - name: orientation
     title: Orientation
@@ -37,22 +37,16 @@ options:
     title: Variable descriptions as labels
     type: Bool
     default: false
-  - name: gridCols
-    title: Charts per row
-    type: Integer
-    min: 1
-    max: 10
-    default: 3
   - name: invertVars
     title: Reverse the order
     type: Bool
     default: false
   - name: colourPalette
-    title: Palette (categories)
+    title: Palette
     type: List
     options:
       - name: jamovi
-        title: jamovi current
+        title: jamovi
       - name: viridis
         title: Viridis
       - name: plasma
@@ -70,15 +64,15 @@ options:
       - name: turbo
         title: Turbo
       - name: rdbu
-        title: Red–Blue (diverging)
+        title: Red–Blue
       - name: rdylgn
-        title: Red–Yellow–Green (diverging)
+        title: Red–Yellow–Green
       - name: piyg
-        title: Pink–Green (diverging)
+        title: Pink–Green
       - name: prgn
-        title: Purple–Green (diverging)
+        title: Purple–Green
       - name: brbg
-        title: Brown–Teal (diverging)
+        title: Brown–Teal
       - name: set2
         title: Set 2
       - name: dark2
@@ -86,7 +80,7 @@ options:
       - name: pastel
         title: Pastel 1
       - name: okabe
-        title: Okabe–Ito (colour-blind safe)
+        title: Okabe–Ito
       - name: grays
         title: Greys
     default: jamovi
@@ -99,7 +93,7 @@ options:
     type: List
     options:
       - name: jamovi
-        title: jamovi current
+        title: jamovi
       - name: minimal
         title: Minimal
       - name: classic
@@ -118,21 +112,21 @@ options:
     max: 32
     default: 16
   - name: sortVars
-    title: Order variables by
+    title: Order variables
     type: List
     options:
       - name: none
-        title: Entry order
+        title: Entry
       - name: name
-        title: Alphabetical
+        title: A–Z
       - name: mean
         title: Mean
       - name: median
         title: Median
       - name: first
-        title: '% in first category'
+        title: '% first cat.'
       - name: last
-        title: '% in last category'
+        title: '% last cat.'
       - name: net
         title: Net %
     default: none
@@ -163,10 +157,22 @@ options:
     title: Plot title
     type: String
     default: ''
-  - name: autoFit
-    title: Fit plot size to the number of variables
+  - name: alpha
+    title: Opacity
+    type: Integer
+    min: 5
+    max: 100
+    default: 80
+  - name: lineWidth
+    title: Line thickness (1–5)
+    type: Integer
+    min: 1
+    max: 5
+    default: 2
+  - name: ignoreMissing
+    title: Ignore missing cases
     type: Bool
-    default: false
+    default: true
   - name: showN
     title: n per variable
     type: Bool
@@ -287,6 +293,12 @@ options:
     min: 0
     max: 50
     default: 10
+  - name: waffleGrid
+    title: Charts per row
+    type: Integer
+    min: 1
+    max: 10
+    default: 3
   # PLOT: Dot pictogram. `showPicto` switches it on; the options after it are its settings.
   - name: showPicto
     title: Dot pictogram
@@ -323,6 +335,12 @@ options:
     min: 1
     max: 12
     default: 4.5
+  - name: pictoGrid
+    title: Charts per row
+    type: Integer
+    min: 1
+    max: 10
+    default: 3
   # PLOT: Parliament (arc) chart. `showParliament` switches it on; the options after it are its settings.
   - name: showParliament
     title: Parliament (arc) chart
@@ -346,6 +364,12 @@ options:
     min: 1
     max: 10
     default: 3.2
+  - name: parlGrid
+    title: Charts per row
+    type: Integer
+    min: 1
+    max: 10
+    default: 3
   # PLOT: Response profile (lines). `showProfile` switches it on; the options after it are its settings.
   - name: showProfile
     title: Response profile (lines)
@@ -361,25 +385,6 @@ options:
     default: true
   - name: profLabels
     title: '% values'
-    type: Bool
-    default: false
-  # PLOT: Mean category and CI (ordinal or two-category variables). `showMeans` switches it on; the options after it are its settings.
-  - name: showMeans
-    title: Mean category and CI (ordinal or two-category variables)
-    type: Bool
-    default: false
-  - name: meansCi
-    title: Confidence interval
-    type: Bool
-    default: true
-  - name: meansLevel
-    title: CI level
-    type: Integer
-    min: 50
-    max: 99
-    default: 95
-  - name: meansLabels
-    title: Mean values
     type: Bool
     default: false
 ...

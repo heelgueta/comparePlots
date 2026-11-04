@@ -107,21 +107,13 @@ children:
               row: 4
             stretchFactor: 1
             children:
-              - type: CheckBox
-                name: autoFit
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 5
-            stretchFactor: 1
-            children:
               - type: TextBox
                 name: alpha
                 format: number
                 suffix: '%'
           - type: LayoutBox
             cell:
-              column: 1
+              column: 0
               row: 5
             stretchFactor: 1
             children:
@@ -129,8 +121,8 @@ children:
                 name: legendPos
           - type: LayoutBox
             cell:
-              column: 0
-              row: 6
+              column: 1
+              row: 5
             stretchFactor: 1
             children:
               - type: TextBox
@@ -138,7 +130,7 @@ children:
                 format: number
           - type: LayoutBox
             cell:
-              column: 1
+              column: 0
               row: 6
             stretchFactor: 1
             children:
@@ -147,7 +139,25 @@ children:
                 format: number
           - type: LayoutBox
             cell:
+              column: 1
+              row: 6
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: pointAlpha
+                format: number
+                suffix: '%'
+          - type: LayoutBox
+            cell:
               column: 0
+              row: 7
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: pointColour
+          - type: LayoutBox
+            cell:
+              column: 1
               row: 7
             stretchFactor: 1
             children:
@@ -157,15 +167,15 @@ children:
                 suffix: '%'
           - type: LayoutBox
             cell:
-              column: 1
-              row: 7
+              column: 0
+              row: 8
             stretchFactor: 1
             children:
               - type: CheckBox
                 name: showN
           - type: LayoutBox
             cell:
-              column: 0
+              column: 1
               row: 8
             stretchFactor: 1
             children:
@@ -174,8 +184,8 @@ children:
                 format: string
           - type: LayoutBox
             cell:
-              column: 1
-              row: 8
+              column: 0
+              row: 9
             stretchFactor: 1
             children:
               - type: TextBox

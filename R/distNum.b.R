@@ -33,7 +33,7 @@
 #   jmvcore's `Options` class already owns the names `theme` and `palette` (for
 #   jamovi's global plot settings), so this analysis calls them `plotTheme` and
 #   `colourPalette`. Do not rename them back: the global setting silently wins.
-#   Both default to "jamovi current": the plots then use jamovi's own `ggtheme`
+#   Both default to "jamovi": the plots then use jamovi's own `ggtheme`
 #   and the accent colour of `theme`, so they match the other plots in the results.
 #
 # Shared helpers (palettes, themes, summary statistics) are in R/utils.R.
@@ -119,33 +119,6 @@ distNumClass <- R6::R6Class(
             self$results$insert(1, notice)
         },
 
-        # .init() runs before the first draw and before .run(); it sees the options
-        # but not the data. With "Fit plot size to the number of variables" ticked the
-        # sizes are set HERE (never in .run(), which the jamovi review forbids), so
-        # they are right from the first draw and change only with the number of
-        # variables. Without it the fixed sizes of the .r.yaml apply.
-        .init = function() {
-            vars <- self$options$vars
-            if (!isTRUE(self$options$autoFit) || length(vars) == 0) return()
-            for (key in names(private$.switches)) {
-                if (!isTRUE(self$options[[private$.switches[[key]]]])) next
-                sz <- private$.size(key, length(vars))
-                self$results[[paste0("plot_", key)]]$setSize(sz[1], sz[2])
-            }
-        },
-
-        # Pixel size from the number of variables `n`; empirical numbers that keep
-        # labels readable up to about 10 variables.
-        .size = function(key, n) {
-            horiz <- self$options$orientation == "horizontal"
-            if (key %in% c("density", "ecdf")) return(c(450, 350))          # single panel
-            if (key == "ridge")      # ridges overlap upwards and need extra room
-                return(if (horiz) c(450, max(320, 120 + 60 * n)) else c(max(450, 140 + 100 * n), 400))
-            if (key == "hist")       # one facet per variable
-                return(if (horiz) c(450, max(340, 110 + 85 * n)) else c(max(450, 110 + 140 * n), 380))
-            if (horiz) c(450, max(300, 110 + 48 * n)) else c(max(450, 120 + 80 * n), 380)
-        },
-
         # Centre and interval of every variable for the means plot (see cmp_summary()).
         .summary = function(long, vars) {
             o <- self$options
@@ -178,6 +151,7 @@ distNumClass <- R6::R6Class(
         .render = function(image, key, ggtheme = NULL, theme = NULL) {
             st <- image$state
             if (is.null(st)) return(FALSE)
+            st$width <- image$width       # lets vertical plots cut variable names that would collide
             p <- private$.build(key, private$.long(st$vars), st, ggtheme, theme)
             if (is.null(p)) return(FALSE)
             suppressWarnings(suppressMessages(print(p)))
@@ -195,7 +169,7 @@ distNumClass <- R6::R6Class(
         #   cols  : named character vector, variable -> colour
         #   alpha, lw : fill opacity (0-1) and line width in ggplot units
         # ---------------------------------------------------------------------
-        .context = function(vars, long, ggtheme = NULL, theme = NULL) {
+        .context = function(vars, long, ggtheme = NULL, theme = NULL, width = 450) {
             o     <- self$options
             horiz <- identical(o$orientation, "horizontal")
             # "Order variables by": entry order, name, or a statistic (lowest first);
@@ -224,8 +198,12 @@ distNumClass <- R6::R6Class(
             # value-axis label, with the transformation named when one is applied
             vlab <- if (o$transform == "none") o$valueLabel
                     else paste0(o$valueLabel, " (", cmp_transform_label(o$transform), ")")
+            # vertical: variable names side by side along the bottom; cut those that would
+            # run into each other (cmp_fit_labels), keeping the names for as_labeller()
+            axlab <- if (horiz) lab else stats::setNames(
+                cmp_fit_labels(lab, ((if (is.null(width)) 450 else width) - 110) / max(n, 1), o$textSize), names(lab))
             list(o = o, horiz = horiz, lv = lv, n = n, pos = pos, cols = cols, fills = fills, bw = bw,
-                 lab = lab, vlab = vlab, ggtheme = ggtheme,
+                 lab = lab, axlab = axlab, vlab = vlab, ggtheme = ggtheme,
                  alpha = if (bw) 1 else o$alpha / 100, lw = cmp_line_width(o$lineWidth) * (if (bw) 1.5 else 1))
         },
 
@@ -233,7 +211,7 @@ distNumClass <- R6::R6Class(
         # order) and `pos` to the data, dispatch to the `.p_<key>` builder, then
         # apply the theme/labels common to all plots in `.finish()`.
         .build = function(key, long, st, ggtheme = NULL, theme = NULL) {
-            ctx <- private$.context(st$vars, long, ggtheme, theme)
+            ctx <- private$.context(st$vars, long, ggtheme, theme, st$width)
             ctx$summary <- st$summary
             long$variable <- factor(long$variable, levels = ctx$lv)
             long$pos <- unname(ctx$pos[as.character(long$variable)])
@@ -316,11 +294,11 @@ distNumClass <- R6::R6Class(
         # ---------------------------------------------------------------------
 
         # The variable axis: numeric positions labelled with the variable names.
-        # `upper` adds extra room at the high-position end (ridges/clouds extend
-        # beyond the last variable's baseline).
+        # `upper` adds extra room at the high-position end; ridge/cloud polygons are
+        # already part of the data range, so only a small margin is needed.
         .cat_axis = function(ctx, upper = 0.6) {
             ggplot2::scale_x_continuous(
-                breaks = unname(ctx$pos), labels = unname(ctx$lab[names(ctx$pos)]),
+                breaks = unname(ctx$pos), labels = unname(ctx$axlab[names(ctx$pos)]),
                 expand = ggplot2::expansion(add = c(0.6, upper)))
         },
 
@@ -337,25 +315,27 @@ distNumClass <- R6::R6Class(
         .flip_x = function(p, ctx) if (ctx$horiz) p else p + ggplot2::coord_flip(),
 
         # Jittered raw data points on the variable axis.
-        #   colour = NULL -> coloured by variable; otherwise a fixed colour
-        #   x             -> name of the column holding the x position (the raincloud
-        #                    shifts its "rain" to the side by using a different column)
+        #   Colour: the variable's colour, or fixed grey when "Data point colour" is
+        #   Grey. Opacity and size are the shared "Data point opacity" / "Point size".
+        #   x -> name of the column holding the x position (the raincloud shifts its
+        #        "rain" to the side by using a different column)
         # `seed = 1` makes the jitter identical on every render, so the plot does
         # not shimmer when other options change. `inherit.aes = FALSE` plus an
         # explicit `data` lets this layer be added to plots built on ggplot().
-        .jitter = function(long, ctx, colour = NULL, alpha = 0.4, x = "pos") {
+        .jitter = function(long, ctx, x = "pos") {
             o <- ctx$o
             # position_jitter's width is the half-width, hence the / 2
             pj <- ggplot2::position_jitter(width = o$jitterSpread / 100 / 2, height = 0, seed = 1)
-            if (is.null(colour)) {
-                ggplot2::geom_point(
-                    data = long, mapping = ggplot2::aes(x = .data[[x]], y = value, colour = variable),
-                    inherit.aes = FALSE, position = pj, size = o$pointSize, alpha = alpha, shape = 16)
-            } else {
+            alpha <- o$pointAlpha / 100
+            if (identical(o$pointColour, "grey")) {
                 ggplot2::geom_point(
                     data = long, mapping = ggplot2::aes(x = .data[[x]], y = value),
                     inherit.aes = FALSE, position = pj, size = o$pointSize, alpha = alpha,
-                    colour = colour, shape = 16)
+                    colour = if (ctx$bw) "black" else "grey25", shape = 16)
+            } else {
+                ggplot2::geom_point(
+                    data = long, mapping = ggplot2::aes(x = .data[[x]], y = value, colour = variable),
+                    inherit.aes = FALSE, position = pj, size = o$pointSize, alpha = alpha, shape = 16)
             }
         },
 
@@ -385,8 +365,8 @@ distNumClass <- R6::R6Class(
                     width = o$boxWidth / 100, alpha = ctx$alpha, linewidth = ctx$lw,
                     notch = o$boxNotch,
                     outlier.shape = if (o$boxOutliers && !o$boxJitter) 19 else NA,
-                    outlier.alpha = 0.5, outlier.size = o$pointSize)
-            if (o$boxJitter) p <- p + private$.jitter(long, ctx, colour = "grey25", alpha = 0.4)
+                    outlier.alpha = o$pointAlpha / 100, outlier.size = o$pointSize)
+            if (o$boxJitter) p <- p + private$.jitter(long, ctx)
             if (o$boxMean)   # white diamond at the mean
                 p <- p + ggplot2::stat_summary(fun = mean, geom = "point", shape = 23, size = 3,
                                                fill = "white", colour = "grey15", stroke = 0.8)
@@ -407,7 +387,7 @@ distNumClass <- R6::R6Class(
                 p <- p + ggplot2::geom_boxplot(
                     width = 0.12, fill = "white", colour = "grey20", alpha = 0.9,
                     linewidth = ctx$lw * 0.6, outlier.shape = NA)
-            if (o$violinJitter) p <- p + private$.jitter(long, ctx, colour = "grey25", alpha = 0.4)
+            if (o$violinJitter) p <- p + private$.jitter(long, ctx)
             p <- p + private$.cat_axis(ctx) + private$.value_axis(ctx)
             private$.flip(p, ctx)
         },
@@ -425,7 +405,7 @@ distNumClass <- R6::R6Class(
             s <- s[order(s$pos), ]    # needed so the optional connecting line goes in order
 
             p <- ggplot2::ggplot()    # empty: every layer below brings its own data
-            if (o$ebJitter) p <- p + private$.jitter(long, ctx, alpha = min(ctx$alpha * 0.5, 0.45))
+            if (o$ebJitter) p <- p + private$.jitter(long, ctx)
             if (o$ebConnect)
                 p <- p + ggplot2::geom_line(data = s, ggplot2::aes(x = pos, y = centre, group = 1),
                                             colour = "grey40", linewidth = ctx$lw * 0.7)
@@ -467,14 +447,14 @@ distNumClass <- R6::R6Class(
             }
             if (o$rcRain) {
                 long$xr <- long$pos - 0.2             # the "rain" sits beside the box
-                p <- p + private$.jitter(long, ctx, alpha = min(ctx$alpha * 0.6, 0.55), x = "xr")
+                p <- p + private$.jitter(long, ctx, x = "xr")
             }
             if (o$rcBox)
                 p <- p + ggplot2::geom_boxplot(
                     data = long, ggplot2::aes(x = pos, y = value, group = pos),
                     inherit.aes = FALSE, width = 0.12, fill = "white", colour = "grey20",
                     alpha = 0.9, linewidth = ctx$lw * 0.6, outlier.shape = NA)
-            p <- p + private$.cat_axis(ctx, upper = h + 0.2) + private$.value_axis(ctx)
+            p <- p + private$.cat_axis(ctx, upper = 0.2) + private$.value_axis(ctx)
             private$.flip(p, ctx)
         },
 
@@ -517,7 +497,7 @@ distNumClass <- R6::R6Class(
                 }
             }
             if (drawn == 0) return(NULL)     # no variable had enough distinct values
-            p <- p + private$.cat_axis(ctx, upper = h + 0.15) + private$.value_axis(ctx)
+            p <- p + private$.cat_axis(ctx, upper = 0.1) + private$.value_axis(ctx)
             private$.flip(p, ctx)
         },
 
@@ -552,7 +532,7 @@ distNumClass <- R6::R6Class(
                                               labeller = ggplot2::as_labeller(ctx$lab))
             } else {
                 p <- p + ggplot2::facet_grid(cols = ggplot2::vars(variable), scales = scales,
-                                              labeller = ggplot2::as_labeller(ctx$lab)) +
+                                              labeller = ggplot2::as_labeller(ctx$axlab)) +
                     ggplot2::coord_flip()
             }
             ylab <- switch(o$histStat, count = "Count", percent = "Percent", "Density")
@@ -590,7 +570,7 @@ distNumClass <- R6::R6Class(
         .p_strip = function(long, ctx) {
             o <- ctx$o
             p <- ggplot2::ggplot() +
-                private$.jitter(long, ctx, alpha = ctx$alpha)
+                private$.jitter(long, ctx)
             if (o$stripSummary != "none") {
                 fun <- if (o$stripSummary == "mean") mean else stats::median
                 s <- do.call(rbind, lapply(ctx$lv, function(v) {

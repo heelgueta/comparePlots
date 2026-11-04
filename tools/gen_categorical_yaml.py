@@ -32,95 +32,41 @@ def join(head, chunks, tail=()):
     out += list(tail)
     return "\n".join(out)
 
-# ---------------------------------------------------------------- master edits (idempotent)
-def ensure_master():
-    p = ROOT + "distOrd.a.yaml"; t = open(p).read()
-    t = t.replace("title: Compare Categorical", "title: Compare Ordinal").replace("Compare Categorical (distOrd)", "Compare Ordinal (distOrd)")
-    t = re.sub(r"category: plots\nmenuGroup: [^\n]*\n(menuSubgroup: [^\n]*\n)?", "category: plots\nmenuGroup: ComparePlots\n", t)
-    if "name: autoFit" not in t:
-        t = t.replace("  - name: showN\n", """  - name: autoFit
-    title: Fit plot size to the number of variables
-    type: Bool
-    default: false
-  - name: showN\n""", 1)
-    if "name: gridCols" not in t:
-        t = t.replace("  - name: invertVars\n", """  - name: useDesc
-    title: Variable descriptions as labels
-    type: Bool
-    default: false
-  - name: gridCols
-    title: Charts per row
-    type: Integer
-    min: 1
-    max: 10
-    default: 3
-  - name: invertVars\n""", 1)
-        old = t[t.index("  - name: sortVars"):t.index("  - name: decimals")]
-        t = t.replace(old, """  - name: sortVars
-    title: Order variables by
-    type: List
-    options:
-      - name: none
-        title: Entry order
-      - name: name
-        title: Alphabetical
-      - name: mean
-        title: Mean
-      - name: median
-        title: Median
-      - name: first
-        title: '% in first category'
-      - name: last
-        title: '% in last category'
-      - name: net
-        title: Net %
-    default: none
-""")
-    open(p, "w").write(t)
-    p = ROOT + "distOrd.r.yaml"; t = open(p).read()
-    t = t.replace("title: Compare Categorical", "title: Compare Ordinal").replace("Compare Categorical (distOrd)", "Compare Ordinal (distOrd)")
-    if "      - useDesc" not in t:
-        t = t.replace("      - sortVars\n", "      - sortVars\n      - useDesc\n      - divNeutral\n")
-        # grid plots also depend on the number of charts per row
-        for key in ("waffle", "picto", "parliament"):
-            t = re.sub(r"(  - name: plot_%s\n(?:    .*\n)*?    clearWith:\n)" % key, r"\1      - gridCols\n", t)
-    open(p, "w").write(t)
-
-ensure_master()
 a_txt = open(ROOT + "distOrd.a.yaml").read()
 r_txt = open(ROOT + "distOrd.r.yaml").read()
 
 # ---------------------------------------------------------------- nominal
 head, chunks, tail = split_chunks(a_txt)
 drop = {"showDiverging", "divWidth", "divNeutral", "divLabels", "divMinLabel", "divNet",
-        "showProfile", "profLines", "profPoints", "profLabels",
-        "showMeans", "meansCi", "meansLevel", "meansLabels", "sortVars"}
+        "showProfile", "profLines", "profPoints", "profLabels", "sortVars"}
 out = []
 for c in chunks:
     nm = chunk_name(c)
     if nm in drop: continue
     if nm == "invertVars":    # new options for nominal go right before it
         out.append({"pre": [], "lines": """  - name: sortVars
-    title: Order variables by
+    title: Order variables
     type: List
     options:
       - name: none
-        title: Entry order
+        title: Entry
       - name: name
-        title: Alphabetical
+        title: A–Z
       - name: top
-        title: Largest category share
+        title: Top share
       - name: diverse
-        title: Diversity of answers
+        title: Diversity
     default: none
   - name: catSort
-    title: Order categories by
+    title: Order categories
     type: List
     options:
       - name: levels
-        title: Order in the data
+        title: Data order
       - name: frequency
-        title: Overall frequency
+        title: Frequency
+      - name: name
+        title: A–Z
     default: levels""".split("\n")})
     out.append(c)
 NEW_OPTS = """  # PLOT: Pie chart.
@@ -138,6 +84,12 @@ NEW_OPTS = """  # PLOT: Pie chart.
     min: 0
     max: 50
     default: 5
+  - name: pieGrid
+    title: Charts per row
+    type: Integer
+    min: 1
+    max: 10
+    default: 3
   # PLOT: Donut chart.
   - name: showDonut
     title: Donut chart
@@ -163,6 +115,12 @@ NEW_OPTS = """  # PLOT: Pie chart.
     title: n in the centre
     type: Bool
     default: true
+  - name: donutGrid
+    title: Charts per row
+    type: Integer
+    min: 1
+    max: 10
+    default: 3
   # PLOT: Grouped bars.
   - name: showGrouped
     title: Grouped bars
@@ -178,17 +136,17 @@ NEW_OPTS = """  # PLOT: Pie chart.
     title: '% labels'
     type: Bool
     default: true
-  # PLOT: Lollipop (dot) plot.
+  # PLOT: Lollipop plot.
   - name: showLollipop
-    title: Lollipop (dot) plot
+    title: Lollipop plot
     type: Bool
     default: false
   - name: lolliSize
     title: Dot size
     type: Number
     min: 1
-    max: 12
-    default: 4"""
+    max: 6
+    default: 3"""
 nom_a = join(head, out, [NEW_OPTS, "..."]).replace("distOrd", "distNom").replace("Compare Ordinal", "Compare Nominal")
 nom_a = re.sub(r"      - ordinal\n      - nominal\n", "      - nominal\n", nom_a)
 nom_a = re.sub(r"\.\.\.\n\.\.\.\s*$", "...\n", nom_a)
@@ -203,19 +161,18 @@ def image(key, title, extra_clear):
     ls = "\n".join(tmpl["lines"]) + "\n"
     ls = ls.replace("plot_bars", "plot_" + key).replace(".plot_bars", ".plot_" + key).replace("showBars", "show" + key.capitalize())
     ls = re.sub(r"title: .*\n", f"title: {title}\n", ls, count=1)
-    ls = re.sub(r"(      - showN\n)(?:      - \w+\n)*", r"\1" + "".join(f"      - {x}\n" for x in extra_clear), ls)
+    ls = re.sub(r"(      - showN\n)(?:      - \w+\n)*", r"\1      - alpha\n      - lineWidth\n      - ignoreMissing\n" + "".join(f"      - {x}\n" for x in extra_clear), ls)
     if key in ("pie", "donut"):
         ls = ls.replace("    height: 350\n", "    height: 400\n")
     return {"pre": [f'  # IMAGE for the "{title}" plot.'], "lines": ls.rstrip("\n").split("\n")}
 for c in rch:
     nm = chunk_name(c)
-    if nm in ("plot_diverging", "plot_profile", "plot_means"): continue
+    if nm in ("plot_diverging", "plot_profile"): continue
     rout.append(c)
-GRID = ["gridCols"]
-for key, title, clear in (("pie", "Pie chart", GRID + ["pieLabels", "pieMinLabel"]),
-                          ("donut", "Donut chart", GRID + ["donutHole", "donutLabels", "donutMinLabel", "donutN"]),
+for key, title, clear in (("pie", "Pie chart", ["pieGrid", "pieLabels", "pieMinLabel"]),
+                          ("donut", "Donut chart", ["donutGrid", "donutHole", "donutLabels", "donutMinLabel", "donutN"]),
                           ("grouped", "Grouped bars", ["groupWidth", "groupLabels"]),
-                          ("lollipop", "Lollipop (dot) plot", ["lolliSize"])):
+                          ("lollipop", "Lollipop plot", ["lolliSize"])):
     rout.append(image(key, title, clear))
 nom_r = join(rh, rout, rt).replace("distOrd", "distNom").replace("Compare Ordinal", "Compare Nominal")
 nom_r = nom_r.replace("      - divNeutral\n", "      - catSort\n")
@@ -233,11 +190,10 @@ ORD_BOXES = [
  ("Diverging Bars", "showDiverging", [T("divWidth", "(showDiverging)", "%"), D("divNeutral", "(showDiverging)"), C("divLabels", "(showDiverging)"),
                                       T("divMinLabel", "(showDiverging && divLabels)", "%"), C("divNet", "(showDiverging)")], True),
  ("Heatmap", "showHeat", [D("heatPalette", "(showHeat)"), C("heatLabels", "(showHeat)"), T("heatGap", "(showHeat)", "%")], True),
- ("Waffle Chart", "showWaffle", [T("waffleRows", "(showWaffle)"), T("waffleCols", "(showWaffle)"), T("waffleGap", "(showWaffle)", "%")], True),
- ("Dot Pictogram", "showPicto", [T("pictoRows", "(showPicto)"), T("pictoCols", "(showPicto)"), D("pictoShape", "(showPicto)"), T("pictoSize", "(showPicto)")], True),
- ("Parliament Chart", "showParliament", [T("parlSeats", "(showParliament)"), T("parlRows", "(showParliament)"), T("parlSize", "(showParliament)")], True),
- ("Response Profile", "showProfile", [C("profLines", "(showProfile)"), C("profPoints", "(showProfile)"), C("profLabels", "(showProfile)")], True),
- ("Mean Category and CI", "showMeans", [C("meansCi", "(showMeans)"), T("meansLevel", "(showMeans && meansCi)", "%"), C("meansLabels", "(showMeans)")], True)]
+ ("Waffle Chart", "showWaffle", [T("waffleRows", "(showWaffle)"), T("waffleCols", "(showWaffle)"), T("waffleGap", "(showWaffle)", "%"), T("waffleGrid", "(showWaffle)")], True),
+ ("Dot Pictogram", "showPicto", [T("pictoRows", "(showPicto)"), T("pictoCols", "(showPicto)"), D("pictoShape", "(showPicto)"), T("pictoSize", "(showPicto)"), T("pictoGrid", "(showPicto)")], True),
+ ("Parliament Chart", "showParliament", [T("parlSeats", "(showParliament)"), T("parlRows", "(showParliament)"), T("parlSize", "(showParliament)"), T("parlGrid", "(showParliament)")], True),
+ ("Response Profile", "showProfile", [C("profLines", "(showProfile)"), C("profPoints", "(showProfile)"), C("profLabels", "(showProfile)")], True)]
 def ui(name, title, boxes, items):
     s = head_ui(title, name) + appearance(items)
     for label, check, its, collapsed in boxes:
@@ -245,10 +201,10 @@ def ui(name, title, boxes, items):
     open(ROOT + name + ".u.yaml", "w").write(s)
 ui("distOrd", "Compare Ordinal", ORD_BOXES, appearance_items())
 NOM_BOXES = [b for b in ORD_BOXES if b[1] in ("showBars", "showHeat", "showWaffle", "showPicto", "showParliament")] + [
- ("Pie Chart", "showPie", [C("pieLabels", "(showPie)"), T("pieMinLabel", "(showPie && pieLabels)", "%")], True),
- ("Donut Chart", "showDonut", [T("donutHole", "(showDonut)", "%"), C("donutLabels", "(showDonut)"), T("donutMinLabel", "(showDonut && donutLabels)", "%"), C("donutN", "(showDonut)")], True),
+ ("Pie Chart", "showPie", [C("pieLabels", "(showPie)"), T("pieMinLabel", "(showPie && pieLabels)", "%"), T("pieGrid", "(showPie)")], True),
+ ("Donut Chart", "showDonut", [T("donutHole", "(showDonut)", "%"), C("donutLabels", "(showDonut)"), T("donutMinLabel", "(showDonut && donutLabels)", "%"), C("donutN", "(showDonut)"), T("donutGrid", "(showDonut)")], True),
  ("Grouped Bars", "showGrouped", [T("groupWidth", "(showGrouped)", "%"), C("groupLabels", "(showGrouped)")], True),
- ("Lollipop (Dot) Plot", "showLollipop", [T("lolliSize", "(showLollipop)")], True)]
+ ("Lollipop Plot", "showLollipop", [T("lolliSize", "(showLollipop)")], True)]
 nitems = appearance_items(); nitems.insert(2, D("catSort"))
 ui("distNom", "Compare Nominal", NOM_BOXES, nitems)
 print("categorical yaml written")

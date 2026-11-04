@@ -4,6 +4,9 @@
 name: distNum
 title: Compare Numeric
 jrs: '1.1'
+refs:
+  - comparePlots
+  - ggplot2
 items:
   # Html note shown above the plots only when something needs explaining (set in .run() of R/distNum.b.R).
   - name: hint
@@ -34,6 +37,8 @@ items:
       - alpha
       - lineWidth
       - pointSize
+      - pointAlpha
+      - pointColour
       - jitterSpread
       - valueLabel
       - title
@@ -68,6 +73,8 @@ items:
       - alpha
       - lineWidth
       - pointSize
+      - pointAlpha
+      - pointColour
       - jitterSpread
       - valueLabel
       - title
@@ -103,6 +110,8 @@ items:
       - alpha
       - lineWidth
       - pointSize
+      - pointAlpha
+      - pointColour
       - jitterSpread
       - valueLabel
       - title
@@ -141,6 +150,8 @@ items:
       - alpha
       - lineWidth
       - pointSize
+      - pointAlpha
+      - pointColour
       - jitterSpread
       - valueLabel
       - title
@@ -174,6 +185,8 @@ items:
       - alpha
       - lineWidth
       - pointSize
+      - pointAlpha
+      - pointColour
       - jitterSpread
       - valueLabel
       - title
@@ -207,6 +220,8 @@ items:
       - alpha
       - lineWidth
       - pointSize
+      - pointAlpha
+      - pointColour
       - jitterSpread
       - valueLabel
       - title
@@ -240,6 +255,8 @@ items:
       - alpha
       - lineWidth
       - pointSize
+      - pointAlpha
+      - pointColour
       - jitterSpread
       - valueLabel
       - title
@@ -272,6 +289,8 @@ items:
       - alpha
       - lineWidth
       - pointSize
+      - pointAlpha
+      - pointColour
       - jitterSpread
       - valueLabel
       - title
@@ -302,6 +321,8 @@ items:
       - alpha
       - lineWidth
       - pointSize
+      - pointAlpha
+      - pointColour
       - jitterSpread
       - valueLabel
       - title
@@ -332,6 +353,8 @@ items:
       - alpha
       - lineWidth
       - pointSize
+      - pointAlpha
+      - pointColour
       - jitterSpread
       - valueLabel
       - title

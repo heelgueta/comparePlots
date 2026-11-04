@@ -1,4 +1,4 @@
-Package: ComparePlots
+Package: comparePlots
 Type: Package
 Title: Compare the Distributions of Several Variables
 Version: 1.0.0
@@ -8,7 +8,7 @@ Description: A jamovi module to compare the distributions of several numeric,
     ordinal or nominal variables side by side on a shared scale, with a choice
     of plots (box, violin, means with error bars, raincloud, ridgeline,
     histogram, density, ECDF, stacked and diverging bars, heatmap, waffle and more).
-URL: https://github.com/heelgueta/ComparePlots
+URL: https://github.com/heelgueta/comparePlots
 License: GPL (>= 2)
 Imports:
     jmvcore (>= 0.8.6),

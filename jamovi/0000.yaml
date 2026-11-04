@@ -1,6 +1,6 @@
 ---
-title: ComparePlots
-name: ComparePlots
+title: comparePlots
+name: comparePlots
 version: 1.0.0
 jms: '1.0'
 authors:
@@ -14,27 +14,27 @@ description: >-
   variables: box, violin, means with error bars, raincloud, ridgeline,
   histogram, density, ECDF, data points and barcode plots. Ordinal and nominal
   variables: stacked and diverging bars, heatmap, waffle, pictogram, parliament,
-  response profile and mean-category plots.
+  response profile, pie, donut, grouped bars and lollipop plots.
 analyses:
   - title: Compare Numeric
     name: distNum
-    ns: ComparePlots
+    ns: comparePlots
     category: plots
-    menuGroup: ComparePlots
+    menuGroup: comparePlots
     menuTitle: Compare Numeric
     description: Compare the distributions of several numeric variables on one shared axis.
   - title: Compare Ordinal
     name: distOrd
-    ns: ComparePlots
+    ns: comparePlots
     category: plots
-    menuGroup: ComparePlots
+    menuGroup: comparePlots
     menuTitle: Compare Ordinal
     description: Compare the response distributions of several ordinal variables (e.g. Likert items).
   - title: Compare Nominal
     name: distNom
-    ns: ComparePlots
+    ns: comparePlots
     category: plots
-    menuGroup: ComparePlots
+    menuGroup: comparePlots
     menuTitle: Compare Nominal
     description: Compare the category distributions of several nominal variables.
 datasets:
