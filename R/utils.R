@@ -43,6 +43,8 @@ cmp_palette <- function(scheme, n, reverse = FALSE, spread = FALSE, theme = NULL
              pastel = "Pastel 1", grays = "Grays")
     cols <- if (scheme %in% names(vir)) {
         viridisLite::viridis(n, option = vir[[scheme]])
+    } else if (scheme == "rainbow") {
+        grDevices::rainbow(n, s = 0.8, v = 0.92, end = if (n > 1) 0.8 else 0)   # red -> violet
     } else if (scheme == "grays") {
         # not hcl's Grays, whose light end is almost white and vanishes on a white page
         grDevices::gray.colors(n, start = 0.12, end = 0.7, gamma = 1)

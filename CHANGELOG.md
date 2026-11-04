@@ -15,6 +15,7 @@
 - Transform values reduced to none, z-scores, ln, square root, square. Default *Data point opacity* 50%. "several" dropped from the module description.
 - Violin: *Inner box* is a checkbox (on by default) and the inner box has no fill. Section headings in the Appearance box are bold.
 - Fixed: a stacked bar (and pie) could lose its last slice when the running percentages summed to 100.00000000000001 (the axis limits dropped it); this was the PANAS_08 case. Removed the Set 2 and Dark 2 palettes. New module icon in the colours of jamovi's own plot icons. Bold "Variables" heading in Ordinal/Nominal.
+- New *Rainbow* palette (red to violet).
 - Our own entry in the results' References (`jamovi/00refs.yaml`, cited by all three analyses).
 
 Full tracking of the review, decisions and status: [docs/jamovi-review-0.4.0.md](docs/jamovi-review-0.4.0.md).

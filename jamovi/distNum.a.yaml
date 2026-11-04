@@ -92,6 +92,8 @@ options:
         title: Rocket
       - name: turbo
         title: Turbo
+      - name: rainbow
+        title: Rainbow
       - name: rdbu
         title: Red–Blue
       - name: rdylgn

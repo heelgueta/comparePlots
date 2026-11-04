@@ -122,6 +122,7 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "mako",
                     "rocket",
                     "turbo",
+                    "rainbow",
                     "rdbu",
                     "rdylgn",
                     "piyg",
