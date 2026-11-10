@@ -1,22 +1,6 @@
 # Changelog
 
-## Unreleased
-
-### Jamovi library review follow-up
-- Waffle, pictogram and parliament plots now keep a full, unfilled grid when an
-  individual variable has no non-missing values.
-- The Text size option now overrides the text size supplied by jamovi's default
-  theme, including axis, legend and title text.
-- Compare Ordinal now suggests ordinal variables while continuing to permit
-  factors, so nominal variables can still be dropped in and receive the
-  analysis's existing validation message.
-- The shared Appearance sections now start collapsed. Their inner headings use
-  jamovi's native Label controls instead of `<b>` markup; the headings are
-  title-cased and the inner Appearance heading is renamed Colours and Lines.
-- Checkbox titles now read “Density curve”, “Filled curves” and “Connecting
-  lines”.
-
-## 1.0.0 (2026-11-04)
+## 1.0.0 (2026-11-10)
 
 First release for the jamovi library. It builds on 0.4.0, which was reviewed by the jamovi team; their feedback
 (menu placement, plot sizes, fonts, themes, palettes, wording of the options, data handling, tests) shaped most
@@ -26,16 +10,16 @@ of the changes below. Version 1.0.0 also adds features of our own.
 
 **Structure**
 - The module is named **comparePlots** (it was ComparePlots).
-- Three analyses instead of two, grouped in a **comparePlots** dropdown inside jamovi's Plots tab: **Compare Numeric**, **Compare Ordinal** and **Compare Nominal**. Variables of the wrong measure type are rejected with a hint.
+- Three analyses instead of two, grouped in a **comparePlots** dropdown inside jamovi's Plots tab: **Compare Numeric**, **Compare Ordinal** and **Compare Nominal**. Variables of the wrong measure type are rejected with a hint (`Compare Ordinal` suggests ordinal variables while still permitting factors so nominal variables get a clear rejection message).
 - Compare Nominal is new, with pie, donut, grouped bars and lollipop plots, and categories ordered by data order, frequency or A-Z.
 - Each plot's checkbox now sits inside its own collapsible section, together with that plot's settings.
-- The shared options are one *Appearance* box with section headings.
+- The shared options are one collapsed *Appearance* box with native `Label` section headings (*Variables*, *Colours and Lines*, *Data Points*, *Text and Labels*).
 - The module cites itself and ggplot2 in the results' References.
 
 **Look and feel (jamovi's feedback)**
 - Plots follow the user's jamovi theme and palette by default (*jamovi* theme and palette); our own themes and palettes remain selectable (Viridis, diverging, Okabe-Ito, Greys, Rainbow...).
-- Transparent plot backgrounds, larger default text, smaller fixed default plot sizes (plots are never resized while running; the manual size options were removed).
-- *Transparency* is now **Opacity**; labels follow jamovi's conventions (no units where `%` follows the box, no verbs on checkboxes, title case headings, Grey spelling); dependent options are greyed out with their parent.
+- Transparent plot backgrounds, larger default text (`Text size` also scales axis, legend and title text under jamovi's default theme), smaller fixed default plot sizes (plots are never resized while running; the manual size options were removed).
+- *Transparency* is now **Opacity**; labels follow jamovi's conventions (no units where `%` follows the box, no verbs on checkboxes such as *Density curve*, *Filled curves* and *Connecting lines*, title case headings, Grey spelling); dependent options are greyed out with their parent.
 
 **New features**
 - Order variables (entry order, A-Z, mean, median; for ordinal also % in first / last category and net %), with *Reverse the order*.
@@ -48,6 +32,7 @@ of the changes below. Version 1.0.0 also adds features of our own.
 
 **Fixes**
 - The shared category axis no longer misorders categories when an item lacks one (e.g. nobody chose "3"); conflicting orders and variables with no shared category raise a warning.
+- Waffle, pictogram and parliament plots keep a full, unfilled grid when an individual variable has no non-missing values.
 - Stacked bars and pies could lose their last slice because of floating-point rounding.
 - Variables with no usable data now give a message instead of blank plots; notes about skipped or conflicting data are proper jamovi notices.
 - Plots no longer store a copy of the data, and the error-bar summary (including the median bootstrap) is computed once.
