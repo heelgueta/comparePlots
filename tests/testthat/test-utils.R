@@ -2,6 +2,8 @@
 # The helpers in R/utils.R are plain functions, so they are sourced rather than loaded from a package.
 src <- c("R/utils.R", "../../R/utils.R")
 source(src[file.exists(src)][1])
+cat_src <- c("R/catCommon.R", "../../R/catCommon.R")
+source(cat_src[file.exists(cat_src)][1])
 
 test_that("category axis: sparse Likert item does not move the missing category to the end", {
     # the item that comes first never got a "3": its levels are 1, 2, 4, 5
@@ -63,11 +65,46 @@ test_that("splitting categories: neutral middle, or never centre", {
     expect_equal(s$neg, "no"); expect_equal(s$pos, "yes"); expect_length(s$neu, 0)
 })
 
-test_that("cmp_alloc: whole units that sum to the total", {
+test_that("cmp_alloc: whole units that sum to the total, and waffle/parliament handle all-zero variable", {
     expect_equal(cmp_alloc(c(33.3, 33.3, 33.4), 100), c(33L, 33L, 34L))
     expect_equal(sum(cmp_alloc(c(1, 1, 1), 10)), 10L)
     expect_equal(cmp_alloc(c(0, 0), 10), c(0L, 0L))
     expect_equal(cmp_alloc(c(NA, 50, 50), 4), c(0L, 2L, 2L))
+
+    # When one variable is entirely missing (pct all 0), waffle, pictogram and parliament still build a full grid
+    priv <- cmp_cat_private()
+    env <- new.env(parent = globalenv())
+    for (nm in names(priv)) if (is.function(priv[[nm]])) environment(priv[[nm]]) <- env
+    env$private <- priv
+    long <- data.frame(
+        variable = rep(c("v1", "v2"), each = 2),
+        category = rep(c("Low", "High"), 2),
+        count    = c(10L, 10L, 0L, 0L),
+        pct      = c(50, 50, 0, 0),
+        n        = c(20L, 20L, 0L, 0L)
+    )
+    ctx <- list(
+        lv = c("v1", "v2"), cats = c("Low", "High"),
+        cat_cols = c(Low = "#336699", High = "#993333"),
+        labs = c(v1 = "v1 (n = 20)", v2 = "v2 (n = 0)"),
+        pos = c(v1 = 1, v2 = 2),
+        lw_out = 0.5, alpha = 0.9, leg_rows = 1, gridCols = 2,
+        th = cmp_theme("minimal", 16), leg_theme = ggplot2::theme(),
+        horiz = TRUE, o = list(
+            waffleRows = 5, waffleCols = 5, waffleGap = 10,
+            pictoRows = 5, pictoCols = 5, pictoShape = "circle", pictoSize = 4,
+            parlSeats = 20, parlRows = 2, parlSize = 3,
+            legendTitle = "", title = "", decimals = 0
+        )
+    )
+    pw <- priv$.p_dots(long, ctx, "waffle")
+    pp <- priv$.p_dots(long, ctx, "picto")
+    pa <- priv$.p_parliament(long, ctx)
+    expect_equal(nrow(pw$data), 50L)
+    expect_equal(sum(is.na(pw$data$category[pw$data$variable == "v2"])), 25L)
+    expect_s3_class(ggplot2::ggplot_build(pw), "ggplot_built")
+    expect_s3_class(ggplot2::ggplot_build(pp), "ggplot_built")
+    expect_s3_class(ggplot2::ggplot_build(pa), "ggplot_built")
 })
 
 test_that("cmp_summary: mean CI, median, degenerate input", {
@@ -96,10 +133,11 @@ test_that("cmp_palette: right length, jamovi default follows the theme, reverse 
     expect_length(cmp_palette("jamovi", 3, theme = NULL), 3)                # no theme: still works
 })
 
-test_that("cmp_theme: jamovi default returns jamovi's theme with transparent backgrounds", {
-    th <- cmp_theme("jamovi", 16, ggplot2::theme_bw())
+test_that("cmp_theme: jamovi default returns jamovi's theme with transparent backgrounds and custom text size", {
+    th <- cmp_theme("jamovi", 24, ggplot2::theme_bw())
     expect_s3_class(th, "theme")
     expect_equal(th$plot.background$fill, NA)
+    expect_equal(th$text$size, 24)
     expect_s3_class(cmp_theme("jamovi", 16, NULL), "theme")                 # outside jamovi: falls back
     expect_s3_class(cmp_theme("classic", 16), "theme")
 })

@@ -68,8 +68,7 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "vars",
                 vars,
                 suggested=list(
-                    "ordinal",
-                    "nominal"),
+                    "ordinal"),
                 permitted=list(
                     "factor"))
             private$..orientation <- jmvcore::OptionList$new(

@@ -21,162 +21,165 @@ children:
   # Shared options in one box, in sections with headings (Label controls).
   - type: CollapseBox
     label: Appearance
-    collapsed: false
+    collapsed: true
     stretchFactor: 1
     children:
       - type: Label
-        label: '<b>Variables</b>'
-      - type: LayoutBox
-        margin: large
-        stretchFactor: 1
+        label: Variables
         children:
           - type: LayoutBox
-            cell:
-              column: 0
-              row: 0
+            margin: large
             stretchFactor: 1
             children:
-              - type: ComboBox
-                name: orientation
-          - type: LayoutBox
-            cell:
-              column: 1
-              row: 0
-            stretchFactor: 1
-            children:
-              - type: ComboBox
-                name: sortVars
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 1
-            stretchFactor: 1
-            children:
-              - type: CheckBox
-                name: invertVars
-          - type: LayoutBox
-            cell:
-              column: 1
-              row: 1
-            stretchFactor: 1
-            children:
-              - type: CheckBox
-                name: useDesc
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 2
-            stretchFactor: 1
-            children:
-              - type: CheckBox
-                name: ignoreMissing
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 0
+                stretchFactor: 1
+                children:
+                  - type: ComboBox
+                    name: orientation
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 0
+                stretchFactor: 1
+                children:
+                  - type: ComboBox
+                    name: sortVars
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 1
+                stretchFactor: 1
+                children:
+                  - type: CheckBox
+                    name: invertVars
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 1
+                stretchFactor: 1
+                children:
+                  - type: CheckBox
+                    name: useDesc
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 2
+                stretchFactor: 1
+                children:
+                  - type: CheckBox
+                    name: ignoreMissing
       - type: Label
-        label: '<b>Appearance</b>'
-      - type: LayoutBox
-        margin: large
-        stretchFactor: 1
+        label: Colours and Lines
         children:
           - type: LayoutBox
-            cell:
-              column: 0
-              row: 0
+            margin: large
             stretchFactor: 1
             children:
-              - type: ComboBox
-                name: colourPalette
-          - type: LayoutBox
-            cell:
-              column: 1
-              row: 0
-            stretchFactor: 1
-            children:
-              - type: CheckBox
-                name: reversePalette
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 1
-            stretchFactor: 1
-            children:
-              - type: ComboBox
-                name: plotTheme
-          - type: LayoutBox
-            cell:
-              column: 1
-              row: 1
-            stretchFactor: 1
-            children:
-              - type: TextBox
-                name: alpha
-                format: number
-                suffix: '%'
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 2
-            stretchFactor: 1
-            children:
-              - type: TextBox
-                name: lineWidth
-                format: number
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 0
+                stretchFactor: 1
+                children:
+                  - type: ComboBox
+                    name: colourPalette
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 0
+                stretchFactor: 1
+                children:
+                  - type: CheckBox
+                    name: reversePalette
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 1
+                stretchFactor: 1
+                children:
+                  - type: ComboBox
+                    name: plotTheme
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 1
+                stretchFactor: 1
+                children:
+                  - type: TextBox
+                    name: alpha
+                    format: number
+                    suffix: '%'
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 2
+                stretchFactor: 1
+                children:
+                  - type: TextBox
+                    name: lineWidth
+                    format: number
       - type: Label
-        label: '<b>Text and labels</b>'
-      - type: LayoutBox
-        margin: large
-        stretchFactor: 1
+        label: Text and Labels
         children:
           - type: LayoutBox
-            cell:
-              column: 0
-              row: 0
+            margin: large
             stretchFactor: 1
             children:
-              - type: TextBox
-                name: textSize
-                format: number
-          - type: LayoutBox
-            cell:
-              column: 1
-              row: 0
-            stretchFactor: 1
-            children:
-              - type: TextBox
-                name: decimals
-                format: number
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 1
-            stretchFactor: 1
-            children:
-              - type: TextBox
-                name: title
-                format: string
-          - type: LayoutBox
-            cell:
-              column: 1
-              row: 1
-            stretchFactor: 1
-            children:
-              - type: ComboBox
-                name: legendPos
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 2
-            stretchFactor: 1
-            children:
-              - type: TextBox
-                name: legendTitle
-                format: string
-          - type: LayoutBox
-            cell:
-              column: 1
-              row: 2
-            stretchFactor: 1
-            children:
-              - type: CheckBox
-                name: showN
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 0
+                stretchFactor: 1
+                children:
+                  - type: TextBox
+                    name: textSize
+                    format: number
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 0
+                stretchFactor: 1
+                children:
+                  - type: TextBox
+                    name: decimals
+                    format: number
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 1
+                stretchFactor: 1
+                children:
+                  - type: TextBox
+                    name: title
+                    format: string
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 1
+                stretchFactor: 1
+                children:
+                  - type: ComboBox
+                    name: legendPos
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 2
+                stretchFactor: 1
+                children:
+                  - type: TextBox
+                    name: legendTitle
+                    format: string
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 2
+                stretchFactor: 1
+                children:
+                  - type: CheckBox
+                    name: showN
   - type: CollapseBox
     label: Stacked Bars
     collapsed: false

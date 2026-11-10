@@ -44,11 +44,11 @@ def head_ui(title, name):
             "          - type: VariablesListBox\n            name: vars\n            isTarget: true\n")
 
 def appearance_groups(groups):
-    """ONE open CollapseBox "Appearance" whose sections are separated by Label headings.
+    """ONE collapsed CollapseBox "Appearance" whose sections are Label containers.
     groups: [(heading, items)]"""
     s = ("  # Shared options in one box, in sections with headings (Label controls).\n"
-         "  - type: CollapseBox\n    label: Appearance\n    collapsed: false\n    stretchFactor: 1\n    children:\n")
+         "  - type: CollapseBox\n    label: Appearance\n    collapsed: true\n    stretchFactor: 1\n    children:\n")
     for heading, items in groups:
-        s += f"      - type: Label\n        label: '{heading}'\n"
-        s += grid(items, 6)
+        s += f"      - type: Label\n        label: {heading}\n        children:\n"
+        s += grid(items, 10)
     return s
