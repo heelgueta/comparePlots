@@ -261,7 +261,8 @@ cmp_cat_private <- function() {
         # (`drop = FALSE` keeps categories with 0% in the legend)
         .fill_scale = function(ctx) {
             ggplot2::scale_fill_manual(
-                values = ctx$cat_cols, name = private$.leg_title(ctx), drop = FALSE,
+                values = ctx$cat_cols, breaks = ctx$cats, name = private$.leg_title(ctx), drop = FALSE,
+                na.value = "transparent",
                 guide = ggplot2::guide_legend(nrow = ctx$leg_rows))
         },
 
@@ -474,8 +475,10 @@ cmp_cat_private <- function() {
                 d <- long[long$variable == v, ]
                 cnt <- cmp_alloc(d$pct, cells)         # cells per category, sums to `cells`
                 i <- seq_len(cells) - 1L              # cell index 0..cells-1
+                category <- if (sum(cnt) == 0L) rep(NA_character_, cells) else
+                    rep(as.character(d$category), cnt)
                 data.frame(variable = factor(v, levels = ctx$lv), cx = i %% ncol_, cy = (nrow_ - 1) - i %/% ncol_,
-                           category = factor(rep(as.character(d$category), cnt), levels = ctx$cats))
+                           category = factor(category, levels = ctx$cats))
             }))
             unit <- 100 / cells
             unit_lab <- paste0("1 ", if (kind == "waffle") "square" else "dot", " = ",
@@ -492,7 +495,8 @@ cmp_cat_private <- function() {
                 p <- ggplot2::ggplot(df, ggplot2::aes(x = cx, y = cy, fill = category)) +
                     ggplot2::geom_point(shape = shp, size = o$pictoSize, colour = "grey45", stroke = ctx$lw_out * 1.2, alpha = ctx$alpha) +
                     ggplot2::scale_fill_manual(
-                        values = ctx$cat_cols, name = private$.leg_title(ctx), drop = FALSE,
+                        values = ctx$cat_cols, breaks = ctx$cats, name = private$.leg_title(ctx), drop = FALSE,
+                        na.value = "transparent",
                         guide = ggplot2::guide_legend(nrow = ctx$leg_rows, override.aes = list(size = 4, shape = 21)))
             }
             p <- p + private$.chart_grid(ctx)
@@ -520,13 +524,16 @@ cmp_cat_private <- function() {
             df <- do.call(rbind, lapply(ctx$lv, function(v) {
                 d <- long[long$variable == v, ]
                 cnt <- cmp_alloc(d$pct, nrow(seats))              # seats per category
+                category <- if (sum(cnt) == 0L) rep(NA_character_, nrow(seats)) else
+                    rep(as.character(d$category), cnt)
                 data.frame(variable = factor(v, levels = ctx$lv), cx = seats$rad * cos(seats$ang), cy = seats$rad * sin(seats$ang),
-                           category = factor(rep(as.character(d$category), cnt), levels = ctx$cats))
+                           category = factor(category, levels = ctx$cats))
             }))
             p <- ggplot2::ggplot(df, ggplot2::aes(x = cx, y = cy, fill = category)) +
                 ggplot2::geom_point(size = o$parlSize, shape = 21, colour = "grey45", stroke = ctx$lw_out * 1.2, alpha = ctx$alpha) +
                 ggplot2::scale_fill_manual(
-                    values = ctx$cat_cols, name = private$.leg_title(ctx), drop = FALSE,
+                    values = ctx$cat_cols, breaks = ctx$cats, name = private$.leg_title(ctx), drop = FALSE,
+                    na.value = "transparent",
                     guide = ggplot2::guide_legend(nrow = ctx$leg_rows, override.aes = list(size = 4)))
             p + private$.chart_grid(ctx)
         },

@@ -409,7 +409,7 @@ options:
         title: Density
     default: count
   - name: histDensity
-    title: Add density curve
+    title: Density curve
     type: Bool
     default: false
   - name: histFreeY
@@ -428,7 +428,7 @@ options:
     max: 5
     default: 1
   - name: densFilled
-    title: Fill under the curves
+    title: Filled curves
     type: Bool
     default: true
   - name: densTrim

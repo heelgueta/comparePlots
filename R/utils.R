@@ -105,7 +105,8 @@ cmp_theme <- function(name, size = 16, ggtheme = NULL) {
             ggplot2::theme_minimal(base_size = size))
     }
     clear <- ggplot2::element_rect(fill = NA, colour = NA)
-    base + ggplot2::theme(plot.background = clear, legend.background = clear,
+    base + ggplot2::theme(text = ggplot2::element_text(size = size),
+                          plot.background = clear, legend.background = clear,
                           legend.key = clear, legend.box.background = clear)
 }
 

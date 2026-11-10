@@ -1,5 +1,21 @@
 # Changelog
 
+## Unreleased
+
+### Jamovi library review follow-up
+- Waffle, pictogram and parliament plots now keep a full, unfilled grid when an
+  individual variable has no non-missing values.
+- The Text size option now overrides the text size supplied by jamovi's default
+  theme, including axis, legend and title text.
+- Compare Ordinal now suggests ordinal variables while continuing to permit
+  factors, so nominal variables can still be dropped in and receive the
+  analysis's existing validation message.
+- The shared Appearance sections now start collapsed. Their inner headings use
+  jamovi's native Label controls instead of `<b>` markup; the headings are
+  title-cased and the inner Appearance heading is renamed Colours and Lines.
+- Checkbox titles now read “Density curve”, “Filled curves” and “Connecting
+  lines”.
+
 ## 1.0.0 (2026-11-04)
 
 First release for the jamovi library. It builds on 0.4.0, which was reviewed by the jamovi team; their feedback
