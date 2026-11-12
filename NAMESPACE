@@ -1,3 +1,4 @@
+export(distGrp)
 export(distNom)
 export(distNum)
 export(distOrd)

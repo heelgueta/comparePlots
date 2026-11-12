@@ -33,15 +33,19 @@ def S(name, enable=None): return ("TextBox", name, enable, None, "string")
 def C(name, enable=None): return ("CheckBox", name, enable, None, None)
 def D(name, enable=None): return ("ComboBox", name, enable, None, None)
 
-def head_ui(title, name):
-    return (f"# {title} ({name}): USER INTERFACE, hand-written.\n"
-            "# compilerMode is `tame`: jmc keeps this layout and only adds controls for NEW options.\n"
-            "# Each plot has its own CollapseBox that holds the plot's checkbox AND its settings; the settings are\n"
-            "# greyed out (enable:) while the checkbox is off, or while a sibling option they depend on is off.\n"
-            f"title: {title}\nname: {name}\njus: '3.0'\nstage: 0\ncompilerMode: tame\nchildren:\n"
-            "  - type: VariableSupplier\n    persistentItems: false\n    stretchFactor: 1\n    children:\n"
-            "      - type: TargetLayoutBox\n        label: Variables\n        children:\n"
-            "          - type: VariablesListBox\n            name: vars\n            isTarget: true\n")
+def head_ui(title, name, group_var=False):
+    s = (f"# {title} ({name}): USER INTERFACE, hand-written.\n"
+         "# compilerMode is `tame`: jmc keeps this layout and only adds controls for NEW options.\n"
+         "# Each plot has its own CollapseBox that holds the plot's checkbox AND its settings; the settings are\n"
+         "# greyed out (enable:) while the checkbox is off, or while a sibling option they depend on is off.\n"
+         f"title: {title}\nname: {name}\njus: '3.0'\nstage: 0\ncompilerMode: tame\nchildren:\n"
+         "  - type: VariableSupplier\n    persistentItems: false\n    stretchFactor: 1\n    children:\n"
+         "      - type: TargetLayoutBox\n        label: Variables\n        children:\n"
+         "          - type: VariablesListBox\n            name: vars\n            isTarget: true\n")
+    if group_var:
+        s += ("      - type: TargetLayoutBox\n        label: Grouping Variable\n        children:\n"
+              "          - type: VariablesListBox\n            name: group\n            maxItemCount: 1\n            isTarget: true\n")
+    return s
 
 def appearance_groups(groups):
     """ONE collapsed CollapseBox "Appearance" whose sections are Label containers.

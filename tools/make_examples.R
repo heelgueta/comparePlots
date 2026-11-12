@@ -18,13 +18,16 @@ set.seed(2026)
 # ---- numeric: six well-being scales on a common 0-100 range -----------------
 n <- 240
 clip <- function(x) round(pmin(pmax(x, 0), 100), 1)
+grp  <- factor(rep(c("Control", "Intervention"), each = n / 2))
+shift <- ifelse(grp == "Intervention", 1, 0)
 numeric_df <- data.frame(
-    Mood          = clip(rnorm(n, 62, 14)),
-    Energy        = clip(rnorm(n, 55, 18)),
-    Sleep         = clip(100 * rbeta(n, 5, 2)),                  # piles up near the top
-    Stress        = clip(100 * rbeta(n, 2, 5)),                  # right-skewed
-    Anxiety       = clip(ifelse(runif(n) < 0.55, rnorm(n, 25, 8), rnorm(n, 70, 10))),  # two groups
-    Social        = clip(rnorm(n, 48, 7)))                      # narrow spread
+    Group         = grp,
+    Mood          = clip(rnorm(n, 58 + 10 * shift, 14)),
+    Energy        = clip(rnorm(n, 51 + 8 * shift, 18)),
+    Sleep         = clip(100 * rbeta(n, 4.5 + 0.8 * shift, 2)),  # piles up near the top
+    Stress        = clip(100 * rbeta(n, 2.2 - 0.5 * shift, 5)),  # right-skewed
+    Anxiety       = clip(ifelse(grp == "Intervention", rnorm(n, 25, 8), rnorm(n, 65, 12))),
+    Social        = clip(rnorm(n, 48 + 4 * shift, 7)))           # narrow spread
 
 # ---- ordinal: a six-item Likert battery -------------------------------------
 n <- 300
@@ -56,6 +59,6 @@ out <- list(example_numeric = numeric_df, example_ordinal = ordinal_df,
 dir <- "data"
 for (nm in names(out)) {
     utils::write.csv(out[[nm]], file.path(dir, paste0(nm, ".csv")), row.names = FALSE, na = "")
-    jmvReadWrite::write_omv(out[[nm]], file.path(dir, paste0(nm, ".omv")))
+    jmvReadWrite::write_omv(out[[nm]], file.path(dir, paste0(nm, ".omv")), frcWrt = TRUE)
 }
 cat("wrote", length(out), "datasets to", dir, "\n")
