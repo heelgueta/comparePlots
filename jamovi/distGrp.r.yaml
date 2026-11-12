@@ -1,0 +1,395 @@
+---
+# Compare Groups (distGrp): RESULTS.
+# One Image per plot. Each is drawn by the function named in `renderFun` (R/distGrp.b.R) from the state saved in .run().
+name: distGrp
+title: Compare Groups
+jrs: '1.1'
+refs:
+  - comparePlots
+  - ggplot2
+items:
+  - name: hint
+    title: ''
+    type: Html
+    visible: false
+  - name: plot_box
+    title: Box plot
+    type: Image
+    width: 480
+    height: 380
+    renderFun: .plot_box
+    visible: (showBox)
+    requiresData: true
+    clearWith:
+      - vars
+      - group
+      - groupMode
+      - orientation
+      - sortVars
+      - transform
+      - useDesc
+      - invertVars
+      - invertGroups
+      - ignoreMissingGroup
+      - colourPalette
+      - reversePalette
+      - plotTheme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - pointAlpha
+      - pointColour
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - legendTitle
+      - boxWidth
+      - boxOutliers
+      - boxNotch
+      - boxMean
+      - boxJitter
+  - name: plot_violin
+    title: Violin plot
+    type: Image
+    width: 480
+    height: 380
+    renderFun: .plot_violin
+    visible: (showViolin)
+    requiresData: true
+    clearWith:
+      - vars
+      - group
+      - groupMode
+      - orientation
+      - sortVars
+      - transform
+      - useDesc
+      - invertVars
+      - invertGroups
+      - ignoreMissingGroup
+      - colourPalette
+      - reversePalette
+      - plotTheme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - pointAlpha
+      - pointColour
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - legendTitle
+      - violinWidth
+      - violinScale
+      - violinAdjust
+      - violinTrim
+      - violinBox
+      - violinSplit
+      - violinJitter
+  - name: plot_errorbar
+    title: Means and error bars
+    type: Image
+    width: 480
+    height: 380
+    renderFun: .plot_errorbar
+    visible: (showErrorBar)
+    requiresData: true
+    clearWith:
+      - vars
+      - group
+      - groupMode
+      - orientation
+      - sortVars
+      - transform
+      - useDesc
+      - invertVars
+      - invertGroups
+      - ignoreMissingGroup
+      - colourPalette
+      - reversePalette
+      - plotTheme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - pointAlpha
+      - pointColour
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - legendTitle
+      - ebCenter
+      - ebInterval
+      - ebLevel
+      - ebMult
+      - ebJitter
+      - ebSize
+      - ebCap
+      - ebConnect
+      - ebLabels
+  - name: plot_raincloud
+    title: Raincloud plot
+    type: Image
+    width: 480
+    height: 380
+    renderFun: .plot_raincloud
+    visible: (showRaincloud)
+    requiresData: true
+    clearWith:
+      - vars
+      - group
+      - groupMode
+      - orientation
+      - sortVars
+      - transform
+      - useDesc
+      - invertVars
+      - invertGroups
+      - ignoreMissingGroup
+      - colourPalette
+      - reversePalette
+      - plotTheme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - pointAlpha
+      - pointColour
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - legendTitle
+      - rcCloudWidth
+      - rcAdjust
+      - rcRain
+      - rcBox
+  - name: plot_ridge
+    title: Ridgeline (density) plot
+    type: Image
+    width: 480
+    height: 420
+    renderFun: .plot_ridge
+    visible: (showRidge)
+    requiresData: true
+    clearWith:
+      - vars
+      - group
+      - groupMode
+      - orientation
+      - sortVars
+      - transform
+      - useDesc
+      - invertVars
+      - invertGroups
+      - ignoreMissingGroup
+      - colourPalette
+      - reversePalette
+      - plotTheme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - pointAlpha
+      - pointColour
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - legendTitle
+      - ridgeOverlap
+      - ridgeAdjust
+      - ridgeTrim
+      - ridgeMedian
+  - name: plot_hist
+    title: Histogram
+    type: Image
+    width: 480
+    height: 420
+    renderFun: .plot_hist
+    visible: (showHist)
+    requiresData: true
+    clearWith:
+      - vars
+      - group
+      - groupMode
+      - orientation
+      - sortVars
+      - transform
+      - useDesc
+      - invertVars
+      - invertGroups
+      - ignoreMissingGroup
+      - colourPalette
+      - reversePalette
+      - plotTheme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - pointAlpha
+      - pointColour
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - legendTitle
+      - histBins
+      - histStat
+      - histPosition
+      - histDensity
+      - histFreeY
+  - name: plot_density
+    title: Overlaid densities
+    type: Image
+    width: 480
+    height: 380
+    renderFun: .plot_density
+    visible: (showDensity)
+    requiresData: true
+    clearWith:
+      - vars
+      - group
+      - groupMode
+      - orientation
+      - sortVars
+      - transform
+      - useDesc
+      - invertVars
+      - invertGroups
+      - ignoreMissingGroup
+      - colourPalette
+      - reversePalette
+      - plotTheme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - pointAlpha
+      - pointColour
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - legendTitle
+      - densAdjust
+      - densFilled
+      - densTrim
+  - name: plot_ecdf
+    title: Cumulative distribution (ECDF)
+    type: Image
+    width: 480
+    height: 380
+    renderFun: .plot_ecdf
+    visible: (showEcdf)
+    requiresData: true
+    clearWith:
+      - vars
+      - group
+      - groupMode
+      - orientation
+      - sortVars
+      - transform
+      - useDesc
+      - invertVars
+      - invertGroups
+      - ignoreMissingGroup
+      - colourPalette
+      - reversePalette
+      - plotTheme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - pointAlpha
+      - pointColour
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - legendTitle
+      - ecdfMedian
+  - name: plot_strip
+    title: Data points (strip plot)
+    type: Image
+    width: 480
+    height: 380
+    renderFun: .plot_strip
+    visible: (showStrip)
+    requiresData: true
+    clearWith:
+      - vars
+      - group
+      - groupMode
+      - orientation
+      - sortVars
+      - transform
+      - useDesc
+      - invertVars
+      - invertGroups
+      - ignoreMissingGroup
+      - colourPalette
+      - reversePalette
+      - plotTheme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - pointAlpha
+      - pointColour
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - legendTitle
+      - stripSummary
+  - name: plot_barcode
+    title: Barcode plot
+    type: Image
+    width: 480
+    height: 380
+    renderFun: .plot_barcode
+    visible: (showBarcode)
+    requiresData: true
+    clearWith:
+      - vars
+      - group
+      - groupMode
+      - orientation
+      - sortVars
+      - transform
+      - useDesc
+      - invertVars
+      - invertGroups
+      - ignoreMissingGroup
+      - colourPalette
+      - reversePalette
+      - plotTheme
+      - textSize
+      - alpha
+      - lineWidth
+      - pointSize
+      - pointAlpha
+      - pointColour
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - legendTitle
+      - barcodeHeight
+...

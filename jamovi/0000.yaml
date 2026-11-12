@@ -37,6 +37,14 @@ analyses:
     menuGroup: comparePlots
     menuTitle: Compare Nominal
     description: Compare the category distributions of nominal variables.
+  - title: Compare Groups
+    name: distGrp
+    ns: comparePlots
+    category: plots
+    menuGroup: comparePlots
+    menuSubgroup: groups
+    menuTitle: Compare Groups
+    description: Compare the distributions of numeric variables across levels of a grouping factor.
 datasets:
   - name: Well-being scales (numeric example)
     path: example_numeric.omv

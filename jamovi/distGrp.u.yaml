@@ -1,0 +1,778 @@
+# Compare Groups (distGrp): USER INTERFACE, hand-written.
+# compilerMode is `tame`: jmc keeps this layout and only adds controls for NEW options.
+# Each plot has its own CollapseBox that holds the plot's checkbox AND its settings; the settings are
+# greyed out (enable:) while the checkbox is off, or while a sibling option they depend on is off.
+title: Compare Groups
+name: distGrp
+jus: '3.0'
+stage: 0
+compilerMode: tame
+children:
+  - type: VariableSupplier
+    persistentItems: false
+    stretchFactor: 1
+    children:
+      - type: TargetLayoutBox
+        label: Variables
+        children:
+          - type: VariablesListBox
+            name: vars
+            isTarget: true
+      - type: TargetLayoutBox
+        label: Grouping Variable
+        children:
+          - type: VariablesListBox
+            name: group
+            maxItemCount: 1
+            isTarget: true
+  # Shared options in one box, in sections with headings (Label controls).
+  - type: CollapseBox
+    label: Appearance
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: Label
+        label: Variables
+        children:
+          - type: LayoutBox
+            margin: large
+            stretchFactor: 1
+            children:
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 0
+                stretchFactor: 1
+                children:
+                  - type: ComboBox
+                    name: groupMode
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 0
+                stretchFactor: 1
+                children:
+                  - type: ComboBox
+                    name: orientation
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 1
+                stretchFactor: 1
+                children:
+                  - type: ComboBox
+                    name: sortVars
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 1
+                stretchFactor: 1
+                children:
+                  - type: ComboBox
+                    name: transform
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 2
+                stretchFactor: 1
+                children:
+                  - type: CheckBox
+                    name: invertVars
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 2
+                stretchFactor: 1
+                children:
+                  - type: CheckBox
+                    name: invertGroups
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 3
+                stretchFactor: 1
+                children:
+                  - type: CheckBox
+                    name: useDesc
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 3
+                stretchFactor: 1
+                children:
+                  - type: CheckBox
+                    name: ignoreMissingGroup
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 4
+                stretchFactor: 1
+                children:
+                  - type: TextBox
+                    name: valueLabel
+                    format: string
+      - type: Label
+        label: Colours and Lines
+        children:
+          - type: LayoutBox
+            margin: large
+            stretchFactor: 1
+            children:
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 0
+                stretchFactor: 1
+                children:
+                  - type: ComboBox
+                    name: colourPalette
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 0
+                stretchFactor: 1
+                children:
+                  - type: CheckBox
+                    name: reversePalette
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 1
+                stretchFactor: 1
+                children:
+                  - type: ComboBox
+                    name: plotTheme
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 1
+                stretchFactor: 1
+                children:
+                  - type: TextBox
+                    name: alpha
+                    format: number
+                    suffix: '%'
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 2
+                stretchFactor: 1
+                children:
+                  - type: TextBox
+                    name: lineWidth
+                    format: number
+      - type: Label
+        label: Data Points
+        children:
+          - type: LayoutBox
+            margin: large
+            stretchFactor: 1
+            children:
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 0
+                stretchFactor: 1
+                children:
+                  - type: TextBox
+                    name: pointSize
+                    format: number
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 0
+                stretchFactor: 1
+                children:
+                  - type: TextBox
+                    name: pointAlpha
+                    format: number
+                    suffix: '%'
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 1
+                stretchFactor: 1
+                children:
+                  - type: ComboBox
+                    name: pointColour
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 1
+                stretchFactor: 1
+                children:
+                  - type: TextBox
+                    name: jitterSpread
+                    format: number
+                    suffix: '%'
+      - type: Label
+        label: Text and Labels
+        children:
+          - type: LayoutBox
+            margin: large
+            stretchFactor: 1
+            children:
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 0
+                stretchFactor: 1
+                children:
+                  - type: TextBox
+                    name: textSize
+                    format: number
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 0
+                stretchFactor: 1
+                children:
+                  - type: TextBox
+                    name: title
+                    format: string
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 1
+                stretchFactor: 1
+                children:
+                  - type: ComboBox
+                    name: legendPos
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 1
+                stretchFactor: 1
+                children:
+                  - type: TextBox
+                    name: legendTitle
+                    format: string
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 2
+                stretchFactor: 1
+                children:
+                  - type: CheckBox
+                    name: showN
+  - type: CollapseBox
+    label: Box Plot
+    collapsed: false
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showBox
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: boxWidth
+                format: number
+                suffix: '%'
+                enable: '(showBox)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: boxOutliers
+                enable: '(showBox)'
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: boxNotch
+                enable: '(showBox)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: boxMean
+                enable: '(showBox)'
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: boxJitter
+                enable: '(showBox)'
+  - type: CollapseBox
+    label: Violin Plot
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showViolin
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: violinWidth
+                format: number
+                suffix: '%'
+                enable: '(showViolin)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: violinScale
+                enable: '(showViolin)'
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: violinAdjust
+                format: number
+                enable: '(showViolin)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: violinTrim
+                enable: '(showViolin)'
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: violinBox
+                enable: '(showViolin)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: violinSplit
+                enable: '(showViolin)'
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 3
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: violinJitter
+                enable: '(showViolin)'
+  - type: CollapseBox
+    label: Means and Error Bars
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showErrorBar
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: ebCenter
+                enable: '(showErrorBar)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: ebInterval
+                enable: '(showErrorBar)'
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: ebLevel
+                format: number
+                suffix: '%'
+                enable: '(showErrorBar && (ebInterval:ci || ebInterval:pctile))'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: ebMult
+                format: number
+                enable: '(showErrorBar && (ebInterval:se || ebInterval:sd))'
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: ebJitter
+                enable: '(showErrorBar)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: ebSize
+                format: number
+                enable: '(showErrorBar)'
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 3
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: ebCap
+                format: number
+                suffix: '%'
+                enable: '(showErrorBar)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 3
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: ebConnect
+                enable: '(showErrorBar)'
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 4
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: ebLabels
+                enable: '(showErrorBar)'
+  - type: CollapseBox
+    label: Raincloud Plot
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showRaincloud
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: rcCloudWidth
+                format: number
+                suffix: '%'
+                enable: '(showRaincloud)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: rcAdjust
+                format: number
+                enable: '(showRaincloud)'
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: rcRain
+                enable: '(showRaincloud)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: rcBox
+                enable: '(showRaincloud)'
+  - type: CollapseBox
+    label: Ridgeline (Density) Plot
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showRidge
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: ridgeOverlap
+                format: number
+                suffix: '%'
+                enable: '(showRidge)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: ridgeAdjust
+                format: number
+                enable: '(showRidge)'
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: ridgeTrim
+                enable: '(showRidge)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: ridgeMedian
+                enable: '(showRidge)'
+  - type: CollapseBox
+    label: Histogram
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showHist
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: histBins
+                format: number
+                enable: '(showHist)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: histStat
+                enable: '(showHist)'
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: histPosition
+                enable: '(showHist)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: histDensity
+                enable: '(showHist)'
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: histFreeY
+                enable: '(showHist)'
+  - type: CollapseBox
+    label: Overlaid Densities
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showDensity
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: densAdjust
+                format: number
+                enable: '(showDensity)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: densFilled
+                enable: '(showDensity)'
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: densTrim
+                enable: '(showDensity)'
+  - type: CollapseBox
+    label: Cumulative Distribution (ECDF)
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showEcdf
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: ecdfMedian
+                enable: '(showEcdf)'
+  - type: CollapseBox
+    label: Data Points (Strip Plot)
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showStrip
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: stripSummary
+                enable: '(showStrip)'
+  - type: CollapseBox
+    label: Barcode Plot
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showBarcode
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: barcodeHeight
+                format: number
+                suffix: '%'
+                enable: '(showBarcode)'
