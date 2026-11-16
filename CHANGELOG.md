@@ -13,7 +13,8 @@ of the changes below. Version 1.0.0 also adds features of our own.
 - Three analyses instead of two, grouped in a **comparePlots** dropdown inside jamovi's Plots tab: **Compare Numeric**, **Compare Ordinal** and **Compare Nominal**. Variables of the wrong measure type are rejected with a hint (`Compare Ordinal` suggests ordinal variables while still permitting factors so nominal variables get a clear rejection message).
 - Compare Nominal is new, with pie, donut, grouped bars and lollipop plots, and categories ordered by data order, frequency or A-Z.
 - Each plot's checkbox now sits inside its own collapsible section, together with that plot's settings.
-- The shared options are one collapsed *Appearance* box with native `Label` section headings (*Variables*, *Colours and Lines*, *Data Points*, *Text and Labels*).
+- The shared options are one collapsed *Appearance* box with native `Label` section headings (*Order and Labels*, *Colours and Lines*, *Data Points*, *Text and Labels*).
+- Options that change the plotted data (*Transform values*, *Ignore missing cases*) sit in their own *Data* box, outside Appearance.
 - The module cites itself and ggplot2 in the results' References.
 
 **Look and feel (jamovi's feedback)**
@@ -35,6 +36,9 @@ of the changes below. Version 1.0.0 also adds features of our own.
 - Waffle, pictogram and parliament plots keep a full, unfilled grid when an individual variable has no non-missing values.
 - Stacked bars and pies could lose their last slice because of floating-point rounding.
 - Variables with no usable data now give a message instead of blank plots; notes about skipped or conflicting data are proper jamovi notices.
+- With *Ignore missing cases* unticked, the waffle, pictogram and parliament plots show the missing share as unfilled cells (as the bars do), the median ordering uses the answers' own distribution, *n* is the number of answers per variable, and variables that are entirely missing are rejected.
+- Compare Numeric warns when a variable has fewer than two distinct values and so has no density curve or histogram.
+- Axis and option labels: *% in first / last category*, *Percent* (response profile), *Cumulative percent* (ECDF).
 - Plots no longer store a copy of the data, and the error-bar summary (including the median bootstrap) is computed once.
 
 ### Removed
