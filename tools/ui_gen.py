@@ -52,3 +52,9 @@ def appearance_groups(groups):
         s += f"      - type: Label\n        label: {heading}\n        children:\n"
         s += grid(items, 10)
     return s
+
+def data_box(items):
+    """Small CollapseBox (open by default) for options that change the numbers being plotted."""
+    s = ("  # Options that change the plotted data, kept out of Appearance.\n"
+         "  - type: CollapseBox\n    label: Data\n    collapsed: false\n    stretchFactor: 1\n    children:\n")
+    return s + grid(items, 6)

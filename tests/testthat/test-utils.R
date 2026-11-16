@@ -200,3 +200,14 @@ test_that("cmp_fit_labels: long names are cut with an ellipsis, short ones stay"
     expect_true(grepl("…", out[1]))
     expect_false(any(grepl("\n", cmp_fit_labels("a\nb", 500))))
 })
+
+test_that("missing share gets its own unfilled cells", {
+    miss <- cmp_missing_pct(c(40, 40))
+    expect_equal(miss, 20)
+    cnt <- cmp_alloc(c(40, 40, miss), 100)
+    expect_equal(cnt, c(40L, 40L, 20L))
+    category <- rep(c("a", "b", NA), cnt)
+    expect_equal(sum(is.na(category)), 20L)
+    expect_equal(cmp_missing_pct(c(60, 40)), 0)
+    expect_equal(cmp_alloc(c(0, 0, cmp_missing_pct(c(0, 0))), 10), c(0L, 0L, 10L))
+})

@@ -77,6 +77,20 @@ distNumClass <- R6::R6Class(
             if (nrow(long) == 0)
                 jmvcore::reject("The selected variables have no non-missing values.")
 
+            # Plots that need a density curve or a bin width cannot be drawn for a
+            # variable without spread; say so rather than leaving a blank plot.
+            if (any(on[c("violin", "raincloud", "ridge", "density")])) {
+                flat <- vars[vapply(vars, function(v) length(unique(long$value[long$variable == v])) < 2, logical(1))]
+                if (length(flat) > 0)
+                    private$.warn(".noSpread", paste0(
+                        paste(flat, collapse = ", "), if (length(flat) == 1) " has" else " have",
+                        " fewer than two distinct values, so no density curve (violin, raincloud, ridgeline or overlaid densities) can be drawn for ",
+                        if (length(flat) == 1) "it." else "them."))
+            }
+            if (on[["hist"]] && length(unique(long$value)) < 2)
+                private$.warn(".noSpreadHist",
+                    "All values are the same, so no histogram can be drawn.")
+
             # Hand a small state to each enabled image. Images that are not ticked
             # get no state and (via `visible:` in the .r.yaml) are not shown.
             # Only the means plot has something worth caching: its summary table
@@ -561,7 +575,7 @@ distNumClass <- R6::R6Class(
                 p <- p + ggplot2::geom_hline(yintercept = 0.5, linetype = "dashed", colour = "grey60", linewidth = 0.4)
             p <- p + ggplot2::stat_ecdf(geom = "step", linewidth = ctx$lw * 1.3, pad = FALSE) +
                 ggplot2::scale_y_continuous(labels = function(x) paste0(round(x * 100), "%")) +
-                ggplot2::labs(x = ctx$vlab, y = "Cumulative proportion")
+                ggplot2::labs(x = ctx$vlab, y = "Cumulative percent")
             private$.flip_x(p, ctx)
         },
 

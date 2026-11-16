@@ -121,9 +121,9 @@ options:
       - name: median
         title: Median
       - name: first
-        title: '% first cat.'
+        title: '% in first category'
       - name: last
-        title: '% last cat.'
+        title: '% in last category'
       - name: net
         title: Net %
     default: none

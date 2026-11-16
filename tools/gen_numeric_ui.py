@@ -5,8 +5,9 @@ sys.path.insert(0, "tools")
 from ui_gen import *
 # ---------------- distNum ----------------
 num = head_ui("Compare Numeric", "distNum")
+num += data_box([D("transform")])
 num += appearance_groups([
-    ("Variables", [D("orientation"), D("sortVars"), D("transform"), C("invertVars"), C("useDesc"), S("valueLabel")]),
+    ("Order and Labels", [D("orientation"), D("sortVars"), C("invertVars"), C("useDesc"), S("valueLabel")]),
     ("Colours and Lines", [D("colourPalette"), C("reversePalette"), D("plotTheme"), T("alpha", suffix="%"), T("lineWidth")]),
     ("Data Points", [T("pointSize"), T("pointAlpha", suffix="%"), D("pointColour"), T("jitterSpread", suffix="%")]),
     ("Text and Labels", [T("textSize"), S("title"), D("legendPos"), C("showN")])])

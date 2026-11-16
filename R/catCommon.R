@@ -81,7 +81,7 @@ cmp_cat_private <- function() {
                            pct = if (n > 0) as.numeric(tab) / n * 100 else 0, n = n,
                            stringsAsFactors = FALSE)
             }))
-            if (all(long$n == 0))
+            if (all(long$count == 0))
                 jmvcore::reject("The selected variables have no non-missing values.")
 
             # hand the (small) table to each ticked image
@@ -157,7 +157,7 @@ cmp_cat_private <- function() {
             sp <- cmp_split_cats(cats, !identical(private$.opt("divNeutral"), "none"))
             stat <- switch(o$sortVars,
                 mean   = stat_of(function(d) sum(d$cidx * d$count) / max(sum(d$count), 1)),
-                median = stat_of(function(d) { cs <- cumsum(d$pct); d$cidx[which(cs >= 50 - 1e-9)[1]] }),
+                median = stat_of(function(d) { cs <- cumsum(d$count) / max(sum(d$count), 1) * 100; d$cidx[which(cs >= 50 - 1e-9)[1]] }),
                 first  = -stat_of(function(d) d$pct[d$cidx == 1]),     # most in first category on top
                 last   = -stat_of(function(d) d$pct[d$cidx == k]),
                 net    = -stat_of(function(d) sum(d$pct[d$category %in% sp$pos]) - sum(d$pct[d$category %in% sp$neg])),
@@ -171,7 +171,7 @@ cmp_cat_private <- function() {
             pos <- if (horiz) rev(seq_len(n)) else seq_len(n)
             names(pos) <- lv
 
-            npv <- tapply(long$n, long$variable, function(z) z[1])   # valid n per variable
+            npv <- tapply(long$count, long$variable, sum)   # number of answers per variable
             lab  <- st$labels[lv]              # name or description (option), already wrapped
             labs <- if (o$showN) paste0(gsub("\n", " ", lab), " (n=", npv[lv], ")") else lab
 
@@ -473,10 +473,11 @@ cmp_cat_private <- function() {
             cells <- nrow_ * ncol_
             df <- do.call(rbind, lapply(ctx$lv, function(v) {
                 d <- long[long$variable == v, ]
-                cnt <- cmp_alloc(d$pct, cells)         # cells per category, sums to `cells`
+                # cells per category plus the missing share (0 when missing cases are
+                # ignored); the missing cells stay unfilled, like the gap in the bars
+                cnt <- cmp_alloc(c(d$pct, cmp_missing_pct(d$pct)), cells)
                 i <- seq_len(cells) - 1L              # cell index 0..cells-1
-                category <- if (sum(cnt) == 0L) rep(NA_character_, cells) else
-                    rep(as.character(d$category), cnt)
+                category <- rep(c(as.character(d$category), NA_character_), cnt)
                 data.frame(variable = factor(v, levels = ctx$lv), cx = i %% ncol_, cy = (nrow_ - 1) - i %/% ncol_,
                            category = factor(category, levels = ctx$cats))
             }))
@@ -523,9 +524,8 @@ cmp_cat_private <- function() {
             seats <- seats[order(-seats$ang, seats$rad), ]       # sweep left to right
             df <- do.call(rbind, lapply(ctx$lv, function(v) {
                 d <- long[long$variable == v, ]
-                cnt <- cmp_alloc(d$pct, nrow(seats))              # seats per category
-                category <- if (sum(cnt) == 0L) rep(NA_character_, nrow(seats)) else
-                    rep(as.character(d$category), cnt)
+                cnt <- cmp_alloc(c(d$pct, cmp_missing_pct(d$pct)), nrow(seats))   # seats per category + missing
+                category <- rep(c(as.character(d$category), NA_character_), cnt)
                 data.frame(variable = factor(v, levels = ctx$lv), cx = seats$rad * cos(seats$ang), cy = seats$rad * sin(seats$ang),
                            category = factor(category, levels = ctx$cats))
             }))
@@ -672,7 +672,7 @@ cmp_cat_private <- function() {
                                             expand = ggplot2::expansion(mult = c(0.02, 0.12))) +
                 ggplot2::scale_colour_manual(values = ctx$var_cols, labels = ctx$lab, name = private$.leg_title(ctx),
                                              guide = ggplot2::guide_legend(nrow = if (ctx$o$legendPos %in% c("bottom", "top")) max(1L, ceiling(ctx$n / 5)) else NULL)) +
-                ggplot2::labs(x = NULL, y = "Responses")
+                ggplot2::labs(x = NULL, y = "Percent")
             private$.flip(p, ctx)
         }
     )

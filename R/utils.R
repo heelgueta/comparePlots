@@ -132,6 +132,11 @@ cmp_text_col <- function(fill) {
 #   total  number of units to distribute
 # Example: cmp_alloc(c(33.3, 33.3, 33.4), 100) -> 33 33 34
 # -----------------------------------------------------------------------------
+cmp_missing_pct <- function(pct) {
+    pct[is.na(pct)] <- 0
+    max(0, 100 - sum(pct))
+}
+
 cmp_alloc <- function(pct, total = 100L) {
     pct[is.na(pct)] <- 0
     if (sum(pct) <= 0) return(rep(0L, length(pct)))

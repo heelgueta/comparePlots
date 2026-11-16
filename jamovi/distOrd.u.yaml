@@ -18,6 +18,24 @@ children:
           - type: VariablesListBox
             name: vars
             isTarget: true
+  # Options that change the plotted data, kept out of Appearance.
+  - type: CollapseBox
+    label: Data
+    collapsed: false
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: ignoreMissing
   # Shared options in one box, in sections with headings (Label controls).
   - type: CollapseBox
     label: Appearance
@@ -25,7 +43,7 @@ children:
     stretchFactor: 1
     children:
       - type: Label
-        label: Variables
+        label: Order and Labels
         children:
           - type: LayoutBox
             margin: large
@@ -63,14 +81,6 @@ children:
                 children:
                   - type: CheckBox
                     name: useDesc
-              - type: LayoutBox
-                cell:
-                  column: 0
-                  row: 2
-                stretchFactor: 1
-                children:
-                  - type: CheckBox
-                    name: ignoreMissing
       - type: Label
         label: Colours and Lines
         children:
