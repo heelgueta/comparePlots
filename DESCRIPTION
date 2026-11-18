@@ -1,7 +1,7 @@
 Package: comparePlots
 Type: Package
 Title: Compare the Distributions of Variables
-Version: 1.0.1
+Version: 1.1.0
 Authors@R: person("Herman E.", "Elgueta", email = "herman.elgueta@umag.cl", role = c("aut", "cre"),
     comment = c(ORCID = "0000-0002-6764-5490"))
 Description: A jamovi module to compare the distributions of numeric,

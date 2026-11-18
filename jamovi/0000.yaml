@@ -1,7 +1,7 @@
 ---
 title: comparePlots
 name: comparePlots
-version: 1.0.1
+version: 1.1.0
 jms: '1.0'
 authors:
   - Herman E. Elgueta
@@ -46,7 +46,9 @@ analyses:
     menuGroup: comparePlots
     menuSubgroup: groups
     menuTitle: Compare Groups
-    description: Compare the distributions of numeric variables across levels of a grouping factor.
+    description: >-
+      Compare the distributions of numeric variables across levels of a grouping
+      factor.
 datasets:
   - name: Well-being scales (numeric example)
     path: example_numeric.omv

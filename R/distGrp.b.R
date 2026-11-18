@@ -49,6 +49,26 @@ distGrpClass <- R6::R6Class(
             if (length(unique(long$grp)) < 1)
                 jmvcore::reject("The grouping variable has no non-missing levels.")
 
+            # Plots that need a density curve or a bin width cannot be drawn for a
+            # variable-group cell without spread; say so rather than leaving a gap.
+            if (any(on[c("violin", "raincloud", "ridge", "density")])) {
+                cells <- unique(long[, c("variable", "grp")])
+                flat <- character(0)
+                for (i in seq_len(nrow(cells))) {
+                    x <- long$value[long$variable == cells$variable[i] & long$grp == cells$grp[i]]
+                    if (length(unique(x)) < 2)
+                        flat <- c(flat, paste0(cells$variable[i], " (", cells$grp[i], ")"))
+                }
+                if (length(flat) > 0)
+                    private$.warn(".noSpread", paste0(
+                        paste(flat, collapse = ", "), if (length(flat) == 1) " has" else " have",
+                        " fewer than two distinct values, so no density curve (violin, raincloud, ridgeline or overlaid densities) can be drawn for ",
+                        if (length(flat) == 1) "it." else "them."))
+            }
+            if (on[["hist"]] && length(unique(long$value)) < 2)
+                private$.warn(".noSpreadHist",
+                    "All values are the same, so no histogram can be drawn.")
+
             for (key in names(private$.switches)[on]) {
                 image <- self$results[[paste0("plot_", key)]]
                 st <- list(vars = vars, group = grp)
@@ -604,7 +624,7 @@ distGrpClass <- R6::R6Class(
                 p <- p + ggplot2::geom_hline(yintercept = 0.5, linetype = "dashed", colour = "grey60", linewidth = 0.4)
             p <- p + ggplot2::stat_ecdf(geom = "step", linewidth = ctx$lw * 1.3, pad = FALSE) +
                 ggplot2::scale_y_continuous(labels = function(x) paste0(round(x * 100), "%")) +
-                ggplot2::labs(x = ctx$vlab, y = "Cumulative proportion")
+                ggplot2::labs(x = ctx$vlab, y = "Cumulative percent")
             if (ctx$mode == "facetGroup") {
                 p <- p + ggplot2::facet_grid(rows = ggplot2::vars(variable), cols = ggplot2::vars(grp),
                                              switch = "y",

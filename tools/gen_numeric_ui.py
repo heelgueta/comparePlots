@@ -34,9 +34,10 @@ open(ROOT + "distNum.u.yaml", "w").write(num)
 
 # ---------------- distGrp ----------------
 grp = head_ui("Compare Groups", "distGrp", group_var=True)
+grp += data_box([D("transform"), C("ignoreMissingGroup")])
 grp += appearance_groups([
-    ("Variables", [D("groupMode"), D("orientation"), D("sortVars"), D("transform"),
-                   C("invertVars"), C("invertGroups"), C("useDesc"), C("ignoreMissingGroup"), S("valueLabel")]),
+    ("Order and Labels", [D("groupMode"), D("orientation"), D("sortVars"),
+                          C("invertVars"), C("invertGroups"), C("useDesc"), S("valueLabel")]),
     ("Colours and Lines", [D("colourPalette"), C("reversePalette"), D("plotTheme"), T("alpha", suffix="%"), T("lineWidth")]),
     ("Data Points", [T("pointSize"), T("pointAlpha", suffix="%"), D("pointColour"), T("jitterSpread", suffix="%")]),
     ("Text and Labels", [T("textSize"), S("title"), D("legendPos"), S("legendTitle"), C("showN")])])
