@@ -18,24 +18,6 @@ children:
           - type: VariablesListBox
             name: vars
             isTarget: true
-  # Options that change the plotted data, kept out of Appearance.
-  - type: CollapseBox
-    label: Data
-    collapsed: false
-    stretchFactor: 1
-    children:
-      - type: LayoutBox
-        margin: large
-        stretchFactor: 1
-        children:
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 0
-            stretchFactor: 1
-            children:
-              - type: CheckBox
-                name: ignoreMissing
   # Shared options in one box, in sections with headings (Label controls).
   - type: CollapseBox
     label: Appearance
@@ -43,7 +25,7 @@ children:
     stretchFactor: 1
     children:
       - type: Label
-        label: Order and Labels
+        label: Data, Order and Labels
         children:
           - type: LayoutBox
             margin: large
@@ -55,8 +37,8 @@ children:
                   row: 0
                 stretchFactor: 1
                 children:
-                  - type: ComboBox
-                    name: orientation
+                  - type: CheckBox
+                    name: ignoreMissing
               - type: LayoutBox
                 cell:
                   column: 1
@@ -64,7 +46,7 @@ children:
                 stretchFactor: 1
                 children:
                   - type: ComboBox
-                    name: sortVars
+                    name: orientation
               - type: LayoutBox
                 cell:
                   column: 0
@@ -72,18 +54,26 @@ children:
                 stretchFactor: 1
                 children:
                   - type: ComboBox
-                    name: catSort
+                    name: sortVars
               - type: LayoutBox
                 cell:
                   column: 1
                   row: 1
                 stretchFactor: 1
                 children:
+                  - type: ComboBox
+                    name: catSort
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 2
+                stretchFactor: 1
+                children:
                   - type: CheckBox
                     name: invertVars
               - type: LayoutBox
                 cell:
-                  column: 0
+                  column: 1
                   row: 2
                 stretchFactor: 1
                 children:

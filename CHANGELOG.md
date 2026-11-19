@@ -4,12 +4,12 @@
 
 **New analysis**
 - **Compare Groups**: compares the distributions of numeric variables across the levels of a grouping factor, with box, violin, means with error bars, raincloud, ridgeline, histogram, overlaid densities, ECDF, data points and barcode plots. Groups can be shown side by side within each variable, or in panels by group or by variable. It sits in its own section of the comparePlots menu.
-- Like the other analyses, its *Transform values* and *Ignore missing group cases* options are in a *Data* box outside Appearance, and it warns when a variable has fewer than two distinct values in a group.
+- Like Compare Numeric, its *Transform values* and *Ignore missing group cases* options are in a *Data* box outside Appearance, and it warns when a variable has fewer than two distinct values in a group.
 
 **Example data**
 - The numeric example dataset has a *Group* column (Control / Intervention), so Compare Groups can be tried on it. Its values were regenerated, so example output from Compare Numeric differs from 1.0.x.
 
-## 1.0.1 (2026-11-17)
+## 1.0.1 (2026-11-19)
 
 Follow-up to the jamovi library audit of 1.0.0. No options were added or removed, so saved analyses keep working.
 
@@ -18,7 +18,9 @@ Follow-up to the jamovi library audit of 1.0.0. No options were added or removed
 - Compare Numeric warns when a variable has fewer than two distinct values and so has no density curve or histogram.
 
 **Layout and labels**
-- Options that change the plotted data (*Transform values*, *Ignore missing cases*) sit in their own *Data* box, outside Appearance; the Appearance section formerly headed *Variables* is now *Order and Labels*.
+- Compare Numeric: *Transform values* sits in its own *Data* box, outside Appearance; the Appearance section formerly headed *Variables* is now *Order and Labels*.
+- Compare Ordinal and Nominal: *Ignore missing cases* (ticked by default) is the first option in Appearance, in a section now headed *Data, Order and Labels*.
+- Compare Ordinal and Nominal: bars, tiles, slices and dots have black outlines instead of grey, and *Opacity* no longer fades the outlines of the dot pictogram and parliament charts.
 - Axis and option labels: *% in first / last category*, *Percent* (response profile), *Cumulative percent* (ECDF).
 
 ## 1.0.0 (2026-11-10)

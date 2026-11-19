@@ -314,7 +314,7 @@ cmp_cat_private <- function() {
             p <- ggplot2::ggplot(long) +
                 ggplot2::geom_rect(
                     ggplot2::aes(xmin = pos - bw / 2, xmax = pos + bw / 2, ymin = lo, ymax = hi, fill = category),
-                    colour = "grey35", linewidth = ctx$lw_out, alpha = ctx$alpha)
+                    colour = "black", linewidth = ctx$lw_out, alpha = ctx$alpha)
             if (o$barLabels) {
                 ld <- long[long$pct >= max(o$barMinLabel, 0.01), ]     # skip tiny segments
                 ld$label <- private$.pct_fmt(ld$pct, ctx)
@@ -388,7 +388,7 @@ cmp_cat_private <- function() {
             p <- ggplot2::ggplot(dv) +
                 ggplot2::geom_rect(
                     ggplot2::aes(xmin = pos - bw / 2, xmax = pos + bw / 2, ymin = lo, ymax = hi, fill = category),
-                    colour = "grey35", linewidth = ctx$lw_out, alpha = ctx$alpha) +
+                    colour = "black", linewidth = ctx$lw_out, alpha = ctx$alpha) +
                 ggplot2::geom_hline(yintercept = 0, colour = "grey25", linewidth = 0.5)   # centre line
             if (o$divLabels) {
                 ld <- dv[dv$pct >= max(o$divMinLabel, 0.01), ]
@@ -436,7 +436,7 @@ cmp_cat_private <- function() {
             gap <- o$heatGap / 100
             p <- ggplot2::ggplot(long, ggplot2::aes(x = pos, y = y, fill = pct)) +
                 ggplot2::geom_tile(width = 1 - gap, height = 1 - gap, alpha = ctx$alpha,
-                                     colour = "grey35", linewidth = ctx$lw_out * 0.5)
+                                     colour = "black", linewidth = ctx$lw_out * 0.5)
             if (o$heatLabels) {
                 # label colour chosen from the tile colour the value maps to
                 tcol <- cmp_text_col(scales::col_numeric(cols, c(0, top))(long$pct))
@@ -487,16 +487,16 @@ cmp_cat_private <- function() {
             if (kind == "waffle") {
                 s <- 1 - o$waffleGap / 100            # tile size < 1 leaves the gap
                 p <- ggplot2::ggplot(df, ggplot2::aes(x = cx, y = cy, fill = category)) +
-                    ggplot2::geom_tile(width = s, height = s, colour = "grey55", linewidth = ctx$lw_out, alpha = ctx$alpha) +
+                    ggplot2::geom_tile(width = s, height = s, colour = "black", linewidth = ctx$lw_out, alpha = ctx$alpha) +
                     private$.fill_scale(ctx)
             } else {
                 # shapes 21-24 are filled shapes with a separate outline, so pale
                 # categories (e.g. a neutral middle) stay visible on white
                 shp <- c(circle = 21, square = 22, diamond = 23, triangle = 24)[[o$pictoShape]]
                 p <- ggplot2::ggplot(df, ggplot2::aes(x = cx, y = cy, fill = category)) +
-                    ggplot2::geom_point(shape = shp, size = o$pictoSize, colour = "grey45", stroke = ctx$lw_out * 1.2, alpha = ctx$alpha) +
+                    ggplot2::geom_point(shape = shp, size = o$pictoSize, colour = "black", stroke = ctx$lw_out * 1.2) +
                     ggplot2::scale_fill_manual(
-                        values = ctx$cat_cols, breaks = ctx$cats, name = private$.leg_title(ctx), drop = FALSE,
+                        values = private$.faded(ctx), breaks = ctx$cats, name = private$.leg_title(ctx), drop = FALSE,
                         na.value = "transparent",
                         guide = ggplot2::guide_legend(nrow = ctx$leg_rows, override.aes = list(size = 4, shape = 21)))
             }
@@ -509,6 +509,10 @@ cmp_cat_private <- function() {
         # shared among the rows in proportion to the row's radius (longer arcs get
         # more), then sorted by angle from left to right so each category forms a
         # wedge, as in parliament diagrams. Categories get seats by cmp_alloc().
+        # Category colours with the Opacity setting applied, for the dot charts,
+        # so the fill fades but the black outline stays solid.
+        .faded = function(ctx) stats::setNames(ggplot2::alpha(ctx$cat_cols, ctx$alpha), names(ctx$cat_cols)),
+
         .p_parliament = function(long, ctx) {
             o <- ctx$o
             nrow_ <- o$parlRows
@@ -530,9 +534,9 @@ cmp_cat_private <- function() {
                            category = factor(category, levels = ctx$cats))
             }))
             p <- ggplot2::ggplot(df, ggplot2::aes(x = cx, y = cy, fill = category)) +
-                ggplot2::geom_point(size = o$parlSize, shape = 21, colour = "grey45", stroke = ctx$lw_out * 1.2, alpha = ctx$alpha) +
+                ggplot2::geom_point(size = o$parlSize, shape = 21, colour = "black", stroke = ctx$lw_out * 1.2) +
                 ggplot2::scale_fill_manual(
-                    values = ctx$cat_cols, breaks = ctx$cats, name = private$.leg_title(ctx), drop = FALSE,
+                    values = private$.faded(ctx), breaks = ctx$cats, name = private$.leg_title(ctx), drop = FALSE,
                     na.value = "transparent",
                     guide = ggplot2::guide_legend(nrow = ctx$leg_rows, override.aes = list(size = 4)))
             p + private$.chart_grid(ctx)
@@ -566,7 +570,7 @@ cmp_cat_private <- function() {
             min_label   <- if (donut) o$donutMinLabel else o$pieMinLabel
             p <- ggplot2::ggplot(long) +
                 ggplot2::geom_rect(ggplot2::aes(xmin = r0, xmax = 1, ymin = lo, ymax = hi, fill = category),
-                                   colour = "grey35", linewidth = ctx$lw_out, alpha = ctx$alpha)
+                                   colour = "black", linewidth = ctx$lw_out, alpha = ctx$alpha)
             if (show_labels) {
                 ld <- long[long$pct >= max(min_label, 0.01), ]
                 ld$label <- private$.pct_fmt(ld$pct, ctx)
@@ -602,7 +606,7 @@ cmp_cat_private <- function() {
             long$variable <- factor(as.character(long$variable), levels = if (ctx$horiz) rev(ctx$lv) else ctx$lv)
             dodge <- ggplot2::position_dodge(width = 0.85)
             p <- ggplot2::ggplot(long, ggplot2::aes(x = x, y = pct, fill = variable)) +
-                ggplot2::geom_col(position = dodge, width = o$groupWidth / 100 * 0.85, colour = "grey35", linewidth = ctx$lw_out, alpha = ctx$alpha)
+                ggplot2::geom_col(position = dodge, width = o$groupWidth / 100 * 0.85, colour = "black", linewidth = ctx$lw_out, alpha = ctx$alpha)
             if (isTRUE(o$groupLabels)) {
                 ld <- long[long$pct > 0, ]
                 ld$label <- private$.pct_fmt(ld$pct, ctx)
