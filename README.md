@@ -1,5 +1,7 @@
 # comparePlots
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24401092.svg)](https://doi.org/10.5281/zenodo.24401092)
+
 A jamovi module to **compare the distributions of variables at once**, side by side on one shared scale. Drop your variables in, tick the plots you want, and get them all in one go. No code needed.
 
 Three analyses, in jamovi's **Plots** tab:
@@ -126,6 +128,14 @@ Do not name an option `theme` or `palette`: jamovi reserves those for its global
 Developed for the **Laboratorio Austral de Medición Psicosocial (LAMP)**, Universidad de Magallanes, and maintained in the author's personal repository.
 
 **How it was written:** the code is largely AI-generated (Claude Sonnet 5.5, Anthropic), following the official jamovi developer manuals and documentation, then human-reviewed (by the author) and tested on macOS, Linux and Windows. The code is heavily commented so that people, or other tools, can follow and change it.
+
+## How to cite
+
+If you use comparePlots in your research, please cite it:
+
+> Elgueta, H. E. (2026). *comparePlots: Compare the distributions of variables* (Version 1.1) [jamovi module]. Zenodo. https://doi.org/10.5281/zenodo.24401092
+
+This DOI always points to the latest version; each release also has its own DOI, listed on the [Zenodo page](https://doi.org/10.5281/zenodo.24401092). GitHub's **Cite this repository** button (from [CITATION.cff](CITATION.cff)) gives the same reference in APA and BibTeX.
 
 ## License
 
