@@ -4,13 +4,18 @@
 
 A jamovi module to **compare the distributions of variables at once**, side by side on one shared scale. Drop your variables in, tick the plots you want, and get them all in one go. No code needed.
 
-Three analyses, in jamovi's **Plots** tab:
+Five analyses, in jamovi's **Plots** tab, in two sections of the comparePlots menu:
 
+*Compare Variables*
 - **Compare Numeric**
 - **Compare Ordinal** (Likert-type items)
 - **Compare Nominal**
 
-All three work the same way: pick variables, set a few shared appearance options, then **tick any combination of plots**. Every plot appears as its own result and has its own collapsible settings panel.
+*Compare Groups* (numeric variables across the levels of a grouping variable)
+- **Compare Dichotomous**: two groups; adds the split violin and the back-to-back histogram (age-by-sex pyramids and the like)
+- **Compare Polytomous**: three or more groups
+
+All five work the same way: pick variables, set a few shared appearance options, then **tick any combination of plots**. Every plot appears as its own result and has its own collapsible settings panel.
 
 ---
 

@@ -1,9 +1,9 @@
-# Compare Groups (distGrp): USER INTERFACE, hand-written.
+# Compare Dichotomous (distDich): USER INTERFACE, hand-written.
 # compilerMode is `tame`: jmc keeps this layout and only adds controls for NEW options.
 # Each plot has its own CollapseBox that holds the plot's checkbox AND its settings; the settings are
 # greyed out (enable:) while the checkbox is off, or while a sibling option they depend on is off.
-title: Compare Groups
-name: distGrp
+title: Compare Dichotomous
+name: distDich
 jus: '3.0'
 stage: 0
 compilerMode: tame
@@ -25,32 +25,6 @@ children:
             name: group
             maxItemCount: 1
             isTarget: true
-  # Options that change the plotted data, kept out of Appearance.
-  - type: CollapseBox
-    label: Data
-    collapsed: false
-    stretchFactor: 1
-    children:
-      - type: LayoutBox
-        margin: large
-        stretchFactor: 1
-        children:
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 0
-            stretchFactor: 1
-            children:
-              - type: ComboBox
-                name: transform
-          - type: LayoutBox
-            cell:
-              column: 1
-              row: 0
-            stretchFactor: 1
-            children:
-              - type: CheckBox
-                name: ignoreMissingGroup
   # Shared options in one box, in sections with headings (Label controls).
   - type: CollapseBox
     label: Appearance
@@ -58,7 +32,7 @@ children:
     stretchFactor: 1
     children:
       - type: Label
-        label: Order and Labels
+        label: Variables
         children:
           - type: LayoutBox
             margin: large
@@ -94,8 +68,8 @@ children:
                   row: 1
                 stretchFactor: 1
                 children:
-                  - type: CheckBox
-                    name: invertVars
+                  - type: ComboBox
+                    name: transform
               - type: LayoutBox
                 cell:
                   column: 0
@@ -103,7 +77,7 @@ children:
                 stretchFactor: 1
                 children:
                   - type: CheckBox
-                    name: invertGroups
+                    name: invertVars
               - type: LayoutBox
                 cell:
                   column: 1
@@ -111,11 +85,27 @@ children:
                 stretchFactor: 1
                 children:
                   - type: CheckBox
-                    name: useDesc
+                    name: invertGroups
               - type: LayoutBox
                 cell:
                   column: 0
                   row: 3
+                stretchFactor: 1
+                children:
+                  - type: CheckBox
+                    name: useDesc
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 3
+                stretchFactor: 1
+                children:
+                  - type: CheckBox
+                    name: ignoreMissingGroup
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 4
                 stretchFactor: 1
                 children:
                   - type: TextBox
@@ -171,6 +161,14 @@ children:
                   - type: TextBox
                     name: lineWidth
                     format: number
+              - type: LayoutBox
+                cell:
+                  column: 1
+                  row: 2
+                stretchFactor: 1
+                children:
+                  - type: ComboBox
+                    name: refLine
       - type: Label
         label: Data Points
         children:
@@ -681,6 +679,39 @@ children:
               - type: CheckBox
                 name: histFreeY
                 enable: '(showHist)'
+  - type: CollapseBox
+    label: Back-to-Back Histogram
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showPyramid
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: TextBox
+                name: pyBins
+                format: number
+                enable: '(showPyramid)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: pyStat
+                enable: '(showPyramid)'
   - type: CollapseBox
     label: Overlaid Densities
     collapsed: true

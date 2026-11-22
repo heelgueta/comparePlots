@@ -12,15 +12,17 @@ type: R
 description: >-
   Compare the distributions of variables on one shared scale. Numeric variables:
   box, violin, means with error bars, raincloud, ridgeline, histogram, density,
-  ECDF, data points and barcode plots. Ordinal and nominal variables: stacked
-  and diverging bars, heatmap, waffle, pictogram, parliament, response profile,
-  pie, donut, grouped bars and lollipop plots.
+  ECDF, data points and barcode plots, also across two groups (including a
+  back-to-back histogram) or three or more groups. Ordinal and nominal
+  variables: stacked and diverging bars, heatmap, waffle, pictogram, parliament,
+  response profile, pie, donut, grouped bars and lollipop plots.
 analyses:
   - title: Compare Numeric
     name: distNum
     ns: comparePlots
     category: plots
     menuGroup: comparePlots
+    menuSubgroup: Compare Variables
     menuTitle: Compare Numeric
     description: Compare the distributions of numeric variables on one shared axis.
   - title: Compare Ordinal
@@ -28,6 +30,7 @@ analyses:
     ns: comparePlots
     category: plots
     menuGroup: comparePlots
+    menuSubgroup: Compare Variables
     menuTitle: Compare Ordinal
     description: >-
       Compare the response distributions of ordinal variables (e.g. Likert
@@ -37,17 +40,29 @@ analyses:
     ns: comparePlots
     category: plots
     menuGroup: comparePlots
+    menuSubgroup: Compare Variables
     menuTitle: Compare Nominal
     description: Compare the category distributions of nominal variables.
-  - title: Compare Groups
-    name: distGrp
+  - title: Compare Dichotomous
+    name: distDich
     ns: comparePlots
     category: plots
     menuGroup: comparePlots
-    menuTitle: Compare Groups
+    menuSubgroup: Compare Groups
+    menuTitle: Compare Dichotomous
     description: >-
-      Compare the distributions of numeric variables across levels of a grouping
-      factor.
+      Compare the distributions of numeric variables between two groups (split
+      violin, back-to-back histogram and more).
+  - title: Compare Polytomous
+    name: distPoly
+    ns: comparePlots
+    category: plots
+    menuGroup: comparePlots
+    menuSubgroup: Compare Groups
+    menuTitle: Compare Polytomous
+    description: >-
+      Compare the distributions of numeric variables across three or more
+      groups.
 datasets:
   - name: Well-being scales (numeric example)
     path: example_numeric.omv
@@ -63,8 +78,9 @@ datasets:
   - name: Therapy trial (groups example)
     path: example_groups.omv
     description: >-
-      Eight measures in three treatment groups (Control, CBT, Medication) plus
-      Sex, with differing shapes and a few missing values, n = 270
+      Six measures with differing shapes and four grouping variables: treatment
+      group (3), sex (2), SES (ordinal, 3) and site (4), with a few missing
+      values, n = 270
 usesNative: true
 minApp: 2.4.0
 

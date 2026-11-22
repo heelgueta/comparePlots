@@ -1,11 +1,11 @@
 ---
-# Compare Groups (distGrp): OPTIONS.
-# Compares one or more numeric variables across levels of a grouping factor.
-# jmvtools compiles this file (with distGrp.r.yaml) into R/distGrp.h.R.
-name: distGrp
-title: Compare Groups
+# Compare Polytomous (distPoly): OPTIONS. DERIVED from distDich.a.yaml by tools/gen_group_analyses.py: edit that file.
+# jmvtools compiles this file (with distPoly.r.yaml) into R/distPoly.h.R.
+name: distPoly
+title: Compare Polytomous
 category: plots
 menuGroup: comparePlots
+menuSubgroup: Compare Groups
 version: '1.0.0'
 jas: '1.2'
 options:
@@ -173,6 +173,17 @@ options:
       - name: angle90
         title: 90 degrees
     default: horizontal
+  - name: refLine
+    title: Reference line (all groups together)
+    type: List
+    options:
+      - name: none
+        title: None
+      - name: mean
+        title: Overall mean
+      - name: median
+        title: Overall median
+    default: none
   - name: alpha
     title: Opacity
     type: Integer
@@ -238,7 +249,7 @@ options:
     type: String
     default: ''
   - name: showN
-    title: n per group
+    title: Show n in group labels
     type: Bool
     default: false
   # PLOT: Box plot.
@@ -304,10 +315,6 @@ options:
     title: Inner box
     type: Bool
     default: true
-  - name: violinSplit
-    title: Split halves (for 2 groups)
-    type: Bool
-    default: false
   - name: violinJitter
     title: Data points (jittered)
     type: Bool

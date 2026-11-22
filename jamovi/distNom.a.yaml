@@ -6,6 +6,7 @@ name: distNom
 title: Compare Nominal
 category: plots
 menuGroup: comparePlots
+menuSubgroup: Compare Variables
 version: '1.0.0'
 jas: '1.2'
 options:

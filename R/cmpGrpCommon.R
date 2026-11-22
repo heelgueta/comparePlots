@@ -1,7 +1,9 @@
 # =============================================================================
-# distGrp: "Compare Groups"
+# Shared engine of the two group analyses: Compare Dichotomous (distDich, exactly
+# two groups) and Compare Polytomous (distPoly, three or more). Both compare one
+# or more numeric variables across the levels of a grouping factor. Each analysis'
+# class (R/distDich.b.R, R/distPoly.b.R) is built from cmp_grp_private(kind).
 #
-# Compares one or more numeric variables across the levels of a grouping factor.
 # Colours encode the groups (`grp`), while the three group display modes
 # (`groupMode`) control how variables and groups share the canvas:
 #   - "dodge"      : one combined plot; variables sit at integer positions on the
@@ -11,15 +13,19 @@
 #                    the shared axis.
 #   - "facetVar"   : one facet panel per variable, each comparing the groups on
 #                    the shared axis.
+# `kind` is "dich" (adds the back-to-back histogram and requires two groups) or
+# "poly" (accepts any number of groups).
 # =============================================================================
-distGrpClass <- R6::R6Class(
-    "distGrpClass",
-    inherit = distGrpBase,
-    private = list(
+cmp_grp_private <- function(kind) {
+    list(
+
+
+        .kind = kind,
 
         .switches = c(
             box = "showBox", violin = "showViolin", errorbar = "showErrorBar",
             raincloud = "showRaincloud", ridge = "showRidge", hist = "showHist",
+            if (kind == "dich") c(pyramid = "showPyramid"),
             density = "showDensity", ecdf = "showEcdf", strip = "showStrip",
             barcode = "showBarcode"),
 
@@ -50,6 +56,10 @@ distGrpClass <- R6::R6Class(
                     else { gr <- grid(nv); rows <- gr[["nr"]]; cols <- gr[["nc"]] }
                     w <- max(480, min(1000, 120 + 170 * cols))
                     h <- max(380, min(1400, 110 + 130 * rows))
+                } else if (key == "pyramid") {
+                    gr <- grid(nv)
+                    w <- max(480, min(1000, 120 + 200 * gr[["nc"]]))
+                    h <- max(380, min(1400, 110 + 220 * gr[["nr"]]))
                 } else if (mode == "dodge") {
                     span <- nv * (max(ng, 1) * 20 + 36) + 120
                     if (horiz) h <- max(380, min(1400, span)) else w <- max(480, min(1200, span))
@@ -68,6 +78,19 @@ distGrpClass <- R6::R6Class(
             vars <- opts$vars
             grp  <- opts$group
             on   <- vapply(private$.switches, function(k) isTRUE(opts[[k]]), logical(1))
+
+            if (length(vars) > 0 && !is.null(grp)) {
+                ng0 <- private$.n_levels(grp)
+                if (private$.kind == "dich" && ng0 != 2)
+                    jmvcore::reject(paste0(
+                        "Compare Dichotomous needs a grouping variable with exactly two levels, but '", grp, "' has ", ng0,
+                        if (ng0 == 1) " level" else " levels",
+                        if (ng0 > 2) ". For three or more groups use Compare Polytomous." else "."))
+                if (private$.kind == "poly" && ng0 == 2)
+                    private$.warn(".twoGroups", paste0(
+                        "'", grp, "' has only two levels. Compare Dichotomous offers plots made for two groups ",
+                        "(split violin, back-to-back histogram)."), jmvcore::NoticeType$INFO)
+            }
 
             hint <- self$results$hint
             if ((length(vars) > 0 || !is.null(grp)) && (length(vars) == 0 || is.null(grp))) {
@@ -88,6 +111,10 @@ distGrpClass <- R6::R6Class(
                 jmvcore::reject("The selected variables and grouping variable have no usable non-missing observations.")
             if (length(unique(long$grp)) < 1)
                 jmvcore::reject("The grouping variable has no non-missing levels.")
+            if (private$.kind == "dich" && nlevels(long$grp) != 2)
+                jmvcore::reject(paste0(
+                    "Compare Dichotomous needs two groups with usable values, but only ", nlevels(long$grp),
+                    " of the grouping variable's levels have any."))
 
             # Say what silently has nothing to draw.
             cnt <- table(factor(long$variable, levels = vars), long$grp)
@@ -137,6 +164,14 @@ distGrpClass <- R6::R6Class(
             }
         },
 
+        .n_levels = function(grp) {
+            g <- self$data[[grp]]
+            if (!is.factor(g)) g <- as.factor(g)
+            n <- nlevels(droplevels(g))
+            if (!isTRUE(self$options$ignoreMissingGroup) && anyNA(g)) n <- n + 1L
+            n
+        },
+
         .long = function(vars, grp, warn = FALSE) {
             o <- self$options
             how <- o$transform
@@ -157,7 +192,7 @@ distGrpClass <- R6::R6Class(
                 x <- cmp_transform(raw, how)
                 n_lost <- sum(is.finite(raw)) - sum(is.finite(x))
                 if (how != "none" && n_lost > 0) lost <<- c(lost, paste0(v, " (", n_lost, ")"))
-                data.frame(variable = v, grp = g_vec, value = x, stringsAsFactors = FALSE)
+                data.frame(variable = v, grp = g_vec, value = x, id = seq_along(x), stringsAsFactors = FALSE)
             }))
             if (warn && length(lost) > 0)
                 private$.warn(".transformLost", paste0(
@@ -169,9 +204,9 @@ distGrpClass <- R6::R6Class(
             out
         },
 
-        .warn = function(name, content) {
+        .warn = function(name, content, type = jmvcore::NoticeType$WARNING) {
             notice <- jmvcore::Notice$new(
-                self$options, name = name, type = jmvcore::NoticeType$WARNING, content = content)
+                self$options, name = name, type = type, content = content)
             self$results$insert(1, notice)
         },
 
@@ -194,6 +229,7 @@ distGrpClass <- R6::R6Class(
         .plot_raincloud = function(image, ggtheme, theme, ...) private$.render(image, "raincloud", ggtheme, theme),
         .plot_ridge     = function(image, ggtheme, theme, ...) private$.render(image, "ridge", ggtheme, theme),
         .plot_hist      = function(image, ggtheme, theme, ...) private$.render(image, "hist", ggtheme, theme),
+        .plot_pyramid   = function(image, ggtheme, theme, ...) private$.render(image, "pyramid", ggtheme, theme),
         .plot_density   = function(image, ggtheme, theme, ...) private$.render(image, "density", ggtheme, theme),
         .plot_ecdf      = function(image, ggtheme, theme, ...) private$.render(image, "ecdf", ggtheme, theme),
         .plot_strip     = function(image, ggtheme, theme, ...) private$.render(image, "strip", ggtheme, theme),
@@ -251,7 +287,9 @@ distGrpClass <- R6::R6Class(
             names(fills) <- lg
 
             lab <- cmp_var_labels(self$data, lv, o$useDesc)
-            glab <- stats::setNames(lg, lg)
+            n_by <- tapply(long$id, long$grp, function(z) length(unique(z)))
+            glab <- stats::setNames(
+                if (isTRUE(o$showN)) paste0(lg, " (n = ", n_by[lg], ")") else lg, lg)
 
             ang <- switch(o$xLabelAngle, angle45 = 45, angle90 = 90, 0)
 
@@ -303,11 +341,13 @@ distGrpClass <- R6::R6Class(
                 raincloud = private$.p_raincloud(long, ctx),
                 ridge     = private$.p_ridge(long, ctx),
                 hist      = private$.p_hist(long, ctx),
+                pyramid   = private$.p_pyramid(long, ctx),
                 density   = private$.p_density(long, ctx),
                 ecdf      = private$.p_ecdf(long, ctx),
                 strip     = private$.p_strip(long, ctx),
                 barcode   = private$.p_barcode(long, ctx))
             if (is.null(p)) return(NULL)
+            p <- p + private$.ref(long, ctx, key)
             private$.finish(p, long, ctx, key)
         },
 
@@ -319,13 +359,13 @@ distGrpClass <- R6::R6Class(
                 title = ctx$leg_title,
                 nrow = if (o$legendPos %in% c("bottom", "top")) {
                     # as many rows as the label widths need to fit the plot width
-                    entry <- max(nchar(ctx$lg), nchar(ctx$leg_title)) * 0.45 * o$textSize + 0.04 * o$textSize * 16 + 30
+                    entry <- max(nchar(ctx$glab), nchar(ctx$leg_title)) * 0.45 * o$textSize + 0.04 * o$textSize * 16 + 30
                     per_row <- max(1L, floor((ctx$width - 30) / entry))
                     max(1L, ceiling(ctx$ng / per_row))
                 } else NULL) else "none"
 
             # Faceting for canvas plots when mode is facetGroup or facetVar
-            canvas_plot <- !(key %in% c("hist", "density", "ecdf"))
+            canvas_plot <- !(key %in% c("hist", "density", "ecdf", "pyramid"))
             if (canvas_plot && ctx$mode == "facetGroup") {
                 p <- p + ggplot2::facet_wrap(ggplot2::vars(grp), labeller = ggplot2::as_labeller(ctx$glab_strip))
             } else if (canvas_plot && ctx$mode == "facetVar") {
@@ -363,17 +403,36 @@ distGrpClass <- R6::R6Class(
                     panel.grid.major.y = if (ctx$horiz) ggplot2::element_blank() else ggplot2::element_line())
             }
 
-            caption <- NULL
-            if (isTRUE(o$showN)) {
-                # Count distinct observations per group across the dataset
-                g_counts <- table(long$grp[long$variable == ctx$lv[1]])
-                caption <- paste(strwrap(paste(paste0(names(g_counts), " (n=", g_counts, ")"), collapse = "   "), 55), collapse = "\n")
-            }
-            if (key == "errorbar") {
-                extra <- cmp_interval_label(o$ebCenter, o$ebInterval, o$ebLevel, o$ebMult)
-                caption <- paste(c(extra, caption), collapse = "\n")
-            }
+            caps <- character(0)
+            if (key == "errorbar")
+                caps <- c(caps, cmp_interval_label(o$ebCenter, o$ebInterval, o$ebLevel, o$ebMult))
+            if (!identical(o$refLine, "none") && key != "pyramid")
+                caps <- c(caps, paste0("Dashed line: overall ", o$refLine, " of all groups."))
+            caption <- if (length(caps) > 0) paste(caps, collapse = "\n") else NULL
             p + ggplot2::labs(title = cmp_title(o$title), caption = caption)
+        },
+
+        # Dashed reference line at the overall (all groups pooled) mean or median of
+        # each variable: across the variable's slot on category-axis plots, vertical
+        # on the value-axis plots (histogram, densities, ECDF).
+        .ref = function(long, ctx, key) {
+            o <- ctx$o
+            if (identical(o$refLine, "none") || key == "pyramid") return(NULL)
+            fun <- if (identical(o$refLine, "mean")) mean else stats::median
+            val <- vapply(ctx$lv, function(z) fun(long$value[as.character(long$variable) == z]), 0)
+            d <- data.frame(variable = factor(ctx$lv, levels = ctx$lv), ref = unname(val))
+            if (key %in% c("hist", "density", "ecdf"))
+                return(ggplot2::geom_vline(
+                    data = d, mapping = ggplot2::aes(xintercept = ref), inherit.aes = FALSE,
+                    linetype = "dashed", colour = "grey25", linewidth = 0.5))
+            if (ctx$mode == "facetVar") {
+                d$x0 <- 0.4; d$x1 <- ctx$ng + 0.6
+            } else {
+                d$x0 <- unname(ctx$pos[ctx$lv]) - 0.5; d$x1 <- unname(ctx$pos[ctx$lv]) + 0.5
+            }
+            ggplot2::geom_segment(
+                data = d, mapping = ggplot2::aes(x = x0, xend = x1, y = ref, yend = ref), inherit.aes = FALSE,
+                linetype = "dashed", colour = "grey25", linewidth = 0.5)
         },
 
         .cat_axis = function(ctx, upper = 0.6) {
@@ -435,7 +494,7 @@ distGrpClass <- R6::R6Class(
         # ── Violin plot (with optional Split Violin for 2 groups) ──────────
         .p_violin = function(long, ctx) {
             o <- ctx$o
-            if (isTRUE(o$violinSplit) && ctx$ng == 2 && identical(ctx$mode, "dodge")) {
+            if (private$.kind == "dich" && isTRUE(o$violinSplit) && ctx$ng == 2 && identical(ctx$mode, "dodge")) {
                 h <- (o$violinWidth / 100) * 0.45
                 p <- ggplot2::ggplot()
                 for (v in ctx$lv) {
@@ -673,6 +732,42 @@ distGrpClass <- R6::R6Class(
             p + ggplot2::labs(x = ctx$vlab, y = ylab)
         },
 
+        # ── Back-to-back histogram (population pyramid), exactly two groups ──
+        # Bins are shared by the two groups of a variable; the first group goes to the
+        # left, the second to the right. The value axis is always vertical.
+        .p_pyramid = function(long, ctx) {
+            o <- ctx$o
+            if (ctx$ng != 2) return(NULL)
+            rows <- lapply(ctx$lv, function(v) {
+                x <- long$value[as.character(long$variable) == v]
+                if (length(x) == 0 || diff(range(x)) <= 0) return(NULL)
+                br <- seq(min(x), max(x), length.out = o$pyBins + 1)
+                mid <- (br[-1] + br[-length(br)]) / 2
+                bw <- br[2] - br[1]
+                do.call(rbind, lapply(seq_along(ctx$lg), function(i) {
+                    xs <- long$value[as.character(long$variable) == v & as.character(long$grp) == ctx$lg[i]]
+                    cnt <- tabulate(findInterval(xs, br, rightmost.closed = TRUE, all.inside = TRUE), nbins = o$pyBins)
+                    val <- if (identical(o$pyStat, "percent")) 100 * cnt / max(length(xs), 1) else cnt
+                    data.frame(variable = factor(v, levels = ctx$lv), grp = factor(ctx$lg[i], levels = ctx$lg),
+                               mid = mid, bw = bw, len = if (i == 1) -val else val)
+                }))
+            })
+            d <- do.call(rbind, rows)
+            if (is.null(d) || nrow(d) == 0) return(NULL)
+            lim <- max(abs(d$len), 1)
+            pct <- identical(o$pyStat, "percent")
+            p <- ggplot2::ggplot(d, ggplot2::aes(xmin = pmin(0, len), xmax = pmax(0, len),
+                                                 ymin = mid - bw / 2, ymax = mid + bw / 2, fill = grp)) +
+                ggplot2::geom_rect(colour = if (ctx$bw) "black" else "white", linewidth = 0.15, alpha = ctx$alpha) +
+                ggplot2::geom_vline(xintercept = 0, colour = "grey30", linewidth = 0.4) +
+                ggplot2::scale_x_continuous(limits = c(-lim, lim), labels = function(z) abs(z)) +
+                ggplot2::labs(x = if (pct) "Percent of group" else "Count", y = ctx$vlab)
+            if (ctx$n > 1)
+                p <- p + ggplot2::facet_wrap(ggplot2::vars(variable), scales = "free_y",
+                                             labeller = ggplot2::as_labeller(ctx$lab_strip))
+            p
+        },
+
         # ── Overlaid densities ─────────────────────────────────────────────
         .p_density = function(long, ctx) {
             o <- ctx$o
@@ -752,4 +847,4 @@ distGrpClass <- R6::R6Class(
             private$.flip(p, ctx)
         }
     )
-)
+}

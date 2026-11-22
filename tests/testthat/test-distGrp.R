@@ -1,4 +1,4 @@
-# Compare Groups: renders every plot across awkward data and option setups.
+# Compare Dichotomous / Compare Polytomous (shared engine): renders every plot across awkward data and option setups.
 # Needs the installed package (the analysis class is not a plain helper):
 #   R CMD INSTALL . ; Rscript -e 'testthat::test_dir("tests/testthat")'
 skip_if_not_installed("comparePlots")
@@ -15,14 +15,17 @@ keys <- c(box = "showBox", violin = "showViolin", errorbar = "showErrorBar",
 
 # Runs the analysis with every plot ticked; returns notice names and the plots
 # that failed to draw (errors or FALSE).
-cg_run <- function(d, vars, grp = "Group", ...) {
+cg_run <- function(d, vars, grp = "Group", kind = "poly", ...) {
+    keys_k <- if (kind == "dich") c(keys, pyramid = "showPyramid") else keys
+    nm <- if (kind == "dich") "distDich" else "distPoly"
     args <- c(list(vars = vars, group = grp),
-              as.list(stats::setNames(rep(TRUE, length(keys)), keys)), list(...))
-    a <- comparePlots:::distGrpClass$new(
-        options = do.call(comparePlots:::distGrpOptions$new, args), data = d)
+              as.list(stats::setNames(rep(TRUE, length(keys_k)), keys_k)), list(...))
+    ns <- asNamespace("comparePlots")
+    a <- ns[[paste0(nm, "Class")]]$new(
+        options = do.call(ns[[paste0(nm, "Options")]]$new, args), data = d)
     a$init(); a$run()
     bad <- character(0)
-    for (k in names(keys)) {
+    for (k in names(keys_k)) {
         img <- a$results[[paste0("plot_", k)]]
         if (is.null(img$state)) next
         f <- tempfile(fileext = ".png")
@@ -81,8 +84,10 @@ for (m in modes) {
                    histDensity = TRUE, histFreeY = TRUE))
         chk(cg_run(base, v2, groupMode = m, boxNotch = TRUE, boxMean = TRUE, boxJitter = TRUE))
         two <- base[base$Group %in% levels(base$Group)[1:2], ]; two$Group <- droplevels(two$Group)
-        chk(cg_run(two, v2, groupMode = m, violinSplit = TRUE))
-        chk(cg_run(base, v2, groupMode = m, violinSplit = TRUE))
+        chk(cg_run(two, v2, kind = "dich", groupMode = m))
+        chk(cg_run(two, v2, kind = "dich", groupMode = m, violinSplit = FALSE, pyBins = 8, pyStat = "percent"))
+        chk(cg_run(base, v2, groupMode = m, refLine = "mean", showN = TRUE))
+        chk(cg_run(base, v2, groupMode = m, refLine = "median", orientation = "vertical"))
     })
 }
 
@@ -112,8 +117,9 @@ test_that("Compare Groups: plots are sized from their content", {
 test_that("Compare Groups: dichotomous, ordinal and polytomous grouping variables", {
     chk <- function(r) { expect_equal(r$bad, character(0)); r }
     for (m in modes) for (g in c("Sex", "SES", "Site")) {
-        chk(cg_run(base, c("Depression", "Anxiety"), g, groupMode = m))
-        chk(cg_run(base, c("Depression", "Anxiety"), g, groupMode = m, orientation = "vertical", xLabelAngle = "angle45"))
+        k <- if (g == "Sex") "dich" else "poly"
+        chk(cg_run(base, c("Depression", "Anxiety"), g, k, groupMode = m))
+        chk(cg_run(base, c("Depression", "Anxiety"), g, k, groupMode = m, orientation = "vertical", xLabelAngle = "angle45"))
     }
     # the ordinal factor keeps its order (Low < Middle < High), reversible
     lv <- function(...) levels(cg_run(base, "Depression", "SES", ...)$res$.__enclos_env__$private$.long("Depression", "SES")$grp)
@@ -125,4 +131,37 @@ test_that("Compare Groups: x axis label angle option", {
         for (m in modes)
             expect_equal(cg_run(base, c("Depression", "Anxiety", "Sleep"), "Site", groupMode = m,
                                 orientation = "vertical", xLabelAngle = ang)$bad, character(0))
+})
+
+test_that("Compare Dichotomous: needs exactly two groups, says so otherwise", {
+    expect_error(cg_run(base, "Depression", "Group", "dich"), "exactly two levels")
+    expect_error(cg_run(base, "Depression", "Site", "dich"), "Compare Polytomous")
+    d <- base; d$Sex[d$Sex == "Male"] <- NA                      # one level left with data
+    expect_error(cg_run(d, "Depression", "Sex", "dich"), "exactly two levels")
+    d <- base; d$Sex[1] <- NA                                    # NA kept as a third level
+    expect_error(cg_run(d, "Depression", "Sex", "dich", ignoreMissingGroup = FALSE), "exactly two levels")
+    chk <- cg_run(d, "Depression", "Sex", "dich")                # ignored by default: fine
+    expect_equal(chk$bad, character(0))
+})
+
+test_that("Compare Polytomous: a two-level group is accepted with a pointer to Compare Dichotomous", {
+    r <- cg_run(base, "Depression", "Sex", "poly")
+    expect_equal(r$bad, character(0))
+    expect_true(".twoGroups" %in% r$notices)
+})
+
+test_that("Compare Dichotomous: back-to-back histogram works with awkward data", {
+    chk <- function(r) expect_equal(r$bad, character(0))
+    d <- base; d$Depression[d$Sex == "Male"] <- NA              # one group without values: rejected
+    expect_error(cg_run(d, "Depression", "Sex", "dich"), "two groups with usable values")
+    d <- base; d$Anxiety <- 5                                   # no spread: pyramid cannot draw, others can
+    r <- cg_run(d, c("Depression", "Anxiety"), "Sex", "dich"); expect_true(all(r$bad %in% c("ridge", "hist")))
+    chk(cg_run(base[1:10, ], "Depression", "Sex", "dich"))
+    chk(cg_run(base, c("Depression", "Anxiety", "Sleep", "Change"), "Sex", "dich", invertGroups = TRUE, pyBins = 5))
+})
+
+test_that("Compare Groups: group labels carry n when asked", {
+    a <- cg_run(base, "Depression", "Group", showN = TRUE)$res
+    ctx <- a$.__enclos_env__$private$.context("Depression", "Group", a$.__enclos_env__$private$.long("Depression", "Group"))
+    expect_match(ctx$glab[["Control"]], "^Control \\(n = \\d+\\)$")
 })

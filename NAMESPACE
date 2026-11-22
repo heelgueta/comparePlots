@@ -1,6 +1,7 @@
-export(distGrp)
+export(distDich)
 export(distNom)
 export(distNum)
 export(distOrd)
+export(distPoly)
 importFrom(jmvcore, .)
 importFrom(R6, R6Class)

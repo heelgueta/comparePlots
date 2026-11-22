@@ -18,24 +18,6 @@ children:
           - type: VariablesListBox
             name: vars
             isTarget: true
-  # Options that change the plotted data, kept out of Appearance.
-  - type: CollapseBox
-    label: Data
-    collapsed: false
-    stretchFactor: 1
-    children:
-      - type: LayoutBox
-        margin: large
-        stretchFactor: 1
-        children:
-          - type: LayoutBox
-            cell:
-              column: 0
-              row: 0
-            stretchFactor: 1
-            children:
-              - type: ComboBox
-                name: transform
   # Shared options in one box, in sections with headings (Label controls).
   - type: CollapseBox
     label: Appearance
@@ -43,7 +25,7 @@ children:
     stretchFactor: 1
     children:
       - type: Label
-        label: Order and Labels
+        label: Variables
         children:
           - type: LayoutBox
             margin: large
@@ -71,8 +53,8 @@ children:
                   row: 1
                 stretchFactor: 1
                 children:
-                  - type: CheckBox
-                    name: invertVars
+                  - type: ComboBox
+                    name: transform
               - type: LayoutBox
                 cell:
                   column: 1
@@ -80,10 +62,18 @@ children:
                 stretchFactor: 1
                 children:
                   - type: CheckBox
-                    name: useDesc
+                    name: invertVars
               - type: LayoutBox
                 cell:
                   column: 0
+                  row: 2
+                stretchFactor: 1
+                children:
+                  - type: CheckBox
+                    name: useDesc
+              - type: LayoutBox
+                cell:
+                  column: 1
                   row: 2
                 stretchFactor: 1
                 children:
