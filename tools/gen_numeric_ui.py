@@ -40,7 +40,7 @@ grp += appearance_groups([
                           C("invertVars"), C("invertGroups"), C("useDesc"), S("valueLabel")]),
     ("Colours and Lines", [D("colourPalette"), C("reversePalette"), D("plotTheme"), T("alpha", suffix="%"), T("lineWidth")]),
     ("Data Points", [T("pointSize"), T("pointAlpha", suffix="%"), D("pointColour"), T("jitterSpread", suffix="%")]),
-    ("Text and Labels", [T("textSize"), S("title"), D("legendPos"), S("legendTitle"), C("showN")])])
+    ("Text and Labels", [T("textSize"), D("xLabelAngle"), S("title"), D("legendPos"), S("legendTitle"), C("showN")])])
 grp += box("Box Plot", "showBox", [T("boxWidth", "(showBox)", "%"), C("boxOutliers", "(showBox)"), C("boxNotch", "(showBox)"),
                                    C("boxMean", "(showBox)"), C("boxJitter", "(showBox)")], collapsed=False)
 grp += box("Violin Plot", "showViolin", [T("violinWidth", "(showViolin)", "%"), D("violinScale", "(showViolin)"), T("violinAdjust", "(showViolin)"),

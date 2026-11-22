@@ -64,7 +64,7 @@ Shared appearance: orientation (horizontal: charts stacked top to bottom; vertic
 | `data/example_numeric` | Six 0–100 scales with different shapes: normal, skewed, bimodal, narrow (n = 240) |
 | `data/example_ordinal` | Six Likert items with different response patterns (n = 300) |
 | `data/example_nominal` | One five-category nominal variable at three times of day (n = 250) |
-| `data/example_groups` | Eight measures in three treatment groups (Control, CBT, Medication) plus Sex: shifts between groups, skewed, ceiling and narrow variables, strictly positive reaction times, a change score with negatives, uneven group sizes, a few missing values (n = 270) |
+| `data/example_groups` | Six measures and four grouping variables: Group (3 arms), Sex (dichotomous), SES (ordinal, 3 levels), Site (nominal, 4 levels): shifts between groups, skewed, ceiling and narrow variables, strictly positive reaction times, a change score with negatives, uneven group sizes, a few missing values (n = 270) |
 
 Each is provided as `.omv` (variable types already set) and `.csv`. Regenerate with `Rscript tools/make_examples.R`.
 

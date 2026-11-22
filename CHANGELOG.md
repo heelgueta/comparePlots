@@ -6,10 +6,11 @@
 - **Compare Groups**: compares the distributions of numeric variables across the levels of a grouping factor, with box, violin, means with error bars, raincloud, ridgeline, histogram, overlaid densities, ECDF, data points and barcode plots. Groups can be shown side by side within each variable, or in panels by group or by variable. It sits in the comparePlots menu alongside the other analyses.
 - Like Compare Numeric, its *Transform values* and *Ignore missing group cases* options are in a *Data* box outside Appearance, and it warns when a variable has fewer than two distinct values in a group.
 
+- *Angle of x axis labels* (Appearance, Text and Labels): horizontal (default), 45 or 90 degrees. Bottom legends wrap to fit long group names.
 - Compare Groups plots are sized from the number of variables, groups and the display mode, long variable and group names wrap in panel headers, and it warns about variables or variable-by-group combinations with no data and about grouping variables with more than 8 levels.
 
 **Example data**
-- New `example_groups` dataset (a three-arm therapy trial, n = 270) for trying Compare Groups: *Group* (Control / CBT / Medication, uneven sizes) and *Sex* as grouping variables, and six numeric measures with different shapes, including strictly positive reaction times (try the log transform) and a change score with negative values. It has a few missing values. The other three example datasets are unchanged.
+- New `example_groups` dataset (a three-arm therapy trial, n = 270) for trying Compare Groups: four grouping variables of different kinds: *Group* (Control / CBT / Medication, uneven sizes), *Sex* (dichotomous), *SES* (ordinal: Low, Middle, High, order respected) and *Site* (nominal, four levels with long names), and and six numeric measures with different shapes, including strictly positive reaction times (try the log transform) and a change score with negative values. It has a few missing values. The other three example datasets are unchanged.
 
 ## 1.0.1 (2026-11-19)
 

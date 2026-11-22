@@ -162,6 +162,17 @@ options:
     min: 8
     max: 32
     default: 16
+  - name: xLabelAngle
+    title: Angle of x axis labels
+    type: List
+    options:
+      - name: horizontal
+        title: Horizontal
+      - name: angle45
+        title: 45 degrees
+      - name: angle90
+        title: 90 degrees
+    default: horizontal
   - name: alpha
     title: Opacity
     type: Integer

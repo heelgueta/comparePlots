@@ -1,271 +1,271 @@
-"Group","Sex","Depression","Anxiety","Sleep","Wellbeing","ReactionTime","Change"
-"Control","Female",71.7,26.8,56.9,51.7,222,-1.3
-"Control","Female",64.9,27.2,44.5,45.5,317,-18
-"Control","Female",48.5,20.3,36.6,41.8,416,1.5
-,"Male",61.9,59.6,60.4,44.7,431,-7.5
-"Control","Female",70.8,33.7,49,46.4,527,13.7
-"Control","Female",53.4,39,87.2,47.6,285,-7.2
-"Control","Male",70.6,44.6,64.7,35.1,526,-3.4
-"Control","Female",55.9,36.5,82.1,45.1,335,-17
-"Control","Male",69.1,29.6,75.5,52.4,394,4
-"Control","Male",64.9,47.6,91.3,40.8,324,-6
-"Control","Male",53.4,27.6,29.8,53.6,371,3.1
-"Control","Female",75.4,32,66.9,39.8,396,6.4
-"Control","Female",58.3,36.5,78.3,42.9,467,-5.9
-"Control","Male",90.9,46,59.4,41.2,455,3.5
-"Control","Female",68.7,35.8,60.2,36.2,753,-13.1
-"Control","Female",54.2,54.8,87.8,41.9,405,-13.7
-"Control","Female",52.1,33.8,85.9,35.3,434,-9
-"Control","Male",84.1,20,53,46.1,483,19.4
-"Control","Female",60.4,34.1,57,55.7,656,-3.6
-"Control","Male",74.7,53.8,54,39.1,465,7.7
-"Control","Female",68.6,34.4,87.1,43.7,235,3.3
-"Control","Male",67.1,22.7,78,49.1,455,-14.1
-"Control","Female",66,35.4,37.3,51.3,698,-15.9
-"Control","Male",54.9,11.9,65,30.9,219,-1.8
-"Control","Male",30.5,8.1,23.7,39.1,441,-8.5
-"Control","Male",53.1,9.2,50.3,38.6,503,6.7
-"Control","Male",,8.6,43.8,44.7,515,-3.1
-"Control","Male",62.6,12.9,87.5,50.7,427,-3.7
-"Control","Female",62.4,29.1,69.9,61.2,410,-3
-"Control","Male",,17.4,84.2,32.6,173,1.3
-"Control","Female",70.4,9.5,69.2,40.3,594,-11.1
-"Control","Male",64.4,16.9,59.9,36.7,233,18.2
-"Control","Male",51.9,16.7,59.9,37.7,459,6.5
-"Control","Female",68.4,49.5,88.2,42.6,286,-1.8
-"Control","Female",64.6,64.5,58.8,32.4,486,3.9
-"Control","Female",60,32.7,78.4,53.3,299,0.9
-"Control","Female",56.8,26.6,54.3,49.2,224,-4.3
-"Control","Male",56.5,20.2,90,46.2,319,-7.5
-"Control","Male",,16.6,46.7,41.4,326,-4.4
-"Control","Female",55.5,28.2,62.5,54.9,218,-4
-"Control","Male",51.3,60.2,31.6,44.8,462,3.5
-"Control","Male",63.9,28.4,91.2,42.5,517,-21.4
-"Control","Male",70,13.3,55.1,42.6,376,-5.4
-"Control","Male",44.1,30.1,55.5,38.7,424,-4.5
-"Control","Male",52.9,41.2,58.9,36.8,585,-7.5
-"Control","Female",75.2,41.3,49.1,47.7,340,20.3
-"Control","Female",59.8,19.4,78.9,39.6,355,5.1
-"Control","Female",63.7,45.4,31.2,36.6,325,-7.5
-"Control","Male",47.8,24.3,63.6,34.1,524,-4.2
-"Control","Male",53,40.7,77,43.4,432,-4.8
-"Control","Male",52.9,38.2,72.2,48.4,289,0.6
-"Control","Male",67.7,31.2,49.5,44.7,305,16.5
-"Control","Female",51.1,21,57.5,46.7,594,-3.1
-"Control","Male",56,34,52.6,43.6,474,2.7
-"Control","Male",30.6,24,79.2,54.2,385,5.9
-"Control","Female",98.9,10.6,79.5,53.7,369,-4.5
-"Control","Male",69.6,18.9,69.8,51.2,403,-11.8
-"Control","Male",63.5,25.9,74,55.8,408,-9.2
-"Control","Male",34.1,26.6,75.7,35.6,322,-0.7
-"Control","Female",67.8,38.2,54.3,33.6,332,-6.5
-"Control","Male",69.9,48.8,85.8,38.8,490,5.3
-,"Female",45.3,35.2,91.4,26.1,436,-0.7
-"Control","Male",64.8,46.4,51.5,44.8,474,10.2
-"Control","Female",64,42.8,73.9,57,603,8.9
-"Control","Female",65.3,36.1,45.3,53.8,491,-17.3
-"Control","Female",58.2,19.1,58.9,36.4,339,-1
-"Control","Male",66.8,24,87.6,51.3,500,-8.3
-"Control","Male",60.9,48.6,54,38.9,437,3.1
-"Control","Male",55.5,29.2,80.6,52.9,406,4.8
-"Control","Male",73,55.6,84.4,47.2,445,1.5
-"Control","Female",64.7,27.1,81.3,40.3,355,-2.9
-"Control","Male",60.1,43.4,67.7,,377,-15.6
-"Control","Male",51.5,28.7,59.3,36.4,364,2.5
-"Control","Female",49.9,44.5,80.7,33.5,288,-13.5
-"Control","Male",62.2,32.6,52.8,52.2,355,-1.8
-"Control","Female",64.6,27,79.1,47.9,274,1.7
-"Control","Male",72.5,29,86,34.7,413,2.1
-"Control","Female",63.5,35.4,55.2,28.5,478,3.3
-"Control","Female",49,26.6,77.8,47.7,340,-7.8
-,"Female",36.7,4.4,24.9,44.3,303,-15.4
-"Control","Male",53.3,28.8,74.5,39.2,292,-15.9
-"Control","Female",58.2,28.1,49.2,51.3,271,-10.1
-"Control","Female",42.4,48.8,95.4,40,259,1.1
-"Control","Female",82.8,49.3,69.3,40.5,430,-6.5
-"Control","Female",,18.4,80.8,36.7,321,20.8
-"Control","Female",69.8,20.4,52.2,29,264,12.1
-"Control","Male",47.8,21.9,94.7,53.2,394,-3.6
-"Control","Male",77.1,76.2,68.2,40.6,593,-4.5
-"Control","Female",65.4,53,70.3,42.4,491,-0.7
-"Control","Female",68,29.9,81.8,25.8,497,-2
-"Control","Male",63.6,53.3,56,40,569,2.9
-,"Female",79.8,19.5,86.7,30.3,458,-9
-"Control","Male",64.4,56.4,46.2,47.8,318,-4.3
-"Control","Female",60.6,36.9,58.6,49.3,304,0.8
-"Control","Male",47.9,22.8,72.1,45.1,509,9.2
-"Control","Female",57.1,35.8,80.7,52.7,470,-2.6
-"Control","Male",81.5,26.4,53.9,38.9,458,1.7
-"Control","Male",49.3,33.6,84.3,46.8,287,-2.9
-"Control","Male",58.1,29.3,96.6,41.9,344,-7.3
-"Control","Female",58.3,77.6,34.7,49.9,337,-2.3
-"CBT","Female",51.1,10.4,57.7,56.6,298,9.2
-"CBT","Female",41.8,35.3,80.9,49.9,408,-9.4
-"CBT","Female",35,18.4,73.4,63.3,352,-12
-"CBT","Male",36.4,45.6,40.6,46,393,-25.4
-"CBT","Male",31.5,42.3,78,55.1,320,4.7
-"CBT","Female",33.5,47.1,64.3,62.5,346,-24.5
-"CBT","Female",56.9,11,89.1,59.5,338,-1.8
-"CBT","Male",76.8,48,87.6,52.7,486,-4.6
-"CBT","Female",11.9,37.6,86.1,60.3,375,-6.4
-"CBT","Female",28.1,26,68.6,55.6,228,-11.5
-"CBT","Female",47.1,10.7,50.9,49,402,-12.3
-"CBT","Female",48.8,11.9,83.8,56.9,343,-5.8
-"CBT","Female",59.1,28.2,87.6,56.6,322,-10.4
-"CBT","Female",47.8,16.6,56.7,50.1,483,-15
-"CBT","Female",42.8,58.9,83.9,55.8,352,-10.8
-"CBT","Male",42.5,58.5,77.3,61.2,444,9.4
-"CBT","Female",48.3,36.2,80.6,,400,-18.5
-"CBT","Male",66.8,38.6,85.6,53.4,469,-6.9
-"CBT","Male",36.7,17.4,86.5,59.6,435,-19.1
-"CBT","Female",49.9,29.4,70.9,55.3,308,-8.6
-"CBT","Male",51.5,37.6,66.5,56.9,355,-10.5
-"CBT","Female",32.7,43.5,62.3,58.9,579,-11.2
-"CBT","Female",40.4,40.6,77.9,52.1,367,-0.4
-"CBT","Male",44.1,3.6,69.9,66.8,319,-12.4
-"CBT","Female",43.8,1.6,81.3,57.2,316,-7.2
-"CBT","Male",58.2,34.6,95.7,,314,-2.1
-"CBT","Female",67.2,62.5,80.4,40.8,358,-1.4
-"CBT","Male",41.1,29.8,74,57,586,3.8
-"CBT","Female",52.4,36.8,92.8,51.3,424,-6.9
-"CBT","Male",35.2,36,60.9,58,328,-11.6
-"CBT","Female",39.8,3.1,85.5,51.3,498,-7.7
-"CBT","Female",43.4,27.4,93.2,45.9,467,8.2
-"CBT","Female",51.1,29.6,48.8,48,266,-14.7
-"CBT","Male",44.4,26.7,90.8,53.9,411,-23.5
-"CBT","Male",65.4,43,92,61.5,224,-16.2
-"CBT","Male",,17.4,86.6,56.8,453,2.4
-"CBT","Male",53.9,11.4,83.1,57,396,5.8
-"CBT","Female",31.7,31.5,90.9,58.9,569,-6.1
-"CBT","Female",34.9,22.4,78.6,54.9,573,-13.6
-"CBT","Male",39.2,7.5,68.8,53.1,247,0.1
-"CBT","Female",47.9,52.2,69.8,50.2,524,-11.3
-"CBT","Female",47.3,49.2,67.2,57.4,293,-5.3
-"CBT","Female",34,25.1,75.8,41.1,333,-3.2
-"CBT","Male",62.6,33.2,70.8,,726,-36.4
-"CBT","Female",54.5,18.8,87.9,47.4,562,-5.3
-"CBT","Female",42.7,26.5,66.9,62.4,179,-16.2
-"CBT","Male",56.3,30.4,49.8,45,300,-22.2
-"CBT","Female",52.2,37,84.1,57.7,242,8.5
-"CBT","Male",54.6,22.6,60.2,64.4,468,-16.9
-"CBT","Female",58.3,28.9,86.9,58.5,337,-21.4
-"CBT","Female",14.9,22,63.3,56.2,495,-21.9
-"CBT","Male",43.7,19.6,98.8,45.7,441,-10.9
-"CBT","Female",56,42.7,89.1,,656,-12.9
-"CBT","Female",23.4,2.4,57,70,418,-11.5
-"CBT","Female",57.5,45.9,81,58.7,494,-13.9
-"CBT","Female",47.2,27.9,91.2,51.8,346,-15.6
-"CBT","Male",42.7,53.1,80.4,67.2,552,-19.6
-"CBT","Male",42.4,32.9,88.6,44.8,478,-9.4
-"CBT","Female",33.5,31.9,77.2,52.8,406,-9.2
-"CBT","Female",45.4,3.9,60.5,44.1,608,-23.4
-"CBT","Female",72,18.2,76.9,49.9,445,-27.1
-"CBT","Male",54.9,4.8,87.7,56,311,-13.8
-"CBT","Male",35.7,66.6,74.3,58.8,409,-10.9
-"CBT","Female",38,57.9,76.9,51,331,-10.4
-"CBT","Male",21.2,28.6,53.9,46.8,287,8.4
-"CBT","Male",18.3,37.7,71.3,70.4,424,-16.9
-"CBT","Female",,65.2,50.6,58,311,-12.6
-"CBT","Male",38.7,17.6,74.2,51.7,275,-0.9
-"CBT","Male",36.3,29,70,63.1,354,-14.2
-"CBT","Male",52.4,39,86.9,50.8,362,-5.8
-"CBT","Male",49.6,6.6,65.2,57.3,290,-23.2
-"CBT","Male",27.5,15.3,72.1,47.1,240,-10.7
-"CBT","Female",62,15.6,86.8,58.7,372,-3.9
-"CBT","Female",41.6,51.6,93.2,54.9,740,-15.9
-"CBT","Male",35.3,27.5,70.8,53.4,332,-12.6
-"CBT","Female",29.2,20,89.8,50.3,506,-18.5
-"CBT","Female",59.8,31.9,80.2,59.1,232,1.7
-"CBT","Female",36.6,28.9,47.4,52.2,580,-11.6
-"CBT","Male",31,66.5,66.3,45.4,529,-16
-"CBT","Female",53.6,16,69.4,55.4,420,-24.7
-"CBT","Male",56.7,23,59.7,59.4,286,-24.6
-"CBT","Female",36.3,41.6,52.6,56.3,534,-19.4
-"CBT","Female",27.6,54,77,45.2,451,-13.4
-"CBT","Female",45.3,33.1,81.7,54.8,421,10.6
-"CBT","Male",48.1,28.8,77.8,47.4,258,-8.2
-"CBT","Male",48.6,16.4,69.6,57.1,534,-16.9
-"CBT","Female",43.9,38,79.6,50.2,508,-20.9
-"CBT","Male",61.4,28.1,50.3,49.8,253,-21.1
-"CBT","Female",,12.7,84.2,51.3,509,-30.7
-"CBT","Female",40.5,35.9,84.1,58.2,383,-16.7
-"Medication","Male",48.9,9.2,67.4,58.4,773,-13.7
-"Medication","Male",35.8,40.1,69.3,57.6,621,-18.9
-"Medication","Female",64.2,9.4,88.7,55.2,239,-17.8
-"Medication","Female",42.4,24.8,65.2,51.4,554,10.7
-"Medication","Female",15.3,48.3,32,34,576,4.9
-"Medication","Female",54.8,42.1,61,58.2,951,-5.7
-"Medication","Female",66.1,8,91.7,51.1,439,-14.9
-"Medication","Female",52.7,50.4,53.3,60.1,393,7
-"Medication","Female",24.4,18.5,71.1,59.3,675,2.1
-"Medication","Male",54.6,44.2,71.1,46.4,655,-10.6
-"Medication","Male",52.8,17.2,78.3,42.1,481,-0.3
-"Medication","Female",69.2,5,81.6,50.4,270,-7.8
-"Medication","Male",50.9,46.7,94.2,45.1,643,-19.5
-"Medication","Male",27.4,47.8,38,44.8,391,-2.8
-"Medication","Male",70.3,6.8,69.1,54.3,632,0.7
-"Medication","Female",57.2,15.6,89.3,54.1,333,4.7
-"Medication","Male",61.5,9.1,63.4,52.9,491,1
-"Medication","Female",40,27.2,49.6,58.8,601,2.5
-"Medication","Female",27,8,91.3,44.5,345,-9.8
-"Medication","Male",18,19.3,63,57.3,414,9
-"Medication","Female",29.8,40.6,48.1,50.1,300,-9.2
-"Medication","Female",68.9,34.6,63.5,,764,-11
-"Medication","Female",48.4,22.3,67.8,56.1,491,-6.3
-"Medication","Female",,23,47.3,47.1,649,-25
-"Medication","Female",44.4,32.4,79.7,55.7,368,0.3
-"Medication","Male",32.1,22.9,23.1,50.5,491,-1.5
-"Medication","Female",58.4,32.9,85.9,53.7,395,10.3
-"Medication","Female",62,15.4,47.9,46.2,452,6
-"Medication","Male",48.8,25.9,86.5,52.6,430,2.4
-"Medication","Female",41,18.6,80.3,45.6,401,5.5
-"Medication","Male",56,29.6,64.7,47.2,518,-6.4
-"Medication","Female",46.9,43.6,78.3,57.4,561,-0.4
-"Medication","Female",60.7,23.3,56.7,47.3,369,-10.2
-"Medication","Female",74.7,5.7,86.6,48.6,528,-18.3
-"Medication","Male",51,12,47.2,55.8,551,-12.8
-"Medication","Female",57.2,16.8,20.6,54.3,421,-3.7
-"Medication","Female",45.4,17.6,94.2,45.1,430,-25.4
-,"Female",22.2,34.3,94.7,69.6,415,-15.4
-"Medication","Female",72,26.4,95.9,52.9,396,-19.1
-"Medication","Female",59,29.6,76.6,49,398,-24.9
-"Medication","Male",34.1,42,61.8,47.8,609,-13.2
-"Medication","Male",,12.4,79.4,46.6,436,-9.3
-"Medication","Female",54.6,52,81.2,53.9,265,-7.9
-"Medication","Female",31.6,8.3,46.2,49.6,350,-16.8
-"Medication","Female",47.1,32.6,54.9,47.5,483,-6.3
-"Medication","Male",60.2,27.3,70.8,54.3,660,-37.8
-"Medication","Male",33.6,41.5,78.1,49.6,588,-18.3
-"Medication","Male",62.1,17.6,77.7,,728,-6.7
-"Medication","Female",51.1,59.2,79.9,57.7,675,-11.8
-"Medication","Female",66.4,29.5,70.7,37.2,498,2.1
-"Medication","Female",37.3,54.9,93.9,59.5,536,1.6
-"Medication","Female",43.2,19.7,88.2,44.8,331,1.3
-"Medication","Female",42.2,26,72.7,60.6,287,-13.3
-"Medication","Female",53.4,50.8,91.3,56.6,260,-15.3
-"Medication","Female",41.8,54.1,78.4,44.1,336,3.8
-"Medication","Male",56.2,37.3,81.5,49.8,510,-22
-"Medication","Male",51.5,38.7,75.9,60.8,577,-9.4
-"Medication","Female",26.8,38.6,60.7,41.8,455,-4.2
-"Medication","Female",57,48.4,67.3,63.8,382,-24.4
-"Medication","Female",63.6,62.7,36.4,44.5,351,-5.1
-"Medication","Female",54.7,29.7,63.4,46.8,348,1.9
-"Medication","Male",55.7,59,55.9,50.6,451,-6.4
-"Medication","Male",60.6,55.2,28,55.4,354,-26.6
-"Medication","Female",43.7,15.2,50.2,51.5,592,-2.4
-"Medication","Female",65.2,25.3,83,42.5,399,-17
-"Medication","Male",47.7,29.8,70,53.2,342,-0.1
-"Medication","Female",58.8,7.9,87.3,51.4,516,2.9
-"Medication","Female",56.6,52.4,88.2,37.6,417,-24.2
-"Medication","Female",57.1,20.3,55.3,42.9,504,-3.6
-"Medication","Female",73.1,20.4,50.2,58.6,676,-6.3
-"Medication","Female",57.2,19.2,83.9,54.7,410,-15.1
-"Medication","Male",80.7,25.3,83.3,48.7,354,-13.3
-"Medication","Female",54.5,33.8,68.8,44.7,378,-12.7
-"Medication","Female",46.5,26.6,53.5,48.7,527,-14.3
-"Medication","Female",62.1,19.5,66.7,56,851,2.9
-"Medication","Female",64.9,30,27,54.1,578,-19.7
-"Medication","Female",33.2,31.8,66.4,49.2,430,-10.1
-"Medication","Female",73.8,30.1,51.1,57.8,330,-9.5
-"Medication","Female",42.2,12.2,52.5,49.7,225,-14.1
-,"Female",45.9,23.8,42.4,48.4,402,-26.7
+"Group","Sex","SES","Site","Depression","Anxiety","Sleep","Wellbeing","ReactionTime","Change"
+"Control","Female","High","Community centre",51.8,60.9,76.5,55.6,611,1.7
+"Control","Female","High","Rural health centre",52,32.5,76,51.7,371,-7.1
+"Control","Female","Low","Community centre",56.8,56.9,78.4,39.7,320,-5.3
+"Control","Male","Middle","Rural health centre",74.5,22.5,68.7,38.7,342,-4.7
+"Control","Female","Middle","Downtown clinic",75.7,29,93.5,42.7,476,-6.3
+"Control","Female","Middle","University hospital",,53,87.3,50,770,10.9
+"Control","Male","Low","Downtown clinic",69.6,56.2,70.8,45.1,523,-11.7
+"Control","Female","Middle","Community centre",82.6,40.1,90.6,43.2,389,-2.1
+"Control","Male","High","Downtown clinic",62.7,41.5,76.8,54.8,298,-1.5
+"Control","Male","Middle","University hospital",63,41.4,80.1,43.7,203,-6.1
+,"Male","Middle","University hospital",76.9,50.7,74.2,42.4,364,-18.7
+"Control","Female","High","University hospital",53.7,64.2,58.3,33.1,400,4.5
+"Control","Female","Low","University hospital",74.4,32.7,65.2,35.9,238,2.4
+"Control","Male","Middle","Downtown clinic",57.3,60.7,34,45.8,436,10.3
+"Control","Female","Middle","Downtown clinic",60.3,57.1,61.1,46.7,330,2.4
+"Control","Female","Middle","University hospital",63.1,17.8,53.4,51.7,638,-15.6
+"Control","Female","Low","Rural health centre",73.5,28.3,25.8,,332,4.5
+"Control","Male","Low","Rural health centre",67.6,32.8,47.7,48.6,375,-2.8
+"Control","Female","Low","Community centre",78.2,9.8,81.7,37.4,245,-6.3
+"Control","Male","Middle","Downtown clinic",61.4,54.5,67.9,44.4,471,2.7
+"Control","Female","Middle","University hospital",51.6,23.2,86.3,39.5,346,7.5
+"Control","Male","High","Downtown clinic",56.6,23.2,87.3,45.9,459,-11.9
+"Control","Female","High","Community centre",67.7,22,52.8,47.5,508,-2
+"Control","Male","Low","University hospital",66.8,28.3,47.6,,346,2.3
+"Control","Male","Middle","Community centre",53.7,36.8,82.7,48,464,4.8
+"Control","Male","Low","Downtown clinic",67.4,29.6,82,57.6,277,-2.7
+"Control","Male","High","Community centre",39.2,22.3,66.7,48.1,272,-8
+"Control","Male","High","Downtown clinic",68.2,33,51,49.8,314,-21
+"Control","Female","Low","Community centre",83,76.6,64.5,46.5,760,-7.8
+"Control","Male","Low","Rural health centre",44.6,34.8,24.9,54.1,372,-2.5
+"Control","Female","Middle","Downtown clinic",41.1,33.1,64.2,48.5,529,-12.2
+"Control","Male","Middle","Downtown clinic",40.3,14.5,48.6,,461,-8.7
+"Control","Male","Middle","University hospital",45.2,26.8,50,48,268,-8.1
+"Control","Female","High","Downtown clinic",53.3,43.8,39.9,61.7,254,2.2
+"Control","Female","High","Community centre",44.5,55.1,42.1,32.7,393,-6.9
+"Control","Female","Middle","Community centre",41.3,62.4,65,47.2,320,0.3
+"Control","Female","Low","Downtown clinic",54,40.5,76,47.5,513,-12.2
+"Control","Male","Middle","Downtown clinic",48.8,51,67.6,51.1,378,-6.6
+"Control","Male","High","Community centre",65.4,14.9,62.1,49.4,371,0
+"Control","Female","Low","University hospital",83.2,36.6,57.9,42.4,379,4.8
+"Control","Male","Low","University hospital",65.7,20,90.4,20.8,433,-1.6
+"Control","Male","High","Downtown clinic",51.6,26.4,66.3,57.7,295,2.5
+"Control","Male","Low","University hospital",56.8,10.5,39.6,28.2,732,11.5
+"Control","Male","Middle","Downtown clinic",48.7,68.7,78.7,48.2,509,3
+"Control","Male","Low","University hospital",62.7,34.5,34.8,33.4,394,-2.2
+"Control","Female","Low","Community centre",81,23.7,81.1,46.6,469,11.2
+"Control","Female","Middle","Downtown clinic",57.8,41.5,73,37.5,428,2
+"Control","Female","Low","University hospital",50.6,40.7,77.7,27.3,364,9.2
+"Control","Male","Middle","University hospital",59,14.2,88.5,39.1,330,3.5
+"Control","Male","Middle","Community centre",65.8,16.2,76,39.7,362,4.7
+"Control","Male","Middle","Rural health centre",65.9,47.4,90.2,29.6,368,-4
+"Control","Male","Middle","University hospital",51.1,43.7,63.1,48.4,464,-3.6
+"Control","Female","Middle","Community centre",68.2,46.4,26.7,51.2,214,-12.7
+"Control","Male","Low","Community centre",60,15,82.9,40.2,352,-3.6
+"Control","Male","Low","Downtown clinic",70.6,24,70.7,43.3,362,5.8
+"Control","Female","Middle","Downtown clinic",64.1,61.7,52.2,54.3,330,-9.2
+"Control","Male","Low","Downtown clinic",64.7,36.3,44,37.7,782,-0.3
+"Control","Male","Low","Downtown clinic",57.4,74.5,95.7,38.8,488,12.6
+"Control","Male","Middle","Downtown clinic",61.5,49.8,82.8,39.6,330,-3.5
+"Control","Female","High","Downtown clinic",49.7,55.8,83.9,54.5,365,-5.9
+"Control","Male","Low","Downtown clinic",47.6,14.5,67.7,43.7,358,-5.8
+"Control","Female","High","Downtown clinic",,31.7,46.3,39.7,423,19.4
+"Control","Male","Low","Downtown clinic",61.1,17.9,94,35,696,-1.1
+"Control","Female","High","Community centre",51.6,32.5,79.9,57.7,378,-1.6
+"Control","Female","Middle","Downtown clinic",93,41.1,87.7,49,452,-9.2
+"Control","Female","Middle","University hospital",83.4,41.1,85.7,43.8,500,-7.1
+"Control","Male","Low","Downtown clinic",69.1,13.8,74,39.8,362,-7.5
+"Control","Male","High","University hospital",65.1,42.1,94.1,47.9,289,-1.5
+"Control","Male","Low","Community centre",67.3,23.7,35.8,42.3,313,1.6
+"Control","Male","Middle","University hospital",68.7,46.2,62.9,39.4,407,10.5
+"Control","Female","Middle","University hospital",66.8,11.9,77.1,40.2,340,0.5
+"Control","Male","Middle","Community centre",62.8,53.1,67.4,49.9,491,14.7
+"Control","Male","Middle","Downtown clinic",50.8,38.7,74.2,47,407,-5.1
+"Control","Female","Middle","Rural health centre",54.7,67,74,49,572,3.9
+,"Male","Middle","Rural health centre",69.9,10.6,83.6,55,550,-8.3
+"Control","Female","Middle","Downtown clinic",58.4,45.4,87.6,49.9,243,-5.3
+"Control","Male","High","University hospital",68.6,45.1,57.3,43.6,403,5.1
+"Control","Female","Middle","Downtown clinic",57,42,81.7,50.4,322,-6.5
+"Control","Female","Middle","Downtown clinic",67.1,51,87.9,47,458,-8.4
+"Control","Female","Low","Community centre",63.1,23.2,92,42.2,483,-1.5
+"Control","Male","Middle","Downtown clinic",67.7,67.4,71.7,47.4,437,7.1
+"Control","Female","Low","Rural health centre",50.9,37.6,54.9,38.8,380,-4.3
+,"Female","Low","Rural health centre",65.6,25,67.5,40.3,256,7.4
+"Control","Female","Middle","Rural health centre",56.8,29.6,61.1,42.4,450,-10
+"Control","Female","Low","Downtown clinic",63.2,50.6,71.1,33.6,273,12.2
+"Control","Female","Middle","Rural health centre",90.7,43.3,32.2,41.8,394,3
+"Control","Male","Middle","Downtown clinic",62.4,47.7,34.5,35.3,439,0.7
+"Control","Male","Middle","Downtown clinic",56.6,22.9,44,45.6,444,-2.9
+"Control","Female","Middle","Community centre",33.5,22.6,26.3,49.2,462,9.6
+"Control","Female","Low","University hospital",63.1,31.9,89.7,37.7,326,-2.7
+"Control","Male","High","Community centre",66.9,27.9,92.6,40.9,258,4
+"Control","Female","Middle","Downtown clinic",84.9,26.2,83.5,36.9,253,1.9
+"Control","Male","Middle","Downtown clinic",57.6,46.2,98.6,35.1,304,5.1
+"Control","Female","Low","Community centre",75.1,16.3,67.4,30.9,430,4.8
+"Control","Male","Low","Downtown clinic",75.3,10.4,22,43.6,340,-9.8
+"Control","Female","High","University hospital",45.3,48.7,33.8,42.3,795,-4.5
+"Control","Male","Middle","University hospital",52,28,88.3,34.4,606,-3.7
+"Control","Male","Low","University hospital",58.1,54.4,43.7,41.4,372,-8.8
+"Control","Male","Middle","University hospital",84.3,41.9,83.3,54.6,362,0.6
+"Control","Female","Middle","Downtown clinic",72.2,14.4,37.5,49.9,407,8.5
+"CBT","Female","Middle","University hospital",40.9,42.1,65.5,59.2,391,0.9
+"CBT","Female","Middle","Community centre",65.9,16.7,83.7,62.6,456,-9.1
+"CBT","Female","Low","University hospital",59.4,13.3,72.7,54.2,314,-18.8
+"CBT","Male","High","Community centre",28.2,16.2,90.5,51.1,364,-11.2
+"CBT","Male","Middle","Rural health centre",56,28.7,94.1,46.9,427,-11.6
+"CBT","Female","Middle","Downtown clinic",45.3,36.8,47.4,59.8,553,-4.5
+"CBT","Female","Middle","Downtown clinic",35.8,16.7,63.1,57.8,383,-14.5
+"CBT","Male","Middle","Downtown clinic",61.6,43.2,92.8,57.2,439,-16.1
+"CBT","Female","Middle","University hospital",44.6,18.1,97.9,45.5,381,-15.6
+"CBT","Female","Low","Rural health centre",43.4,11.9,63.8,47.1,332,-8.4
+"CBT","Female","High","University hospital",38.3,40.9,74.2,52.5,387,-4
+"CBT","Female","Middle","Rural health centre",40.5,19.3,85.9,46.4,781,-13.9
+"CBT","Female","Low","Downtown clinic",72.1,72.4,50.8,51.3,437,-15.7
+"CBT","Female","Middle","Community centre",28.6,22.3,84.3,50.6,403,-14.8
+"CBT","Female","Low","Community centre",52.2,46.9,83.2,50.4,266,-14.2
+"CBT","Male","Middle","University hospital",36.2,3.8,90,48.2,678,-23.3
+"CBT","Female","Middle","Downtown clinic",52.6,27.2,97.6,50.2,274,-40
+"CBT","Male","Low","Community centre",55.9,16.6,83,46.6,555,-16.7
+"CBT","Male","Low","Downtown clinic",58.3,43.8,79,55.7,507,-27.6
+"CBT","Female","High","Downtown clinic",24.2,4.4,84.2,55.1,480,-13
+"CBT","Male","Low","University hospital",58.7,28.2,96.8,36.7,410,-0.4
+"CBT","Female","High","Community centre",43.5,26.2,63.4,56.9,400,-4.1
+"CBT","Female","Middle","Rural health centre",41.7,15.7,58.4,49.9,490,-24.7
+"CBT","Male","Middle","Rural health centre",28.9,40,72.1,48.4,423,3.5
+"CBT","Female","Low","University hospital",35.2,11.3,45.1,55.5,368,4.6
+"CBT","Male","High","Downtown clinic",38.1,49.9,86.3,53.6,419,-6.7
+"CBT","Female","Low","Downtown clinic",39.6,37.5,66.8,53.4,785,-11.4
+"CBT","Male","Low","Downtown clinic",63.7,24.6,80.1,50.8,329,-5.4
+"CBT","Female","Low","University hospital",63.5,16.7,56.3,54.8,472,-23.2
+"CBT","Male","Middle","University hospital",47.8,42.1,64.1,55.9,323,-18.2
+"CBT","Female","Middle","University hospital",49,13.4,82.4,47.2,448,-13.2
+"CBT","Female","Low","University hospital",40.4,2.8,89.5,47.8,423,-1.9
+"CBT","Female","Low","Rural health centre",48.8,61.8,69,60,414,-15.9
+"CBT","Male","Low","Downtown clinic",53.5,45.1,54,48.7,579,-7.2
+,"Male","Low","University hospital",56.5,20.3,75.7,45.1,399,-8.4
+"CBT","Male","Middle","Community centre",50.1,28.5,50.9,47.9,468,-15.8
+"CBT","Male","Middle","Downtown clinic",17.9,62.8,67.5,47.8,548,-11.1
+"CBT","Female","High","University hospital",6.6,23.4,84.2,54,560,-5.4
+"CBT","Female","High","Rural health centre",41.8,38.2,63.3,66.3,659,-0.4
+"CBT","Male","Low","University hospital",65.3,11.4,64.2,52.2,472,-14.4
+"CBT","Female","Low","Community centre",70.4,13,82,45.8,408,-7.2
+"CBT","Female","Low","Community centre",49.1,14.6,66.8,56.2,461,-20.8
+"CBT","Female","Middle","Community centre",,33.6,47.2,57.6,755,-10.6
+"CBT","Male","Middle","Rural health centre",47.6,52.3,73.9,43.6,371,-13.6
+"CBT","Female","Middle","Downtown clinic",16.6,17.1,68.4,54.5,282,4.6
+"CBT","Female","Low","University hospital",47.6,13,63.4,36.3,354,-16.1
+"CBT","Male","Middle","Downtown clinic",43.9,46.2,56.3,56.9,631,-16.3
+"CBT","Female","Low","University hospital",47.1,76.7,77.2,50.5,703,-6.9
+"CBT","Male","Low","Downtown clinic",56.3,17,62.3,59.6,485,-15
+"CBT","Female","Middle","Downtown clinic",35.4,24.2,71.3,62.8,384,-35.4
+"CBT","Female","Low","Downtown clinic",34.7,20.6,95.7,38.8,588,-31.5
+"CBT","Male","Middle","Downtown clinic",45.1,15.2,63,60.5,413,-10.5
+"CBT","Female","High","Rural health centre",34.2,14.2,79.2,49,497,-12.8
+"CBT","Female","Low","Downtown clinic",29.8,31.1,59.3,46.2,530,-9.1
+"CBT","Female","Low","University hospital",60.6,35.9,79.2,65.7,189,-31
+"CBT","Female","Low","University hospital",59.2,40.4,89.6,59.3,497,-22.2
+"CBT","Male","Middle","Downtown clinic",60.1,23.5,86.2,33.6,354,-6.1
+"CBT","Male","High","Rural health centre",36,32.2,72.6,49.6,294,-13.2
+"CBT","Female","Middle","Downtown clinic",46.1,19.9,46.1,41.3,764,-3.5
+"CBT","Female","High","University hospital",31.5,4.4,63.5,60.7,346,-26.2
+"CBT","Female","Middle","Downtown clinic",42,20.8,62.8,49.5,301,-5.7
+"CBT","Male","Middle","Rural health centre",44.4,27.8,56,59.1,297,-15.1
+"CBT","Male","Middle","Community centre",72.9,7.4,69.6,56.2,417,-12.4
+"CBT","Female","Middle","Downtown clinic",48.2,41.8,74.6,66.2,392,-20.2
+"CBT","Male","Middle","Community centre",39.3,15.3,81.8,54.9,410,-8.9
+"CBT","Male","Low","Downtown clinic",48.5,7,61.5,56.1,380,-9.7
+"CBT","Female","High","University hospital",33.9,54.5,95.5,53.2,361,-16.2
+"CBT","Male","High","Downtown clinic",32.1,9.6,87.2,64.8,319,-10.3
+,"Male","Low","Downtown clinic",,8.3,42.2,55.2,437,-9.1
+"CBT","Male","Middle","Downtown clinic",14.4,14.1,91.1,54.2,440,-1.4
+"CBT","Male","Low","University hospital",57.7,17.9,34.2,61.3,283,-12.1
+"CBT","Male","Middle","University hospital",42.9,9.5,57.5,56.4,252,-8.7
+"CBT","Female","Middle","University hospital",56,22.8,65.5,47.5,382,-2.4
+"CBT","Female","Middle","University hospital",59.8,33.4,90,54.3,417,-12.5
+"CBT","Male","High","Community centre",40.9,32.3,72.7,52.1,424,-17.6
+"CBT","Female","Low","Downtown clinic",50.3,35.1,57.1,42.5,761,-14.8
+"CBT","Female","Low","Rural health centre",23.6,25.9,78.1,52.2,346,-14.3
+"CBT","Female","High","University hospital",69.4,31.2,23,50.5,396,-19
+"CBT","Male","Low","University hospital",76.7,12.7,91.4,41.5,569,-23.5
+"CBT","Female","Middle","Downtown clinic",36,35.4,75.5,50.7,376,-23
+"CBT","Male","Low","Community centre",25.4,53.4,92.3,48.3,489,-20.5
+"CBT","Female","High","Rural health centre",57.1,16.8,82.4,48.7,285,-10.2
+"CBT","Female","High","Downtown clinic",53.2,42.6,66.1,44.1,420,-15.5
+"CBT","Female","High","University hospital",38.3,13.8,79.9,55,518,-12.1
+"CBT","Male","Low","Downtown clinic",53.6,39.2,88.3,66.2,357,3.4
+"CBT","Male","Middle","Community centre",,1.1,12.8,49.1,396,3.2
+"CBT","Female","Low","Rural health centre",70.1,11.4,59.3,56.7,329,-35.4
+"CBT","Male","Low","Community centre",40.5,46,78.2,37.1,617,-18.8
+"CBT","Female","Middle","Community centre",43.6,20.2,39.6,63.1,409,-19.2
+"CBT","Female","Middle","University hospital",49.2,9.2,80.4,60.8,357,-0.3
+"Medication","Male","Middle","Downtown clinic",,22.9,57.9,52,301,-24.3
+"Medication","Male","Low","Downtown clinic",73.8,13.7,86.1,39.4,301,-10.3
+"Medication","Female","High","Rural health centre",34.5,26.4,52.7,61,354,-27.7
+"Medication","Female","Low","Downtown clinic",64.1,44,66,50.8,426,2.9
+"Medication","Female","Middle","University hospital",39.8,26.8,70.5,52.1,900,-11.6
+"Medication","Female","Low","Community centre",66.4,14.7,78.9,36.9,501,-22.9
+"Medication","Female","Middle","Downtown clinic",48.7,29.6,51,58,383,-3
+"Medication","Female","Low","University hospital",48.4,26.8,74.1,53.8,338,-21.6
+"Medication","Female","Middle","University hospital",51.3,50.7,89,39.3,336,-16.3
+"Medication","Male","Low","Downtown clinic",54.5,32.8,64.1,53.8,249,1.2
+"Medication","Male","Low","Community centre",73.1,54,49.7,46.7,385,-18.9
+"Medication","Female","Middle","Community centre",40.1,29.6,61.1,64.8,385,0.6
+"Medication","Male","Middle","Downtown clinic",45.6,34.2,89.4,59.3,327,-0.8
+"Medication","Male","Low","Downtown clinic",61.6,15.6,66.2,32.4,339,-10.8
+"Medication","Male","Middle","Community centre",62.5,39.2,85.4,56.4,824,-9.1
+"Medication","Female","Middle","Community centre",52,31.9,58.4,57.4,686,-11.8
+"Medication","Male","Middle","University hospital",49.5,15.7,79.3,69.9,494,-14.8
+"Medication","Female","High","Community centre",35.5,8.3,80.3,53.6,371,-0.8
+"Medication","Female","Middle","Rural health centre",54.7,33.3,76.3,47.8,733,-5.1
+"Medication","Male","Low","Downtown clinic",54,12.3,54.6,58.4,630,-20.9
+"Medication","Female","Middle","Downtown clinic",61.7,23.1,45.1,60.6,425,-9.5
+"Medication","Female","Middle","University hospital",,57.1,54.6,52.9,584,-12.4
+"Medication","Female","High","Downtown clinic",63.5,38.1,67.6,41.5,463,-14
+"Medication","Female","Middle","Downtown clinic",37,34.8,97.9,60.1,321,-3
+"Medication","Female","High","Downtown clinic",48.6,44.9,42.8,50.7,541,-17.6
+"Medication","Male","Middle","Community centre",31.4,52,68.4,59.7,603,1.2
+"Medication","Female","Middle","University hospital",54.8,26.7,81.1,43.7,682,-8.2
+"Medication","Female","High","Downtown clinic",26.6,21.4,89.6,56.4,609,-1.3
+"Medication","Male","Middle","Downtown clinic",45.4,25.8,70.6,58.5,638,0.3
+"Medication","Female","Middle","Downtown clinic",,34.6,83.9,44.6,435,-3.8
+"Medication","Male","Low","Community centre",60.8,23.8,84.6,46.1,781,-8.6
+"Medication","Female","Middle","University hospital",29.8,54.3,57.7,41.1,443,-3.3
+"Medication","Female","Low","University hospital",65.1,18.7,58.5,61.5,419,-7.1
+"Medication","Female","Middle","Rural health centre",40.6,18.8,62.5,53.4,484,-5.2
+"Medication","Male","High","Downtown clinic",52,33.1,85.2,,271,8.6
+"Medication","Female","High","Downtown clinic",34.5,31.3,46.3,49.2,595,-9.3
+"Medication","Female","Low","Community centre",30,11.9,71.5,,563,-17.1
+"Medication","Female","High","Community centre",53.2,35.3,86.1,50.9,814,-12.9
+"Medication","Female","Low","Community centre",85.7,67.8,50.9,48.3,711,-0.1
+"Medication","Female","Low","Downtown clinic",63.8,39.4,79.5,47.1,636,-19.8
+"Medication","Male","Low","University hospital",33,8.8,52.5,,701,-7.4
+"Medication","Male","Middle","Rural health centre",38.1,46.9,70.2,54.8,483,11.1
+"Medication","Female","Low","University hospital",36.3,29.5,59.9,53.8,582,-18.4
+"Medication","Female","Low","Downtown clinic",52,29.5,81.5,43.3,430,-0.7
+"Medication","Female","High","Community centre",24.8,22.3,63.8,58.2,334,-12.3
+"Medication","Male","High","Downtown clinic",36.3,19.1,83,59.3,396,-2.2
+"Medication","Male","Middle","Downtown clinic",55,6.3,79.2,49.5,526,0.1
+"Medication","Male","Low","University hospital",56.7,61.9,46.2,47.1,268,4.6
+"Medication","Female","Low","Community centre",48.6,31.4,79,46.2,365,-3.6
+"Medication","Female","High","Community centre",39.1,11.3,75.6,,326,-5.5
+"Medication","Female","Low","University hospital",55.4,37,52.1,45.1,272,-20.2
+"Medication","Female","Middle","Rural health centre",44,50.6,57.7,58.8,392,-16.8
+"Medication","Female","Middle","Community centre",50.7,9.2,84,50.5,442,-7.2
+"Medication","Female","Low","Downtown clinic",43,37.5,62.7,35,461,-21.7
+"Medication","Female","Middle","Community centre",46.1,52,74.7,44.9,350,-24.2
+"Medication","Male","Middle","University hospital",40.7,37,77.7,53,485,-27.4
+"Medication","Male","Low","Community centre",53.6,32.7,80.6,57.8,182,-9
+,"Female","High","Community centre",51.6,52.8,59.3,60.9,334,-14.2
+"Medication","Female","Low","Rural health centre",75.4,21,72.8,60.3,479,-18.1
+"Medication","Female","Middle","Community centre",44.3,76.5,78.5,61.4,408,-17.9
+"Medication","Female","High","Community centre",21.3,14.8,73,56.8,629,-3.6
+"Medication","Male","Middle","Downtown clinic",78.2,52.2,59.5,55.6,621,-5.4
+"Medication","Male","High","Rural health centre",29.6,14.1,44.8,46.5,615,-10.3
+"Medication","Female","Low","Community centre",44.2,20.4,95.7,37,390,-2.1
+"Medication","Female","Middle","University hospital",39.9,35.8,84.6,37.6,367,2.7
+"Medication","Male","Low","University hospital",56.5,22.3,33.4,41,665,-11.8
+"Medication","Female","Low","University hospital",51.5,43.7,49,51.3,298,-2.3
+"Medication","Female","Middle","University hospital",48.6,14,86,57.5,440,-12.1
+"Medication","Female","Middle","Community centre",55.8,52.9,72.4,51.5,518,2.3
+"Medication","Female","Middle","University hospital",,79,90.1,47.2,276,-3.3
+"Medication","Female","Middle","Community centre",75.1,6.2,85.2,45,504,-11.3
+"Medication","Male","Middle","Community centre",60.9,5.7,80.1,44.8,626,-1.7
+"Medication","Female","Low","Downtown clinic",35.2,4.5,70,48.3,483,-7.7
+"Medication","Female","Middle","Downtown clinic",50.5,24.1,53.6,45.3,258,-11.3
+"Medication","Female","Low","Rural health centre",52.1,38.7,67.2,55.1,547,-12
+"Medication","Female","High","Downtown clinic",64,21.3,89,51.2,348,-5.7
+"Medication","Female","Low","Downtown clinic",5.5,19.5,61.6,41.4,588,-4.7
+"Medication","Female","Middle","Rural health centre",55.5,53.9,67.4,54.7,645,2.4
+"Medication","Female","High","Downtown clinic",67.3,45.4,95.4,52.3,278,-8
+"Medication","Female","Low","University hospital",44.8,29.8,88.3,51.1,527,-12.4

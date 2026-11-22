@@ -20,6 +20,7 @@ distGrpOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             reversePalette = FALSE,
             plotTheme = "jamovi",
             textSize = 16,
+            xLabelAngle = "horizontal",
             alpha = 80,
             lineWidth = 2,
             pointSize = 0.8,
@@ -198,6 +199,14 @@ distGrpOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=8,
                 max=32,
                 default=16)
+            private$..xLabelAngle <- jmvcore::OptionList$new(
+                "xLabelAngle",
+                xLabelAngle,
+                options=list(
+                    "horizontal",
+                    "angle45",
+                    "angle90"),
+                default="horizontal")
             private$..alpha <- jmvcore::OptionInteger$new(
                 "alpha",
                 alpha,
@@ -528,6 +537,7 @@ distGrpOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..reversePalette)
             self$.addOption(private$..plotTheme)
             self$.addOption(private$..textSize)
+            self$.addOption(private$..xLabelAngle)
             self$.addOption(private$..alpha)
             self$.addOption(private$..lineWidth)
             self$.addOption(private$..pointSize)
@@ -605,6 +615,7 @@ distGrpOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         reversePalette = function() private$..reversePalette$value,
         plotTheme = function() private$..plotTheme$value,
         textSize = function() private$..textSize$value,
+        xLabelAngle = function() private$..xLabelAngle$value,
         alpha = function() private$..alpha$value,
         lineWidth = function() private$..lineWidth$value,
         pointSize = function() private$..pointSize$value,
@@ -681,6 +692,7 @@ distGrpOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..reversePalette = NA,
         ..plotTheme = NA,
         ..textSize = NA,
+        ..xLabelAngle = NA,
         ..alpha = NA,
         ..lineWidth = NA,
         ..pointSize = NA,
@@ -1204,6 +1216,7 @@ distGrpBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param reversePalette .
 #' @param plotTheme .
 #' @param textSize .
+#' @param xLabelAngle .
 #' @param alpha .
 #' @param lineWidth .
 #' @param pointSize .
@@ -1297,6 +1310,7 @@ distGrp <- function(
     reversePalette = FALSE,
     plotTheme = "jamovi",
     textSize = 16,
+    xLabelAngle = "horizontal",
     alpha = 80,
     lineWidth = 2,
     pointSize = 0.8,
@@ -1387,6 +1401,7 @@ distGrp <- function(
         reversePalette = reversePalette,
         plotTheme = plotTheme,
         textSize = textSize,
+        xLabelAngle = xLabelAngle,
         alpha = alpha,
         lineWidth = lineWidth,
         pointSize = pointSize,

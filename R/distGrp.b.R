@@ -253,14 +253,18 @@ distGrpClass <- R6::R6Class(
             lab <- cmp_var_labels(self$data, lv, o$useDesc)
             glab <- stats::setNames(lg, lg)
 
+            ang <- switch(o$xLabelAngle, angle45 = 45, angle90 = 90, 0)
+
             # Axis positions & labels depend on whether the canvas x-axis shows variables or groups
             if (mode == "facetVar") {
                 axis_pos <- gpos_axis
-                axis_lab <- if (horiz) glab else stats::setNames(
+                axis_lab <- if (horiz) glab else if (ang > 0) stats::setNames(cmp_fit_labels(glab, 260, o$textSize), names(glab))
+                            else stats::setNames(
                     cmp_fit_labels(glab, ((if (is.null(width)) 480 else width) - 110) / max(ng, 1), o$textSize), names(glab))
             } else {
                 axis_pos <- vpos
-                axis_lab <- if (horiz) lab else stats::setNames(
+                axis_lab <- if (horiz) lab else if (ang > 0) stats::setNames(cmp_fit_labels(lab, 260, o$textSize), names(lab))
+                            else stats::setNames(
                     cmp_fit_labels(lab, ((if (is.null(width)) 480 else width) - 110) / max(n, 1), o$textSize), names(lab))
             }
 
@@ -271,7 +275,7 @@ distGrpClass <- R6::R6Class(
 
             wrap <- function(x, w = 18) stats::setNames(
                 vapply(x, function(z) paste(strwrap(z, w), collapse = "\n"), ""), names(x))
-            list(lab_strip = wrap(lab), glab_strip = wrap(glab),
+            list(angle = ang, width = if (is.null(width)) 480 else width, lab_strip = wrap(lab), glab_strip = wrap(glab),
                  o = o, horiz = horiz, mode = mode, lv = lv, n = n, lg = lg, ng = ng,
                  pos = vpos, gpos_axis = gpos_axis, goff = goff, w_scale = w_scale,
                  axis_pos = axis_pos, axis_lab = axis_lab,
@@ -313,7 +317,12 @@ distGrpClass <- R6::R6Class(
             show_leg <- !identical(o$legendPos, "none")
             leg <- if (show_leg) ggplot2::guide_legend(
                 title = ctx$leg_title,
-                nrow = if (o$legendPos %in% c("bottom", "top")) max(1L, ceiling(ctx$ng / 4)) else NULL) else "none"
+                nrow = if (o$legendPos %in% c("bottom", "top")) {
+                    # as many rows as the label widths need to fit the plot width
+                    entry <- max(nchar(ctx$lg), nchar(ctx$leg_title)) * 0.45 * o$textSize + 0.04 * o$textSize * 16 + 30
+                    per_row <- max(1L, floor((ctx$width - 30) / entry))
+                    max(1L, ceiling(ctx$ng / per_row))
+                } else NULL) else "none"
 
             # Faceting for canvas plots when mode is facetGroup or facetVar
             canvas_plot <- !(key %in% c("hist", "density", "ecdf"))
@@ -343,6 +352,10 @@ distGrpClass <- R6::R6Class(
                     panel.spacing    = ggplot2::unit(0.8, "lines"),
                     plot.caption     = ggplot2::element_text(size = ggplot2::rel(0.7), colour = "grey45", hjust = 0),
                     plot.margin      = ggplot2::margin(10, 16, 8, 10))
+
+            if (ctx$angle > 0)
+                p <- p + ggplot2::theme(axis.text.x = ggplot2::element_text(
+                    angle = ctx$angle, hjust = 1, vjust = if (ctx$angle == 90) 0.5 else 1))
 
             if (canvas_plot) {
                 p <- p + ggplot2::theme(

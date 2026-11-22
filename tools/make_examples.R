@@ -54,22 +54,31 @@ nominal_df <- data.frame(
 # Own seed, so the three datasets above stay identical when this one changes.
 # Built to exercise the plots: shifts between groups, different shapes, a
 # strictly positive skewed variable (try the log transform), a change score
-# with negative values, uneven group sizes, a two-level Sex factor (for split
-# violins) and a few missing values (group and measures).
+# with negative values, uneven group sizes, a dichotomous Sex factor (for split
+# violins), a three-level ordered SES factor (ordinal grouping: plots keep its order), a
+# four-level nominal Site factor with long names (an extreme case for legends
+# and labels) and a few missing values (group and measures).
 set.seed(2027)
 n_arm <- c(Control = 100, CBT = 90, Medication = 80)
 arm  <- factor(rep(names(n_arm), n_arm), levels = names(n_arm))
 n    <- length(arm)
 cbt  <- arm == "CBT"; med <- arm == "Medication"
-sex  <- factor(sample(c("Female", "Male"), n, TRUE, prob = c(.58, .42)))
+sex  <- factor(sample(c("Female", "Male"), n, TRUE, prob = c(.58, .42)))          # dichotomous
+ses  <- factor(sample(c("Low", "Middle", "High"), n, TRUE, prob = c(.30, .45, .25)),
+               levels = c("Low", "Middle", "High"), ordered = TRUE)            # ordinal, 3 levels
+site <- factor(sample(c("Downtown clinic", "University hospital", "Rural health centre", "Community centre"),
+                      n, TRUE, prob = c(.38, .30, .12, .20)))                   # nominal, 4 uneven levels
+sesn <- as.integer(ses) - 2                                                      # -1, 0, 1
 clip <- function(x) round(pmin(pmax(x, 0), 100), 1)
 groups_df <- data.frame(
     Group        = arm,
     Sex          = sex,
-    Depression   = clip(rnorm(n, 62 - 18 * cbt - 12 * med, 13)),
+    SES          = ses,
+    Site         = site,
+    Depression   = clip(rnorm(n, 62 - 18 * cbt - 12 * med - 5 * sesn, 13)),
     Anxiety      = clip(100 * rbeta(n, 2.4 - 0.5 * cbt - 0.3 * med, 4.5)),  # right-skewed
     Sleep        = clip(100 * rbeta(n, 4 + 1.2 * cbt + 0.4 * med, 2)),      # piles up near the top
-    Wellbeing    = clip(rnorm(n, 45 + 9 * cbt + 6 * med, 7)),               # narrow spread
+    Wellbeing    = clip(rnorm(n, 45 + 9 * cbt + 6 * med + 3 * sesn, 7)),               # narrow spread
     ReactionTime = round(exp(rnorm(n, 6.0 + 0.10 * med, 0.28))),            # ms, strictly positive, skewed
     Change       = round(rnorm(n, -1 - 11 * cbt - 8 * med, 9), 1))          # post minus pre, can be negative
 groups_df$Group[sample(n, 6)] <- NA

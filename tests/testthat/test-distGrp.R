@@ -5,7 +5,8 @@ skip_if_not_installed("comparePlots")
 
 ex <- c("data/example_groups.csv", "../../data/example_groups.csv")
 base <- read.csv(ex[file.exists(ex)][1])
-base$Group <- factor(base$Group)
+base$Group <- factor(base$Group, levels = c("Control", "CBT", "Medication"))
+base$SES <- factor(base$SES, levels = c("Low", "Middle", "High"), ordered = TRUE)
 
 keys <- c(box = "showBox", violin = "showViolin", errorbar = "showErrorBar",
           raincloud = "showRaincloud", ridge = "showRidge", hist = "showHist",
@@ -106,4 +107,22 @@ test_that("Compare Groups: plots are sized from their content", {
     expect_equal(size(grp = "Group", groupMode = "dodge")[2] >= 380, TRUE)
     expect_gt(size(grp = "G12", groupMode = "dodge")[2], 380)
     expect_gt(size(grp = "G12", groupMode = "facetGroup")[2], 380)
+})
+
+test_that("Compare Groups: dichotomous, ordinal and polytomous grouping variables", {
+    chk <- function(r) { expect_equal(r$bad, character(0)); r }
+    for (m in modes) for (g in c("Sex", "SES", "Site")) {
+        chk(cg_run(base, c("Depression", "Anxiety"), g, groupMode = m))
+        chk(cg_run(base, c("Depression", "Anxiety"), g, groupMode = m, orientation = "vertical", xLabelAngle = "angle45"))
+    }
+    # the ordinal factor keeps its order (Low < Middle < High), reversible
+    lv <- function(...) levels(cg_run(base, "Depression", "SES", ...)$res$.__enclos_env__$private$.long("Depression", "SES")$grp)
+    expect_equal(lv(), c("Low", "Middle", "High"))
+})
+
+test_that("Compare Groups: x axis label angle option", {
+    for (ang in c("horizontal", "angle45", "angle90"))
+        for (m in modes)
+            expect_equal(cg_run(base, c("Depression", "Anxiety", "Sleep"), "Site", groupMode = m,
+                                orientation = "vertical", xLabelAngle = ang)$bad, character(0))
 })
