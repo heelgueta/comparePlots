@@ -23,6 +23,46 @@ distGrpClass <- R6::R6Class(
             density = "showDensity", ecdf = "showEcdf", strip = "showStrip",
             barcode = "showBarcode"),
 
+        # Size each plot from what it has to show (variables x groups x display
+        # mode) so crowded configurations stay legible; users can still resize.
+        .init = function() {
+            o <- self$options
+            vars <- o$vars; grp <- o$group
+            if (length(vars) == 0 || is.null(grp)) return()
+            g <- tryCatch(self$data[[grp]], error = function(e) NULL)
+            if (is.null(g)) return()
+            ng <- max(1L, nlevels(droplevels(if (is.factor(g)) g else as.factor(g))))
+            if (!isTRUE(o$ignoreMissingGroup) && anyNA(g)) ng <- ng + 1L
+            nv <- length(vars)
+            mode <- o$groupMode
+            horiz <- identical(o$orientation, "horizontal")
+            grid <- function(k) {
+                nc <- if (k <= 1) 1 else if (k <= 4) 2 else 3
+                c(nc = nc, nr = ceiling(k / nc))
+            }
+            for (key in names(private$.switches)) {
+                img <- self$results[[paste0("plot_", key)]]
+                if (is.null(img)) next
+                w <- 480; h <- 380
+                if (key %in% c("hist", "density", "ecdf")) {
+                    if (mode == "facetGroup") { rows <- nv; cols <- ng }
+                    else if (key == "hist") { rows <- if (horiz) nv else 1; cols <- if (horiz) 1 else nv }
+                    else { gr <- grid(nv); rows <- gr[["nr"]]; cols <- gr[["nc"]] }
+                    w <- max(480, min(1000, 120 + 170 * cols))
+                    h <- max(380, min(1400, 110 + 130 * rows))
+                } else if (mode == "dodge") {
+                    span <- nv * (max(ng, 1) * 20 + 36) + 120
+                    if (horiz) h <- max(380, min(1400, span)) else w <- max(480, min(1200, span))
+                } else {
+                    k <- if (mode == "facetGroup") ng else nv
+                    gr <- grid(k)
+                    w <- max(480, min(1000, 110 + 200 * gr[["nc"]]))
+                    h <- max(380, min(1400, 130 + 190 * gr[["nr"]]))
+                }
+                img$setSize(w, h)
+            }
+        },
+
         .run = function() {
             opts <- self$options
             vars <- opts$vars
@@ -48,6 +88,26 @@ distGrpClass <- R6::R6Class(
                 jmvcore::reject("The selected variables and grouping variable have no usable non-missing observations.")
             if (length(unique(long$grp)) < 1)
                 jmvcore::reject("The grouping variable has no non-missing levels.")
+
+            # Say what silently has nothing to draw.
+            cnt <- table(factor(long$variable, levels = vars), long$grp)
+            gone <- vars[rowSums(cnt) == 0]
+            if (length(gone) > 0)
+                private$.warn(".emptyVar", paste0(
+                    paste(gone, collapse = ", "), if (length(gone) == 1) " has" else " have",
+                    " no usable values and is left out of the plots."))
+            empty <- which(cnt[rowSums(cnt) > 0, , drop = FALSE] == 0, arr.ind = TRUE)
+            if (nrow(empty) > 0) {
+                cn <- cnt[rowSums(cnt) > 0, , drop = FALSE]
+                lab <- paste0(rownames(cn)[empty[, 1]], " (", colnames(cn)[empty[, 2]], ")")
+                if (length(lab) > 6) lab <- c(lab[1:6], paste0("and ", length(lab) - 6, " more"))
+                private$.warn(".emptyCell", paste0(
+                    "No data for: ", paste(lab, collapse = ", "), ". These combinations are left blank."))
+            }
+            if (nlevels(long$grp) > 8)
+                private$.warn(".manyGroups", paste0(
+                    "The grouping variable has ", nlevels(long$grp),
+                    " levels, so colours are hard to tell apart. Panels by group (Appearance) usually reads better."))
 
             # Plots that need a density curve or a bin width cannot be drawn for a
             # variable-group cell without spread; say so rather than leaving a gap.
@@ -209,7 +269,10 @@ distGrpClass <- R6::R6Class(
             leg_title <- cmp_title(o$legendTitle)
             if (is.null(leg_title)) leg_title <- grp_name
 
-            list(o = o, horiz = horiz, mode = mode, lv = lv, n = n, lg = lg, ng = ng,
+            wrap <- function(x, w = 18) stats::setNames(
+                vapply(x, function(z) paste(strwrap(z, w), collapse = "\n"), ""), names(x))
+            list(lab_strip = wrap(lab), glab_strip = wrap(glab),
+                 o = o, horiz = horiz, mode = mode, lv = lv, n = n, lg = lg, ng = ng,
                  pos = vpos, gpos_axis = gpos_axis, goff = goff, w_scale = w_scale,
                  axis_pos = axis_pos, axis_lab = axis_lab,
                  cols = cols, fills = fills, bw = bw,
@@ -255,9 +318,9 @@ distGrpClass <- R6::R6Class(
             # Faceting for canvas plots when mode is facetGroup or facetVar
             canvas_plot <- !(key %in% c("hist", "density", "ecdf"))
             if (canvas_plot && ctx$mode == "facetGroup") {
-                p <- p + ggplot2::facet_wrap(ggplot2::vars(grp), labeller = ggplot2::as_labeller(ctx$glab))
+                p <- p + ggplot2::facet_wrap(ggplot2::vars(grp), labeller = ggplot2::as_labeller(ctx$glab_strip))
             } else if (canvas_plot && ctx$mode == "facetVar") {
-                p <- p + ggplot2::facet_wrap(ggplot2::vars(variable), labeller = ggplot2::as_labeller(ctx$lab))
+                p <- p + ggplot2::facet_wrap(ggplot2::vars(variable), labeller = ggplot2::as_labeller(ctx$lab_strip))
             }
 
             p <- p +
@@ -584,13 +647,13 @@ distGrpClass <- R6::R6Class(
             if (ctx$mode == "facetGroup") {
                 p <- p + ggplot2::facet_grid(rows = ggplot2::vars(variable), cols = ggplot2::vars(grp),
                                              scales = scales, switch = "y",
-                                             labeller = ggplot2::labeller(variable = ctx$lab, grp = ctx$glab))
+                                             labeller = ggplot2::labeller(variable = ctx$lab_strip, grp = ctx$glab_strip))
             } else if (ctx$horiz) {
                 p <- p + ggplot2::facet_grid(rows = ggplot2::vars(variable), scales = scales, switch = "y",
-                                             labeller = ggplot2::as_labeller(ctx$lab))
+                                             labeller = ggplot2::as_labeller(ctx$lab_strip))
             } else {
                 p <- p + ggplot2::facet_grid(cols = ggplot2::vars(variable), scales = scales,
-                                             labeller = ggplot2::as_labeller(ctx$lab)) +
+                                             labeller = ggplot2::as_labeller(ctx$lab_strip)) +
                     ggplot2::coord_flip()
             }
             ylab <- switch(o$histStat, count = "Count", percent = "Percent", "Density")
@@ -608,10 +671,10 @@ distGrpClass <- R6::R6Class(
             if (ctx$mode == "facetGroup") {
                 p <- p + ggplot2::facet_grid(rows = ggplot2::vars(variable), cols = ggplot2::vars(grp),
                                              scales = "free_y", switch = "y",
-                                             labeller = ggplot2::labeller(variable = ctx$lab, grp = ctx$glab))
+                                             labeller = ggplot2::labeller(variable = ctx$lab_strip, grp = ctx$glab_strip))
             } else if (ctx$n > 1) {
                 p <- p + ggplot2::facet_wrap(ggplot2::vars(variable), scales = "free_y",
-                                             labeller = ggplot2::as_labeller(ctx$lab))
+                                             labeller = ggplot2::as_labeller(ctx$lab_strip))
             }
             private$.flip_x(p, ctx)
         },
@@ -628,10 +691,10 @@ distGrpClass <- R6::R6Class(
             if (ctx$mode == "facetGroup") {
                 p <- p + ggplot2::facet_grid(rows = ggplot2::vars(variable), cols = ggplot2::vars(grp),
                                              switch = "y",
-                                             labeller = ggplot2::labeller(variable = ctx$lab, grp = ctx$glab))
+                                             labeller = ggplot2::labeller(variable = ctx$lab_strip, grp = ctx$glab_strip))
             } else if (ctx$n > 1) {
                 p <- p + ggplot2::facet_wrap(ggplot2::vars(variable),
-                                             labeller = ggplot2::as_labeller(ctx$lab))
+                                             labeller = ggplot2::as_labeller(ctx$lab_strip))
             }
             private$.flip_x(p, ctx)
         },
