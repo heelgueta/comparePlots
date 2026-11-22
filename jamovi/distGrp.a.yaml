@@ -6,7 +6,6 @@ name: distGrp
 title: Compare Groups
 category: plots
 menuGroup: comparePlots
-menuSubgroup: groups
 version: '1.0.0'
 jas: '1.2'
 options:

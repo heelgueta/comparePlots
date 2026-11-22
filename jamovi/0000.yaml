@@ -44,7 +44,6 @@ analyses:
     ns: comparePlots
     category: plots
     menuGroup: comparePlots
-    menuSubgroup: groups
     menuTitle: Compare Groups
     description: >-
       Compare the distributions of numeric variables across levels of a grouping
@@ -61,6 +60,11 @@ datasets:
   - name: Drink preference (nominal example)
     path: example_nominal.omv
     description: The same five-category nominal variable at three times of day, n = 250
+  - name: Therapy trial (groups example)
+    path: example_groups.omv
+    description: >-
+      Eight measures in three treatment groups (Control, CBT, Medication) plus
+      Sex, with differing shapes and a few missing values, n = 270
 usesNative: true
 minApp: 2.4.0
 
