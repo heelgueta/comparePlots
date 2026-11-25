@@ -76,9 +76,14 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             showPyramid = FALSE,
             pyBins = 20,
             pyStat = "count",
+            showLadder = FALSE,
+            ladderSteps = "deciles",
+            showLead = FALSE,
+            leadMark = TRUE,
             showDensity = FALSE,
             densAdjust = 1,
             densFilled = TRUE,
+            densOverlap = FALSE,
             densTrim = FALSE,
             showEcdf = FALSE,
             ecdfMedian = TRUE,
@@ -503,6 +508,26 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "count",
                     "percent"),
                 default="count")
+            private$..showLadder <- jmvcore::OptionBool$new(
+                "showLadder",
+                showLadder,
+                default=FALSE)
+            private$..ladderSteps <- jmvcore::OptionList$new(
+                "ladderSteps",
+                ladderSteps,
+                options=list(
+                    "quartiles",
+                    "deciles",
+                    "ventiles"),
+                default="deciles")
+            private$..showLead <- jmvcore::OptionBool$new(
+                "showLead",
+                showLead,
+                default=FALSE)
+            private$..leadMark <- jmvcore::OptionBool$new(
+                "leadMark",
+                leadMark,
+                default=TRUE)
             private$..showDensity <- jmvcore::OptionBool$new(
                 "showDensity",
                 showDensity,
@@ -517,6 +542,10 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "densFilled",
                 densFilled,
                 default=TRUE)
+            private$..densOverlap <- jmvcore::OptionBool$new(
+                "densOverlap",
+                densOverlap,
+                default=FALSE)
             private$..densTrim <- jmvcore::OptionBool$new(
                 "densTrim",
                 densTrim,
@@ -622,9 +651,14 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..showPyramid)
             self$.addOption(private$..pyBins)
             self$.addOption(private$..pyStat)
+            self$.addOption(private$..showLadder)
+            self$.addOption(private$..ladderSteps)
+            self$.addOption(private$..showLead)
+            self$.addOption(private$..leadMark)
             self$.addOption(private$..showDensity)
             self$.addOption(private$..densAdjust)
             self$.addOption(private$..densFilled)
+            self$.addOption(private$..densOverlap)
             self$.addOption(private$..densTrim)
             self$.addOption(private$..showEcdf)
             self$.addOption(private$..ecdfMedian)
@@ -704,9 +738,14 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         showPyramid = function() private$..showPyramid$value,
         pyBins = function() private$..pyBins$value,
         pyStat = function() private$..pyStat$value,
+        showLadder = function() private$..showLadder$value,
+        ladderSteps = function() private$..ladderSteps$value,
+        showLead = function() private$..showLead$value,
+        leadMark = function() private$..leadMark$value,
         showDensity = function() private$..showDensity$value,
         densAdjust = function() private$..densAdjust$value,
         densFilled = function() private$..densFilled$value,
+        densOverlap = function() private$..densOverlap$value,
         densTrim = function() private$..densTrim$value,
         showEcdf = function() private$..showEcdf$value,
         ecdfMedian = function() private$..ecdfMedian$value,
@@ -785,9 +824,14 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..showPyramid = NA,
         ..pyBins = NA,
         ..pyStat = NA,
+        ..showLadder = NA,
+        ..ladderSteps = NA,
+        ..showLead = NA,
+        ..leadMark = NA,
         ..showDensity = NA,
         ..densAdjust = NA,
         ..densFilled = NA,
+        ..densOverlap = NA,
         ..densTrim = NA,
         ..showEcdf = NA,
         ..ecdfMedian = NA,
@@ -809,6 +853,8 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         plot_ridge = function() private$.items[["plot_ridge"]],
         plot_hist = function() private$.items[["plot_hist"]],
         plot_pyramid = function() private$.items[["plot_pyramid"]],
+        plot_ladder = function() private$.items[["plot_ladder"]],
+        plot_lead = function() private$.items[["plot_lead"]],
         plot_density = function() private$.items[["plot_density"]],
         plot_ecdf = function() private$.items[["plot_ecdf"]],
         plot_strip = function() private$.items[["plot_strip"]],
@@ -1125,6 +1171,82 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "pyStat")))
             self$add(jmvcore::Image$new(
                 options=options,
+                name="plot_ladder",
+                title="Percentile ladder",
+                width=480,
+                height=420,
+                renderFun=".plot_ladder",
+                visible="(showLadder)",
+                requiresData=TRUE,
+                clearWith=list(
+                    "vars",
+                    "group",
+                    "groupMode",
+                    "orientation",
+                    "sortVars",
+                    "transform",
+                    "useDesc",
+                    "invertVars",
+                    "invertGroups",
+                    "ignoreMissingGroup",
+                    "colourPalette",
+                    "reversePalette",
+                    "plotTheme",
+                    "textSize",
+                    "xLabelAngle",
+                    "refLine",
+                    "alpha",
+                    "lineWidth",
+                    "pointSize",
+                    "pointAlpha",
+                    "pointColour",
+                    "jitterSpread",
+                    "valueLabel",
+                    "title",
+                    "showN",
+                    "legendPos",
+                    "legendTitle",
+                    "ladderSteps")))
+            self$add(jmvcore::Image$new(
+                options=options,
+                name="plot_lead",
+                title="Lead plot (cumulative difference)",
+                width=480,
+                height=420,
+                renderFun=".plot_lead",
+                visible="(showLead)",
+                requiresData=TRUE,
+                clearWith=list(
+                    "vars",
+                    "group",
+                    "groupMode",
+                    "orientation",
+                    "sortVars",
+                    "transform",
+                    "useDesc",
+                    "invertVars",
+                    "invertGroups",
+                    "ignoreMissingGroup",
+                    "colourPalette",
+                    "reversePalette",
+                    "plotTheme",
+                    "textSize",
+                    "xLabelAngle",
+                    "refLine",
+                    "alpha",
+                    "lineWidth",
+                    "pointSize",
+                    "pointAlpha",
+                    "pointColour",
+                    "jitterSpread",
+                    "valueLabel",
+                    "title",
+                    "showN",
+                    "legendPos",
+                    "legendTitle",
+                    "leadMark")))
+            self$add(jmvcore::Image$new(
+                options=options,
                 name="plot_density",
                 title="Overlaid densities",
                 width=480,
@@ -1162,7 +1284,8 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "densAdjust",
                     "densFilled",
-                    "densTrim")))
+                    "densTrim",
+                    "densOverlap")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_ecdf",
@@ -1373,9 +1496,14 @@ distDichBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param showPyramid .
 #' @param pyBins .
 #' @param pyStat .
+#' @param showLadder .
+#' @param ladderSteps .
+#' @param showLead .
+#' @param leadMark .
 #' @param showDensity .
 #' @param densAdjust .
 #' @param densFilled .
+#' @param densOverlap .
 #' @param densTrim .
 #' @param showEcdf .
 #' @param ecdfMedian .
@@ -1393,6 +1521,8 @@ distDichBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #'   \code{results$plot_ridge} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot_hist} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot_pyramid} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot_ladder} \tab \tab \tab \tab \tab an image \cr
+#'   \code{results$plot_lead} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot_density} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot_ecdf} \tab \tab \tab \tab \tab an image \cr
 #'   \code{results$plot_strip} \tab \tab \tab \tab \tab an image \cr
@@ -1472,9 +1602,14 @@ distDich <- function(
     showPyramid = FALSE,
     pyBins = 20,
     pyStat = "count",
+    showLadder = FALSE,
+    ladderSteps = "deciles",
+    showLead = FALSE,
+    leadMark = TRUE,
     showDensity = FALSE,
     densAdjust = 1,
     densFilled = TRUE,
+    densOverlap = FALSE,
     densTrim = FALSE,
     showEcdf = FALSE,
     ecdfMedian = TRUE,
@@ -1567,9 +1702,14 @@ distDich <- function(
         showPyramid = showPyramid,
         pyBins = pyBins,
         pyStat = pyStat,
+        showLadder = showLadder,
+        ladderSteps = ladderSteps,
+        showLead = showLead,
+        leadMark = leadMark,
         showDensity = showDensity,
         densAdjust = densAdjust,
         densFilled = densFilled,
+        densOverlap = densOverlap,
         densTrim = densTrim,
         showEcdf = showEcdf,
         ecdfMedian = ecdfMedian,

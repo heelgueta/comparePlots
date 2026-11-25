@@ -63,7 +63,13 @@ def group_ui(title, name, dich):
                                        C("histDensity", "(showHist)"), C("histFreeY", "(showHist)")])
     if dich:
         g += box("Back-to-Back Histogram", "showPyramid", [T("pyBins", "(showPyramid)"), D("pyStat", "(showPyramid)")])
-    g += box("Overlaid Densities", "showDensity", [T("densAdjust", "(showDensity)"), C("densFilled", "(showDensity)"), C("densTrim", "(showDensity)")])
+    if dich:
+        g += box("Percentile Ladder", "showLadder", [D("ladderSteps", "(showLadder)")])
+        g += box("Lead Plot (Cumulative Difference)", "showLead", [C("leadMark", "(showLead)")])
+    dens = [T("densAdjust", "(showDensity)"), C("densFilled", "(showDensity)"), C("densTrim", "(showDensity)")]
+    if dich:
+        dens.append(C("densOverlap", "(showDensity)"))
+    g += box("Overlaid Densities", "showDensity", dens)
     g += box("Cumulative Distribution (ECDF)", "showEcdf", [C("ecdfMedian", "(showEcdf)")])
     g += box("Data Points (Strip Plot)", "showStrip", [D("stripSummary", "(showStrip)")])
     g += box("Barcode Plot", "showBarcode", [T("barcodeHeight", "(showBarcode)", "%")])

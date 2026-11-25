@@ -25,7 +25,7 @@ cmp_grp_private <- function(kind) {
         .switches = c(
             box = "showBox", violin = "showViolin", errorbar = "showErrorBar",
             raincloud = "showRaincloud", ridge = "showRidge", hist = "showHist",
-            if (kind == "dich") c(pyramid = "showPyramid"),
+            if (kind == "dich") c(pyramid = "showPyramid", ladder = "showLadder", lead = "showLead"),
             density = "showDensity", ecdf = "showEcdf", strip = "showStrip",
             barcode = "showBarcode"),
 
@@ -56,7 +56,7 @@ cmp_grp_private <- function(kind) {
                     else { gr <- grid(nv); rows <- gr[["nr"]]; cols <- gr[["nc"]] }
                     w <- max(480, min(1000, 120 + 170 * cols))
                     h <- max(380, min(1400, 110 + 130 * rows))
-                } else if (key == "pyramid") {
+                } else if (key %in% c("pyramid", "ladder", "lead")) {
                     gr <- grid(nv)
                     w <- max(480, min(1000, 120 + 200 * gr[["nc"]]))
                     h <- max(380, min(1400, 110 + 220 * gr[["nr"]]))
@@ -230,6 +230,8 @@ cmp_grp_private <- function(kind) {
         .plot_ridge     = function(image, ggtheme, theme, ...) private$.render(image, "ridge", ggtheme, theme),
         .plot_hist      = function(image, ggtheme, theme, ...) private$.render(image, "hist", ggtheme, theme),
         .plot_pyramid   = function(image, ggtheme, theme, ...) private$.render(image, "pyramid", ggtheme, theme),
+        .plot_ladder    = function(image, ggtheme, theme, ...) private$.render(image, "ladder", ggtheme, theme),
+        .plot_lead      = function(image, ggtheme, theme, ...) private$.render(image, "lead", ggtheme, theme),
         .plot_density   = function(image, ggtheme, theme, ...) private$.render(image, "density", ggtheme, theme),
         .plot_ecdf      = function(image, ggtheme, theme, ...) private$.render(image, "ecdf", ggtheme, theme),
         .plot_strip     = function(image, ggtheme, theme, ...) private$.render(image, "strip", ggtheme, theme),
@@ -342,6 +344,8 @@ cmp_grp_private <- function(kind) {
                 ridge     = private$.p_ridge(long, ctx),
                 hist      = private$.p_hist(long, ctx),
                 pyramid   = private$.p_pyramid(long, ctx),
+                ladder    = private$.p_ladder(long, ctx),
+                lead      = private$.p_lead(long, ctx),
                 density   = private$.p_density(long, ctx),
                 ecdf      = private$.p_ecdf(long, ctx),
                 strip     = private$.p_strip(long, ctx),
@@ -365,7 +369,7 @@ cmp_grp_private <- function(kind) {
                 } else NULL) else "none"
 
             # Faceting for canvas plots when mode is facetGroup or facetVar
-            canvas_plot <- !(key %in% c("hist", "density", "ecdf", "pyramid"))
+            canvas_plot <- !(key %in% c("hist", "density", "ecdf", "pyramid", "ladder", "lead"))
             if (canvas_plot && ctx$mode == "facetGroup") {
                 p <- p + ggplot2::facet_wrap(ggplot2::vars(grp), labeller = ggplot2::as_labeller(ctx$glab_strip))
             } else if (canvas_plot && ctx$mode == "facetVar") {
@@ -406,9 +410,16 @@ cmp_grp_private <- function(kind) {
             caps <- character(0)
             if (key == "errorbar")
                 caps <- c(caps, cmp_interval_label(o$ebCenter, o$ebInterval, o$ebLevel, o$ebMult))
-            if (!identical(o$refLine, "none") && key != "pyramid")
+            if (!identical(o$refLine, "none") && !(key %in% c("pyramid", "ladder", "lead")))
                 caps <- c(caps, paste0("Dashed line: overall ", o$refLine, " of all groups."))
-            caption <- if (length(caps) > 0) paste(caps, collapse = "\n") else NULL
+            if (key == "lead") caps <- c(caps, private$.lead_caption(long, ctx))
+            if (key == "density" && private$.kind == "dich" && isTRUE(o$densOverlap) && ctx$mode != "facetGroup") {
+                ov <- private$.overlap(long, ctx)
+                if (!is.null(ov))
+                    caps <- c(caps, paste0("Shaded: overlap of the two groups. ",
+                        paste0(names(ov$pct), " ", round(ov$pct), "%", collapse = ", "), "."))
+            }
+            caption <- if (length(caps) > 0) paste(strwrap(caps, 60), collapse = "\n") else NULL
             p + ggplot2::labs(title = cmp_title(o$title), caption = caption)
         },
 
@@ -417,7 +428,7 @@ cmp_grp_private <- function(kind) {
         # on the value-axis plots (histogram, densities, ECDF).
         .ref = function(long, ctx, key) {
             o <- ctx$o
-            if (identical(o$refLine, "none") || key == "pyramid") return(NULL)
+            if (identical(o$refLine, "none") || key %in% c("pyramid", "ladder", "lead")) return(NULL)
             fun <- if (identical(o$refLine, "mean")) mean else stats::median
             val <- vapply(ctx$lv, function(z) fun(long$value[as.character(long$variable) == z]), 0)
             d <- data.frame(variable = factor(ctx$lv, levels = ctx$lv), ref = unname(val))
@@ -733,11 +744,13 @@ cmp_grp_private <- function(kind) {
         },
 
         # ── Back-to-back histogram (population pyramid), exactly two groups ──
-        # Bins are shared by the two groups of a variable; the first group goes to the
-        # left, the second to the right. The value axis is always vertical.
+        # Bins are shared by the two groups of a variable. Vertical orientation: the
+        # classic pyramid (value axis vertical, first group to the left). Horizontal
+        # orientation: value axis horizontal, first group above the line.
         .p_pyramid = function(long, ctx) {
             o <- ctx$o
             if (ctx$ng != 2) return(NULL)
+            horiz <- ctx$horiz
             rows <- lapply(ctx$lv, function(v) {
                 x <- long$value[as.character(long$variable) == v]
                 if (length(x) == 0 || diff(range(x)) <= 0) return(NULL)
@@ -748,24 +761,198 @@ cmp_grp_private <- function(kind) {
                     xs <- long$value[as.character(long$variable) == v & as.character(long$grp) == ctx$lg[i]]
                     cnt <- tabulate(findInterval(xs, br, rightmost.closed = TRUE, all.inside = TRUE), nbins = o$pyBins)
                     val <- if (identical(o$pyStat, "percent")) 100 * cnt / max(length(xs), 1) else cnt
+                    up <- (i == 1) == horiz            # which side of the zero line this group takes
                     data.frame(variable = factor(v, levels = ctx$lv), grp = factor(ctx$lg[i], levels = ctx$lg),
-                               mid = mid, bw = bw, len = if (i == 1) -val else val)
+                               mid = mid, bw = bw, len = if (up) val else -val)
                 }))
             })
             d <- do.call(rbind, rows)
             if (is.null(d) || nrow(d) == 0) return(NULL)
             lim <- max(abs(d$len), 1)
-            pct <- identical(o$pyStat, "percent")
-            p <- ggplot2::ggplot(d, ggplot2::aes(xmin = pmin(0, len), xmax = pmax(0, len),
-                                                 ymin = mid - bw / 2, ymax = mid + bw / 2, fill = grp)) +
-                ggplot2::geom_rect(colour = if (ctx$bw) "black" else "white", linewidth = 0.15, alpha = ctx$alpha) +
-                ggplot2::geom_vline(xintercept = 0, colour = "grey30", linewidth = 0.4) +
-                ggplot2::scale_x_continuous(limits = c(-lim, lim), labels = function(z) abs(z)) +
-                ggplot2::labs(x = if (pct) "Percent of group" else "Count", y = ctx$vlab)
+            lenlab <- if (identical(o$pyStat, "percent")) "Percent of group" else "Count"
+            edge <- if (ctx$bw) "black" else "white"
+            if (horiz) {
+                p <- ggplot2::ggplot(d, ggplot2::aes(xmin = mid - bw / 2, xmax = mid + bw / 2,
+                                                     ymin = pmin(0, len), ymax = pmax(0, len), fill = grp)) +
+                    ggplot2::geom_rect(colour = edge, linewidth = 0.15, alpha = ctx$alpha) +
+                    ggplot2::geom_hline(yintercept = 0, colour = "grey30", linewidth = 0.4) +
+                    ggplot2::scale_y_continuous(limits = c(-lim, lim), labels = function(z) abs(z)) +
+                    ggplot2::labs(x = ctx$vlab, y = lenlab)
+                sc <- "free_x"
+            } else {
+                p <- ggplot2::ggplot(d, ggplot2::aes(xmin = pmin(0, len), xmax = pmax(0, len),
+                                                     ymin = mid - bw / 2, ymax = mid + bw / 2, fill = grp)) +
+                    ggplot2::geom_rect(colour = edge, linewidth = 0.15, alpha = ctx$alpha) +
+                    ggplot2::geom_vline(xintercept = 0, colour = "grey30", linewidth = 0.4) +
+                    ggplot2::scale_x_continuous(limits = c(-lim, lim), labels = function(z) abs(z)) +
+                    ggplot2::labs(x = lenlab, y = ctx$vlab)
+                sc <- "free_y"
+            }
+            if (ctx$n > 1)
+                p <- p + ggplot2::facet_wrap(ggplot2::vars(variable), scales = sc,
+                                             labeller = ggplot2::as_labeller(ctx$lab_strip))
+            p
+        },
+
+        # ── Percentile ladder (two groups) ─────────────────────────────────
+        # One rung per percentile: the two groups' values at that percentile joined by a
+        # bar coloured by the group that is higher there. Shows WHERE in the distribution
+        # (low, middle, high) the groups differ, and by how much in raw units.
+        .p_ladder = function(long, ctx) {
+            o <- ctx$o
+            if (ctx$ng != 2) return(NULL)
+            probs <- switch(o$ladderSteps,
+                quartiles = c(0.25, 0.5, 0.75),
+                ventiles  = seq(0.05, 0.95, by = 0.05),
+                seq(0.1, 0.9, by = 0.1))
+            rows <- lapply(ctx$lv, function(v) {
+                q <- lapply(ctx$lg, function(g) {
+                    x <- long$value[as.character(long$variable) == v & as.character(long$grp) == g]
+                    if (length(x) == 0) NULL else unname(stats::quantile(x, probs, type = 7))
+                })
+                if (any(vapply(q, is.null, TRUE))) return(NULL)
+                data.frame(variable = factor(v, levels = ctx$lv), p = round(probs * 100), q1 = q[[1]], q2 = q[[2]],
+                           hi = factor(ctx$lg[ifelse(q[[1]] >= q[[2]], 1L, 2L)], levels = ctx$lg))
+            })
+            d <- do.call(rbind, rows)
+            if (is.null(d) || nrow(d) == 0) return(NULL)
+            pts <- rbind(
+                data.frame(variable = d$variable, p = d$p, q = d$q1, grp = factor(ctx$lg[1], levels = ctx$lg)),
+                data.frame(variable = d$variable, p = d$p, q = d$q2, grp = factor(ctx$lg[2], levels = ctx$lg)))
+            brk <- round(probs * 100)
+            brk <- brk[brk %% 10 == 0 | length(brk) <= 9]
+            p <- ggplot2::ggplot() +
+                ggplot2::geom_segment(
+                    data = d, ggplot2::aes(x = p, xend = p, y = q1, yend = q2, colour = hi),
+                    linewidth = ctx$lw * 2.6, alpha = 0.55, lineend = "round") +
+                ggplot2::geom_point(
+                    data = pts, ggplot2::aes(x = p, y = q, fill = grp), shape = 21,
+                    colour = "grey15", size = max(2.5, o$pointSize * 1.8), stroke = 0.6) +
+                ggplot2::scale_x_continuous(breaks = brk, labels = format(brk, trim = TRUE),
+                                            expand = ggplot2::expansion(add = 5)) +
+                ggplot2::labs(x = "Percentile", y = ctx$vlab)
             if (ctx$n > 1)
                 p <- p + ggplot2::facet_wrap(ggplot2::vars(variable), scales = "free_y",
                                              labeller = ggplot2::as_labeller(ctx$lab_strip))
-            p
+            private$.flip(p, ctx)
+        },
+
+        # ── Lead plot (two groups) ─────────────────────────────────────────
+        # Running difference of the two cumulative distributions: at each value, the
+        # share of group 1 at or below it minus the share of group 2 (percentage points).
+        # Above zero group 1 is "ahead", i.e. tends lower; below zero group 2. Under the
+        # curve a two-row barcode shows the observations themselves.
+        .lead_calc = function(long, ctx) {
+            g1 <- ctx$lg[1]; g2 <- ctx$lg[2]
+            res <- lapply(ctx$lv, function(v) {
+                x1 <- long$value[as.character(long$variable) == v & as.character(long$grp) == g1]
+                x2 <- long$value[as.character(long$variable) == v & as.character(long$grp) == g2]
+                grid <- sort(unique(c(x1, x2)))
+                if (length(x1) == 0 || length(x2) == 0 || length(grid) < 2) return(NULL)
+                d <- (stats::ecdf(x1)(grid) - stats::ecdf(x2)(grid)) * 100
+                k <- which.max(abs(d))
+                list(v = v, x1 = x1, x2 = x2, grid = grid, d = d, k = k)
+            })
+            Filter(Negate(is.null), res)
+        },
+
+        .lead_caption = function(long, ctx) {
+            o <- ctx$o
+            lc <- private$.lead_calc(long, ctx)
+            if (length(lc) == 0) return(NULL)
+            out <- paste0("Curve: share of ", ctx$lg[1], " minus share of ", ctx$lg[2],
+                          " at or below each value (percentage points). Above 0, ", ctx$lg[1],
+                          " tends lower; below 0, ", ctx$lg[2], ".")
+            if (isTRUE(o$leadMark))
+                out <- c(out, paste0("Largest gap: ", paste0(vapply(lc, function(z)
+                    paste0(z$v, " ", formatC(abs(z$d[z$k]), format = "f", digits = 0), " points at ",
+                           formatC(z$grid[z$k], format = "fg", digits = 3)), ""), collapse = "; "), "."))
+            out
+        },
+
+        .p_lead = function(long, ctx) {
+            o <- ctx$o
+            if (ctx$ng != 2) return(NULL)
+            lc <- private$.lead_calc(long, ctx)
+            if (length(lc) == 0) return(NULL)
+            paths <- do.call(rbind, lapply(lc, function(z) {
+                m <- length(z$grid)
+                data.frame(variable = factor(z$v, levels = ctx$lv), x = rep(z$grid, each = 2),
+                           y = c(0, rep(z$d[-m], each = 2), z$d[m]))
+            }))
+            L <- max(abs(paths$y), 1)
+            rug <- do.call(rbind, lapply(lc, function(z) {
+                rbind(data.frame(variable = factor(z$v, levels = ctx$lv), x = z$x1, g = 1L,
+                                 y0 = -1.12 * L, y1 = -1.20 * L),
+                      data.frame(variable = factor(z$v, levels = ctx$lv), x = z$x2, g = 2L,
+                                 y0 = -1.23 * L, y1 = -1.31 * L))
+            }))
+            rug$grp <- factor(ctx$lg[rug$g], levels = ctx$lg)
+            fills <- if (ctx$bw) c("grey35", "grey80") else unname(ctx$fills[ctx$lg[1:2]])
+            pos <- transform(paths, lo = 0, hi = pmax(y, 0), grp = factor(ctx$lg[1], levels = ctx$lg))
+            neg <- transform(paths, lo = pmin(y, 0), hi = 0, grp = factor(ctx$lg[2], levels = ctx$lg))
+            brk <- pretty(c(-L, L), n = 5)
+            brk <- brk[abs(brk) <= L * 1.001]
+            p <- ggplot2::ggplot() +
+                (if (ctx$bw)
+                    ggplot2::geom_ribbon(data = pos, ggplot2::aes(x = x, ymin = lo, ymax = hi),
+                                         fill = fills[1], alpha = ctx$alpha, colour = NA)
+                 else ggplot2::geom_ribbon(data = pos, ggplot2::aes(x = x, ymin = lo, ymax = hi, fill = grp),
+                                           alpha = ctx$alpha, colour = NA)) +
+                (if (ctx$bw)
+                    ggplot2::geom_ribbon(data = neg, ggplot2::aes(x = x, ymin = lo, ymax = hi),
+                                         fill = fills[2], alpha = ctx$alpha, colour = NA)
+                 else ggplot2::geom_ribbon(data = neg, ggplot2::aes(x = x, ymin = lo, ymax = hi, fill = grp),
+                                           alpha = ctx$alpha, colour = NA)) +
+                ggplot2::geom_hline(yintercept = 0, colour = "grey30", linewidth = 0.4) +
+                ggplot2::geom_path(data = paths, ggplot2::aes(x = x, y = y), colour = "grey25",
+                                   linewidth = ctx$lw * 0.45) +
+                ggplot2::geom_segment(data = rug, ggplot2::aes(x = x, xend = x, y = y0, yend = y1, colour = grp),
+                                      linewidth = 0.45, alpha = 0.85)
+            if (isTRUE(o$leadMark)) {
+                mk <- do.call(rbind, lapply(lc, function(z)
+                    data.frame(variable = factor(z$v, levels = ctx$lv), x = z$grid[z$k], y = z$d[z$k])))
+                p <- p +
+                    ggplot2::geom_segment(data = mk, ggplot2::aes(x = x, xend = x, y = 0, yend = y),
+                                          colour = "grey15", linewidth = ctx$lw * 1.2, linetype = "dotted") +
+                    ggplot2::geom_point(data = mk, ggplot2::aes(x = x, y = y), shape = 21, fill = "white",
+                                        colour = "grey15", size = 2.6, stroke = 0.8)
+            }
+            p <- p + ggplot2::scale_y_continuous(limits = c(-1.34 * L, 1.06 * L), breaks = brk) +
+                ggplot2::labs(x = ctx$vlab, y = "Cumulative difference (points)")
+            if (ctx$n > 1)
+                p <- p + ggplot2::facet_wrap(ggplot2::vars(variable), scales = "free_x",
+                                             labeller = ggplot2::as_labeller(ctx$lab_strip))
+            private$.flip_x(p, ctx)
+        },
+
+        # Overlap of the two groups' density curves (shared grid; the area under the lower
+        # of the two curves, as a percentage).
+        .overlap = function(long, ctx) {
+            o <- ctx$o
+            res <- lapply(ctx$lv, function(v) {
+                x1 <- long$value[as.character(long$variable) == v & as.character(long$grp) == ctx$lg[1]]
+                x2 <- long$value[as.character(long$variable) == v & as.character(long$grp) == ctx$lg[2]]
+                if (length(unique(x1)) < 2 || length(unique(x2)) < 2) return(NULL)
+                rng <- range(c(x1, x2))
+                # The number is computed over the full extent of both curves (tails included);
+                # only the part inside the data range is shaded, as that is what is drawn.
+                pad <- 3 * max(stats::bw.nrd0(x1), stats::bw.nrd0(x2)) * o$densAdjust
+                f <- function(x) {
+                    d <- stats::density(x, adjust = o$densAdjust, from = rng[1] - pad, to = rng[2] + pad, n = 1024)
+                    if (isTRUE(o$densTrim)) d$y[d$x < min(x) | d$x > max(x)] <- 0
+                    d
+                }
+                d1 <- f(x1); d2 <- f(x2)
+                m <- pmin(d1$y, d2$y)
+                inside <- d1$x >= rng[1] & d1$x <= rng[2]
+                list(v = v, pct = 100 * sum(m) * (d1$x[2] - d1$x[1]),
+                     data = data.frame(variable = factor(v, levels = ctx$lv), x = d1$x[inside], m = m[inside]))
+            })
+            res <- Filter(Negate(is.null), res)
+            if (length(res) == 0) return(NULL)
+            list(data = do.call(rbind, lapply(res, `[[`, "data")),
+                 pct = stats::setNames(vapply(res, `[[`, 0, "pct"), vapply(res, `[[`, "", "v")))
         },
 
         # ── Overlaid densities ─────────────────────────────────────────────
@@ -776,6 +963,13 @@ cmp_grp_private <- function(kind) {
                                       alpha = if (o$densFilled && !ctx$bw) ctx$alpha * 0.5 else 0,
                                       linewidth = ctx$lw) +
                 ggplot2::labs(x = ctx$vlab, y = "Density")
+            if (private$.kind == "dich" && isTRUE(o$densOverlap) && ctx$mode != "facetGroup") {
+                ov <- private$.overlap(long, ctx)
+                if (!is.null(ov))
+                    p <- p + ggplot2::geom_ribbon(
+                        data = ov$data, ggplot2::aes(x = x, ymin = 0, ymax = m), inherit.aes = FALSE,
+                        fill = "grey15", alpha = 0.35, colour = NA)
+            }
             if (ctx$mode == "facetGroup") {
                 p <- p + ggplot2::facet_grid(rows = ggplot2::vars(variable), cols = ggplot2::vars(grp),
                                              scales = "free_y", switch = "y",

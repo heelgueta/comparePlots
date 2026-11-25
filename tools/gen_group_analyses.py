@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Derives jamovi/distPoly.a.yaml and distPoly.r.yaml (Compare Polytomous) from distDich.*.yaml
 (Compare Dichotomous, the source of truth), dropping what needs exactly two groups: the split
-violin and the back-to-back histogram. Run from the repository root: python3 tools/gen_group_analyses.py"""
+violin, the back-to-back histogram, the percentile ladder, the lead plot and the density overlap. Run from the repository root: python3 tools/gen_group_analyses.py"""
 import re
 
 ROOT = "jamovi/"
-DROP_OPTIONS = ["violinSplit", "showPyramid", "pyBins", "pyStat"]
-DROP_RESULTS = ["plot_pyramid"]
+DROP_OPTIONS = ["violinSplit", "showPyramid", "pyBins", "pyStat", "showLadder", "ladderSteps", "showLead", "leadMark", "densOverlap"]
+DROP_RESULTS = ["plot_pyramid", "plot_ladder", "plot_lead"]
 
 
 def drop_items(text, names):
@@ -33,7 +33,7 @@ def derive(src, kind):
     names = DROP_OPTIONS if kind == "a" else DROP_RESULTS
     s = drop_items(s, names)
     if kind == "r":
-        s = re.sub(r"      - (pyBins|pyStat|showPyramid|violinSplit)\n", "", s)
+        s = re.sub(r"      - (pyBins|pyStat|showPyramid|violinSplit|ladderSteps|showLadder|showLead|leadMark|densOverlap)\n", "", s)
         s = s.replace("Source of truth for both group analyses (see distPoly.a.yaml).", "DERIVED from distDich.r.yaml by tools/gen_group_analyses.py: edit that file.")
     else:
         s = re.sub(r"# Compare Polytomous \(distPoly\): OPTIONS\..*?\n# jmvtools compiles this file \(with distPoly\.r\.yaml\) into R/distPoly\.h\.R\.",

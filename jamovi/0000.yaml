@@ -13,9 +13,10 @@ description: >-
   Compare the distributions of variables on one shared scale. Numeric variables:
   box, violin, means with error bars, raincloud, ridgeline, histogram, density,
   ECDF, data points and barcode plots, also across two groups (including a
-  back-to-back histogram) or three or more groups. Ordinal and nominal
-  variables: stacked and diverging bars, heatmap, waffle, pictogram, parliament,
-  response profile, pie, donut, grouped bars and lollipop plots.
+  back-to-back histogram, percentile ladder, lead plot) or three or more groups.
+  Ordinal and nominal variables: stacked and diverging bars, heatmap, waffle,
+  pictogram, parliament, response profile, pie, donut, grouped bars and lollipop
+  plots.
 analyses:
   - title: Compare Numeric
     name: distNum
@@ -52,7 +53,7 @@ analyses:
     menuTitle: Compare Dichotomous
     description: >-
       Compare the distributions of numeric variables between two groups (split
-      violin, back-to-back histogram and more).
+      violin, back-to-back histogram, percentile ladder, lead plot and more).
   - title: Compare Polytomous
     name: distPoly
     ns: comparePlots

@@ -713,6 +713,52 @@ children:
                 name: pyStat
                 enable: '(showPyramid)'
   - type: CollapseBox
+    label: Percentile Ladder
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showLadder
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: ComboBox
+                name: ladderSteps
+                enable: '(showLadder)'
+  - type: CollapseBox
+    label: Lead Plot (Cumulative Difference)
+    collapsed: true
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        margin: large
+        children:
+          - type: CheckBox
+            name: showLead
+      - type: LayoutBox
+        margin: large
+        stretchFactor: 1
+        children:
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: leadMark
+                enable: '(showLead)'
+  - type: CollapseBox
     label: Overlaid Densities
     collapsed: true
     stretchFactor: 1
@@ -753,6 +799,15 @@ children:
             children:
               - type: CheckBox
                 name: densTrim
+                enable: '(showDensity)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 1
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: densOverlap
                 enable: '(showDensity)'
   - type: CollapseBox
     label: Cumulative Distribution (ECDF)

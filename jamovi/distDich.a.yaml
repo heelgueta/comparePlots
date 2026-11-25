@@ -501,6 +501,31 @@ options:
       - name: percent
         title: Percent of group
     default: count
+  # PLOT: Percentile ladder (two groups only).
+  - name: showLadder
+    title: Show percentile ladder
+    type: Bool
+    default: false
+  - name: ladderSteps
+    title: Percentiles
+    type: List
+    options:
+      - name: quartiles
+        title: Quartiles (25, 50, 75)
+      - name: deciles
+        title: Deciles (10 to 90)
+      - name: ventiles
+        title: Every 5th (5 to 95)
+    default: deciles
+  # PLOT: Lead plot, the running difference of the two cumulative distributions (two groups only).
+  - name: showLead
+    title: Show lead plot
+    type: Bool
+    default: false
+  - name: leadMark
+    title: Mark the largest gap
+    type: Bool
+    default: true
   # PLOT: Overlaid densities.
   - name: showDensity
     title: Overlaid densities
@@ -516,6 +541,10 @@ options:
     title: Filled curves
     type: Bool
     default: true
+  - name: densOverlap
+    title: Shade the overlap of the two groups
+    type: Bool
+    default: false
   - name: densTrim
     title: Trim tails at data range
     type: Bool

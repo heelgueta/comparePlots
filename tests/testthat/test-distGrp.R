@@ -165,3 +165,40 @@ test_that("Compare Groups: group labels carry n when asked", {
     ctx <- a$.__enclos_env__$private$.context("Depression", "Group", a$.__enclos_env__$private$.long("Depression", "Group"))
     expect_match(ctx$glab[["Control"]], "^Control \\(n = \\d+\\)$")
 })
+
+test_that("Compare Dichotomous: pyramid in both orientations, ladder, lead plot, density overlap", {
+    chk <- function(r) { expect_equal(r$bad, character(0)); r }
+    V <- c("Depression", "Anxiety", "Wellbeing")
+    for (o in c("horizontal", "vertical")) for (m in modes) {
+        chk(cg_run(base, V, "Sex", "dich", groupMode = m, orientation = o))
+        chk(cg_run(base, V, "Sex", "dich", groupMode = m, orientation = o, ladderSteps = "quartiles",
+                   leadMark = FALSE, pyStat = "percent", pyBins = 6, densOverlap = TRUE))
+        chk(cg_run(base, V[1], "Sex", "dich", groupMode = m, orientation = o, ladderSteps = "ventiles",
+                   colourPalette = "bw", densOverlap = TRUE, densTrim = TRUE))
+    }
+    chk(cg_run(base, V, "Sex", "dich", invertGroups = TRUE))
+    chk(cg_run(base[1:8, ], V, "Sex", "dich"))                      # tiny n
+    d <- base; d$Anxiety[d$Sex == "Male"] <- round(d$Anxiety[d$Sex == "Male"] / 20)   # heavy ties
+    chk(cg_run(d, V, "Sex", "dich", densOverlap = TRUE))
+})
+
+test_that("Compare Dichotomous: lead plot reports the largest gap, density overlap its size", {
+    a <- cg_run(base, c("Depression", "Anxiety"), "Sex", "dich")$res
+    pr <- a$.__enclos_env__$private
+    long <- pr$.long(c("Depression", "Anxiety"), "Sex")
+    ctx <- pr$.context(c("Depression", "Anxiety"), "Sex", long)
+    lc <- pr$.lead_calc(long, ctx)
+    expect_length(lc, 2)
+    for (z in lc) {                                    # both cumulative shares reach 100%: curve returns to 0
+        expect_equal(z$d[length(z$d)], 0)
+        expect_lte(max(abs(z$d)), 100)
+    }
+    ov <- pr$.overlap(long, ctx)
+    expect_true(all(ov$pct > 0 & ov$pct <= 100.5))
+    # identical groups overlap completely
+    d <- base; d$Sex <- rep(c("Female", "Male"), length.out = nrow(d)); d$Depression <- rep(1:10, each = 2, length.out = nrow(d))
+    b <- cg_run(d, "Depression", "Sex", "dich")$res$.__enclos_env__$private
+    l2 <- b$.long("Depression", "Sex"); c2 <- b$.context("Depression", "Sex", l2)
+    expect_gt(b$.overlap(l2, c2)$pct, 98)
+    expect_equal(max(abs(b$.lead_calc(l2, c2)[[1]]$d)), 0)
+})

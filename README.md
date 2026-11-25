@@ -12,7 +12,7 @@ Five analyses, in jamovi's **Plots** tab, in two sections of the comparePlots me
 - **Compare Nominal**
 
 *Compare Groups* (numeric variables across the levels of a grouping variable)
-- **Compare Dichotomous**: two groups; adds the split violin and the back-to-back histogram (age-by-sex pyramids and the like)
+- **Compare Dichotomous**: two groups; adds the split violin, the back-to-back histogram (age-by-sex pyramids and the like), a percentile ladder, a lead plot (running difference of the two cumulative distributions) and density overlap shading
 - **Compare Polytomous**: three or more groups
 
 All five work the same way: pick variables, set a few shared appearance options, then **tick any combination of plots**. Every plot appears as its own result and has its own collapsible settings panel.

@@ -300,6 +300,80 @@ items:
       - legendTitle
       - pyBins
       - pyStat
+  - name: plot_ladder
+    title: Percentile ladder
+    type: Image
+    width: 480
+    height: 420
+    renderFun: .plot_ladder
+    visible: (showLadder)
+    requiresData: true
+    clearWith:
+      - vars
+      - group
+      - groupMode
+      - orientation
+      - sortVars
+      - transform
+      - useDesc
+      - invertVars
+      - invertGroups
+      - ignoreMissingGroup
+      - colourPalette
+      - reversePalette
+      - plotTheme
+      - textSize
+      - xLabelAngle
+      - refLine
+      - alpha
+      - lineWidth
+      - pointSize
+      - pointAlpha
+      - pointColour
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - legendTitle
+      - ladderSteps
+  - name: plot_lead
+    title: Lead plot (cumulative difference)
+    type: Image
+    width: 480
+    height: 420
+    renderFun: .plot_lead
+    visible: (showLead)
+    requiresData: true
+    clearWith:
+      - vars
+      - group
+      - groupMode
+      - orientation
+      - sortVars
+      - transform
+      - useDesc
+      - invertVars
+      - invertGroups
+      - ignoreMissingGroup
+      - colourPalette
+      - reversePalette
+      - plotTheme
+      - textSize
+      - xLabelAngle
+      - refLine
+      - alpha
+      - lineWidth
+      - pointSize
+      - pointAlpha
+      - pointColour
+      - jitterSpread
+      - valueLabel
+      - title
+      - showN
+      - legendPos
+      - legendTitle
+      - leadMark
   - name: plot_density
     title: Overlaid densities
     type: Image
@@ -339,6 +413,7 @@ items:
       - densAdjust
       - densFilled
       - densTrim
+      - densOverlap
   - name: plot_ecdf
     title: Cumulative distribution (ECDF)
     type: Image

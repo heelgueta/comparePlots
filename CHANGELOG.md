@@ -4,7 +4,13 @@
 
 **New analyses (a second section of the menu: Compare Groups)**
 - The menu now has two sections: *Compare Variables* (Numeric, Ordinal, Nominal) and *Compare Groups*.
-- **Compare Dichotomous** and **Compare Polytomous** compare numeric variables across the levels of a grouping variable (two groups, or three or more), with box, violin, means with error bars, raincloud, ridgeline, histogram, overlaid densities, ECDF, data points and barcode plots. Groups can be shown side by side within each variable, or in panels by group or by variable. Compare Dichotomous requires exactly two groups (and says so otherwise) and adds the split violin and a **back-to-back histogram** (population pyramid, e.g. age by sex, as counts or percent of group). Compare Polytomous accepts any number of groups (and points to Compare Dichotomous when there are two).
+- **Compare Dichotomous** and **Compare Polytomous** compare numeric variables across the levels of a grouping variable (two groups, or three or more), with box, violin, means with error bars, raincloud, ridgeline, histogram, overlaid densities, ECDF, data points and barcode plots. Groups can be shown side by side within each variable, or in panels by group or by variable. Compare Dichotomous requires exactly two groups (and says so otherwise) and adds plots made for two groups:
+  - split violin;
+  - **back-to-back histogram** (population pyramid, e.g. age by sex; counts or percent of group; classic upright layout with vertical orientation, mirrored above/below a horizontal axis with horizontal orientation);
+  - **percentile ladder**: the two groups' values at each percentile (quartiles, deciles or every 5th) joined by a bar coloured by the higher group, so you see where in the distribution they differ and by how much;
+  - **lead plot**: at each value, the share of group 1 at or below it minus the share of group 2 (the running difference of the two cumulative distributions), with the largest gap marked and a two-row barcode of the observations underneath;
+  - *Shade the overlap* in Overlaid Densities, with the overlap of the two curves as a percentage.
+   Compare Polytomous accepts any number of groups (and points to Compare Dichotomous when there are two).
 - Both have the same layout as Compare Numeric: no separate Data box, everything shared in one Appearance box, then one collapsible box per plot.
 - *Reference line* (Colours and Lines): dashed line at the overall mean or median of all groups together.
 - *Show n in group labels*: legend, panel and axis labels read e.g. "Control (n = 96)".
