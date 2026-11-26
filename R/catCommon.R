@@ -451,6 +451,8 @@ cmp_cat_private <- function() {
                 ggplot2::scale_fill_gradientn(colours = cols, limits = c(0, top),
                                               name = if (is.null(private$.leg_title(ctx))) "%" else private$.leg_title(ctx),
                                               guide = ggplot2::guide_colourbar(barwidth = ggplot2::unit(9, "lines"), raster = FALSE),
+                                              # about four labelled breaks: a break every 10% overprinted the labels
+                                              breaks = function(lim) { b <- pretty(lim, n = 3); b[b >= lim[1] & b <= lim[2]] },
                                               labels = function(x) paste0(x, "%")) +
                 ggplot2::labs(x = NULL, y = NULL)
             private$.flip(p, ctx)
