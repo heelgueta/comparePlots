@@ -4,14 +4,7 @@ type: software
 title: "comparePlots: Compare the Distributions of Variables in jamovi"
 version: 1.1.1
 date-released: 2026-11-26
-doi: 10.5281/zenodo.24563632
-identifiers:
-  - type: doi
-    value: 10.5281/zenodo.24563632
-    description: "Version 1.1.1"
-  - type: doi
-    value: 10.5281/zenodo.24401092
-    description: "Concept DOI: all versions (always the latest)"
+doi: 10.5281/zenodo.24401092
 license: GPL-2.0-or-later
 repository-code: "https://github.com/heelgueta/comparePlots"
 url: "https://github.com/heelgueta/comparePlots"
