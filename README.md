@@ -78,7 +78,7 @@ Only in **Compare Dichotomous** (two groups):
 | Lead plot | at each value, the share of group 1 at or below it minus the share of group 2 (the running difference of the two cumulative distributions), with a two-row barcode of the data and the largest gap marked |
 | Density overlap | in *Overlaid densities*: shades where the two curves overlap and reports the overlap as a percentage |
 
-These plots *describe* the samples; none of them draws an uncertainty band, so with few observations per group treat their shapes with caution (the plot guide discusses this).
+These plots *describe* the samples; none of them draws an uncertainty band, so with few observations per group treat their shapes with caution.
 
 ---
 
@@ -138,7 +138,7 @@ jamovi/    0000.yaml (manifest), *.a.yaml (options), *.r.yaml (results), *.u.yam
 R/         *.b.R (implementation), utils.R and catCommon.R / cmpGrpCommon.R (shared code), *.h.R (generated)
 data/      example datasets (shown in jamovi's Data Library)
 tools/     make_examples.R (example datasets), the generators for the UI and option files, fill_es_po.py (Spanish translation)
-docs/      build instructions, example images (images/), example results as PDF (examples/), and the plot guide (guide/: Markdown, vector PDF, figure and build scripts)
+docs/      build instructions, example images (images/), example results as PDF (examples/)
 icons/     module icon (comparePlots.svg, 74 x 44, jamovi ribbon style)
 ```
 
