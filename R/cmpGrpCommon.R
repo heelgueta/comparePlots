@@ -42,9 +42,9 @@ cmp_grp_private <- function(kind) {
             nv <- length(vars)
             mode <- o$groupMode
             horiz <- identical(o$orientation, "horizontal")
-            grid <- function(k) {
-                nc <- if (k <= 1) 1 else if (k <= 4) 2 else 3
-                c(nc = nc, nr = ceiling(k / nc))
+            grid <- function(k) {                  # the panel grid facet_wrap() will use
+                d <- if (k <= 1) c(1, 1) else ggplot2::wrap_dims(k)
+                c(nc = d[[2]], nr = d[[1]])
             }
             for (key in names(private$.switches)) {
                 img <- self$results[[paste0("plot_", key)]]
@@ -295,17 +295,23 @@ cmp_grp_private <- function(kind) {
 
             ang <- switch(o$xLabelAngle, angle45 = 45, angle90 = 90, 0)
 
+            # Width left for one panel's axis labels: the plot is divided among the panel columns
+            # (facet_wrap's grid), then among the labels in a panel.
+            k_pan <- if (mode == "facetGroup") ng else if (mode == "facetVar") n else 1
+            n_col <- if (k_pan > 1) ggplot2::wrap_dims(k_pan)[[2]] else 1
+            panel_px <- ((if (is.null(width)) 480 else width) - 110) / n_col
+
             # Axis positions & labels depend on whether the canvas x-axis shows variables or groups
             if (mode == "facetVar") {
                 axis_pos <- gpos_axis
                 axis_lab <- if (horiz) glab else if (ang > 0) stats::setNames(cmp_fit_labels(glab, 260, o$textSize), names(glab))
                             else stats::setNames(
-                    cmp_fit_labels(glab, ((if (is.null(width)) 480 else width) - 110) / max(ng, 1), o$textSize), names(glab))
+                    cmp_fit_labels(glab, panel_px / max(ng, 1), o$textSize), names(glab))
             } else {
                 axis_pos <- vpos
                 axis_lab <- if (horiz) lab else if (ang > 0) stats::setNames(cmp_fit_labels(lab, 260, o$textSize), names(lab))
                             else stats::setNames(
-                    cmp_fit_labels(lab, ((if (is.null(width)) 480 else width) - 110) / max(n, 1), o$textSize), names(lab))
+                    cmp_fit_labels(lab, panel_px / max(n, 1), o$textSize), names(lab))
             }
 
             vlab <- if (o$transform == "none") o$valueLabel

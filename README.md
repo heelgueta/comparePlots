@@ -112,7 +112,7 @@ jamovi/    0000.yaml (manifest), *.a.yaml (options), *.r.yaml (results), *.u.yam
 R/         *.b.R (implementation), utils.R (shared helpers), *.h.R (generated)
 data/      example datasets (shown in jamovi's Data Library)
 tools/     make_examples.R (example datasets) and the generators for the UI and option files
-docs/      build instructions, example images (images/) and example results as PDF (examples/)
+docs/      build instructions, example images (images/), example results as PDF (examples/), and the plot guide (guide/: Markdown, vector PDF, figure and build scripts)
 icons/     module icon (comparePlots.svg, 74 x 44, jamovi ribbon style)
 ```
 

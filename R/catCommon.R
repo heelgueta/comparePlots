@@ -450,7 +450,7 @@ cmp_cat_private <- function() {
                                             labels = private$.cat_labels(ctx, ctx$horiz), expand = ggplot2::expansion(add = 0.5)) +
                 ggplot2::scale_fill_gradientn(colours = cols, limits = c(0, top),
                                               name = if (is.null(private$.leg_title(ctx))) "%" else private$.leg_title(ctx),
-                                              guide = ggplot2::guide_colourbar(barwidth = ggplot2::unit(9, "lines")),
+                                              guide = ggplot2::guide_colourbar(barwidth = ggplot2::unit(9, "lines"), raster = FALSE),
                                               labels = function(x) paste0(x, "%")) +
                 ggplot2::labs(x = NULL, y = NULL)
             private$.flip(p, ctx)
