@@ -9,7 +9,7 @@ num += appearance_groups([
     ("Variables", [D("orientation"), D("sortVars"), D("transform"), C("invertVars"), C("useDesc"), S("valueLabel")]),
     ("Colours and Lines", [D("colourPalette"), C("reversePalette"), D("plotTheme"), T("alpha", suffix="%"), T("lineWidth")]),
     ("Data Points", [T("pointSize"), T("pointAlpha", suffix="%"), D("pointColour"), T("jitterSpread", suffix="%")]),
-    ("Text and Labels", [T("textSize"), S("title"), D("legendPos"), C("showN"), C("showCaption")])])
+    ("Text and Labels", [T("textSize"), S("title"), D("legendPos"), C("showN")])])
 num += box("Box Plot", "showBox", [T("boxWidth", "(showBox)", "%"), C("boxOutliers", "(showBox)"), C("boxNotch", "(showBox)"),
                                    C("boxMean", "(showBox)"), C("boxJitter", "(showBox)")], collapsed=False)
 num += box("Violin Plot", "showViolin", [T("violinWidth", "(showViolin)", "%"), D("violinScale", "(showViolin)"), T("violinAdjust", "(showViolin)"),
@@ -19,7 +19,7 @@ num += box("Means and Error Bars", "showErrorBar", [
     T("ebLevel", "(showErrorBar && (ebInterval:ci || ebInterval:pctile))", "%"),
     T("ebMult", "(showErrorBar && (ebInterval:se || ebInterval:sd))"),
     C("ebJitter", "(showErrorBar)"), T("ebSize", "(showErrorBar)"), T("ebCap", "(showErrorBar)", "%"),
-    C("ebConnect", "(showErrorBar)"), C("ebLabels", "(showErrorBar)")])
+    C("ebConnect", "(showErrorBar)"), C("ebLabels", "(showErrorBar)"), C("ebNote", "(showErrorBar)")])
 num += box("Raincloud Plot", "showRaincloud", [T("rcCloudWidth", "(showRaincloud)", "%"), T("rcAdjust", "(showRaincloud)"),
                                               C("rcRain", "(showRaincloud)"), C("rcBox", "(showRaincloud)")])
 num += box("Ridgeline (Density) Plot", "showRidge", [T("ridgeOverlap", "(showRidge)", "%"), T("ridgeAdjust", "(showRidge)"),
@@ -38,9 +38,9 @@ def group_ui(title, name, dich):
     g += appearance_groups([
         ("Variables", [D("groupMode"), D("orientation"), D("sortVars"), D("transform"), C("invertVars"), C("invertGroups"),
                        C("useDesc"), C("ignoreMissingGroup"), S("valueLabel")]),
-        ("Colours and Lines", [D("colourPalette"), C("reversePalette"), D("plotTheme"), T("alpha", suffix="%"), T("lineWidth"), D("refLine")]),
+        ("Colours and Lines", [D("colourPalette"), C("reversePalette"), D("plotTheme"), T("alpha", suffix="%"), T("lineWidth"), D("refLine"), C("refNote", "(refLine:mean || refLine:median)")]),
         ("Data Points", [T("pointSize"), T("pointAlpha", suffix="%"), D("pointColour"), T("jitterSpread", suffix="%")]),
-        ("Text and Labels", [T("textSize"), D("xLabelAngle"), S("title"), D("legendPos"), S("legendTitle"), C("showN"), C("showCaption")])])
+        ("Text and Labels", [T("textSize"), D("xLabelAngle"), S("title"), D("legendPos"), S("legendTitle"), C("showN")])])
     g += box("Box Plot", "showBox", [T("boxWidth", "(showBox)", "%"), C("boxOutliers", "(showBox)"), C("boxNotch", "(showBox)"),
                                      C("boxMean", "(showBox)"), C("boxJitter", "(showBox)")], collapsed=False)
     violin = [T("violinWidth", "(showViolin)", "%"), D("violinScale", "(showViolin)"), T("violinAdjust", "(showViolin)"),
@@ -54,7 +54,7 @@ def group_ui(title, name, dich):
         T("ebLevel", "(showErrorBar && (ebInterval:ci || ebInterval:pctile))", "%"),
         T("ebMult", "(showErrorBar && (ebInterval:se || ebInterval:sd))"),
         C("ebJitter", "(showErrorBar)"), T("ebSize", "(showErrorBar)"), T("ebCap", "(showErrorBar)", "%"),
-        C("ebConnect", "(showErrorBar)"), C("ebLabels", "(showErrorBar)")])
+        C("ebConnect", "(showErrorBar)"), C("ebLabels", "(showErrorBar)"), C("ebNote", "(showErrorBar)")])
     g += box("Raincloud Plot", "showRaincloud", [T("rcCloudWidth", "(showRaincloud)", "%"), T("rcAdjust", "(showRaincloud)"),
                                                 C("rcRain", "(showRaincloud)"), C("rcBox", "(showRaincloud)")])
     g += box("Ridgeline (Density) Plot", "showRidge", [T("ridgeOverlap", "(showRidge)", "%"), T("ridgeAdjust", "(showRidge)"),
@@ -65,10 +65,11 @@ def group_ui(title, name, dich):
         g += box("Back-to-Back Histogram", "showPyramid", [T("pyBins", "(showPyramid)"), D("pyStat", "(showPyramid)")])
     if dich:
         g += box("Percentile Ladder", "showLadder", [D("ladderSteps", "(showLadder)")])
-        g += box("Lead Plot (Cumulative Difference)", "showLead", [C("leadMark", "(showLead)")])
+        g += box("Lead Plot (Cumulative Difference)", "showLead", [C("leadMark", "(showLead)"), C("leadNote", "(showLead)")])
     dens = [T("densAdjust", "(showDensity)"), C("densFilled", "(showDensity)"), C("densTrim", "(showDensity)")]
     if dich:
         dens.append(C("densOverlap", "(showDensity)"))
+        dens.append(C("densNote", "(showDensity && densOverlap)"))
     g += box("Overlaid Densities", "showDensity", dens)
     g += box("Cumulative Distribution (ECDF)", "showEcdf", [C("ecdfMedian", "(showEcdf)")])
     g += box("Data Points (Strip Plot)", "showStrip", [D("stripSummary", "(showStrip)")])

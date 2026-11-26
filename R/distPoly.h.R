@@ -22,6 +22,7 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             textSize = 16,
             xLabelAngle = "horizontal",
             refLine = "none",
+            refNote = FALSE,
             alpha = 80,
             lineWidth = 2,
             pointSize = 0.8,
@@ -33,7 +34,6 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             legendPos = "bottom",
             legendTitle = "",
             showN = FALSE,
-            showCaption = FALSE,
             showBox = TRUE,
             boxWidth = 65,
             boxOutliers = TRUE,
@@ -57,6 +57,7 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             ebCap = 30,
             ebConnect = FALSE,
             ebLabels = FALSE,
+            ebNote = FALSE,
             showRaincloud = FALSE,
             rcCloudWidth = 45,
             rcAdjust = 1,
@@ -216,6 +217,10 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "mean",
                     "median"),
                 default="none")
+            private$..refNote <- jmvcore::OptionBool$new(
+                "refNote",
+                refNote,
+                default=FALSE)
             private$..alpha <- jmvcore::OptionInteger$new(
                 "alpha",
                 alpha,
@@ -277,10 +282,6 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..showN <- jmvcore::OptionBool$new(
                 "showN",
                 showN,
-                default=FALSE)
-            private$..showCaption <- jmvcore::OptionBool$new(
-                "showCaption",
-                showCaption,
                 default=FALSE)
             private$..showBox <- jmvcore::OptionBool$new(
                 "showBox",
@@ -401,6 +402,10 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..ebLabels <- jmvcore::OptionBool$new(
                 "ebLabels",
                 ebLabels,
+                default=FALSE)
+            private$..ebNote <- jmvcore::OptionBool$new(
+                "ebNote",
+                ebNote,
                 default=FALSE)
             private$..showRaincloud <- jmvcore::OptionBool$new(
                 "showRaincloud",
@@ -548,6 +553,7 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..textSize)
             self$.addOption(private$..xLabelAngle)
             self$.addOption(private$..refLine)
+            self$.addOption(private$..refNote)
             self$.addOption(private$..alpha)
             self$.addOption(private$..lineWidth)
             self$.addOption(private$..pointSize)
@@ -559,7 +565,6 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..legendPos)
             self$.addOption(private$..legendTitle)
             self$.addOption(private$..showN)
-            self$.addOption(private$..showCaption)
             self$.addOption(private$..showBox)
             self$.addOption(private$..boxWidth)
             self$.addOption(private$..boxOutliers)
@@ -583,6 +588,7 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..ebCap)
             self$.addOption(private$..ebConnect)
             self$.addOption(private$..ebLabels)
+            self$.addOption(private$..ebNote)
             self$.addOption(private$..showRaincloud)
             self$.addOption(private$..rcCloudWidth)
             self$.addOption(private$..rcAdjust)
@@ -627,6 +633,7 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         textSize = function() private$..textSize$value,
         xLabelAngle = function() private$..xLabelAngle$value,
         refLine = function() private$..refLine$value,
+        refNote = function() private$..refNote$value,
         alpha = function() private$..alpha$value,
         lineWidth = function() private$..lineWidth$value,
         pointSize = function() private$..pointSize$value,
@@ -638,7 +645,6 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         legendPos = function() private$..legendPos$value,
         legendTitle = function() private$..legendTitle$value,
         showN = function() private$..showN$value,
-        showCaption = function() private$..showCaption$value,
         showBox = function() private$..showBox$value,
         boxWidth = function() private$..boxWidth$value,
         boxOutliers = function() private$..boxOutliers$value,
@@ -662,6 +668,7 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ebCap = function() private$..ebCap$value,
         ebConnect = function() private$..ebConnect$value,
         ebLabels = function() private$..ebLabels$value,
+        ebNote = function() private$..ebNote$value,
         showRaincloud = function() private$..showRaincloud$value,
         rcCloudWidth = function() private$..rcCloudWidth$value,
         rcAdjust = function() private$..rcAdjust$value,
@@ -705,6 +712,7 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..textSize = NA,
         ..xLabelAngle = NA,
         ..refLine = NA,
+        ..refNote = NA,
         ..alpha = NA,
         ..lineWidth = NA,
         ..pointSize = NA,
@@ -716,7 +724,6 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..legendPos = NA,
         ..legendTitle = NA,
         ..showN = NA,
-        ..showCaption = NA,
         ..showBox = NA,
         ..boxWidth = NA,
         ..boxOutliers = NA,
@@ -740,6 +747,7 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..ebCap = NA,
         ..ebConnect = NA,
         ..ebLabels = NA,
+        ..ebNote = NA,
         ..showRaincloud = NA,
         ..rcCloudWidth = NA,
         ..rcAdjust = NA,
@@ -824,6 +832,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -833,7 +842,6 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "boxWidth",
@@ -867,6 +875,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -876,7 +885,6 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "violinWidth",
@@ -911,6 +919,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -920,7 +929,6 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "ebCenter",
@@ -931,7 +939,8 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "ebSize",
                     "ebCap",
                     "ebConnect",
-                    "ebLabels")))
+                    "ebLabels",
+                    "ebNote")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_raincloud",
@@ -958,6 +967,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -967,7 +977,6 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "rcCloudWidth",
@@ -1000,6 +1009,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -1009,7 +1019,6 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "ridgeOverlap",
@@ -1042,6 +1051,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -1051,7 +1061,6 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "histBins",
@@ -1085,6 +1094,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -1094,7 +1104,6 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "densAdjust",
@@ -1126,6 +1135,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -1135,7 +1145,6 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "ecdfMedian")))
@@ -1165,6 +1174,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -1174,7 +1184,6 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "stripSummary")))
@@ -1204,6 +1213,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -1213,7 +1223,6 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "barcodeHeight")))}))
@@ -1259,6 +1268,7 @@ distPolyBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param textSize .
 #' @param xLabelAngle .
 #' @param refLine .
+#' @param refNote .
 #' @param alpha .
 #' @param lineWidth .
 #' @param pointSize .
@@ -1270,7 +1280,6 @@ distPolyBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param legendPos .
 #' @param legendTitle .
 #' @param showN .
-#' @param showCaption .
 #' @param showBox .
 #' @param boxWidth .
 #' @param boxOutliers .
@@ -1294,6 +1303,7 @@ distPolyBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param ebCap .
 #' @param ebConnect .
 #' @param ebLabels .
+#' @param ebNote .
 #' @param showRaincloud .
 #' @param rcCloudWidth .
 #' @param rcAdjust .
@@ -1354,6 +1364,7 @@ distPoly <- function(
     textSize = 16,
     xLabelAngle = "horizontal",
     refLine = "none",
+    refNote = FALSE,
     alpha = 80,
     lineWidth = 2,
     pointSize = 0.8,
@@ -1365,7 +1376,6 @@ distPoly <- function(
     legendPos = "bottom",
     legendTitle = "",
     showN = FALSE,
-    showCaption = FALSE,
     showBox = TRUE,
     boxWidth = 65,
     boxOutliers = TRUE,
@@ -1389,6 +1399,7 @@ distPoly <- function(
     ebCap = 30,
     ebConnect = FALSE,
     ebLabels = FALSE,
+    ebNote = FALSE,
     showRaincloud = FALSE,
     rcCloudWidth = 45,
     rcAdjust = 1,
@@ -1446,6 +1457,7 @@ distPoly <- function(
         textSize = textSize,
         xLabelAngle = xLabelAngle,
         refLine = refLine,
+        refNote = refNote,
         alpha = alpha,
         lineWidth = lineWidth,
         pointSize = pointSize,
@@ -1457,7 +1469,6 @@ distPoly <- function(
         legendPos = legendPos,
         legendTitle = legendTitle,
         showN = showN,
-        showCaption = showCaption,
         showBox = showBox,
         boxWidth = boxWidth,
         boxOutliers = boxOutliers,
@@ -1481,6 +1492,7 @@ distPoly <- function(
         ebCap = ebCap,
         ebConnect = ebConnect,
         ebLabels = ebLabels,
+        ebNote = ebNote,
         showRaincloud = showRaincloud,
         rcCloudWidth = rcCloudWidth,
         rcAdjust = rcAdjust,

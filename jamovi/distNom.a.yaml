@@ -180,10 +180,6 @@ options:
     title: n per variable
     type: Bool
     default: false
-  - name: showCaption
-    title: Explanatory note below the plot
-    type: Bool
-    default: false
   # PLOT: Stacked bars (100%). `showBars` switches it on; the options after it are its settings.
   - name: showBars
     title: 'Stacked bars (100%)'
@@ -272,6 +268,10 @@ options:
     min: 1
     max: 10
     default: 3
+  - name: waffleNote
+    title: 'Note: what one square is worth'
+    type: Bool
+    default: false
   # PLOT: Dot pictogram. `showPicto` switches it on; the options after it are its settings.
   - name: showPicto
     title: Dot pictogram
@@ -314,6 +314,10 @@ options:
     min: 1
     max: 10
     default: 3
+  - name: pictoNote
+    title: 'Note: what one dot is worth'
+    type: Bool
+    default: false
   # PLOT: Parliament (arc) chart. `showParliament` switches it on; the options after it are its settings.
   - name: showParliament
     title: Parliament (arc) chart

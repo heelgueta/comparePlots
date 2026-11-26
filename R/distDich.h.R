@@ -22,6 +22,7 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             textSize = 16,
             xLabelAngle = "horizontal",
             refLine = "none",
+            refNote = FALSE,
             alpha = 80,
             lineWidth = 2,
             pointSize = 0.8,
@@ -33,7 +34,6 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             legendPos = "bottom",
             legendTitle = "",
             showN = FALSE,
-            showCaption = FALSE,
             showBox = TRUE,
             boxWidth = 65,
             boxOutliers = TRUE,
@@ -58,6 +58,7 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             ebCap = 30,
             ebConnect = FALSE,
             ebLabels = FALSE,
+            ebNote = FALSE,
             showRaincloud = FALSE,
             rcCloudWidth = 45,
             rcAdjust = 1,
@@ -81,10 +82,12 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             ladderSteps = "deciles",
             showLead = FALSE,
             leadMark = TRUE,
+            leadNote = FALSE,
             showDensity = FALSE,
             densAdjust = 1,
             densFilled = TRUE,
             densOverlap = FALSE,
+            densNote = FALSE,
             densTrim = FALSE,
             showEcdf = FALSE,
             ecdfMedian = TRUE,
@@ -225,6 +228,10 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "mean",
                     "median"),
                 default="none")
+            private$..refNote <- jmvcore::OptionBool$new(
+                "refNote",
+                refNote,
+                default=FALSE)
             private$..alpha <- jmvcore::OptionInteger$new(
                 "alpha",
                 alpha,
@@ -286,10 +293,6 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..showN <- jmvcore::OptionBool$new(
                 "showN",
                 showN,
-                default=FALSE)
-            private$..showCaption <- jmvcore::OptionBool$new(
-                "showCaption",
-                showCaption,
                 default=FALSE)
             private$..showBox <- jmvcore::OptionBool$new(
                 "showBox",
@@ -415,6 +418,10 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "ebLabels",
                 ebLabels,
                 default=FALSE)
+            private$..ebNote <- jmvcore::OptionBool$new(
+                "ebNote",
+                ebNote,
+                default=FALSE)
             private$..showRaincloud <- jmvcore::OptionBool$new(
                 "showRaincloud",
                 showRaincloud,
@@ -533,6 +540,10 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "leadMark",
                 leadMark,
                 default=TRUE)
+            private$..leadNote <- jmvcore::OptionBool$new(
+                "leadNote",
+                leadNote,
+                default=FALSE)
             private$..showDensity <- jmvcore::OptionBool$new(
                 "showDensity",
                 showDensity,
@@ -550,6 +561,10 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..densOverlap <- jmvcore::OptionBool$new(
                 "densOverlap",
                 densOverlap,
+                default=FALSE)
+            private$..densNote <- jmvcore::OptionBool$new(
+                "densNote",
+                densNote,
                 default=FALSE)
             private$..densTrim <- jmvcore::OptionBool$new(
                 "densTrim",
@@ -602,6 +617,7 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..textSize)
             self$.addOption(private$..xLabelAngle)
             self$.addOption(private$..refLine)
+            self$.addOption(private$..refNote)
             self$.addOption(private$..alpha)
             self$.addOption(private$..lineWidth)
             self$.addOption(private$..pointSize)
@@ -613,7 +629,6 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..legendPos)
             self$.addOption(private$..legendTitle)
             self$.addOption(private$..showN)
-            self$.addOption(private$..showCaption)
             self$.addOption(private$..showBox)
             self$.addOption(private$..boxWidth)
             self$.addOption(private$..boxOutliers)
@@ -638,6 +653,7 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..ebCap)
             self$.addOption(private$..ebConnect)
             self$.addOption(private$..ebLabels)
+            self$.addOption(private$..ebNote)
             self$.addOption(private$..showRaincloud)
             self$.addOption(private$..rcCloudWidth)
             self$.addOption(private$..rcAdjust)
@@ -661,10 +677,12 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..ladderSteps)
             self$.addOption(private$..showLead)
             self$.addOption(private$..leadMark)
+            self$.addOption(private$..leadNote)
             self$.addOption(private$..showDensity)
             self$.addOption(private$..densAdjust)
             self$.addOption(private$..densFilled)
             self$.addOption(private$..densOverlap)
+            self$.addOption(private$..densNote)
             self$.addOption(private$..densTrim)
             self$.addOption(private$..showEcdf)
             self$.addOption(private$..ecdfMedian)
@@ -690,6 +708,7 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         textSize = function() private$..textSize$value,
         xLabelAngle = function() private$..xLabelAngle$value,
         refLine = function() private$..refLine$value,
+        refNote = function() private$..refNote$value,
         alpha = function() private$..alpha$value,
         lineWidth = function() private$..lineWidth$value,
         pointSize = function() private$..pointSize$value,
@@ -701,7 +720,6 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         legendPos = function() private$..legendPos$value,
         legendTitle = function() private$..legendTitle$value,
         showN = function() private$..showN$value,
-        showCaption = function() private$..showCaption$value,
         showBox = function() private$..showBox$value,
         boxWidth = function() private$..boxWidth$value,
         boxOutliers = function() private$..boxOutliers$value,
@@ -726,6 +744,7 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ebCap = function() private$..ebCap$value,
         ebConnect = function() private$..ebConnect$value,
         ebLabels = function() private$..ebLabels$value,
+        ebNote = function() private$..ebNote$value,
         showRaincloud = function() private$..showRaincloud$value,
         rcCloudWidth = function() private$..rcCloudWidth$value,
         rcAdjust = function() private$..rcAdjust$value,
@@ -749,10 +768,12 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ladderSteps = function() private$..ladderSteps$value,
         showLead = function() private$..showLead$value,
         leadMark = function() private$..leadMark$value,
+        leadNote = function() private$..leadNote$value,
         showDensity = function() private$..showDensity$value,
         densAdjust = function() private$..densAdjust$value,
         densFilled = function() private$..densFilled$value,
         densOverlap = function() private$..densOverlap$value,
+        densNote = function() private$..densNote$value,
         densTrim = function() private$..densTrim$value,
         showEcdf = function() private$..showEcdf$value,
         ecdfMedian = function() private$..ecdfMedian$value,
@@ -777,6 +798,7 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..textSize = NA,
         ..xLabelAngle = NA,
         ..refLine = NA,
+        ..refNote = NA,
         ..alpha = NA,
         ..lineWidth = NA,
         ..pointSize = NA,
@@ -788,7 +810,6 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..legendPos = NA,
         ..legendTitle = NA,
         ..showN = NA,
-        ..showCaption = NA,
         ..showBox = NA,
         ..boxWidth = NA,
         ..boxOutliers = NA,
@@ -813,6 +834,7 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..ebCap = NA,
         ..ebConnect = NA,
         ..ebLabels = NA,
+        ..ebNote = NA,
         ..showRaincloud = NA,
         ..rcCloudWidth = NA,
         ..rcAdjust = NA,
@@ -836,10 +858,12 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..ladderSteps = NA,
         ..showLead = NA,
         ..leadMark = NA,
+        ..leadNote = NA,
         ..showDensity = NA,
         ..densAdjust = NA,
         ..densFilled = NA,
         ..densOverlap = NA,
+        ..densNote = NA,
         ..densTrim = NA,
         ..showEcdf = NA,
         ..ecdfMedian = NA,
@@ -908,6 +932,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -917,7 +942,6 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "boxWidth",
@@ -951,6 +975,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -960,7 +985,6 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "violinWidth",
@@ -996,6 +1020,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -1005,7 +1030,6 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "ebCenter",
@@ -1016,7 +1040,8 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "ebSize",
                     "ebCap",
                     "ebConnect",
-                    "ebLabels")))
+                    "ebLabels",
+                    "ebNote")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_raincloud",
@@ -1043,6 +1068,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -1052,7 +1078,6 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "rcCloudWidth",
@@ -1085,6 +1110,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -1094,7 +1120,6 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "ridgeOverlap",
@@ -1127,6 +1152,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -1136,7 +1162,6 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "histBins",
@@ -1170,6 +1195,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -1179,7 +1205,6 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "pyBins",
@@ -1210,6 +1235,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -1219,7 +1245,6 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "ladderSteps")))
@@ -1249,6 +1274,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -1258,10 +1284,10 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
-                    "leadMark")))
+                    "leadMark",
+                    "leadNote")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_density",
@@ -1288,6 +1314,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -1297,13 +1324,13 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "densAdjust",
                     "densFilled",
                     "densTrim",
-                    "densOverlap")))
+                    "densOverlap",
+                    "densNote")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_ecdf",
@@ -1330,6 +1357,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -1339,7 +1367,6 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "ecdfMedian")))
@@ -1369,6 +1396,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -1378,7 +1406,6 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "stripSummary")))
@@ -1408,6 +1435,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "textSize",
                     "xLabelAngle",
                     "refLine",
+                    "refNote",
                     "alpha",
                     "lineWidth",
                     "pointSize",
@@ -1417,7 +1445,6 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "barcodeHeight")))}))
@@ -1463,6 +1490,7 @@ distDichBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param textSize .
 #' @param xLabelAngle .
 #' @param refLine .
+#' @param refNote .
 #' @param alpha .
 #' @param lineWidth .
 #' @param pointSize .
@@ -1474,7 +1502,6 @@ distDichBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param legendPos .
 #' @param legendTitle .
 #' @param showN .
-#' @param showCaption .
 #' @param showBox .
 #' @param boxWidth .
 #' @param boxOutliers .
@@ -1499,6 +1526,7 @@ distDichBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param ebCap .
 #' @param ebConnect .
 #' @param ebLabels .
+#' @param ebNote .
 #' @param showRaincloud .
 #' @param rcCloudWidth .
 #' @param rcAdjust .
@@ -1522,10 +1550,12 @@ distDichBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param ladderSteps .
 #' @param showLead .
 #' @param leadMark .
+#' @param leadNote .
 #' @param showDensity .
 #' @param densAdjust .
 #' @param densFilled .
 #' @param densOverlap .
+#' @param densNote .
 #' @param densTrim .
 #' @param showEcdf .
 #' @param ecdfMedian .
@@ -1570,6 +1600,7 @@ distDich <- function(
     textSize = 16,
     xLabelAngle = "horizontal",
     refLine = "none",
+    refNote = FALSE,
     alpha = 80,
     lineWidth = 2,
     pointSize = 0.8,
@@ -1581,7 +1612,6 @@ distDich <- function(
     legendPos = "bottom",
     legendTitle = "",
     showN = FALSE,
-    showCaption = FALSE,
     showBox = TRUE,
     boxWidth = 65,
     boxOutliers = TRUE,
@@ -1606,6 +1636,7 @@ distDich <- function(
     ebCap = 30,
     ebConnect = FALSE,
     ebLabels = FALSE,
+    ebNote = FALSE,
     showRaincloud = FALSE,
     rcCloudWidth = 45,
     rcAdjust = 1,
@@ -1629,10 +1660,12 @@ distDich <- function(
     ladderSteps = "deciles",
     showLead = FALSE,
     leadMark = TRUE,
+    leadNote = FALSE,
     showDensity = FALSE,
     densAdjust = 1,
     densFilled = TRUE,
     densOverlap = FALSE,
+    densNote = FALSE,
     densTrim = FALSE,
     showEcdf = FALSE,
     ecdfMedian = TRUE,
@@ -1671,6 +1704,7 @@ distDich <- function(
         textSize = textSize,
         xLabelAngle = xLabelAngle,
         refLine = refLine,
+        refNote = refNote,
         alpha = alpha,
         lineWidth = lineWidth,
         pointSize = pointSize,
@@ -1682,7 +1716,6 @@ distDich <- function(
         legendPos = legendPos,
         legendTitle = legendTitle,
         showN = showN,
-        showCaption = showCaption,
         showBox = showBox,
         boxWidth = boxWidth,
         boxOutliers = boxOutliers,
@@ -1707,6 +1740,7 @@ distDich <- function(
         ebCap = ebCap,
         ebConnect = ebConnect,
         ebLabels = ebLabels,
+        ebNote = ebNote,
         showRaincloud = showRaincloud,
         rcCloudWidth = rcCloudWidth,
         rcAdjust = rcAdjust,
@@ -1730,10 +1764,12 @@ distDich <- function(
         ladderSteps = ladderSteps,
         showLead = showLead,
         leadMark = leadMark,
+        leadNote = leadNote,
         showDensity = showDensity,
         densAdjust = densAdjust,
         densFilled = densFilled,
         densOverlap = densOverlap,
+        densNote = densNote,
         densTrim = densTrim,
         showEcdf = showEcdf,
         ecdfMedian = ecdfMedian,

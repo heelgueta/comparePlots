@@ -38,7 +38,6 @@ items:
       - legendTitle
       - title
       - showN
-      - showCaption
       - alpha
       - lineWidth
       - ignoreMissing
@@ -70,7 +69,6 @@ items:
       - legendTitle
       - title
       - showN
-      - showCaption
       - alpha
       - lineWidth
       - ignoreMissing
@@ -104,7 +102,6 @@ items:
       - legendTitle
       - title
       - showN
-      - showCaption
       - alpha
       - lineWidth
       - ignoreMissing
@@ -122,6 +119,7 @@ items:
     visible: (showWaffle)
     clearWith:
       - waffleGrid
+      - waffleNote
       - vars
       - orientation
       - invertVars
@@ -137,7 +135,6 @@ items:
       - legendTitle
       - title
       - showN
-      - showCaption
       - alpha
       - lineWidth
       - ignoreMissing
@@ -155,6 +152,7 @@ items:
     visible: (showPicto)
     clearWith:
       - pictoGrid
+      - pictoNote
       - vars
       - orientation
       - invertVars
@@ -170,7 +168,6 @@ items:
       - legendTitle
       - title
       - showN
-      - showCaption
       - alpha
       - lineWidth
       - ignoreMissing
@@ -204,7 +201,6 @@ items:
       - legendTitle
       - title
       - showN
-      - showCaption
       - alpha
       - lineWidth
       - ignoreMissing
@@ -236,7 +232,6 @@ items:
       - legendTitle
       - title
       - showN
-      - showCaption
       - alpha
       - lineWidth
       - ignoreMissing

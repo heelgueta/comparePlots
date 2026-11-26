@@ -186,6 +186,10 @@ options:
       - name: median
         title: Overall median
     default: none
+  - name: refNote
+    title: Describe in a note
+    type: Bool
+    default: false
   - name: alpha
     title: Opacity
     type: Integer
@@ -252,10 +256,6 @@ options:
     default: ''
   - name: showN
     title: Show n in group labels
-    type: Bool
-    default: false
-  - name: showCaption
-    title: Explanatory note below the plot
     type: Bool
     default: false
   # PLOT: Box plot.
@@ -396,6 +396,10 @@ options:
     title: Centre values
     type: Bool
     default: false
+  - name: ebNote
+    title: 'Note: what the bars show'
+    type: Bool
+    default: false
   # PLOT: Raincloud plot.
   - name: showRaincloud
     title: Raincloud plot
@@ -530,6 +534,10 @@ options:
     title: Mark the largest gap
     type: Bool
     default: true
+  - name: leadNote
+    title: Explanatory note
+    type: Bool
+    default: false
   # PLOT: Overlaid densities.
   - name: showDensity
     title: Overlaid densities
@@ -547,6 +555,10 @@ options:
     default: true
   - name: densOverlap
     title: Shade the overlap of the two groups
+    type: Bool
+    default: false
+  - name: densNote
+    title: 'Note: overlap percentages'
     type: Bool
     default: false
   - name: densTrim

@@ -215,14 +215,6 @@ children:
                 children:
                   - type: CheckBox
                     name: showN
-              - type: LayoutBox
-                cell:
-                  column: 0
-                  row: 2
-                stretchFactor: 1
-                children:
-                  - type: CheckBox
-                    name: showCaption
   - type: CollapseBox
     label: Box Plot
     collapsed: false
@@ -455,6 +447,15 @@ children:
             children:
               - type: CheckBox
                 name: ebLabels
+                enable: '(showErrorBar)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 4
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: ebNote
                 enable: '(showErrorBar)'
   - type: CollapseBox
     label: Raincloud Plot

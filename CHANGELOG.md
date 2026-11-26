@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1 (2026-11-26)
+
+**Fix**
+- The optional notes under some plots are now settings of the plots that have them, instead of one shared checkbox in Text and Labels (1.1.0). All are off by default: *Note: what the bars show* (Means and Error Bars), *Note: what one square / dot is worth* (Waffle Chart, Dot Pictogram), *Explanatory note* (Lead Plot, Compare Dichotomous), *Note: overlap percentages* (Overlaid Densities, Compare Dichotomous) and *Describe in a note* next to the reference line in the group analyses. The shared *Explanatory note below the plot* setting of 1.1.0 is gone.
+
 ## 1.1.0 (2026-11-26)
 
 **New analyses (a second section of the menu: Compare Groups)**

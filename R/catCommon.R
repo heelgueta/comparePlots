@@ -503,7 +503,7 @@ cmp_cat_private <- function() {
                         guide = ggplot2::guide_legend(nrow = ctx$leg_rows, override.aes = list(size = 4, shape = 21)))
             }
             p <- p + private$.chart_grid(ctx)
-            p + ggplot2::labs(caption = if (isTRUE(o$showCaption)) unit_lab else NULL)   # optional note: what one cell is worth
+            p + ggplot2::labs(caption = if (isTRUE(if (kind == "waffle") o$waffleNote else o$pictoNote)) unit_lab else NULL)   # optional note: what one cell is worth (off by default)
         },
 
         # ── Parliament (arc) chart ─────────────────────────────────────────

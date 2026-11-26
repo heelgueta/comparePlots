@@ -25,7 +25,6 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             valueLabel = "Value",
             title = "",
             showN = FALSE,
-            showCaption = FALSE,
             legendPos = "bottom",
             showBox = TRUE,
             boxWidth = 60,
@@ -50,6 +49,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             ebCap = 30,
             ebConnect = FALSE,
             ebLabels = FALSE,
+            ebNote = FALSE,
             showRaincloud = FALSE,
             rcCloudWidth = 45,
             rcAdjust = 1,
@@ -217,10 +217,6 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "showN",
                 showN,
                 default=FALSE)
-            private$..showCaption <- jmvcore::OptionBool$new(
-                "showCaption",
-                showCaption,
-                default=FALSE)
             private$..legendPos <- jmvcore::OptionList$new(
                 "legendPos",
                 legendPos,
@@ -349,6 +345,10 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..ebLabels <- jmvcore::OptionBool$new(
                 "ebLabels",
                 ebLabels,
+                default=FALSE)
+            private$..ebNote <- jmvcore::OptionBool$new(
+                "ebNote",
+                ebNote,
                 default=FALSE)
             private$..showRaincloud <- jmvcore::OptionBool$new(
                 "showRaincloud",
@@ -492,7 +492,6 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..valueLabel)
             self$.addOption(private$..title)
             self$.addOption(private$..showN)
-            self$.addOption(private$..showCaption)
             self$.addOption(private$..legendPos)
             self$.addOption(private$..showBox)
             self$.addOption(private$..boxWidth)
@@ -517,6 +516,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..ebCap)
             self$.addOption(private$..ebConnect)
             self$.addOption(private$..ebLabels)
+            self$.addOption(private$..ebNote)
             self$.addOption(private$..showRaincloud)
             self$.addOption(private$..rcCloudWidth)
             self$.addOption(private$..rcAdjust)
@@ -563,7 +563,6 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         valueLabel = function() private$..valueLabel$value,
         title = function() private$..title$value,
         showN = function() private$..showN$value,
-        showCaption = function() private$..showCaption$value,
         legendPos = function() private$..legendPos$value,
         showBox = function() private$..showBox$value,
         boxWidth = function() private$..boxWidth$value,
@@ -588,6 +587,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ebCap = function() private$..ebCap$value,
         ebConnect = function() private$..ebConnect$value,
         ebLabels = function() private$..ebLabels$value,
+        ebNote = function() private$..ebNote$value,
         showRaincloud = function() private$..showRaincloud$value,
         rcCloudWidth = function() private$..rcCloudWidth$value,
         rcAdjust = function() private$..rcAdjust$value,
@@ -633,7 +633,6 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..valueLabel = NA,
         ..title = NA,
         ..showN = NA,
-        ..showCaption = NA,
         ..legendPos = NA,
         ..showBox = NA,
         ..boxWidth = NA,
@@ -658,6 +657,7 @@ distNumOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..ebCap = NA,
         ..ebConnect = NA,
         ..ebLabels = NA,
+        ..ebNote = NA,
         ..showRaincloud = NA,
         ..rcCloudWidth = NA,
         ..rcAdjust = NA,
@@ -744,7 +744,6 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "boxWidth",
                     "boxOutliers",
@@ -780,7 +779,6 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "violinWidth",
                     "violinScale",
@@ -817,7 +815,6 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "ebCenter",
                     "ebInterval",
@@ -827,7 +824,8 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "ebSize",
                     "ebCap",
                     "ebConnect",
-                    "ebLabels")))
+                    "ebLabels",
+                    "ebNote")))
             self$add(jmvcore::Image$new(
                 options=options,
                 name="plot_raincloud",
@@ -857,7 +855,6 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "rcCloudWidth",
                     "rcAdjust",
@@ -892,7 +889,6 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "ridgeOverlap",
                     "ridgeAdjust",
@@ -927,7 +923,6 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "histBins",
                     "histStat",
@@ -962,7 +957,6 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "densAdjust",
                     "densFilled",
@@ -996,7 +990,6 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "ecdfMedian")))
             self$add(jmvcore::Image$new(
@@ -1028,7 +1021,6 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "stripSummary")))
             self$add(jmvcore::Image$new(
@@ -1060,7 +1052,6 @@ distNumResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
-                    "showCaption",
                     "legendPos",
                     "barcodeHeight")))}))
 
@@ -1108,7 +1099,6 @@ distNumBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param valueLabel .
 #' @param title .
 #' @param showN .
-#' @param showCaption .
 #' @param legendPos .
 #' @param showBox .
 #' @param boxWidth .
@@ -1133,6 +1123,7 @@ distNumBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param ebCap .
 #' @param ebConnect .
 #' @param ebLabels .
+#' @param ebNote .
 #' @param showRaincloud .
 #' @param rcCloudWidth .
 #' @param rcAdjust .
@@ -1195,7 +1186,6 @@ distNum <- function(
     valueLabel = "Value",
     title = "",
     showN = FALSE,
-    showCaption = FALSE,
     legendPos = "bottom",
     showBox = TRUE,
     boxWidth = 60,
@@ -1220,6 +1210,7 @@ distNum <- function(
     ebCap = 30,
     ebConnect = FALSE,
     ebLabels = FALSE,
+    ebNote = FALSE,
     showRaincloud = FALSE,
     rcCloudWidth = 45,
     rcAdjust = 1,
@@ -1276,7 +1267,6 @@ distNum <- function(
         valueLabel = valueLabel,
         title = title,
         showN = showN,
-        showCaption = showCaption,
         legendPos = legendPos,
         showBox = showBox,
         boxWidth = boxWidth,
@@ -1301,6 +1291,7 @@ distNum <- function(
         ebCap = ebCap,
         ebConnect = ebConnect,
         ebLabels = ebLabels,
+        ebNote = ebNote,
         showRaincloud = showRaincloud,
         rcCloudWidth = rcCloudWidth,
         rcAdjust = rcAdjust,

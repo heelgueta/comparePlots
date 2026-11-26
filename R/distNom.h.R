@@ -24,7 +24,6 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             lineWidth = 2,
             ignoreMissing = TRUE,
             showN = FALSE,
-            showCaption = FALSE,
             showBars = TRUE,
             barWidth = 70,
             barLabels = TRUE,
@@ -38,12 +37,14 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             waffleCols = 10,
             waffleGap = 10,
             waffleGrid = 3,
+            waffleNote = FALSE,
             showPicto = FALSE,
             pictoRows = 10,
             pictoCols = 10,
             pictoShape = "circle",
             pictoSize = 4.5,
             pictoGrid = 3,
+            pictoNote = FALSE,
             showParliament = FALSE,
             parlSeats = 100,
             parlRows = 4,
@@ -197,10 +198,6 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 "showN",
                 showN,
                 default=FALSE)
-            private$..showCaption <- jmvcore::OptionBool$new(
-                "showCaption",
-                showCaption,
-                default=FALSE)
             private$..showBars <- jmvcore::OptionBool$new(
                 "showBars",
                 showBars,
@@ -277,6 +274,10 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=1,
                 max=10,
                 default=3)
+            private$..waffleNote <- jmvcore::OptionBool$new(
+                "waffleNote",
+                waffleNote,
+                default=FALSE)
             private$..showPicto <- jmvcore::OptionBool$new(
                 "showPicto",
                 showPicto,
@@ -314,6 +315,10 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 min=1,
                 max=10,
                 default=3)
+            private$..pictoNote <- jmvcore::OptionBool$new(
+                "pictoNote",
+                pictoNote,
+                default=FALSE)
             private$..showParliament <- jmvcore::OptionBool$new(
                 "showParliament",
                 showParliament,
@@ -435,7 +440,6 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..lineWidth)
             self$.addOption(private$..ignoreMissing)
             self$.addOption(private$..showN)
-            self$.addOption(private$..showCaption)
             self$.addOption(private$..showBars)
             self$.addOption(private$..barWidth)
             self$.addOption(private$..barLabels)
@@ -449,12 +453,14 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..waffleCols)
             self$.addOption(private$..waffleGap)
             self$.addOption(private$..waffleGrid)
+            self$.addOption(private$..waffleNote)
             self$.addOption(private$..showPicto)
             self$.addOption(private$..pictoRows)
             self$.addOption(private$..pictoCols)
             self$.addOption(private$..pictoShape)
             self$.addOption(private$..pictoSize)
             self$.addOption(private$..pictoGrid)
+            self$.addOption(private$..pictoNote)
             self$.addOption(private$..showParliament)
             self$.addOption(private$..parlSeats)
             self$.addOption(private$..parlRows)
@@ -495,7 +501,6 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         lineWidth = function() private$..lineWidth$value,
         ignoreMissing = function() private$..ignoreMissing$value,
         showN = function() private$..showN$value,
-        showCaption = function() private$..showCaption$value,
         showBars = function() private$..showBars$value,
         barWidth = function() private$..barWidth$value,
         barLabels = function() private$..barLabels$value,
@@ -509,12 +514,14 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         waffleCols = function() private$..waffleCols$value,
         waffleGap = function() private$..waffleGap$value,
         waffleGrid = function() private$..waffleGrid$value,
+        waffleNote = function() private$..waffleNote$value,
         showPicto = function() private$..showPicto$value,
         pictoRows = function() private$..pictoRows$value,
         pictoCols = function() private$..pictoCols$value,
         pictoShape = function() private$..pictoShape$value,
         pictoSize = function() private$..pictoSize$value,
         pictoGrid = function() private$..pictoGrid$value,
+        pictoNote = function() private$..pictoNote$value,
         showParliament = function() private$..showParliament$value,
         parlSeats = function() private$..parlSeats$value,
         parlRows = function() private$..parlRows$value,
@@ -554,7 +561,6 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..lineWidth = NA,
         ..ignoreMissing = NA,
         ..showN = NA,
-        ..showCaption = NA,
         ..showBars = NA,
         ..barWidth = NA,
         ..barLabels = NA,
@@ -568,12 +574,14 @@ distNomOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..waffleCols = NA,
         ..waffleGap = NA,
         ..waffleGrid = NA,
+        ..waffleNote = NA,
         ..showPicto = NA,
         ..pictoRows = NA,
         ..pictoCols = NA,
         ..pictoShape = NA,
         ..pictoSize = NA,
         ..pictoGrid = NA,
+        ..pictoNote = NA,
         ..showParliament = NA,
         ..parlSeats = NA,
         ..parlRows = NA,
@@ -649,7 +657,6 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
-                    "showCaption",
                     "alpha",
                     "lineWidth",
                     "ignoreMissing",
@@ -680,7 +687,6 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
-                    "showCaption",
                     "alpha",
                     "lineWidth",
                     "ignoreMissing",
@@ -697,6 +703,7 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(showWaffle)",
                 clearWith=list(
                     "waffleGrid",
+                    "waffleNote",
                     "vars",
                     "orientation",
                     "invertVars",
@@ -712,7 +719,6 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
-                    "showCaption",
                     "alpha",
                     "lineWidth",
                     "ignoreMissing",
@@ -729,6 +735,7 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                 visible="(showPicto)",
                 clearWith=list(
                     "pictoGrid",
+                    "pictoNote",
                     "vars",
                     "orientation",
                     "invertVars",
@@ -744,7 +751,6 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
-                    "showCaption",
                     "alpha",
                     "lineWidth",
                     "ignoreMissing",
@@ -777,7 +783,6 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
-                    "showCaption",
                     "alpha",
                     "lineWidth",
                     "ignoreMissing",
@@ -808,7 +813,6 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
-                    "showCaption",
                     "alpha",
                     "lineWidth",
                     "ignoreMissing",
@@ -839,7 +843,6 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
-                    "showCaption",
                     "alpha",
                     "lineWidth",
                     "ignoreMissing",
@@ -872,7 +875,6 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
-                    "showCaption",
                     "alpha",
                     "lineWidth",
                     "ignoreMissing",
@@ -902,7 +904,6 @@ distNomResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
-                    "showCaption",
                     "alpha",
                     "lineWidth",
                     "ignoreMissing",
@@ -951,7 +952,6 @@ distNomBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param lineWidth .
 #' @param ignoreMissing .
 #' @param showN .
-#' @param showCaption .
 #' @param showBars .
 #' @param barWidth .
 #' @param barLabels .
@@ -965,12 +965,14 @@ distNomBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param waffleCols .
 #' @param waffleGap .
 #' @param waffleGrid .
+#' @param waffleNote .
 #' @param showPicto .
 #' @param pictoRows .
 #' @param pictoCols .
 #' @param pictoShape .
 #' @param pictoSize .
 #' @param pictoGrid .
+#' @param pictoNote .
 #' @param showParliament .
 #' @param parlSeats .
 #' @param parlRows .
@@ -1026,7 +1028,6 @@ distNom <- function(
     lineWidth = 2,
     ignoreMissing = TRUE,
     showN = FALSE,
-    showCaption = FALSE,
     showBars = TRUE,
     barWidth = 70,
     barLabels = TRUE,
@@ -1040,12 +1041,14 @@ distNom <- function(
     waffleCols = 10,
     waffleGap = 10,
     waffleGrid = 3,
+    waffleNote = FALSE,
     showPicto = FALSE,
     pictoRows = 10,
     pictoCols = 10,
     pictoShape = "circle",
     pictoSize = 4.5,
     pictoGrid = 3,
+    pictoNote = FALSE,
     showParliament = FALSE,
     parlSeats = 100,
     parlRows = 4,
@@ -1097,7 +1100,6 @@ distNom <- function(
         lineWidth = lineWidth,
         ignoreMissing = ignoreMissing,
         showN = showN,
-        showCaption = showCaption,
         showBars = showBars,
         barWidth = barWidth,
         barLabels = barLabels,
@@ -1111,12 +1113,14 @@ distNom <- function(
         waffleCols = waffleCols,
         waffleGap = waffleGap,
         waffleGrid = waffleGrid,
+        waffleNote = waffleNote,
         showPicto = showPicto,
         pictoRows = pictoRows,
         pictoCols = pictoCols,
         pictoShape = pictoShape,
         pictoSize = pictoSize,
         pictoGrid = pictoGrid,
+        pictoNote = pictoNote,
         showParliament = showParliament,
         parlSeats = parlSeats,
         parlRows = parlRows,

@@ -169,6 +169,15 @@ children:
                 children:
                   - type: ComboBox
                     name: refLine
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 3
+                stretchFactor: 1
+                children:
+                  - type: CheckBox
+                    name: refNote
+                    enable: '(refLine:mean || refLine:median)'
       - type: Label
         label: Data Points
         children:
@@ -271,14 +280,6 @@ children:
                 children:
                   - type: CheckBox
                     name: showN
-              - type: LayoutBox
-                cell:
-                  column: 0
-                  row: 3
-                stretchFactor: 1
-                children:
-                  - type: CheckBox
-                    name: showCaption
   - type: CollapseBox
     label: Box Plot
     collapsed: false
@@ -520,6 +521,15 @@ children:
             children:
               - type: CheckBox
                 name: ebLabels
+                enable: '(showErrorBar)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 4
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: ebNote
                 enable: '(showErrorBar)'
   - type: CollapseBox
     label: Raincloud Plot
@@ -766,6 +776,15 @@ children:
               - type: CheckBox
                 name: leadMark
                 enable: '(showLead)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 0
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: leadNote
+                enable: '(showLead)'
   - type: CollapseBox
     label: Overlaid Densities
     collapsed: true
@@ -817,6 +836,15 @@ children:
               - type: CheckBox
                 name: densOverlap
                 enable: '(showDensity)'
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: densNote
+                enable: '(showDensity && densOverlap)'
   - type: CollapseBox
     label: Cumulative Distribution (ECDF)
     collapsed: true

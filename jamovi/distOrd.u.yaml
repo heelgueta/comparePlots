@@ -180,14 +180,6 @@ children:
                 children:
                   - type: CheckBox
                     name: showN
-              - type: LayoutBox
-                cell:
-                  column: 0
-                  row: 3
-                stretchFactor: 1
-                children:
-                  - type: CheckBox
-                    name: showCaption
   - type: CollapseBox
     label: Stacked Bars
     collapsed: false
@@ -394,6 +386,15 @@ children:
                 name: waffleGrid
                 format: number
                 enable: '(showWaffle)'
+          - type: LayoutBox
+            cell:
+              column: 0
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: waffleNote
+                enable: '(showWaffle)'
   - type: CollapseBox
     label: Dot Pictogram
     collapsed: true
@@ -456,6 +457,15 @@ children:
               - type: TextBox
                 name: pictoGrid
                 format: number
+                enable: '(showPicto)'
+          - type: LayoutBox
+            cell:
+              column: 1
+              row: 2
+            stretchFactor: 1
+            children:
+              - type: CheckBox
+                name: pictoNote
                 enable: '(showPicto)'
   - type: CollapseBox
     label: Parliament Chart

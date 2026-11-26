@@ -161,7 +161,7 @@ def image(key, title, extra_clear):
     ls = "\n".join(tmpl["lines"]) + "\n"
     ls = ls.replace("plot_bars", "plot_" + key).replace(".plot_bars", ".plot_" + key).replace("showBars", "show" + key.capitalize())
     ls = re.sub(r"title: .*\n", f"title: {title}\n", ls, count=1)
-    ls = re.sub(r"(      - showN\n)(?:      - \w+\n)*", r"\1      - showCaption\n      - alpha\n      - lineWidth\n      - ignoreMissing\n" + "".join(f"      - {x}\n" for x in extra_clear), ls)
+    ls = re.sub(r"(      - showN\n)(?:      - \w+\n)*", r"\1      - alpha\n      - lineWidth\n      - ignoreMissing\n" + "".join(f"      - {x}\n" for x in extra_clear), ls)
     if key in ("pie", "donut"):
         ls = ls.replace("    height: 350\n", "    height: 400\n")
     return {"pre": [f'  # IMAGE for the "{title}" plot.'], "lines": ls.rstrip("\n").split("\n")}
@@ -186,7 +186,7 @@ def appearance_ui(nominal=False):
     vo = [D("orientation"), D("sortVars")] + ([D("catSort")] if nominal else []) + [C("invertVars"), C("useDesc"), C("ignoreMissing")]
     return [("Variables", vo),
             ("Colours and Lines", [D("colourPalette"), C("reversePalette"), D("plotTheme"), T("alpha", suffix="%"), T("lineWidth")]),
-            ("Text and Labels", [T("textSize"), T("decimals"), S("title"), D("legendPos"), S("legendTitle"), C("showN"), C("showCaption")])]
+            ("Text and Labels", [T("textSize"), T("decimals"), S("title"), D("legendPos"), S("legendTitle"), C("showN")])]
 def ui(name, title, boxes, groups):
     s = head_ui(title, name) + appearance_groups(groups)
     for label, check, its, collapsed in boxes:
@@ -197,8 +197,8 @@ ORD_BOXES = [
  ("Diverging Bars", "showDiverging", [T("divWidth", "(showDiverging)", "%"), D("divNeutral", "(showDiverging)"), C("divLabels", "(showDiverging)"),
                                       T("divMinLabel", "(showDiverging && divLabels)", "%"), C("divNet", "(showDiverging)")], True),
  ("Heatmap", "showHeat", [D("heatPalette", "(showHeat)"), C("heatLabels", "(showHeat)"), T("heatGap", "(showHeat)", "%")], True),
- ("Waffle Chart", "showWaffle", [T("waffleRows", "(showWaffle)"), T("waffleCols", "(showWaffle)"), T("waffleGap", "(showWaffle)", "%"), T("waffleGrid", "(showWaffle)")], True),
- ("Dot Pictogram", "showPicto", [T("pictoRows", "(showPicto)"), T("pictoCols", "(showPicto)"), D("pictoShape", "(showPicto)"), T("pictoSize", "(showPicto)"), T("pictoGrid", "(showPicto)")], True),
+ ("Waffle Chart", "showWaffle", [T("waffleRows", "(showWaffle)"), T("waffleCols", "(showWaffle)"), T("waffleGap", "(showWaffle)", "%"), T("waffleGrid", "(showWaffle)"), C("waffleNote", "(showWaffle)")], True),
+ ("Dot Pictogram", "showPicto", [T("pictoRows", "(showPicto)"), T("pictoCols", "(showPicto)"), D("pictoShape", "(showPicto)"), T("pictoSize", "(showPicto)"), T("pictoGrid", "(showPicto)"), C("pictoNote", "(showPicto)")], True),
  ("Parliament Chart", "showParliament", [T("parlSeats", "(showParliament)"), T("parlRows", "(showParliament)"), T("parlSize", "(showParliament)"), T("parlGrid", "(showParliament)")], True),
  ("Response Profile", "showProfile", [C("profLines", "(showProfile)"), C("profPoints", "(showProfile)"), C("profLabels", "(showProfile)")], True)]
 ui("distOrd", "Compare Ordinal", ORD_BOXES, appearance_ui())

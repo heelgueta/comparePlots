@@ -190,10 +190,6 @@ options:
     title: n per variable
     type: Bool
     default: false
-  - name: showCaption
-    title: Explanatory note below the plot
-    type: Bool
-    default: false
   - name: legendPos
     title: Legend (overlay plots)
     type: List
@@ -339,6 +335,10 @@ options:
     default: false
   - name: ebLabels
     title: Centre values
+    type: Bool
+    default: false
+  - name: ebNote
+    title: 'Note: what the bars show'
     type: Bool
     default: false
   # PLOT: Raincloud plot. `showRaincloud` switches it on; the options after it are its settings.

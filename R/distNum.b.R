@@ -296,7 +296,7 @@ distNumClass <- R6::R6Class(
             # wrapped so a long list of variables does not run off the edge of a small plot
             caption <- if (isTRUE(o$showN))
                 paste(strwrap(paste(paste0(gsub("\n", " ", unname(ctx$lab[names(n_per)])), " (n=", n_per, ")"), collapse = "   "), 40), collapse = "\n") else NULL
-            if (key == "errorbar" && isTRUE(o$showCaption)) {      # the explanatory note is optional (off by default)
+            if (key == "errorbar" && isTRUE(o$ebNote)) {      # optional note on what the bars show (off by default)
                 extra <- cmp_interval_label(o$ebCenter, o$ebInterval, o$ebLevel, o$ebMult)
                 caption <- paste(c(extra, caption), collapse = "\n")
             }

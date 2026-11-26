@@ -556,6 +556,11 @@ msgstr "Densidad"
 msgid "Density curve"
 msgstr "Curva de densidad"
 
+#: distDich/options/refNote.title
+#: distPoly/options/refNote.title
+msgid "Describe in a note"
+msgstr "Describir en una nota"
+
 #: distNom/options/pictoShape/diamond.title
 #: distOrd/options/pictoShape/diamond.title
 msgid "Diamond"
@@ -635,13 +640,9 @@ msgstr "Barras de error"
 msgid "Every 5th (5 to 95)"
 msgstr "Cada 5 (5 a 95)"
 
-#: distDich/options/showCaption.title
-#: distNom/options/showCaption.title
-#: distNum/options/showCaption.title
-#: distOrd/options/showCaption.title
-#: distPoly/options/showCaption.title
-msgid "Explanatory note below the plot"
-msgstr "Nota explicativa debajo del gráfico"
+#: distDich/options/leadNote.title
+msgid "Explanatory note"
+msgstr "Nota explicativa"
 
 #: distDich/options/densFilled.title
 #: distNum/options/densFilled.title
@@ -1036,6 +1037,26 @@ msgstr "Ninguno"
 #: distPoly/options/boxNotch.title
 msgid "Notched (median CI)"
 msgstr "Con muesca (IC de la mediana)"
+
+#: distDich/options/densNote.title
+msgid "Note: overlap percentages"
+msgstr "Nota: porcentajes de solapamiento"
+
+#: distNom/options/pictoNote.title
+#: distOrd/options/pictoNote.title
+msgid "Note: what one dot is worth"
+msgstr "Nota: cuánto vale un punto"
+
+#: distNom/options/waffleNote.title
+#: distOrd/options/waffleNote.title
+msgid "Note: what one square is worth"
+msgstr "Nota: cuánto vale un cuadrado"
+
+#: distDich/options/ebNote.title
+#: distNum/options/ebNote.title
+#: distPoly/options/ebNote.title
+msgid "Note: what the bars show"
+msgstr "Nota: qué muestran las barras"
 
 #: distDich/options/histBins.title
 #: distDich/options/pyBins.title

@@ -37,6 +37,7 @@ items:
       - textSize
       - xLabelAngle
       - refLine
+      - refNote
       - alpha
       - lineWidth
       - pointSize
@@ -46,7 +47,6 @@ items:
       - valueLabel
       - title
       - showN
-      - showCaption
       - legendPos
       - legendTitle
       - boxWidth
@@ -79,6 +79,7 @@ items:
       - textSize
       - xLabelAngle
       - refLine
+      - refNote
       - alpha
       - lineWidth
       - pointSize
@@ -88,7 +89,6 @@ items:
       - valueLabel
       - title
       - showN
-      - showCaption
       - legendPos
       - legendTitle
       - violinWidth
@@ -123,6 +123,7 @@ items:
       - textSize
       - xLabelAngle
       - refLine
+      - refNote
       - alpha
       - lineWidth
       - pointSize
@@ -132,7 +133,6 @@ items:
       - valueLabel
       - title
       - showN
-      - showCaption
       - legendPos
       - legendTitle
       - ebCenter
@@ -144,6 +144,7 @@ items:
       - ebCap
       - ebConnect
       - ebLabels
+      - ebNote
   - name: plot_raincloud
     title: Raincloud plot
     type: Image
@@ -169,6 +170,7 @@ items:
       - textSize
       - xLabelAngle
       - refLine
+      - refNote
       - alpha
       - lineWidth
       - pointSize
@@ -178,7 +180,6 @@ items:
       - valueLabel
       - title
       - showN
-      - showCaption
       - legendPos
       - legendTitle
       - rcCloudWidth
@@ -210,6 +211,7 @@ items:
       - textSize
       - xLabelAngle
       - refLine
+      - refNote
       - alpha
       - lineWidth
       - pointSize
@@ -219,7 +221,6 @@ items:
       - valueLabel
       - title
       - showN
-      - showCaption
       - legendPos
       - legendTitle
       - ridgeOverlap
@@ -251,6 +252,7 @@ items:
       - textSize
       - xLabelAngle
       - refLine
+      - refNote
       - alpha
       - lineWidth
       - pointSize
@@ -260,7 +262,6 @@ items:
       - valueLabel
       - title
       - showN
-      - showCaption
       - legendPos
       - legendTitle
       - histBins
@@ -293,6 +294,7 @@ items:
       - textSize
       - xLabelAngle
       - refLine
+      - refNote
       - alpha
       - lineWidth
       - pointSize
@@ -302,7 +304,6 @@ items:
       - valueLabel
       - title
       - showN
-      - showCaption
       - legendPos
       - legendTitle
       - pyBins
@@ -332,6 +333,7 @@ items:
       - textSize
       - xLabelAngle
       - refLine
+      - refNote
       - alpha
       - lineWidth
       - pointSize
@@ -341,7 +343,6 @@ items:
       - valueLabel
       - title
       - showN
-      - showCaption
       - legendPos
       - legendTitle
       - ladderSteps
@@ -370,6 +371,7 @@ items:
       - textSize
       - xLabelAngle
       - refLine
+      - refNote
       - alpha
       - lineWidth
       - pointSize
@@ -379,10 +381,10 @@ items:
       - valueLabel
       - title
       - showN
-      - showCaption
       - legendPos
       - legendTitle
       - leadMark
+      - leadNote
   - name: plot_density
     title: Overlaid densities
     type: Image
@@ -408,6 +410,7 @@ items:
       - textSize
       - xLabelAngle
       - refLine
+      - refNote
       - alpha
       - lineWidth
       - pointSize
@@ -417,13 +420,13 @@ items:
       - valueLabel
       - title
       - showN
-      - showCaption
       - legendPos
       - legendTitle
       - densAdjust
       - densFilled
       - densTrim
       - densOverlap
+      - densNote
   - name: plot_ecdf
     title: Cumulative distribution (ECDF)
     type: Image
@@ -449,6 +452,7 @@ items:
       - textSize
       - xLabelAngle
       - refLine
+      - refNote
       - alpha
       - lineWidth
       - pointSize
@@ -458,7 +462,6 @@ items:
       - valueLabel
       - title
       - showN
-      - showCaption
       - legendPos
       - legendTitle
       - ecdfMedian
@@ -487,6 +490,7 @@ items:
       - textSize
       - xLabelAngle
       - refLine
+      - refNote
       - alpha
       - lineWidth
       - pointSize
@@ -496,7 +500,6 @@ items:
       - valueLabel
       - title
       - showN
-      - showCaption
       - legendPos
       - legendTitle
       - stripSummary
@@ -525,6 +528,7 @@ items:
       - textSize
       - xLabelAngle
       - refLine
+      - refNote
       - alpha
       - lineWidth
       - pointSize
@@ -534,7 +538,6 @@ items:
       - valueLabel
       - title
       - showN
-      - showCaption
       - legendPos
       - legendTitle
       - barcodeHeight

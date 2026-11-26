@@ -5,7 +5,7 @@ violin, the back-to-back histogram, the percentile ladder, the lead plot and the
 import re
 
 ROOT = "jamovi/"
-DROP_OPTIONS = ["violinSplit", "showPyramid", "pyBins", "pyStat", "showLadder", "ladderSteps", "showLead", "leadMark", "densOverlap"]
+DROP_OPTIONS = ["violinSplit", "showPyramid", "pyBins", "pyStat", "showLadder", "ladderSteps", "showLead", "leadMark", "leadNote", "densOverlap", "densNote"]
 DROP_RESULTS = ["plot_pyramid", "plot_ladder", "plot_lead"]
 
 
@@ -33,7 +33,7 @@ def derive(src, kind):
     names = DROP_OPTIONS if kind == "a" else DROP_RESULTS
     s = drop_items(s, names)
     if kind == "r":
-        s = re.sub(r"      - (pyBins|pyStat|showPyramid|violinSplit|ladderSteps|showLadder|showLead|leadMark|densOverlap)\n", "", s)
+        s = re.sub(r"      - (pyBins|pyStat|showPyramid|violinSplit|ladderSteps|showLadder|showLead|leadMark|leadNote|densOverlap|densNote)\n", "", s)
         s = s.replace("Source of truth for both group analyses (see distPoly.a.yaml).", "DERIVED from distDich.r.yaml by tools/gen_group_analyses.py: edit that file.")
     else:
         s = re.sub(r"# Compare Polytomous \(distPoly\): OPTIONS\..*?\n# jmvtools compiles this file \(with distPoly\.r\.yaml\) into R/distPoly\.h\.R\.",

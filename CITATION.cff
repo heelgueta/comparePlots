@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use comparePlots in your research, please cite it using the metadata below."
 type: software
 title: "comparePlots: Compare the Distributions of Variables in jamovi"
-version: 1.1.0
+version: 1.1.1
 date-released: 2026-11-26
 doi: 10.5281/zenodo.24562859
 identifiers:

@@ -413,19 +413,19 @@ cmp_grp_private <- function(kind) {
                     panel.grid.major.y = if (ctx$horiz) ggplot2::element_blank() else ggplot2::element_line())
             }
 
+            # Optional notes, each switched on by its own setting (all off by default).
             caps <- character(0)
-            if (key == "errorbar")
+            if (key == "errorbar" && isTRUE(o$ebNote))
                 caps <- c(caps, cmp_interval_label(o$ebCenter, o$ebInterval, o$ebLevel, o$ebMult))
-            if (!identical(o$refLine, "none") && !(key %in% c("pyramid", "ladder", "lead")))
+            if (isTRUE(o$refNote) && !identical(o$refLine, "none") && !(key %in% c("pyramid", "ladder", "lead")))
                 caps <- c(caps, if (identical(o$refLine, "mean")) .("Dashed line: overall mean of all groups.") else .("Dashed line: overall median of all groups."))
-            if (key == "lead") caps <- c(caps, private$.lead_caption(long, ctx))
-            if (key == "density" && private$.kind == "dich" && isTRUE(o$densOverlap) && ctx$mode != "facetGroup") {
+            if (key == "lead" && isTRUE(o$leadNote)) caps <- c(caps, private$.lead_caption(long, ctx))
+            if (key == "density" && private$.kind == "dich" && isTRUE(o$densOverlap) && isTRUE(o$densNote) && ctx$mode != "facetGroup") {
                 ov <- private$.overlap(long, ctx)
                 if (!is.null(ov))
                     caps <- c(caps, paste0("Shaded: overlap of the two groups. ",
                         paste0(names(ov$pct), " ", round(ov$pct), "%", collapse = ", "), "."))
             }
-            if (!isTRUE(o$showCaption)) caps <- character(0)       # explanatory notes are optional (off by default)
             caption <- if (length(caps) > 0) paste(strwrap(caps, 60), collapse = "\n") else NULL
             p + ggplot2::labs(title = cmp_title(o$title), caption = caption)
         },
