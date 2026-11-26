@@ -4,11 +4,11 @@ type: software
 title: "comparePlots: Compare the Distributions of Variables in jamovi"
 version: 1.1.1
 date-released: 2026-11-26
-doi: 10.5281/zenodo.24562859
+doi: 10.5281/zenodo.24563632
 identifiers:
   - type: doi
-    value: 10.5281/zenodo.24562859
-    description: "Version 1.1.0"
+    value: 10.5281/zenodo.24563632
+    description: "Version 1.1.1"
   - type: doi
     value: 10.5281/zenodo.24401092
     description: "Concept DOI: all versions (always the latest)"

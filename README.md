@@ -168,9 +168,9 @@ Developed in the **Laboratorio Austral de Medición Psicosocial (LAMP-UMAG)**, U
 
 If you use comparePlots in your research, please cite it:
 
-> Elgueta, H. E. (2026). *comparePlots: Compare the distributions of variables* (Version 1.1.0) [jamovi module]. Zenodo. https://doi.org/10.5281/zenodo.24562859
+> Elgueta, H. E. (2026). *comparePlots: Compare the distributions of variables* (Version 1.1.1) [jamovi module]. Zenodo. https://doi.org/10.5281/zenodo.24563632
 
-That is the DOI of version 1.1.0. The DOI in the badge at the top, [10.5281/zenodo.24401092](https://doi.org/10.5281/zenodo.24401092), represents all versions and always resolves to the latest one; every release also has its own DOI, listed on the [Zenodo page](https://doi.org/10.5281/zenodo.24401092). GitHub's **Cite this repository** button (from [CITATION.cff](CITATION.cff)) gives the same reference in APA and BibTeX.
+That is the DOI of version 1.1.1. The DOI in the badge at the top, [10.5281/zenodo.24401092](https://doi.org/10.5281/zenodo.24401092), represents all versions and always resolves to the latest one; every release also has its own DOI, listed on the [Zenodo page](https://doi.org/10.5281/zenodo.24401092). GitHub's **Cite this repository** button (from [CITATION.cff](CITATION.cff)) gives the same reference in APA and BibTeX.
 
 ## License
 
