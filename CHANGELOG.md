@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.0 (2026-11-25)
+## 1.1.0 (2026-11-26)
 
 **New analyses (a second section of the menu: Compare Groups)**
 - The menu now has two sections: *Compare Variables* (Numeric, Ordinal, Nominal) and *Compare Groups*.
