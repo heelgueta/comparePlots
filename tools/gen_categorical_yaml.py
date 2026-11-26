@@ -183,8 +183,8 @@ open(ROOT + "distNom.r.yaml", "w").write(nom_r)
 sys.path.insert(0, "tools")
 from ui_gen import *
 def appearance_ui(nominal=False):
-    vo = [C("ignoreMissing"), D("orientation"), D("sortVars")] + ([D("catSort")] if nominal else []) + [C("invertVars"), C("useDesc")]
-    return [("Data, Order and Labels", vo),
+    vo = [D("orientation"), D("sortVars")] + ([D("catSort")] if nominal else []) + [C("invertVars"), C("useDesc"), C("ignoreMissing")]
+    return [("Variables", vo),
             ("Colours and Lines", [D("colourPalette"), C("reversePalette"), D("plotTheme"), T("alpha", suffix="%"), T("lineWidth")]),
             ("Text and Labels", [T("textSize"), T("decimals"), S("title"), D("legendPos"), S("legendTitle"), C("showN")])]
 def ui(name, title, boxes, groups):

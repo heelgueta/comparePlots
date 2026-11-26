@@ -62,6 +62,26 @@ Shared appearance: orientation (horizontal: charts stacked top to bottom; vertic
 
 ---
 
+## Compare Groups (Compare Dichotomous, Compare Polytomous)
+
+Numeric variables across the levels of **one grouping variable**; colour is the group. *Compare Dichotomous* needs exactly two groups (and says so otherwise); *Compare Polytomous* takes any number. Both offer the ten numeric plots of Compare Numeric, split by group, and the same Appearance box; a nominal, ordinal (its level order is kept: set the measure type to *Ordinal* in jamovi) or two-level grouping variable all work.
+
+Shared settings (besides those of Compare Numeric): **group display** (within each variable, panels by group, panels by variable) · reverse group order · ignore missing group cases · **reference line** at the overall mean or median · **show n in group labels** · angle of x axis labels (horizontal, 45°, 90°). Plots are sized from the number of variables and groups, and the analyses warn about empty variables or variable-by-group cells, variables with no spread in a group, and grouping variables with more than 8 levels.
+
+Only in **Compare Dichotomous** (two groups):
+
+| Plot | What it shows |
+|---|---|
+| Split violin | the two groups as the two halves of one violin |
+| Back-to-back histogram | the population-pyramid layout (e.g. age by sex): upright with vertical orientation, mirrored with horizontal; counts or percent of group |
+| Percentile ladder | the two groups' values at each percentile (quartiles, deciles or every 5th), joined by a bar coloured by the higher group: *where* in the distribution they differ |
+| Lead plot | at each value, the share of group 1 at or below it minus the share of group 2 (the running difference of the two cumulative distributions), with a two-row barcode of the data and the largest gap marked |
+| Density overlap | in *Overlaid densities*: shades where the two curves overlap and reports the overlap as a percentage |
+
+These plots *describe* the samples; none of them draws an uncertainty band, so with few observations per group treat their shapes with caution (the plot guide discusses this).
+
+---
+
 ## Example data
 
 | File | Contents |
@@ -93,6 +113,12 @@ These are only a small subset of the plots available. Complete jamovi results wi
 
 ---
 
+## Languages
+
+The interface (menus, option labels, results titles) is available in **Spanish** (`jamovi/i18n/es.po`); choose it in jamovi's settings. Plot texts and notices are only partly translated so far. Further languages: `jmvtools::i18nCreate("<code>")`, then translate the `.po` file.
+
+---
+
 ## Build from source
 
 The sources follow the standard jamovi module layout (`jamovi/` for the `.yaml` definitions and UI, `R/` for the implementation). With the [jmvtools](https://dev.jamovi.org/tuts0101-getting-started.html) R package and jamovi installed:
@@ -108,10 +134,10 @@ jmvtools::install()      # build and install into your jamovi
 ## Layout
 
 ```
-jamovi/    0000.yaml (manifest), *.a.yaml (options), *.r.yaml (results), *.u.yaml (UI)
-R/         *.b.R (implementation), utils.R (shared helpers), *.h.R (generated)
+jamovi/    0000.yaml (manifest), *.a.yaml (options), *.r.yaml (results), *.u.yaml (UI), i18n/ (translations)
+R/         *.b.R (implementation), utils.R and catCommon.R / cmpGrpCommon.R (shared code), *.h.R (generated)
 data/      example datasets (shown in jamovi's Data Library)
-tools/     make_examples.R (example datasets) and the generators for the UI and option files
+tools/     make_examples.R (example datasets), the generators for the UI and option files, fill_es_po.py (Spanish translation)
 docs/      build instructions, example images (images/), example results as PDF (examples/), and the plot guide (guide/: Markdown, vector PDF, figure and build scripts)
 icons/     module icon (comparePlots.svg, 74 x 44, jamovi ribbon style)
 ```
@@ -124,6 +150,9 @@ icons/     module icon (comparePlots.svg, 74 x 44, jamovi ribbon style)
 | how a plot looks | the `.p_<plot>` function in `R/<analysis>.b.R` |
 | something shared (palettes, themes, statistics) | `R/utils.R` |
 | the menu entries or example data list | `jamovi/0000.yaml` |
+| the group analyses (options and results) | `jamovi/distDich.{a,r}.yaml` only, then `python3 tools/gen_group_analyses.py` writes the Polytomous ones; the code is `R/cmpGrpCommon.R` |
+| the UI of Compare Numeric / the group analyses / Ordinal and Nominal | `tools/gen_numeric_ui.py` / `tools/gen_numeric_ui.py` / `tools/gen_categorical_yaml.py` |
+| a Spanish translation | add the new strings to `tools/fill_es_po.py`, run `jmvtools::i18nUpdate("es")` then `python3 tools/fill_es_po.py` |
 
 Do not name an option `theme` or `palette`: jamovi reserves those for its global plot settings (the module uses `plotTheme` and `colourPalette`).
 

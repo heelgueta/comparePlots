@@ -3,6 +3,7 @@ message: "If you use comparePlots in your research, please cite it using the met
 type: software
 title: "comparePlots: Compare the Distributions of Variables in jamovi"
 version: 1.1.0
+date-released: 2026-11-25
 doi: 10.5281/zenodo.24401092
 license: GPL-2.0-or-later
 repository-code: "https://github.com/heelgueta/comparePlots"
@@ -11,7 +12,7 @@ abstract: >-
   comparePlots is a jamovi module for comparing the distributions of several
   variables on one shared scale. Numeric variables: box, violin, means with
   error bars, raincloud, ridgeline, histogram, density, ECDF, data points and
-  barcode plots, also split by a grouping variable. Ordinal and nominal
+  barcode plots, also across the groups of a grouping variable (two groups, with plots made for two groups, or three or more). Ordinal and nominal
   variables: stacked and diverging bars, heatmap, waffle, pictogram,
   parliament, response profile, pie, donut, grouped bars and lollipop plots.
 authors:

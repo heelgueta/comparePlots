@@ -4,3 +4,4 @@ build/
 *.jmo
 dist/
 docs/guide/*.html
+inst/i18n/*.json

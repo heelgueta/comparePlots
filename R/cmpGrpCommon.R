@@ -108,9 +108,9 @@ cmp_grp_private <- function(kind) {
 
             long <- private$.long(vars, grp, warn = TRUE)
             if (nrow(long) == 0)
-                jmvcore::reject("The selected variables and grouping variable have no usable non-missing observations.")
+                jmvcore::reject(.("The selected variables and grouping variable have no usable non-missing observations."))
             if (length(unique(long$grp)) < 1)
-                jmvcore::reject("The grouping variable has no non-missing levels.")
+                jmvcore::reject(.("The grouping variable has no non-missing levels."))
             if (private$.kind == "dich" && nlevels(long$grp) != 2)
                 jmvcore::reject(paste0(
                     "Compare Dichotomous needs two groups with usable values, but only ", nlevels(long$grp),
@@ -154,7 +154,7 @@ cmp_grp_private <- function(kind) {
             }
             if (on[["hist"]] && length(unique(long$value)) < 2)
                 private$.warn(".noSpreadHist",
-                    "All values are the same, so no histogram can be drawn.")
+                    .("All values are the same, so no histogram can be drawn."))
 
             for (key in names(private$.switches)[on]) {
                 image <- self$results[[paste0("plot_", key)]]
@@ -417,7 +417,7 @@ cmp_grp_private <- function(kind) {
             if (key == "errorbar")
                 caps <- c(caps, cmp_interval_label(o$ebCenter, o$ebInterval, o$ebLevel, o$ebMult))
             if (!identical(o$refLine, "none") && !(key %in% c("pyramid", "ladder", "lead")))
-                caps <- c(caps, paste0("Dashed line: overall ", o$refLine, " of all groups."))
+                caps <- c(caps, if (identical(o$refLine, "mean")) .("Dashed line: overall mean of all groups.") else .("Dashed line: overall median of all groups."))
             if (key == "lead") caps <- c(caps, private$.lead_caption(long, ctx))
             if (key == "density" && private$.kind == "dich" && isTRUE(o$densOverlap) && ctx$mode != "facetGroup") {
                 ov <- private$.overlap(long, ctx)
@@ -745,7 +745,7 @@ cmp_grp_private <- function(kind) {
                                              labeller = ggplot2::as_labeller(ctx$lab_strip)) +
                     ggplot2::coord_flip()
             }
-            ylab <- switch(o$histStat, count = "Count", percent = "Percent", "Density")
+            ylab <- switch(o$histStat, count = .("Count"), percent = .("Percent"), .("Density"))
             p + ggplot2::labs(x = ctx$vlab, y = ylab)
         },
 
@@ -775,7 +775,7 @@ cmp_grp_private <- function(kind) {
             d <- do.call(rbind, rows)
             if (is.null(d) || nrow(d) == 0) return(NULL)
             lim <- max(abs(d$len), 1)
-            lenlab <- if (identical(o$pyStat, "percent")) "Percent of group" else "Count"
+            lenlab <- if (identical(o$pyStat, "percent")) .("Percent of group") else .("Count")
             edge <- if (ctx$bw) "black" else "white"
             if (horiz) {
                 p <- ggplot2::ggplot(d, ggplot2::aes(xmin = mid - bw / 2, xmax = mid + bw / 2,
@@ -836,7 +836,7 @@ cmp_grp_private <- function(kind) {
                     colour = "grey15", size = max(2.5, o$pointSize * 1.8), stroke = 0.6) +
                 ggplot2::scale_x_continuous(breaks = brk, labels = format(brk, trim = TRUE),
                                             expand = ggplot2::expansion(add = 5)) +
-                ggplot2::labs(x = "Percentile", y = ctx$vlab)
+                ggplot2::labs(x = .("Percentile"), y = ctx$vlab)
             if (ctx$n > 1)
                 p <- p + ggplot2::facet_wrap(ggplot2::vars(variable), scales = "free_y",
                                              labeller = ggplot2::as_labeller(ctx$lab_strip))
@@ -925,7 +925,7 @@ cmp_grp_private <- function(kind) {
                                         colour = "grey15", size = 2.6, stroke = 0.8)
             }
             p <- p + ggplot2::scale_y_continuous(limits = c(-1.34 * L, 1.06 * L), breaks = brk) +
-                ggplot2::labs(x = ctx$vlab, y = "Cumulative difference (points)")
+                ggplot2::labs(x = ctx$vlab, y = .("Cumulative difference (points)"))
             if (ctx$n > 1)
                 p <- p + ggplot2::facet_wrap(ggplot2::vars(variable), scales = "free_x",
                                              labeller = ggplot2::as_labeller(ctx$lab_strip))
@@ -968,7 +968,7 @@ cmp_grp_private <- function(kind) {
                 ggplot2::geom_density(adjust = o$densAdjust, trim = o$densTrim,
                                       alpha = if (o$densFilled && !ctx$bw) ctx$alpha * 0.5 else 0,
                                       linewidth = ctx$lw) +
-                ggplot2::labs(x = ctx$vlab, y = "Density")
+                ggplot2::labs(x = ctx$vlab, y = .("Density"))
             if (private$.kind == "dich" && isTRUE(o$densOverlap) && ctx$mode != "facetGroup") {
                 ov <- private$.overlap(long, ctx)
                 if (!is.null(ov))
@@ -995,7 +995,7 @@ cmp_grp_private <- function(kind) {
                 p <- p + ggplot2::geom_hline(yintercept = 0.5, linetype = "dashed", colour = "grey60", linewidth = 0.4)
             p <- p + ggplot2::stat_ecdf(geom = "step", linewidth = ctx$lw * 1.3, pad = FALSE) +
                 ggplot2::scale_y_continuous(labels = function(x) paste0(round(x * 100), "%")) +
-                ggplot2::labs(x = ctx$vlab, y = "Cumulative percent")
+                ggplot2::labs(x = ctx$vlab, y = .("Cumulative percent"))
             if (ctx$mode == "facetGroup") {
                 p <- p + ggplot2::facet_grid(rows = ggplot2::vars(variable), cols = ggplot2::vars(grp),
                                              switch = "y",

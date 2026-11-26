@@ -75,7 +75,7 @@ distNumClass <- R6::R6Class(
             # message) instead of leaving a set of empty plots.
             long <- private$.long(vars, warn = TRUE)
             if (nrow(long) == 0)
-                jmvcore::reject("The selected variables have no non-missing values.")
+                jmvcore::reject(.("The selected variables have no non-missing values."))
 
             # Plots that need a density curve or a bin width cannot be drawn for a
             # variable without spread; say so rather than leaving a blank plot.
@@ -89,7 +89,7 @@ distNumClass <- R6::R6Class(
             }
             if (on[["hist"]] && length(unique(long$value)) < 2)
                 private$.warn(".noSpreadHist",
-                    "All values are the same, so no histogram can be drawn.")
+                    .("All values are the same, so no histogram can be drawn."))
 
             # Hand a small state to each enabled image. Images that are not ticked
             # get no state and (via `visible:` in the .r.yaml) are not shown.
@@ -549,7 +549,7 @@ distNumClass <- R6::R6Class(
                                               labeller = ggplot2::as_labeller(ctx$axlab)) +
                     ggplot2::coord_flip()
             }
-            ylab <- switch(o$histStat, count = "Count", percent = "Percent", "Density")
+            ylab <- switch(o$histStat, count = .("Count"), percent = .("Percent"), .("Density"))
             p + ggplot2::labs(x = ctx$vlab, y = ylab)
         },
 
@@ -562,7 +562,7 @@ distNumClass <- R6::R6Class(
                 ggplot2::geom_density(adjust = o$densAdjust, trim = o$densTrim,
                                       alpha = if (o$densFilled && !ctx$bw) ctx$alpha * 0.55 else 0,
                                       linewidth = ctx$lw) +
-                ggplot2::labs(x = ctx$vlab, y = "Density")
+                ggplot2::labs(x = ctx$vlab, y = .("Density"))
             private$.flip_x(p, ctx)
         },
 
@@ -575,7 +575,7 @@ distNumClass <- R6::R6Class(
                 p <- p + ggplot2::geom_hline(yintercept = 0.5, linetype = "dashed", colour = "grey60", linewidth = 0.4)
             p <- p + ggplot2::stat_ecdf(geom = "step", linewidth = ctx$lw * 1.3, pad = FALSE) +
                 ggplot2::scale_y_continuous(labels = function(x) paste0(round(x * 100), "%")) +
-                ggplot2::labs(x = ctx$vlab, y = "Cumulative percent")
+                ggplot2::labs(x = ctx$vlab, y = .("Cumulative percent"))
             private$.flip_x(p, ctx)
         },
 

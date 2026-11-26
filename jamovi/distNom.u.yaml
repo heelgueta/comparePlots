@@ -25,7 +25,7 @@ children:
     stretchFactor: 1
     children:
       - type: Label
-        label: Data, Order and Labels
+        label: Variables
         children:
           - type: LayoutBox
             margin: large
@@ -37,8 +37,8 @@ children:
                   row: 0
                 stretchFactor: 1
                 children:
-                  - type: CheckBox
-                    name: ignoreMissing
+                  - type: ComboBox
+                    name: orientation
               - type: LayoutBox
                 cell:
                   column: 1
@@ -46,18 +46,10 @@ children:
                 stretchFactor: 1
                 children:
                   - type: ComboBox
-                    name: orientation
-              - type: LayoutBox
-                cell:
-                  column: 0
-                  row: 1
-                stretchFactor: 1
-                children:
-                  - type: ComboBox
                     name: sortVars
               - type: LayoutBox
                 cell:
-                  column: 1
+                  column: 0
                   row: 1
                 stretchFactor: 1
                 children:
@@ -65,12 +57,20 @@ children:
                     name: catSort
               - type: LayoutBox
                 cell:
+                  column: 1
+                  row: 1
+                stretchFactor: 1
+                children:
+                  - type: CheckBox
+                    name: invertVars
+              - type: LayoutBox
+                cell:
                   column: 0
                   row: 2
                 stretchFactor: 1
                 children:
                   - type: CheckBox
-                    name: invertVars
+                    name: useDesc
               - type: LayoutBox
                 cell:
                   column: 1
@@ -78,7 +78,7 @@ children:
                 stretchFactor: 1
                 children:
                   - type: CheckBox
-                    name: useDesc
+                    name: ignoreMissing
       - type: Label
         label: Colours and Lines
         children:

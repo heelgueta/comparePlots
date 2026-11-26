@@ -58,7 +58,7 @@ cmp_cat_private <- function() {
             if (identical(private$.opt("catSort"), "name") && length(cats) > 1)
                 cats <- cats[order(tolower(cats), cats)]
             if (length(cats) == 0)
-                jmvcore::reject("The selected variables have no categories.")
+                jmvcore::reject(.("The selected variables have no categories."))
             if (length(ax$conflict) > 0)
                 private$.warn(".catConflict", paste0(
                     "The categories of ", paste(ax$conflict, collapse = ", "),
@@ -82,7 +82,7 @@ cmp_cat_private <- function() {
                            stringsAsFactors = FALSE)
             }))
             if (all(long$count == 0))
-                jmvcore::reject("The selected variables have no non-missing values.")
+                jmvcore::reject(.("The selected variables have no non-missing values."))
 
             # hand the (small) table to each ticked image
             for (key in names(private$.switches)[on]) {
@@ -678,7 +678,7 @@ cmp_cat_private <- function() {
                                             expand = ggplot2::expansion(mult = c(0.02, 0.12))) +
                 ggplot2::scale_colour_manual(values = ctx$var_cols, labels = ctx$lab, name = private$.leg_title(ctx),
                                              guide = ggplot2::guide_legend(nrow = if (ctx$o$legendPos %in% c("bottom", "top")) max(1L, ceiling(ctx$n / 5)) else NULL)) +
-                ggplot2::labs(x = NULL, y = "Percent")
+                ggplot2::labs(x = NULL, y = .("Percent"))
             private$.flip(p, ctx)
         }
     )

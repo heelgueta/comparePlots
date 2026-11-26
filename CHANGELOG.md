@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.0 (unreleased)
+## 1.1.0 (2026-11-25)
 
 **New analyses (a second section of the menu: Compare Groups)**
 - The menu now has two sections: *Compare Variables* (Numeric, Ordinal, Nominal) and *Compare Groups*.
@@ -17,8 +17,14 @@
 - *Angle of x axis labels* (Text and Labels): horizontal (default), 45 or 90 degrees. Bottom legends wrap to fit long group names.
 - Plots are sized from the number of variables, groups and the display mode, long variable and group names wrap in panel headers, and the analyses warn about variables or variable-by-group combinations with no data, about variables with fewer than two distinct values in a group, and about grouping variables with more than 8 levels.
 
-**Compare Numeric**
-- Layout is as in 1.0.0 again (*Transform values* inside Appearance, under *Variables*; no separate *Data* box). This undoes the 1.0.1 change for Compare Numeric only.
+**Layout (Compare Numeric, Ordinal, Nominal)**
+- The three analyses have the 1.0.0 arrangement again, and the two group analyses follow it: one Appearance box whose first section, *Variables*, holds the data options (*Transform values* in Compare Numeric, *Ignore missing cases* in Ordinal and Nominal, both in the group analyses). This undoes the 1.0.1 changes (a separate *Data* box in Compare Numeric; *Ignore missing cases* first in a section called *Data, Order and Labels* in Ordinal and Nominal). 1.0.1 was never submitted to jamovi, so 1.1.0 also carries its audit fixes.
+
+**Languages**
+- Spanish translation of the interface (`jamovi/i18n/es.po`): menus, options, results titles, palette names and example-data descriptions, and a few plot texts and notices. The sentence-style notices and plot captions are still English.
+
+**Plots**
+- The heatmap's colour bar is drawn as vector rectangles (sharp in PDF and SVG exports) and has about four labelled breaks, so its labels no longer overprint.
 
 **Example data**
 - New `example_groups` dataset (a three-arm therapy trial, n = 270) for trying Compare Dichotomous and Compare Polytomous: four grouping variables of different kinds: *Group* (Control / CBT / Medication, uneven sizes), *Sex* (dichotomous), *SES* (ordinal: Low, Middle, High, order respected) and *Site* (nominal, four levels with long names), and and six numeric measures with different shapes, including strictly positive reaction times (try the log transform) and a change score with negative values. It has a few missing values. The other three example datasets are unchanged.

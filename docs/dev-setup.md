@@ -15,7 +15,7 @@ ENV
 source ~/.jmvenv.sh; mkdir -p ~/jmvtools-lib
 R --no-save -q -e 'options(repos=c(jamovi="https://repo.jamovi.org", CRAN="https://cloud.r-project.org")); install.packages("jmvtools", lib="~/jmvtools-lib")'
 
-# 3. every time: tests, build, install into jamovi (writes comparePlots_1.0.0.jmo, git-ignored)
+# 3. every time: tests, build, install into jamovi (writes comparePlots_<version>.jmo, git-ignored)
 source ~/.jmvenv.sh; export R_LIBS=$HOME/jmvtools-lib:$R_LIBS
 R --no-save -q -e 'testthat::test_dir("tests/testthat")'
 R --no-save -q -e 'jmvtools::install(home="/Applications/jamovi.app")'
@@ -28,3 +28,15 @@ git checkout jamovi/0000.yaml     # the compiler rewrites it without comments
 - In headless R, pass variable names inline (`vars = names(df)[1:4]`) or with `!!`; a bare variable
   name is read as a column name by jmvcore.
 - Do not `library(comparePlots)` in a test script; use `asNamespace("comparePlots")`.
+
+## Translations
+
+Interface strings are translated in `jamovi/i18n/<code>.po`. After changing any title or label in the yaml files:
+
+```r
+jmvtools::i18nUpdate("es", home = "/Applications/jamovi.app")   # adds the new strings, empty
+```
+
+For Spanish, add the new strings to the dictionary in `tools/fill_es_po.py` and run `python3 tools/fill_es_po.py` (it reports any string it has no translation for). Texts inside R code are translated only when wrapped in `.("...")` (jmvcore's translate function, usable inside the analysis classes); sentences built with `paste0()` are not translated yet. To start another language: `jmvtools::i18nCreate("<code>")`.
+
+The plot guide (`docs/guide/`) is built with `Rscript docs/guide/make_figures.R` and `python3 docs/guide/build.py`; see §9.3 of the guide.

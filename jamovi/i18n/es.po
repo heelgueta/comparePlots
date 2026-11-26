@@ -1,0 +1,1705 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2021-07-26 12:08:06+01000\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Language: es\n"
+
+#: distDich/ui[1][1][0][3]/alpha.suffix
+#: distDich/ui[1][2][0][1]/pointAlpha.suffix
+#: distDich/ui[1][2][0][3]/jitterSpread.suffix
+#: distDich/ui[2][1][0]/boxWidth.suffix
+#: distDich/ui[3][1][0]/violinWidth.suffix
+#: distDich/ui[4][1][2]/ebLevel.suffix
+#: distDich/ui[4][1][6]/ebCap.suffix
+#: distDich/ui[5][1][0]/rcCloudWidth.suffix
+#: distDich/ui[6][1][0]/ridgeOverlap.suffix
+#: distDich/ui[14][1][0]/barcodeHeight.suffix
+#: distNom/ui[1][1][0][3]/alpha.suffix
+#: distNom/ui[2][1][0]/barWidth.suffix
+#: distNom/ui[2][1][2]/barMinLabel.suffix
+#: distNom/ui[3][1][2]/heatGap.suffix
+#: distNom/ui[4][1][2]/waffleGap.suffix
+#: distNom/ui[7][1][1]/pieMinLabel.suffix
+#: distNom/ui[8][1][0]/donutHole.suffix
+#: distNom/ui[8][1][2]/donutMinLabel.suffix
+#: distNom/ui[9][1][0]/groupWidth.suffix
+#: distNum/ui[1][1][0][3]/alpha.suffix
+#: distNum/ui[1][2][0][1]/pointAlpha.suffix
+#: distNum/ui[1][2][0][3]/jitterSpread.suffix
+#: distNum/ui[2][1][0]/boxWidth.suffix
+#: distNum/ui[3][1][0]/violinWidth.suffix
+#: distNum/ui[4][1][2]/ebLevel.suffix
+#: distNum/ui[4][1][6]/ebCap.suffix
+#: distNum/ui[5][1][0]/rcCloudWidth.suffix
+#: distNum/ui[6][1][0]/ridgeOverlap.suffix
+#: distNum/ui[11][1][0]/barcodeHeight.suffix
+#: distOrd/ui[1][1][0][3]/alpha.suffix
+#: distOrd/ui[2][1][0]/barWidth.suffix
+#: distOrd/ui[2][1][2]/barMinLabel.suffix
+#: distOrd/ui[3][1][0]/divWidth.suffix
+#: distOrd/ui[3][1][3]/divMinLabel.suffix
+#: distOrd/ui[4][1][2]/heatGap.suffix
+#: distOrd/ui[5][1][2]/waffleGap.suffix
+#: distPoly/ui[1][1][0][3]/alpha.suffix
+#: distPoly/ui[1][2][0][1]/pointAlpha.suffix
+#: distPoly/ui[1][2][0][3]/jitterSpread.suffix
+#: distPoly/ui[2][1][0]/boxWidth.suffix
+#: distPoly/ui[3][1][0]/violinWidth.suffix
+#: distPoly/ui[4][1][2]/ebLevel.suffix
+#: distPoly/ui[4][1][6]/ebCap.suffix
+#: distPoly/ui[5][1][0]/rcCloudWidth.suffix
+#: distPoly/ui[6][1][0]/ridgeOverlap.suffix
+#: distPoly/ui[11][1][0]/barcodeHeight.suffix
+msgid "%"
+msgstr "%"
+
+#: distOrd/options/sortVars/first.title
+msgid "% in first category"
+msgstr "% en la primera categoría"
+
+#: distOrd/options/sortVars/last.title
+msgid "% in last category"
+msgstr "% en la última categoría"
+
+#: distNom/options/heatLabels.title
+#: distOrd/options/heatLabels.title
+msgid "% in the tiles"
+msgstr "% en las celdas"
+
+#: distNom/options/barLabels.title
+#: distNom/options/pieLabels.title
+#: distNom/options/donutLabels.title
+#: distNom/options/groupLabels.title
+#: distOrd/options/barLabels.title
+#: distOrd/options/divLabels.title
+msgid "% labels"
+msgstr "Etiquetas de %"
+
+#: distOrd/options/profLabels.title
+msgid "% values"
+msgstr "Valores en %"
+
+#: distDich/options/xLabelAngle/angle45.title
+#: distPoly/options/xLabelAngle/angle45.title
+msgid "45 degrees"
+msgstr "45 grados"
+
+#: distDich/options/xLabelAngle/angle90.title
+#: distPoly/options/xLabelAngle/angle90.title
+msgid "90 degrees"
+msgstr "90 grados"
+
+#: distDich/options/sortVars/name.title
+#: distNom/options/sortVars/name.title
+#: distNom/options/catSort/name.title
+#: distNum/options/sortVars/name.title
+#: distOrd/options/sortVars/name.title
+#: distPoly/options/sortVars/name.title
+msgid "A–Z"
+msgstr "A–Z"
+
+#: R/cmpGrpCommon.R
+#: R/distNum.b.R
+msgid "All values are the same, so no histogram can be drawn."
+msgstr "Todos los valores son iguales, por lo que no se puede dibujar un histograma."
+
+#: distDich/options/xLabelAngle.title
+#: distPoly/options/xLabelAngle.title
+msgid "Angle of x axis labels"
+msgstr "Ángulo de las etiquetas del eje x"
+
+#: distDich/ui[1].label
+#: distNom/ui[1].label
+#: distNum/ui[1].label
+#: distOrd/ui[1].label
+#: distPoly/ui[1].label
+msgid "Appearance"
+msgstr "Apariencia"
+
+#: distDich/options/pointColour/group.title
+#: distPoly/options/pointColour/group.title
+msgid "As group"
+msgstr "Según el grupo"
+
+#: distNum/options/pointColour/variable.title
+msgid "As variable"
+msgstr "Según la variable"
+
+#: distDich/ui[8].label
+msgid "Back-to-Back Histogram"
+msgstr "Histograma espalda con espalda"
+
+#: distDich/results/plot_pyramid.title
+msgid "Back-to-back histogram"
+msgstr "Histograma espalda con espalda"
+
+#: distDich/options/violinAdjust.title
+#: distDich/options/rcAdjust.title
+#: distDich/options/ridgeAdjust.title
+#: distDich/options/densAdjust.title
+#: distNum/options/violinAdjust.title
+#: distNum/options/rcAdjust.title
+#: distNum/options/ridgeAdjust.title
+#: distNum/options/densAdjust.title
+#: distPoly/options/violinAdjust.title
+#: distPoly/options/rcAdjust.title
+#: distPoly/options/ridgeAdjust.title
+#: distPoly/options/densAdjust.title
+msgid "Bandwidth adjust"
+msgstr "Ajuste del ancho de banda"
+
+#: distDich/options/histStat.title
+#: distNum/options/histStat.title
+#: distPoly/options/histStat.title
+msgid "Bar height"
+msgstr "Altura de las barras"
+
+#: distDich/options/pyStat.title
+msgid "Bar length"
+msgstr "Longitud de las barras"
+
+#: distNom/options/barWidth.title
+#: distNom/options/groupWidth.title
+#: distOrd/options/barWidth.title
+#: distOrd/options/divWidth.title
+msgid "Bar thickness"
+msgstr "Grosor de las barras"
+
+#: distDich/options/showBarcode.title
+#: distDich/results/plot_barcode.title
+#: distNum/options/showBarcode.title
+#: distNum/results/plot_barcode.title
+#: distPoly/options/showBarcode.title
+#: distPoly/results/plot_barcode.title
+msgid "Barcode plot"
+msgstr "Gráfico de código de barras"
+
+#: distDich/ui[14].label
+#: distNum/ui[11].label
+#: distPoly/ui[11].label
+msgid "Barcode Plot"
+msgstr "Gráfico de código de barras"
+
+#: distDich/options/colourPalette/bw.title
+#: distDich/options/plotTheme/bw.title
+#: distNom/options/plotTheme/bw.title
+#: distNum/options/colourPalette/bw.title
+#: distNum/options/plotTheme/bw.title
+#: distOrd/options/plotTheme/bw.title
+#: distPoly/options/colourPalette/bw.title
+#: distPoly/options/plotTheme/bw.title
+msgid "Black & white"
+msgstr "Blanco y negro"
+
+#: distNom/options/heatPalette/blues.title
+#: distOrd/options/heatPalette/blues.title
+msgid "Blues"
+msgstr "Azules"
+
+#: distDich/options/legendPos/bottom.title
+#: distNom/options/legendPos/bottom.title
+#: distNum/options/legendPos/bottom.title
+#: distOrd/options/legendPos/bottom.title
+#: distPoly/options/legendPos/bottom.title
+msgid "Bottom"
+msgstr "Abajo"
+
+#: distDich/options/rcBox.title
+#: distNum/options/rcBox.title
+#: distPoly/options/rcBox.title
+msgid "Box"
+msgstr "Caja"
+
+#: distDich/options/showBox.title
+#: distDich/results/plot_box.title
+#: distNum/options/showBox.title
+#: distNum/results/plot_box.title
+#: distPoly/options/showBox.title
+#: distPoly/results/plot_box.title
+msgid "Box plot"
+msgstr "Gráfico de cajas"
+
+#: distDich/ui[2].label
+#: distNum/ui[2].label
+#: distPoly/ui[2].label
+msgid "Box Plot"
+msgstr "Gráfico de cajas"
+
+#: distDich/options/boxWidth.title
+#: distNum/options/boxWidth.title
+#: distPoly/options/boxWidth.title
+msgid "Box width"
+msgstr "Ancho de la caja"
+
+#: distDich/options/colourPalette/brbg.title
+#: distNom/options/colourPalette/brbg.title
+#: distNum/options/colourPalette/brbg.title
+#: distOrd/options/colourPalette/brbg.title
+#: distPoly/options/colourPalette/brbg.title
+msgid "Brown–Teal"
+msgstr "Marrón–Verde azulado"
+
+#: distDich/options/violinScale/count.title
+#: distNum/options/violinScale/count.title
+#: distPoly/options/violinScale/count.title
+msgid "By n"
+msgstr "Por n"
+
+#: distDich/options/ebCap.title
+#: distNum/options/ebCap.title
+#: distPoly/options/ebCap.title
+msgid "Cap width"
+msgstr "Ancho de los extremos"
+
+#: distDich/options/ebInterval/pctile.title
+#: distNum/options/ebInterval/pctile.title
+#: distPoly/options/ebInterval/pctile.title
+msgid "Central % of the data"
+msgstr "% central de los datos"
+
+#: distDich/options/ebCenter.title
+#: distNum/options/ebCenter.title
+#: distOrd/options/divNeutral/auto.title
+#: distPoly/options/ebCenter.title
+msgid "Centre"
+msgstr "Centro"
+
+#: distDich/options/ebLabels.title
+#: distNum/options/ebLabels.title
+#: distPoly/options/ebLabels.title
+msgid "Centre values"
+msgstr "Valores del centro"
+
+#: distNom/options/waffleGrid.title
+#: distNom/options/pictoGrid.title
+#: distNom/options/parlGrid.title
+#: distNom/options/pieGrid.title
+#: distNom/options/donutGrid.title
+#: distOrd/options/waffleGrid.title
+#: distOrd/options/pictoGrid.title
+#: distOrd/options/parlGrid.title
+msgid "Charts per row"
+msgstr "Gráficos por fila"
+
+#: distNom/options/pictoShape/circle.title
+#: distOrd/options/pictoShape/circle.title
+msgid "Circle"
+msgstr "Círculo"
+
+#: distDich/options/colourPalette/cividis.title
+#: distNom/options/colourPalette/cividis.title
+#: distNum/options/colourPalette/cividis.title
+#: distOrd/options/colourPalette/cividis.title
+#: distPoly/options/colourPalette/cividis.title
+msgid "Cividis"
+msgstr "Cividis"
+
+#: distDich/options/plotTheme/classic.title
+#: distNom/options/plotTheme/classic.title
+#: distNum/options/plotTheme/classic.title
+#: distOrd/options/plotTheme/classic.title
+#: distPoly/options/plotTheme/classic.title
+msgid "Classic"
+msgstr "Clásico"
+
+#: distDich/options/rcCloudWidth.title
+#: distNum/options/rcCloudWidth.title
+#: distPoly/options/rcCloudWidth.title
+msgid "Cloud height"
+msgstr "Altura de la nube"
+
+#: distDich/ui[1][1].label
+#: distNom/ui[1][1].label
+#: distNum/ui[1][1].label
+#: distOrd/ui[1][1].label
+#: distPoly/ui[1][1].label
+msgid "Colours and Lines"
+msgstr "Colores y líneas"
+
+#: distNom/options/waffleCols.title
+#: distNom/options/pictoCols.title
+#: distOrd/options/waffleCols.title
+#: distOrd/options/pictoCols.title
+msgid "Columns per chart"
+msgstr "Columnas por gráfico"
+
+#: package/analyses/distDich.title
+#: package/analyses/distDich.menuTitle
+#: distDich/options.title
+#: distDich/ui.title
+#: distDich/results.title
+msgid "Compare Dichotomous"
+msgstr "Comparar dicotómicas"
+
+#: package/analyses/distDich.menuSubgroup
+#: package/analyses/distPoly.menuSubgroup
+#: distDich/options.menuSubgroup
+#: distPoly/options.menuSubgroup
+msgid "Compare Groups"
+msgstr "Comparar grupos"
+
+#: package/analyses/distNom.title
+#: package/analyses/distNom.menuTitle
+#: distNom/options.title
+#: distNom/ui.title
+#: distNom/results.title
+msgid "Compare Nominal"
+msgstr "Comparar nominales"
+
+#: package/analyses/distNum.title
+#: package/analyses/distNum.menuTitle
+#: distNum/options.title
+#: distNum/ui.title
+#: distNum/results.title
+msgid "Compare Numeric"
+msgstr "Comparar numéricas"
+
+#: package/analyses/distOrd.title
+#: package/analyses/distOrd.menuTitle
+#: distOrd/options.title
+#: distOrd/ui.title
+#: distOrd/results.title
+msgid "Compare Ordinal"
+msgstr "Comparar ordinales"
+
+#: package/analyses/distPoly.title
+#: package/analyses/distPoly.menuTitle
+#: distPoly/options.title
+#: distPoly/ui.title
+#: distPoly/results.title
+msgid "Compare Polytomous"
+msgstr "Comparar politómicas"
+
+#: package/analyses/distNom.description
+msgid "Compare the category distributions of nominal variables."
+msgstr "Compara las distribuciones de categorías de variables nominales."
+
+#: package/analyses/distPoly.description
+msgid "Compare the distributions of numeric variables across three or more groups."
+msgstr "Compara las distribuciones de variables numéricas entre tres o más grupos."
+
+#: package/analyses/distDich.description
+msgid ""
+"Compare the distributions of numeric variables between two groups (split "
+"violin, back-to-back histogram, percentile ladder, lead plot and more)."
+msgstr "Compara las distribuciones de variables numéricas entre dos grupos (violín dividido, histograma espalda con espalda, escalera de percentiles, gráfico de ventaja y más)."
+
+#: package/analyses/distNum.description
+msgid "Compare the distributions of numeric variables on one shared axis."
+msgstr "Compara las distribuciones de variables numéricas en un mismo eje."
+
+#: package.description
+msgid ""
+"Compare the distributions of variables on one shared scale. Numeric "
+"variables: box, violin, means with error bars, raincloud, ridgeline, "
+"histogram, density, ECDF, data points and barcode plots, also across two "
+"groups (including a back-to-back histogram, percentile ladder, lead plot) or "
+"three or more groups. Ordinal and nominal variables: stacked and diverging "
+"bars, heatmap, waffle, pictogram, parliament, response profile, pie, donut, "
+"grouped bars and lollipop plots."
+msgstr "Compara las distribuciones de variables en una misma escala. Variables numéricas: gráficos de cajas, violín, medias con barras de error, raincloud, crestas, histograma, densidad, ECDF, puntos de datos y código de barras, también entre dos grupos (incluidos histograma espalda con espalda, escalera de percentiles y gráfico de ventaja) o entre tres o más grupos. Variables ordinales y nominales: barras apiladas y divergentes, mapa de calor, waffle, pictograma, parlamento, perfil de respuestas, gráficos circulares, de anillo, barras agrupadas y de piruletas."
+
+#: package/analyses/distOrd.description
+msgid "Compare the response distributions of ordinal variables (e.g. Likert items)."
+msgstr "Compara las distribuciones de respuestas de variables ordinales (p. ej., ítems Likert)."
+
+#: package/analyses/distNum.menuSubgroup
+#: package/analyses/distOrd.menuSubgroup
+#: package/analyses/distNom.menuSubgroup
+#: distNom/options.menuSubgroup
+#: distNum/options.menuSubgroup
+#: distOrd/options.menuSubgroup
+msgid "Compare Variables"
+msgstr "Comparar variables"
+
+#: package.title
+#: package/analyses/distNum.menuGroup
+#: package/analyses/distOrd.menuGroup
+#: package/analyses/distNom.menuGroup
+#: package/analyses/distDich.menuGroup
+#: package/analyses/distPoly.menuGroup
+#: distDich/options.menuGroup
+#: distNom/options.menuGroup
+#: distNum/options.menuGroup
+#: distOrd/options.menuGroup
+#: distPoly/options.menuGroup
+msgid "comparePlots"
+msgstr "comparePlots"
+
+#: distDich/options/ebInterval/ci.title
+#: distNum/options/ebInterval/ci.title
+#: distPoly/options/ebInterval/ci.title
+msgid "Confidence interval"
+msgstr "Intervalo de confianza"
+
+#: distOrd/options/profLines.title
+msgid "Connecting lines"
+msgstr "Líneas de unión"
+
+#: R/cmpGrpCommon.R
+#: R/distNum.b.R
+#: distDich/options/histStat/count.title
+#: distDich/options/pyStat/count.title
+#: distNum/options/histStat/count.title
+#: distPoly/options/histStat/count.title
+msgid "Count"
+msgstr "Frecuencia"
+
+#: package/datasets/Courseevaluation(ordinalexample).name
+msgid "Course evaluation (ordinal example)"
+msgstr "Evaluación de un curso (ejemplo ordinal)"
+
+#: R/cmpGrpCommon.R
+msgid "Cumulative difference (points)"
+msgstr "Diferencia acumulada (puntos)"
+
+#: distDich/options/showEcdf.title
+#: distDich/results/plot_ecdf.title
+#: distNum/options/showEcdf.title
+#: distNum/results/plot_ecdf.title
+#: distPoly/options/showEcdf.title
+#: distPoly/results/plot_ecdf.title
+msgid "Cumulative distribution (ECDF)"
+msgstr "Distribución acumulada (ECDF)"
+
+#: distDich/ui[12].label
+#: distNum/ui[9].label
+#: distPoly/ui[9].label
+msgid "Cumulative Distribution (ECDF)"
+msgstr "Distribución acumulada (ECDF)"
+
+#: R/cmpGrpCommon.R
+#: R/distNum.b.R
+msgid "Cumulative percent"
+msgstr "Porcentaje acumulado"
+
+#: R/cmpGrpCommon.R
+msgid "Dashed line: overall mean of all groups."
+msgstr "Línea discontinua: media global de todos los grupos."
+
+#: R/cmpGrpCommon.R
+msgid "Dashed line: overall median of all groups."
+msgstr "Línea discontinua: mediana global de todos los grupos."
+
+#: distNom/options/catSort/levels.title
+msgid "Data order"
+msgstr "Orden de los datos"
+
+#: distDich/options/pointColour.title
+#: distNum/options/pointColour.title
+#: distPoly/options/pointColour.title
+msgid "Data point colour"
+msgstr "Color de los puntos de datos"
+
+#: distDich/options/pointAlpha.title
+#: distNum/options/pointAlpha.title
+#: distPoly/options/pointAlpha.title
+msgid "Data point opacity"
+msgstr "Opacidad de los puntos de datos"
+
+#: distDich/ui[1][2].label
+#: distNum/ui[1][2].label
+#: distPoly/ui[1][2].label
+msgid "Data Points"
+msgstr "Puntos de datos"
+
+#: distDich/options/boxJitter.title
+#: distDich/options/violinJitter.title
+#: distDich/options/ebJitter.title
+#: distNum/options/boxJitter.title
+#: distNum/options/violinJitter.title
+#: distNum/options/ebJitter.title
+#: distPoly/options/boxJitter.title
+#: distPoly/options/violinJitter.title
+#: distPoly/options/ebJitter.title
+msgid "Data points (jittered)"
+msgstr "Puntos de datos (con dispersión)"
+
+#: distDich/options/showStrip.title
+#: distDich/results/plot_strip.title
+#: distNum/options/showStrip.title
+#: distNum/results/plot_strip.title
+#: distPoly/options/showStrip.title
+#: distPoly/results/plot_strip.title
+msgid "Data points (strip plot)"
+msgstr "Puntos de datos (gráfico de tiras)"
+
+#: distDich/ui[13].label
+#: distNum/ui[10].label
+#: distPoly/ui[10].label
+msgid "Data Points (Strip Plot)"
+msgstr "Puntos de datos (gráfico de tiras)"
+
+#: distDich/options/ladderSteps/deciles.title
+msgid "Deciles (10 to 90)"
+msgstr "Deciles (10 a 90)"
+
+#: distNom/options/decimals.title
+#: distOrd/options/decimals.title
+msgid "Decimals in % labels"
+msgstr "Decimales en las etiquetas de %"
+
+#: R/cmpGrpCommon.R
+#: R/distNum.b.R
+#: distDich/options/histStat/density.title
+#: distNum/options/histStat/density.title
+#: distPoly/options/histStat/density.title
+msgid "Density"
+msgstr "Densidad"
+
+#: distDich/options/histDensity.title
+#: distNum/options/histDensity.title
+#: distPoly/options/histDensity.title
+msgid "Density curve"
+msgstr "Curva de densidad"
+
+#: distNom/options/pictoShape/diamond.title
+#: distOrd/options/pictoShape/diamond.title
+msgid "Diamond"
+msgstr "Rombo"
+
+#: distOrd/ui[3].label
+msgid "Diverging Bars"
+msgstr "Barras divergentes"
+
+#: distOrd/options/showDiverging.title
+#: distOrd/results/plot_diverging.title
+msgid "Diverging bars (Likert style)"
+msgstr "Barras divergentes (estilo Likert)"
+
+#: distNom/options/sortVars/diverse.title
+msgid "Diversity"
+msgstr "Diversidad"
+
+#: distNom/options/showDonut.title
+#: distNom/results/plot_donut.title
+msgid "Donut chart"
+msgstr "Gráfico de anillo"
+
+#: distNom/ui[8].label
+msgid "Donut Chart"
+msgstr "Gráfico de anillo"
+
+#: distNom/options/showPicto.title
+#: distNom/results/plot_picto.title
+#: distOrd/options/showPicto.title
+#: distOrd/results/plot_picto.title
+msgid "Dot pictogram"
+msgstr "Pictograma de puntos"
+
+#: distNom/ui[5].label
+#: distOrd/ui[6].label
+msgid "Dot Pictogram"
+msgstr "Pictograma de puntos"
+
+#: distNom/options/pictoSize.title
+#: distNom/options/lolliSize.title
+#: distOrd/options/pictoSize.title
+msgid "Dot size"
+msgstr "Tamaño de los puntos"
+
+#: package/datasets/Drinkpreference(nominalexample).name
+msgid "Drink preference (nominal example)"
+msgstr "Preferencia de bebida (ejemplo nominal)"
+
+#: distDich/options/sortVars/none.title
+#: distNom/options/sortVars/none.title
+#: distNum/options/sortVars/none.title
+#: distOrd/options/sortVars/none.title
+#: distPoly/options/sortVars/none.title
+msgid "Entry"
+msgstr "Orden de entrada"
+
+#: distDich/options/violinScale/area.title
+#: distNum/options/violinScale/area.title
+#: distPoly/options/violinScale/area.title
+msgid "Equal area"
+msgstr "Misma área"
+
+#: distDich/options/violinScale/width.title
+#: distNum/options/violinScale/width.title
+#: distPoly/options/violinScale/width.title
+msgid "Equal width"
+msgstr "Mismo ancho"
+
+#: distDich/options/ebInterval.title
+#: distNum/options/ebInterval.title
+#: distPoly/options/ebInterval.title
+msgid "Error bars"
+msgstr "Barras de error"
+
+#: distDich/options/ladderSteps/ventiles.title
+msgid "Every 5th (5 to 95)"
+msgstr "Cada 5 (5 a 95)"
+
+#: distDich/options/densFilled.title
+#: distNum/options/densFilled.title
+#: distPoly/options/densFilled.title
+msgid "Filled curves"
+msgstr "Curvas rellenas"
+
+#: distDich/options/histFreeY.title
+#: distNum/options/histFreeY.title
+#: distPoly/options/histFreeY.title
+msgid "Free height scale per variable"
+msgstr "Escala de altura libre por variable"
+
+#: distNom/options/catSort/frequency.title
+msgid "Frequency"
+msgstr "Frecuencia"
+
+#: distNom/options/waffleGap.title
+#: distOrd/options/waffleGap.title
+msgid "Gap between squares"
+msgstr "Espacio entre cuadrados"
+
+#: distNom/options/heatPalette/greens.title
+#: distOrd/options/heatPalette/greens.title
+msgid "Greens"
+msgstr "Verdes"
+
+#: distDich/options/plotTheme/gray.title
+#: distDich/options/pointColour/grey.title
+#: distNom/options/plotTheme/gray.title
+#: distNum/options/plotTheme/gray.title
+#: distNum/options/pointColour/grey.title
+#: distOrd/options/plotTheme/gray.title
+#: distPoly/options/plotTheme/gray.title
+#: distPoly/options/pointColour/grey.title
+msgid "Grey"
+msgstr "Gris"
+
+#: distDich/options/colourPalette/grays.title
+#: distNom/options/colourPalette/grays.title
+#: distNom/options/heatPalette/grays.title
+#: distNum/options/colourPalette/grays.title
+#: distOrd/options/colourPalette/grays.title
+#: distOrd/options/heatPalette/grays.title
+#: distPoly/options/colourPalette/grays.title
+msgid "Greys"
+msgstr "Grises"
+
+#: distDich/options/histPosition.title
+#: distPoly/options/histPosition.title
+msgid "Group bars"
+msgstr "Barras agrupadas"
+
+#: distDich/options/groupMode.title
+#: distPoly/options/groupMode.title
+msgid "Group display"
+msgstr "Disposición de los grupos"
+
+#: distNom/options/showGrouped.title
+#: distNom/results/plot_grouped.title
+msgid "Grouped bars"
+msgstr "Barras agrupadas"
+
+#: distNom/ui[9].label
+msgid "Grouped Bars"
+msgstr "Barras agrupadas"
+
+#: distDich/options/group.title
+#: distDich/ui[0][1].label
+#: distPoly/options/group.title
+#: distPoly/ui[0][1].label
+msgid "Grouping Variable"
+msgstr "Variable de agrupación"
+
+#: distNom/options/showHeat.title
+#: distNom/ui[3].label
+#: distNom/results/plot_heat.title
+#: distOrd/options/showHeat.title
+#: distOrd/ui[4].label
+#: distOrd/results/plot_heat.title
+msgid "Heatmap"
+msgstr "Mapa de calor"
+
+#: distNom/options/heatPalette.title
+#: distOrd/options/heatPalette.title
+msgid "Heatmap colours"
+msgstr "Colores del mapa de calor"
+
+#: distDich/options/showHist.title
+#: distDich/ui[7].label
+#: distDich/results/plot_hist.title
+#: distNum/options/showHist.title
+#: distNum/ui[7].label
+#: distNum/results/plot_hist.title
+#: distPoly/options/showHist.title
+#: distPoly/ui[7].label
+#: distPoly/results/plot_hist.title
+msgid "Histogram"
+msgstr "Histograma"
+
+#: distNom/options/donutHole.title
+msgid "Hole size"
+msgstr "Tamaño del agujero"
+
+#: distDich/options/orientation/horizontal.title
+#: distDich/options/xLabelAngle/horizontal.title
+#: distNom/options/orientation/horizontal.title
+#: distNum/options/orientation/horizontal.title
+#: distOrd/options/orientation/horizontal.title
+#: distPoly/options/orientation/horizontal.title
+#: distPoly/options/xLabelAngle/horizontal.title
+msgid "Horizontal"
+msgstr "Horizontal"
+
+#: distNom/options/ignoreMissing.title
+#: distOrd/options/ignoreMissing.title
+msgid "Ignore missing cases"
+msgstr "Ignorar casos perdidos"
+
+#: distDich/options/ignoreMissingGroup.title
+#: distPoly/options/ignoreMissingGroup.title
+msgid "Ignore missing group cases"
+msgstr "Ignorar casos con grupo perdido"
+
+#: distDich/options/colourPalette/inferno.title
+#: distNom/options/colourPalette/inferno.title
+#: distNum/options/colourPalette/inferno.title
+#: distOrd/options/colourPalette/inferno.title
+#: distPoly/options/colourPalette/inferno.title
+msgid "Inferno"
+msgstr "Inferno"
+
+#: distDich/options/violinBox.title
+#: distNum/options/violinBox.title
+#: distPoly/options/violinBox.title
+msgid "Inner box"
+msgstr "Caja interior"
+
+#: distDich/options/ebInterval/iqr.title
+#: distNum/options/ebInterval/iqr.title
+#: distPoly/options/ebInterval/iqr.title
+msgid "Interquartile range"
+msgstr "Rango intercuartílico"
+
+#: distDich/options/reversePalette.title
+#: distNom/options/reversePalette.title
+#: distNum/options/reversePalette.title
+#: distOrd/options/reversePalette.title
+#: distPoly/options/reversePalette.title
+msgid "Invert palette"
+msgstr "Invertir la paleta"
+
+#: distDich/options/colourPalette/jamovi.title
+#: distDich/options/plotTheme/jamovi.title
+#: distNom/options/colourPalette/jamovi.title
+#: distNom/options/plotTheme/jamovi.title
+#: distNum/options/colourPalette/jamovi.title
+#: distNum/options/plotTheme/jamovi.title
+#: distOrd/options/colourPalette/jamovi.title
+#: distOrd/options/plotTheme/jamovi.title
+#: distPoly/options/colourPalette/jamovi.title
+#: distPoly/options/plotTheme/jamovi.title
+msgid "jamovi"
+msgstr "jamovi"
+
+#: distDich/options/jitterSpread.title
+#: distNum/options/jitterSpread.title
+#: distPoly/options/jitterSpread.title
+msgid "Jitter spread"
+msgstr "Dispersión de los puntos"
+
+#: distDich/ui[10].label
+msgid "Lead Plot (Cumulative Difference)"
+msgstr "Gráfico de ventaja (diferencia acumulada)"
+
+#: distDich/results/plot_lead.title
+msgid "Lead plot (cumulative difference)"
+msgstr "Gráfico de ventaja (diferencia acumulada)"
+
+#: distNum/options/legendPos.title
+msgid "Legend (overlay plots)"
+msgstr "Leyenda (gráficos superpuestos)"
+
+#: distDich/options/legendPos.title
+#: distNom/options/legendPos.title
+#: distOrd/options/legendPos.title
+#: distPoly/options/legendPos.title
+msgid "Legend position"
+msgstr "Posición de la leyenda"
+
+#: distDich/options/legendTitle.title
+#: distNom/options/legendTitle.title
+#: distOrd/options/legendTitle.title
+#: distPoly/options/legendTitle.title
+msgid "Legend title"
+msgstr "Título de la leyenda"
+
+#: distDich/options/ebLevel.title
+#: distNum/options/ebLevel.title
+#: distPoly/options/ebLevel.title
+msgid "Level for CI / central %"
+msgstr "Nivel del IC / % central"
+
+#: distDich/options/plotTheme/light.title
+#: distNom/options/plotTheme/light.title
+#: distNum/options/plotTheme/light.title
+#: distOrd/options/plotTheme/light.title
+#: distPoly/options/plotTheme/light.title
+msgid "Light"
+msgstr "Claro"
+
+#: distDich/options/ebConnect.title
+#: distNum/options/ebConnect.title
+#: distPoly/options/ebConnect.title
+msgid "Line connecting the centres"
+msgstr "Línea que une los centros"
+
+#: distDich/options/lineWidth.title
+#: distNom/options/lineWidth.title
+#: distNum/options/lineWidth.title
+#: distOrd/options/lineWidth.title
+#: distPoly/options/lineWidth.title
+msgid "Line thickness (1–5)"
+msgstr "Grosor de las líneas (1–5)"
+
+#: distNom/options/showLollipop.title
+#: distNom/results/plot_lollipop.title
+msgid "Lollipop plot"
+msgstr "Gráfico de piruletas"
+
+#: distNom/ui[10].label
+msgid "Lollipop Plot"
+msgstr "Gráfico de piruletas"
+
+#: distDich/options/colourPalette/magma.title
+#: distNom/options/colourPalette/magma.title
+#: distNum/options/colourPalette/magma.title
+#: distOrd/options/colourPalette/magma.title
+#: distPoly/options/colourPalette/magma.title
+msgid "Magma"
+msgstr "Magma"
+
+#: distDich/options/colourPalette/mako.title
+#: distNom/options/colourPalette/mako.title
+#: distNom/options/heatPalette/mako.title
+#: distNum/options/colourPalette/mako.title
+#: distOrd/options/colourPalette/mako.title
+#: distOrd/options/heatPalette/mako.title
+#: distPoly/options/colourPalette/mako.title
+msgid "Mako"
+msgstr "Mako"
+
+#: distDich/options/leadMark.title
+msgid "Mark the largest gap"
+msgstr "Marcar la mayor brecha"
+
+#: distDich/options/ebSize.title
+#: distNum/options/ebSize.title
+#: distPoly/options/ebSize.title
+msgid "Marker size"
+msgstr "Tamaño del marcador"
+
+#: distDich/options/sortVars/mean.title
+#: distDich/options/ebCenter/mean.title
+#: distDich/options/stripSummary/mean.title
+#: distNum/options/sortVars/mean.title
+#: distNum/options/ebCenter/mean.title
+#: distNum/options/stripSummary/mean.title
+#: distOrd/options/sortVars/mean.title
+#: distPoly/options/sortVars/mean.title
+#: distPoly/options/ebCenter/mean.title
+#: distPoly/options/stripSummary/mean.title
+msgid "Mean"
+msgstr "Media"
+
+#: distDich/options/boxMean.title
+#: distNum/options/boxMean.title
+#: distPoly/options/boxMean.title
+msgid "Mean marker"
+msgstr "Marcador de la media"
+
+#: distDich/options/showErrorBar.title
+#: distDich/results/plot_errorbar.title
+#: distNum/options/showErrorBar.title
+#: distNum/results/plot_errorbar.title
+#: distPoly/options/showErrorBar.title
+#: distPoly/results/plot_errorbar.title
+msgid "Means and error bars"
+msgstr "Medias y barras de error"
+
+#: distDich/ui[4].label
+#: distNum/ui[4].label
+#: distPoly/ui[4].label
+msgid "Means and Error Bars"
+msgstr "Medias y barras de error"
+
+#: distDich/options/sortVars/median.title
+#: distDich/options/ebCenter/median.title
+#: distDich/options/stripSummary/median.title
+#: distNum/options/sortVars/median.title
+#: distNum/options/ebCenter/median.title
+#: distNum/options/stripSummary/median.title
+#: distOrd/options/sortVars/median.title
+#: distPoly/options/sortVars/median.title
+#: distPoly/options/ebCenter/median.title
+#: distPoly/options/stripSummary/median.title
+msgid "Median"
+msgstr "Mediana"
+
+#: distDich/options/ridgeMedian.title
+#: distNum/options/ridgeMedian.title
+#: distPoly/options/ridgeMedian.title
+msgid "Median marker"
+msgstr "Marcador de la mediana"
+
+#: distDich/options/ecdfMedian.title
+#: distNum/options/ecdfMedian.title
+#: distPoly/options/ecdfMedian.title
+msgid "Median marker (50%)"
+msgstr "Marcador de la mediana (50%)"
+
+#: distOrd/options/divNeutral.title
+msgid "Middle category"
+msgstr "Categoría central"
+
+#: distDich/options/ebInterval/range.title
+#: distNum/options/ebInterval/range.title
+#: distPoly/options/ebInterval/range.title
+msgid "Min–max"
+msgstr "Mínimo–máximo"
+
+#: distDich/options/plotTheme/minimal.title
+#: distNom/options/plotTheme/minimal.title
+#: distNum/options/plotTheme/minimal.title
+#: distOrd/options/plotTheme/minimal.title
+#: distPoly/options/plotTheme/minimal.title
+msgid "Minimal"
+msgstr "Minimalista"
+
+#: distDich/options/ebMult.title
+#: distNum/options/ebMult.title
+#: distPoly/options/ebMult.title
+msgid "Multiplier for SE / SD"
+msgstr "Multiplicador del EE / DE"
+
+#: distNom/options/donutN.title
+msgid "n in the centre"
+msgstr "n en el centro"
+
+#: distNom/options/showN.title
+#: distNum/options/showN.title
+#: distOrd/options/showN.title
+msgid "n per variable"
+msgstr "n por variable"
+
+#: distDich/options/transform/log.title
+#: distNum/options/transform/log.title
+#: distPoly/options/transform/log.title
+msgid "Natural log"
+msgstr "Logaritmo natural"
+
+#: distOrd/options/sortVars/net.title
+msgid "Net %"
+msgstr "% neto"
+
+#: distOrd/options/divNet.title
+msgid "Net % on each side"
+msgstr "% neto a cada lado"
+
+#: distOrd/options/divNeutral/none.title
+msgid "Never centre"
+msgstr "Nunca centrar"
+
+#: distDich/options/transform/none.title
+#: distDich/options/refLine/none.title
+#: distDich/options/legendPos/none.title
+#: distDich/options/stripSummary/none.title
+#: distNom/options/legendPos/none.title
+#: distNum/options/transform/none.title
+#: distNum/options/legendPos/none.title
+#: distNum/options/stripSummary/none.title
+#: distOrd/options/legendPos/none.title
+#: distPoly/options/transform/none.title
+#: distPoly/options/refLine/none.title
+#: distPoly/options/legendPos/none.title
+#: distPoly/options/stripSummary/none.title
+msgid "None"
+msgstr "Ninguno"
+
+#: distDich/options/boxNotch.title
+#: distNum/options/boxNotch.title
+#: distPoly/options/boxNotch.title
+msgid "Notched (median CI)"
+msgstr "Con muesca (IC de la mediana)"
+
+#: distDich/options/histBins.title
+#: distDich/options/pyBins.title
+#: distNum/options/histBins.title
+#: distPoly/options/histBins.title
+msgid "Number of bins"
+msgstr "Número de intervalos"
+
+#: distNom/options/parlRows.title
+#: distOrd/options/parlRows.title
+msgid "Number of rows"
+msgstr "Número de filas"
+
+#: distNom/options/parlSeats.title
+#: distOrd/options/parlSeats.title
+msgid "Number of seats"
+msgstr "Número de escaños"
+
+#: distDich/options/colourPalette/okabe.title
+#: distNom/options/colourPalette/okabe.title
+#: distNum/options/colourPalette/okabe.title
+#: distOrd/options/colourPalette/okabe.title
+#: distPoly/options/colourPalette/okabe.title
+msgid "Okabe–Ito"
+msgstr "Okabe–Ito"
+
+#: distDich/options/alpha.title
+#: distNom/options/alpha.title
+#: distNum/options/alpha.title
+#: distOrd/options/alpha.title
+#: distPoly/options/alpha.title
+msgid "Opacity"
+msgstr "Opacidad"
+
+#: distNom/options/heatPalette/oranges.title
+#: distOrd/options/heatPalette/oranges.title
+msgid "Oranges"
+msgstr "Naranjas"
+
+#: distNom/options/catSort.title
+msgid "Order categories"
+msgstr "Ordenar las categorías"
+
+#: distDich/options/sortVars.title
+#: distNom/options/sortVars.title
+#: distNum/options/sortVars.title
+#: distOrd/options/sortVars.title
+#: distPoly/options/sortVars.title
+msgid "Order variables"
+msgstr "Ordenar las variables"
+
+#: distDich/options/orientation.title
+#: distNom/options/orientation.title
+#: distNum/options/orientation.title
+#: distOrd/options/orientation.title
+#: distPoly/options/orientation.title
+msgid "Orientation"
+msgstr "Orientación"
+
+#: distDich/options/boxOutliers.title
+#: distNum/options/boxOutliers.title
+#: distPoly/options/boxOutliers.title
+msgid "Outliers"
+msgstr "Valores atípicos"
+
+#: distDich/options/refLine/mean.title
+#: distPoly/options/refLine/mean.title
+msgid "Overall mean"
+msgstr "Media global"
+
+#: distDich/options/refLine/median.title
+#: distPoly/options/refLine/median.title
+msgid "Overall median"
+msgstr "Mediana global"
+
+#: distDich/options/histPosition/identity.title
+#: distPoly/options/histPosition/identity.title
+msgid "Overlaid"
+msgstr "Superpuestas"
+
+#: distDich/options/showDensity.title
+#: distDich/results/plot_density.title
+#: distNum/options/showDensity.title
+#: distNum/results/plot_density.title
+#: distPoly/options/showDensity.title
+#: distPoly/results/plot_density.title
+msgid "Overlaid densities"
+msgstr "Densidades superpuestas"
+
+#: distDich/ui[11].label
+#: distNum/ui[8].label
+#: distPoly/ui[8].label
+msgid "Overlaid Densities"
+msgstr "Densidades superpuestas"
+
+#: distDich/options/ridgeOverlap.title
+#: distNum/options/ridgeOverlap.title
+#: distPoly/options/ridgeOverlap.title
+msgid "Overlap"
+msgstr "Solapamiento"
+
+#: distDich/options/colourPalette.title
+#: distNom/options/colourPalette.title
+#: distNum/options/colourPalette.title
+#: distOrd/options/colourPalette.title
+#: distPoly/options/colourPalette.title
+msgid "Palette"
+msgstr "Paleta"
+
+#: distDich/options/groupMode/facetGroup.title
+#: distPoly/options/groupMode/facetGroup.title
+msgid "Panels by group"
+msgstr "Paneles por grupo"
+
+#: distDich/options/groupMode/facetVar.title
+#: distPoly/options/groupMode/facetVar.title
+msgid "Panels by variable"
+msgstr "Paneles por variable"
+
+#: distNom/options/showParliament.title
+#: distNom/results/plot_parliament.title
+#: distOrd/options/showParliament.title
+#: distOrd/results/plot_parliament.title
+msgid "Parliament (arc) chart"
+msgstr "Gráfico de parlamento (arco)"
+
+#: distNom/ui[6].label
+#: distOrd/ui[7].label
+msgid "Parliament Chart"
+msgstr "Gráfico de parlamento"
+
+#: distDich/options/colourPalette/pastel.title
+#: distNom/options/colourPalette/pastel.title
+#: distNum/options/colourPalette/pastel.title
+#: distOrd/options/colourPalette/pastel.title
+#: distPoly/options/colourPalette/pastel.title
+msgid "Pastel 1"
+msgstr "Pastel 1"
+
+#: R/catCommon.R
+#: R/cmpGrpCommon.R
+#: R/distNum.b.R
+#: distDich/options/histStat/percent.title
+#: distNum/options/histStat/percent.title
+#: distPoly/options/histStat/percent.title
+msgid "Percent"
+msgstr "Porcentaje"
+
+#: R/cmpGrpCommon.R
+#: distDich/options/pyStat/percent.title
+msgid "Percent of group"
+msgstr "Porcentaje del grupo"
+
+#: R/cmpGrpCommon.R
+msgid "Percentile"
+msgstr "Percentil"
+
+#: distDich/ui[9].label
+msgid "Percentile Ladder"
+msgstr "Escalera de percentiles"
+
+#: distDich/results/plot_ladder.title
+msgid "Percentile ladder"
+msgstr "Escalera de percentiles"
+
+#: distDich/options/ladderSteps.title
+msgid "Percentiles"
+msgstr "Percentiles"
+
+#: distNom/options/showPie.title
+#: distNom/results/plot_pie.title
+msgid "Pie chart"
+msgstr "Gráfico circular"
+
+#: distNom/ui[7].label
+msgid "Pie Chart"
+msgstr "Gráfico circular"
+
+#: distDich/options/colourPalette/piyg.title
+#: distNom/options/colourPalette/piyg.title
+#: distNum/options/colourPalette/piyg.title
+#: distOrd/options/colourPalette/piyg.title
+#: distPoly/options/colourPalette/piyg.title
+msgid "Pink–Green"
+msgstr "Rosa–Verde"
+
+#: distDich/options/colourPalette/plasma.title
+#: distNom/options/colourPalette/plasma.title
+#: distNum/options/colourPalette/plasma.title
+#: distOrd/options/colourPalette/plasma.title
+#: distPoly/options/colourPalette/plasma.title
+msgid "Plasma"
+msgstr "Plasma"
+
+#: distDich/options/title.title
+#: distNom/options/title.title
+#: distNum/options/title.title
+#: distOrd/options/title.title
+#: distPoly/options/title.title
+msgid "Plot title"
+msgstr "Título del gráfico"
+
+#: distDich/options/pointSize.title
+#: distNum/options/pointSize.title
+#: distPoly/options/pointSize.title
+msgid "Point size"
+msgstr "Tamaño de los puntos"
+
+#: distOrd/options/profPoints.title
+msgid "Points"
+msgstr "Puntos"
+
+#: distDich/options/colourPalette/prgn.title
+#: distNom/options/colourPalette/prgn.title
+#: distNum/options/colourPalette/prgn.title
+#: distOrd/options/colourPalette/prgn.title
+#: distPoly/options/colourPalette/prgn.title
+msgid "Purple–Green"
+msgstr "Morado–Verde"
+
+#: distNom/options/heatPalette/purples.title
+#: distOrd/options/heatPalette/purples.title
+msgid "Purples"
+msgstr "Morados"
+
+#: distDich/options/ladderSteps/quartiles.title
+msgid "Quartiles (25, 50, 75)"
+msgstr "Cuartiles (25, 50, 75)"
+
+#: distDich/options/rcRain.title
+#: distNum/options/rcRain.title
+#: distPoly/options/rcRain.title
+msgid "Rain (data points)"
+msgstr "Lluvia (puntos de datos)"
+
+#: distDich/options/colourPalette/rainbow.title
+#: distNom/options/colourPalette/rainbow.title
+#: distNum/options/colourPalette/rainbow.title
+#: distOrd/options/colourPalette/rainbow.title
+#: distPoly/options/colourPalette/rainbow.title
+msgid "Rainbow"
+msgstr "Arcoíris"
+
+#: distDich/options/showRaincloud.title
+#: distDich/results/plot_raincloud.title
+#: distNum/options/showRaincloud.title
+#: distNum/results/plot_raincloud.title
+#: distPoly/options/showRaincloud.title
+#: distPoly/results/plot_raincloud.title
+msgid "Raincloud plot"
+msgstr "Gráfico raincloud (nube de lluvia)"
+
+#: distDich/ui[5].label
+#: distNum/ui[5].label
+#: distPoly/ui[5].label
+msgid "Raincloud Plot"
+msgstr "Gráfico raincloud (nube de lluvia)"
+
+#: distDich/options/colourPalette/rdbu.title
+#: distNom/options/colourPalette/rdbu.title
+#: distNum/options/colourPalette/rdbu.title
+#: distOrd/options/colourPalette/rdbu.title
+#: distPoly/options/colourPalette/rdbu.title
+msgid "Red–Blue"
+msgstr "Rojo–Azul"
+
+#: distDich/options/colourPalette/rdylgn.title
+#: distNom/options/colourPalette/rdylgn.title
+#: distNum/options/colourPalette/rdylgn.title
+#: distOrd/options/colourPalette/rdylgn.title
+#: distPoly/options/colourPalette/rdylgn.title
+msgid "Red–Yellow–Green"
+msgstr "Rojo–Amarillo–Verde"
+
+#: distNom/options/heatPalette/reds.title
+#: distOrd/options/heatPalette/reds.title
+msgid "Reds"
+msgstr "Rojos"
+
+#: distDich/options/refLine.title
+#: distPoly/options/refLine.title
+msgid "Reference line (all groups together)"
+msgstr "Línea de referencia (todos los grupos juntos)"
+
+#: distOrd/ui[8].label
+msgid "Response Profile"
+msgstr "Perfil de respuestas"
+
+#: distOrd/options/showProfile.title
+#: distOrd/results/plot_profile.title
+msgid "Response profile (lines)"
+msgstr "Perfil de respuestas (líneas)"
+
+#: distDich/options/invertGroups.title
+#: distPoly/options/invertGroups.title
+msgid "Reverse group order"
+msgstr "Invertir el orden de los grupos"
+
+#: distNom/options/invertVars.title
+#: distNum/options/invertVars.title
+#: distOrd/options/invertVars.title
+msgid "Reverse the order"
+msgstr "Invertir el orden"
+
+#: distDich/options/invertVars.title
+#: distPoly/options/invertVars.title
+msgid "Reverse variable order"
+msgstr "Invertir el orden de las variables"
+
+#: distDich/options/showRidge.title
+#: distDich/results/plot_ridge.title
+#: distNum/options/showRidge.title
+#: distNum/results/plot_ridge.title
+#: distPoly/options/showRidge.title
+#: distPoly/results/plot_ridge.title
+msgid "Ridgeline (density) plot"
+msgstr "Gráfico de crestas (densidad)"
+
+#: distDich/ui[6].label
+#: distNum/ui[6].label
+#: distPoly/ui[6].label
+msgid "Ridgeline (Density) Plot"
+msgstr "Gráfico de crestas (densidad)"
+
+#: distDich/options/legendPos/right.title
+#: distNom/options/legendPos/right.title
+#: distNum/options/legendPos/right.title
+#: distOrd/options/legendPos/right.title
+#: distPoly/options/legendPos/right.title
+msgid "Right"
+msgstr "Derecha"
+
+#: distDich/options/colourPalette/rocket.title
+#: distNom/options/colourPalette/rocket.title
+#: distNom/options/heatPalette/rocket.title
+#: distNum/options/colourPalette/rocket.title
+#: distOrd/options/colourPalette/rocket.title
+#: distOrd/options/heatPalette/rocket.title
+#: distPoly/options/colourPalette/rocket.title
+msgid "Rocket"
+msgstr "Rocket"
+
+#: distNom/options/waffleRows.title
+#: distNom/options/pictoRows.title
+#: distOrd/options/waffleRows.title
+#: distOrd/options/pictoRows.title
+msgid "Rows per chart"
+msgstr "Filas por gráfico"
+
+#: distDich/options/violinScale.title
+#: distNum/options/violinScale.title
+#: distPoly/options/violinScale.title
+msgid "Scale"
+msgstr "Escala"
+
+#: distNom/options/parlSize.title
+#: distOrd/options/parlSize.title
+msgid "Seat size"
+msgstr "Tamaño de los escaños"
+
+#: distDich/options/densOverlap.title
+msgid "Shade the overlap of the two groups"
+msgstr "Sombrear el solapamiento de los dos grupos"
+
+#: distNom/options/pictoShape.title
+#: distOrd/options/pictoShape.title
+msgid "Shape"
+msgstr "Forma"
+
+#: distDich/options/showPyramid.title
+msgid "Show back-to-back histogram"
+msgstr "Mostrar histograma espalda con espalda"
+
+#: distDich/options/showLead.title
+msgid "Show lead plot"
+msgstr "Mostrar gráfico de ventaja"
+
+#: distDich/options/showN.title
+#: distPoly/options/showN.title
+msgid "Show n in group labels"
+msgstr "Mostrar n en las etiquetas de los grupos"
+
+#: distDich/options/showLadder.title
+msgid "Show percentile ladder"
+msgstr "Mostrar escalera de percentiles"
+
+#: distDich/options/histPosition/dodge.title
+#: distPoly/options/histPosition/dodge.title
+msgid "Side by side"
+msgstr "Lado a lado"
+
+#: package/datasets/Well-beingscales(numericexample).description
+msgid ""
+"Six 0-100 scales with different shapes (normal, skewed, bimodal, narrow), n "
+"= 240"
+msgstr "Seis escalas de 0 a 100 con distintas formas (normal, asimétrica, bimodal, estrecha), n = 240"
+
+#: package/datasets/Courseevaluation(ordinalexample).description
+msgid "Six Likert items with different response patterns, n = 300"
+msgstr "Seis ítems Likert con distintos patrones de respuesta, n = 300"
+
+#: package/datasets/Therapytrial(groupsexample).description
+msgid ""
+"Six measures with differing shapes and four grouping variables: treatment "
+"group (3), sex (2), SES (ordinal, 3) and site (4), with a few missing "
+"values, n = 270"
+msgstr "Seis medidas con distintas formas y cuatro variables de agrupación: grupo de tratamiento (3), sexo (2), NSE (ordinal, 3) y centro (4), con algunos valores perdidos, n = 270"
+
+#: distNom/options/barMinLabel.title
+#: distNom/options/pieMinLabel.title
+#: distNom/options/donutMinLabel.title
+#: distOrd/options/barMinLabel.title
+#: distOrd/options/divMinLabel.title
+msgid "Smallest % to label"
+msgstr "Menor % que se etiqueta"
+
+#: distDich/options/violinSplit.title
+msgid "Split halves (one group per side)"
+msgstr "Mitades divididas (un grupo por lado)"
+
+#: distDich/options/transform/square.title
+#: distNom/options/pictoShape/square.title
+#: distNum/options/transform/square.title
+#: distOrd/options/pictoShape/square.title
+#: distPoly/options/transform/square.title
+msgid "Square"
+msgstr "Cuadrado"
+
+#: distDich/options/transform/sqrt.title
+#: distNum/options/transform/sqrt.title
+#: distPoly/options/transform/sqrt.title
+msgid "Square root"
+msgstr "Raíz cuadrada"
+
+#: distNom/ui[2].label
+#: distOrd/ui[2].label
+msgid "Stacked Bars"
+msgstr "Barras apiladas"
+
+#: distNom/options/showBars.title
+#: distNom/results/plot_bars.title
+#: distOrd/options/showBars.title
+#: distOrd/results/plot_bars.title
+msgid "Stacked bars (100%)"
+msgstr "Barras apiladas (100%)"
+
+#: distDich/options/ebInterval/sd.title
+#: distNum/options/ebInterval/sd.title
+#: distPoly/options/ebInterval/sd.title
+msgid "Standard deviation"
+msgstr "Desviación estándar"
+
+#: distDich/options/ebInterval/se.title
+#: distNum/options/ebInterval/se.title
+#: distPoly/options/ebInterval/se.title
+msgid "Standard error"
+msgstr "Error estándar"
+
+#: distDich/options/stripSummary.title
+#: distNum/options/stripSummary.title
+#: distPoly/options/stripSummary.title
+msgid "Summary line"
+msgstr "Línea de resumen"
+
+#: distDich/ui[1][3].label
+#: distNom/ui[1][2].label
+#: distNum/ui[1][3].label
+#: distOrd/ui[1][2].label
+#: distPoly/ui[1][3].label
+msgid "Text and Labels"
+msgstr "Texto y etiquetas"
+
+#: distDich/options/textSize.title
+#: distNom/options/textSize.title
+#: distNum/options/textSize.title
+#: distOrd/options/textSize.title
+#: distPoly/options/textSize.title
+msgid "Text size"
+msgstr "Tamaño del texto"
+
+#: R/cmpGrpCommon.R
+msgid "The grouping variable has no non-missing levels."
+msgstr "La variable de agrupación no tiene niveles con datos."
+
+#: package/datasets/Drinkpreference(nominalexample).description
+msgid "The same five-category nominal variable at three times of day, n = 250"
+msgstr "La misma variable nominal de cinco categorías en tres momentos del día, n = 250"
+
+#: R/cmpGrpCommon.R
+msgid ""
+"The selected variables and grouping variable have no usable non-missing "
+"observations."
+msgstr "Las variables seleccionadas y la variable de agrupación no tienen observaciones válidas."
+
+#: R/catCommon.R
+msgid "The selected variables have no categories."
+msgstr "Las variables seleccionadas no tienen categorías."
+
+#: R/catCommon.R
+#: R/distNum.b.R
+msgid "The selected variables have no non-missing values."
+msgstr "Las variables seleccionadas no tienen valores válidos."
+
+#: distDich/options/plotTheme.title
+#: distNom/options/plotTheme.title
+#: distNum/options/plotTheme.title
+#: distOrd/options/plotTheme.title
+#: distPoly/options/plotTheme.title
+msgid "Theme"
+msgstr "Tema"
+
+#: package/datasets/Therapytrial(groupsexample).name
+msgid "Therapy trial (groups example)"
+msgstr "Ensayo de terapia (ejemplo de grupos)"
+
+#: distDich/options/barcodeHeight.title
+#: distNum/options/barcodeHeight.title
+#: distPoly/options/barcodeHeight.title
+msgid "Tick height"
+msgstr "Altura de las marcas"
+
+#: distNom/options/heatGap.title
+#: distOrd/options/heatGap.title
+msgid "Tile gap"
+msgstr "Espacio entre celdas"
+
+#: distDich/options/legendPos/top.title
+#: distNom/options/legendPos/top.title
+#: distNum/options/legendPos/top.title
+#: distOrd/options/legendPos/top.title
+#: distPoly/options/legendPos/top.title
+msgid "Top"
+msgstr "Arriba"
+
+#: distNom/options/sortVars/top.title
+msgid "Top share"
+msgstr "Mayor proporción"
+
+#: distDich/options/transform.title
+#: distNum/options/transform.title
+#: distPoly/options/transform.title
+msgid "Transform values"
+msgstr "Transformar los valores"
+
+#: distNom/options/pictoShape/triangle.title
+#: distOrd/options/pictoShape/triangle.title
+msgid "Triangle"
+msgstr "Triángulo"
+
+#: distDich/options/violinTrim.title
+#: distDich/options/ridgeTrim.title
+#: distDich/options/densTrim.title
+#: distNum/options/violinTrim.title
+#: distNum/options/ridgeTrim.title
+#: distNum/options/densTrim.title
+#: distPoly/options/violinTrim.title
+#: distPoly/options/ridgeTrim.title
+#: distPoly/options/densTrim.title
+msgid "Trim tails at data range"
+msgstr "Recortar las colas al rango de los datos"
+
+#: distDich/options/colourPalette/turbo.title
+#: distNom/options/colourPalette/turbo.title
+#: distNum/options/colourPalette/turbo.title
+#: distOrd/options/colourPalette/turbo.title
+#: distPoly/options/colourPalette/turbo.title
+msgid "Turbo"
+msgstr "Turbo"
+
+#: distDich/options/valueLabel.default
+#: distNum/options/valueLabel.default
+#: distPoly/options/valueLabel.default
+msgid "Value"
+msgstr "Valor"
+
+#: distDich/options/valueLabel.title
+#: distNum/options/valueLabel.title
+#: distPoly/options/valueLabel.title
+msgid "Value axis label"
+msgstr "Título del eje de valores"
+
+#: distDich/options/useDesc.title
+#: distNom/options/useDesc.title
+#: distNum/options/useDesc.title
+#: distOrd/options/useDesc.title
+#: distPoly/options/useDesc.title
+msgid "Variable descriptions as labels"
+msgstr "Descripciones de las variables como etiquetas"
+
+#: distDich/options/vars.title
+#: distDich/ui[0][0].label
+#: distDich/ui[1][0].label
+#: distNom/options/vars.title
+#: distNom/ui[0][0].label
+#: distNom/ui[1][0].label
+#: distNum/options/vars.title
+#: distNum/ui[0][0].label
+#: distNum/ui[1][0].label
+#: distOrd/options/vars.title
+#: distOrd/ui[0][0].label
+#: distOrd/ui[1][0].label
+#: distPoly/options/vars.title
+#: distPoly/ui[0][0].label
+#: distPoly/ui[1][0].label
+msgid "Variables"
+msgstr "Variables"
+
+#: distDich/options/orientation/vertical.title
+#: distNom/options/orientation/vertical.title
+#: distNum/options/orientation/vertical.title
+#: distOrd/options/orientation/vertical.title
+#: distPoly/options/orientation/vertical.title
+msgid "Vertical"
+msgstr "Vertical"
+
+#: distDich/options/showViolin.title
+#: distDich/results/plot_violin.title
+#: distNum/options/showViolin.title
+#: distNum/results/plot_violin.title
+#: distPoly/options/showViolin.title
+#: distPoly/results/plot_violin.title
+msgid "Violin plot"
+msgstr "Gráfico de violín"
+
+#: distDich/ui[3].label
+#: distNum/ui[3].label
+#: distPoly/ui[3].label
+msgid "Violin Plot"
+msgstr "Gráfico de violín"
+
+#: distDich/options/violinWidth.title
+#: distNum/options/violinWidth.title
+#: distPoly/options/violinWidth.title
+msgid "Violin width"
+msgstr "Ancho del violín"
+
+#: distDich/options/colourPalette/viridis.title
+#: distNom/options/colourPalette/viridis.title
+#: distNum/options/colourPalette/viridis.title
+#: distOrd/options/colourPalette/viridis.title
+#: distPoly/options/colourPalette/viridis.title
+msgid "Viridis"
+msgstr "Viridis"
+
+#: distNom/options/showWaffle.title
+#: distNom/results/plot_waffle.title
+#: distOrd/options/showWaffle.title
+#: distOrd/results/plot_waffle.title
+msgid "Waffle chart"
+msgstr "Gráfico waffle"
+
+#: distNom/ui[4].label
+#: distOrd/ui[5].label
+msgid "Waffle Chart"
+msgstr "Gráfico waffle"
+
+#: package/datasets/Well-beingscales(numericexample).name
+msgid "Well-being scales (numeric example)"
+msgstr "Escalas de bienestar (ejemplo numérico)"
+
+#: distDich/options/groupMode/dodge.title
+#: distPoly/options/groupMode/dodge.title
+msgid "Within each variable"
+msgstr "Dentro de cada variable"
+
+#: distNom/options/heatPalette/ylorrd.title
+#: distOrd/options/heatPalette/ylorrd.title
+msgid "Yellow–Orange–Red"
+msgstr "Amarillo–Naranja–Rojo"
+
+#: distDich/options/transform/z.title
+#: distNum/options/transform/z.title
+#: distPoly/options/transform/z.title
+msgid "z-scores"
+msgstr "Puntuaciones z"
