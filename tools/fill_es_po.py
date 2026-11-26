@@ -96,6 +96,7 @@ ES = {
 "Equal width": "Mismo ancho",
 "Error bars": "Barras de error",
 "Every 5th (5 to 95)": "Cada 5 (5 a 95)",
+"Explanatory note below the plot": "Nota explicativa debajo del gráfico",
 "Filled curves": "Curvas rellenas",
 "Free height scale per variable": "Escala de altura libre por variable",
 "Frequency": "Frecuencia",

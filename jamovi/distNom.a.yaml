@@ -180,6 +180,10 @@ options:
     title: n per variable
     type: Bool
     default: false
+  - name: showCaption
+    title: Explanatory note below the plot
+    type: Bool
+    default: false
   # PLOT: Stacked bars (100%). `showBars` switches it on; the options after it are its settings.
   - name: showBars
     title: 'Stacked bars (100%)'

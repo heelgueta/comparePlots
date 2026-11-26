@@ -43,6 +43,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - boxWidth
       - boxOutliers
@@ -79,6 +80,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - violinWidth
       - violinScale
@@ -116,6 +118,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - ebCenter
       - ebInterval
@@ -156,6 +159,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - rcCloudWidth
       - rcAdjust
@@ -191,6 +195,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - ridgeOverlap
       - ridgeAdjust
@@ -226,6 +231,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - histBins
       - histStat
@@ -261,6 +267,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - densAdjust
       - densFilled
@@ -295,6 +302,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - ecdfMedian
   # IMAGE for the "Data points (strip plot)" plot. Shown only while `showStrip` is ticked; drawn by `.plot_strip()`.
@@ -327,6 +335,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - stripSummary
   # IMAGE for the "Barcode plot" plot. Shown only while `showBarcode` is ticked; drawn by `.plot_barcode()`.
@@ -359,6 +368,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - barcodeHeight
 ...

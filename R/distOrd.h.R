@@ -23,6 +23,7 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             lineWidth = 2,
             ignoreMissing = TRUE,
             showN = FALSE,
+            showCaption = FALSE,
             showBars = TRUE,
             barWidth = 70,
             barLabels = TRUE,
@@ -184,6 +185,10 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..showN <- jmvcore::OptionBool$new(
                 "showN",
                 showN,
+                default=FALSE)
+            private$..showCaption <- jmvcore::OptionBool$new(
+                "showCaption",
+                showCaption,
                 default=FALSE)
             private$..showBars <- jmvcore::OptionBool$new(
                 "showBars",
@@ -391,6 +396,7 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..lineWidth)
             self$.addOption(private$..ignoreMissing)
             self$.addOption(private$..showN)
+            self$.addOption(private$..showCaption)
             self$.addOption(private$..showBars)
             self$.addOption(private$..barWidth)
             self$.addOption(private$..barLabels)
@@ -444,6 +450,7 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         lineWidth = function() private$..lineWidth$value,
         ignoreMissing = function() private$..ignoreMissing$value,
         showN = function() private$..showN$value,
+        showCaption = function() private$..showCaption$value,
         showBars = function() private$..showBars$value,
         barWidth = function() private$..barWidth$value,
         barLabels = function() private$..barLabels$value,
@@ -496,6 +503,7 @@ distOrdOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..lineWidth = NA,
         ..ignoreMissing = NA,
         ..showN = NA,
+        ..showCaption = NA,
         ..showBars = NA,
         ..barWidth = NA,
         ..barLabels = NA,
@@ -583,6 +591,7 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "showCaption",
                     "alpha",
                     "lineWidth",
                     "ignoreMissing",
@@ -613,6 +622,7 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "showCaption",
                     "alpha",
                     "lineWidth",
                     "ignoreMissing",
@@ -645,6 +655,7 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "showCaption",
                     "alpha",
                     "lineWidth",
                     "ignoreMissing",
@@ -676,6 +687,7 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "showCaption",
                     "alpha",
                     "lineWidth",
                     "ignoreMissing",
@@ -707,6 +719,7 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "showCaption",
                     "alpha",
                     "lineWidth",
                     "ignoreMissing",
@@ -739,6 +752,7 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "showCaption",
                     "alpha",
                     "lineWidth",
                     "ignoreMissing",
@@ -769,6 +783,7 @@ distOrdResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "legendTitle",
                     "title",
                     "showN",
+                    "showCaption",
                     "alpha",
                     "lineWidth",
                     "ignoreMissing",
@@ -818,6 +833,7 @@ distOrdBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param lineWidth .
 #' @param ignoreMissing .
 #' @param showN .
+#' @param showCaption .
 #' @param showBars .
 #' @param barWidth .
 #' @param barLabels .
@@ -884,6 +900,7 @@ distOrd <- function(
     lineWidth = 2,
     ignoreMissing = TRUE,
     showN = FALSE,
+    showCaption = FALSE,
     showBars = TRUE,
     barWidth = 70,
     barLabels = TRUE,
@@ -948,6 +965,7 @@ distOrd <- function(
         lineWidth = lineWidth,
         ignoreMissing = ignoreMissing,
         showN = showN,
+        showCaption = showCaption,
         showBars = showBars,
         barWidth = barWidth,
         barLabels = barLabels,

@@ -24,6 +24,7 @@
 - Spanish translation of the interface (`jamovi/i18n/es.po`): menus, options, results titles, palette names and example-data descriptions, and a few plot texts and notices. The sentence-style notices and plot captions are still English.
 
 **Plots**
+- *Explanatory note below the plot* (Text and Labels, all five analyses), **off by default**: the notes under some plots (what the error bars show, what one waffle or pictogram cell is worth, and in the group analyses the reference line, the lead plot and the density overlap) are shown only when ticked. In 1.0.x the error-bar and waffle/pictogram notes were always shown. *Show n* is unchanged.
 - The heatmap's colour bar is drawn as vector rectangles (sharp in PDF and SVG exports) and has about four labelled breaks, so its labels no longer overprint.
 
 **Example data**

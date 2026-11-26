@@ -635,6 +635,14 @@ msgstr "Barras de error"
 msgid "Every 5th (5 to 95)"
 msgstr "Cada 5 (5 a 95)"
 
+#: distDich/options/showCaption.title
+#: distNom/options/showCaption.title
+#: distNum/options/showCaption.title
+#: distOrd/options/showCaption.title
+#: distPoly/options/showCaption.title
+msgid "Explanatory note below the plot"
+msgstr "Nota explicativa debajo del gráfico"
+
 #: distDich/options/densFilled.title
 #: distNum/options/densFilled.title
 #: distPoly/options/densFilled.title

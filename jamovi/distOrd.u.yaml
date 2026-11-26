@@ -180,6 +180,14 @@ children:
                 children:
                   - type: CheckBox
                     name: showN
+              - type: LayoutBox
+                cell:
+                  column: 0
+                  row: 3
+                stretchFactor: 1
+                children:
+                  - type: CheckBox
+                    name: showCaption
   - type: CollapseBox
     label: Stacked Bars
     collapsed: false

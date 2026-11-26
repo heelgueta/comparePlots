@@ -425,6 +425,7 @@ cmp_grp_private <- function(kind) {
                     caps <- c(caps, paste0("Shaded: overlap of the two groups. ",
                         paste0(names(ov$pct), " ", round(ov$pct), "%", collapse = ", "), "."))
             }
+            if (!isTRUE(o$showCaption)) caps <- character(0)       # explanatory notes are optional (off by default)
             caption <- if (length(caps) > 0) paste(strwrap(caps, 60), collapse = "\n") else NULL
             p + ggplot2::labs(title = cmp_title(o$title), caption = caption)
         },

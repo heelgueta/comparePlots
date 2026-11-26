@@ -46,6 +46,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - legendTitle
       - boxWidth
@@ -87,6 +88,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - legendTitle
       - violinWidth
@@ -130,6 +132,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - legendTitle
       - ebCenter
@@ -175,6 +178,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - legendTitle
       - rcCloudWidth
@@ -215,6 +219,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - legendTitle
       - ridgeOverlap
@@ -255,6 +260,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - legendTitle
       - histBins
@@ -296,6 +302,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - legendTitle
       - pyBins
@@ -334,6 +341,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - legendTitle
       - ladderSteps
@@ -371,6 +379,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - legendTitle
       - leadMark
@@ -408,6 +417,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - legendTitle
       - densAdjust
@@ -448,6 +458,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - legendTitle
       - ecdfMedian
@@ -485,6 +496,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - legendTitle
       - stripSummary
@@ -522,6 +534,7 @@ items:
       - valueLabel
       - title
       - showN
+      - showCaption
       - legendPos
       - legendTitle
       - barcodeHeight

@@ -38,6 +38,7 @@ items:
       - legendTitle
       - title
       - showN
+      - showCaption
       - alpha
       - lineWidth
       - ignoreMissing
@@ -69,6 +70,7 @@ items:
       - legendTitle
       - title
       - showN
+      - showCaption
       - alpha
       - lineWidth
       - ignoreMissing
@@ -102,6 +104,7 @@ items:
       - legendTitle
       - title
       - showN
+      - showCaption
       - alpha
       - lineWidth
       - ignoreMissing
@@ -134,6 +137,7 @@ items:
       - legendTitle
       - title
       - showN
+      - showCaption
       - alpha
       - lineWidth
       - ignoreMissing
@@ -166,6 +170,7 @@ items:
       - legendTitle
       - title
       - showN
+      - showCaption
       - alpha
       - lineWidth
       - ignoreMissing
@@ -199,6 +204,7 @@ items:
       - legendTitle
       - title
       - showN
+      - showCaption
       - alpha
       - lineWidth
       - ignoreMissing
@@ -230,6 +236,7 @@ items:
       - legendTitle
       - title
       - showN
+      - showCaption
       - alpha
       - lineWidth
       - ignoreMissing

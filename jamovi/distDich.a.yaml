@@ -254,6 +254,10 @@ options:
     title: Show n in group labels
     type: Bool
     default: false
+  - name: showCaption
+    title: Explanatory note below the plot
+    type: Bool
+    default: false
   # PLOT: Box plot.
   - name: showBox
     title: Box plot

@@ -66,7 +66,7 @@ Shared appearance: orientation (horizontal: charts stacked top to bottom; vertic
 
 Numeric variables across the levels of **one grouping variable**; colour is the group. *Compare Dichotomous* needs exactly two groups (and says so otherwise); *Compare Polytomous* takes any number. Both offer the ten numeric plots of Compare Numeric, split by group, and the same Appearance box; a nominal, ordinal (its level order is kept: set the measure type to *Ordinal* in jamovi) or two-level grouping variable all work.
 
-Shared settings (besides those of Compare Numeric): **group display** (within each variable, panels by group, panels by variable) · reverse group order · ignore missing group cases · **reference line** at the overall mean or median · **show n in group labels** · angle of x axis labels (horizontal, 45°, 90°). Plots are sized from the number of variables and groups, and the analyses warn about empty variables or variable-by-group cells, variables with no spread in a group, and grouping variables with more than 8 levels.
+Shared settings (besides those of Compare Numeric): **group display** (within each variable, panels by group, panels by variable) · reverse group order · ignore missing group cases · **reference line** at the overall mean or median · **show n in group labels** · angle of x axis labels (horizontal, 45°, 90°) · explanatory note below the plot (off by default; all analyses have it). Plots are sized from the number of variables and groups, and the analyses warn about empty variables or variable-by-group cells, variables with no spread in a group, and grouping variables with more than 8 levels.
 
 Only in **Compare Dichotomous** (two groups):
 

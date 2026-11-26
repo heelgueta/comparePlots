@@ -190,6 +190,10 @@ options:
     title: n per variable
     type: Bool
     default: false
+  - name: showCaption
+    title: Explanatory note below the plot
+    type: Bool
+    default: false
   - name: legendPos
     title: Legend (overlay plots)
     type: List

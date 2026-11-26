@@ -161,7 +161,7 @@ def image(key, title, extra_clear):
     ls = "\n".join(tmpl["lines"]) + "\n"
     ls = ls.replace("plot_bars", "plot_" + key).replace(".plot_bars", ".plot_" + key).replace("showBars", "show" + key.capitalize())
     ls = re.sub(r"title: .*\n", f"title: {title}\n", ls, count=1)
-    ls = re.sub(r"(      - showN\n)(?:      - \w+\n)*", r"\1      - alpha\n      - lineWidth\n      - ignoreMissing\n" + "".join(f"      - {x}\n" for x in extra_clear), ls)
+    ls = re.sub(r"(      - showN\n)(?:      - \w+\n)*", r"\1      - showCaption\n      - alpha\n      - lineWidth\n      - ignoreMissing\n" + "".join(f"      - {x}\n" for x in extra_clear), ls)
     if key in ("pie", "donut"):
         ls = ls.replace("    height: 350\n", "    height: 400\n")
     return {"pre": [f'  # IMAGE for the "{title}" plot.'], "lines": ls.rstrip("\n").split("\n")}
@@ -186,7 +186,7 @@ def appearance_ui(nominal=False):
     vo = [D("orientation"), D("sortVars")] + ([D("catSort")] if nominal else []) + [C("invertVars"), C("useDesc"), C("ignoreMissing")]
     return [("Variables", vo),
             ("Colours and Lines", [D("colourPalette"), C("reversePalette"), D("plotTheme"), T("alpha", suffix="%"), T("lineWidth")]),
-            ("Text and Labels", [T("textSize"), T("decimals"), S("title"), D("legendPos"), S("legendTitle"), C("showN")])]
+            ("Text and Labels", [T("textSize"), T("decimals"), S("title"), D("legendPos"), S("legendTitle"), C("showN"), C("showCaption")])]
 def ui(name, title, boxes, groups):
     s = head_ui(title, name) + appearance_groups(groups)
     for label, check, its, collapsed in boxes:

@@ -33,6 +33,7 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             legendPos = "bottom",
             legendTitle = "",
             showN = FALSE,
+            showCaption = FALSE,
             showBox = TRUE,
             boxWidth = 65,
             boxOutliers = TRUE,
@@ -276,6 +277,10 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..showN <- jmvcore::OptionBool$new(
                 "showN",
                 showN,
+                default=FALSE)
+            private$..showCaption <- jmvcore::OptionBool$new(
+                "showCaption",
+                showCaption,
                 default=FALSE)
             private$..showBox <- jmvcore::OptionBool$new(
                 "showBox",
@@ -554,6 +559,7 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..legendPos)
             self$.addOption(private$..legendTitle)
             self$.addOption(private$..showN)
+            self$.addOption(private$..showCaption)
             self$.addOption(private$..showBox)
             self$.addOption(private$..boxWidth)
             self$.addOption(private$..boxOutliers)
@@ -632,6 +638,7 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         legendPos = function() private$..legendPos$value,
         legendTitle = function() private$..legendTitle$value,
         showN = function() private$..showN$value,
+        showCaption = function() private$..showCaption$value,
         showBox = function() private$..showBox$value,
         boxWidth = function() private$..boxWidth$value,
         boxOutliers = function() private$..boxOutliers$value,
@@ -709,6 +716,7 @@ distPolyOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..legendPos = NA,
         ..legendTitle = NA,
         ..showN = NA,
+        ..showCaption = NA,
         ..showBox = NA,
         ..boxWidth = NA,
         ..boxOutliers = NA,
@@ -825,6 +833,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "boxWidth",
@@ -867,6 +876,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "violinWidth",
@@ -910,6 +920,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "ebCenter",
@@ -956,6 +967,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "rcCloudWidth",
@@ -997,6 +1009,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "ridgeOverlap",
@@ -1038,6 +1051,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "histBins",
@@ -1080,6 +1094,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "densAdjust",
@@ -1120,6 +1135,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "ecdfMedian")))
@@ -1158,6 +1174,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "stripSummary")))
@@ -1196,6 +1213,7 @@ distPolyResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "barcodeHeight")))}))
@@ -1252,6 +1270,7 @@ distPolyBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param legendPos .
 #' @param legendTitle .
 #' @param showN .
+#' @param showCaption .
 #' @param showBox .
 #' @param boxWidth .
 #' @param boxOutliers .
@@ -1346,6 +1365,7 @@ distPoly <- function(
     legendPos = "bottom",
     legendTitle = "",
     showN = FALSE,
+    showCaption = FALSE,
     showBox = TRUE,
     boxWidth = 65,
     boxOutliers = TRUE,
@@ -1437,6 +1457,7 @@ distPoly <- function(
         legendPos = legendPos,
         legendTitle = legendTitle,
         showN = showN,
+        showCaption = showCaption,
         showBox = showBox,
         boxWidth = boxWidth,
         boxOutliers = boxOutliers,

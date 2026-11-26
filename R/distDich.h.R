@@ -33,6 +33,7 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             legendPos = "bottom",
             legendTitle = "",
             showN = FALSE,
+            showCaption = FALSE,
             showBox = TRUE,
             boxWidth = 65,
             boxOutliers = TRUE,
@@ -285,6 +286,10 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             private$..showN <- jmvcore::OptionBool$new(
                 "showN",
                 showN,
+                default=FALSE)
+            private$..showCaption <- jmvcore::OptionBool$new(
+                "showCaption",
+                showCaption,
                 default=FALSE)
             private$..showBox <- jmvcore::OptionBool$new(
                 "showBox",
@@ -608,6 +613,7 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
             self$.addOption(private$..legendPos)
             self$.addOption(private$..legendTitle)
             self$.addOption(private$..showN)
+            self$.addOption(private$..showCaption)
             self$.addOption(private$..showBox)
             self$.addOption(private$..boxWidth)
             self$.addOption(private$..boxOutliers)
@@ -695,6 +701,7 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         legendPos = function() private$..legendPos$value,
         legendTitle = function() private$..legendTitle$value,
         showN = function() private$..showN$value,
+        showCaption = function() private$..showCaption$value,
         showBox = function() private$..showBox$value,
         boxWidth = function() private$..boxWidth$value,
         boxOutliers = function() private$..boxOutliers$value,
@@ -781,6 +788,7 @@ distDichOptions <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
         ..legendPos = NA,
         ..legendTitle = NA,
         ..showN = NA,
+        ..showCaption = NA,
         ..showBox = NA,
         ..boxWidth = NA,
         ..boxOutliers = NA,
@@ -909,6 +917,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "boxWidth",
@@ -951,6 +960,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "violinWidth",
@@ -995,6 +1005,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "ebCenter",
@@ -1041,6 +1052,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "rcCloudWidth",
@@ -1082,6 +1094,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "ridgeOverlap",
@@ -1123,6 +1136,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "histBins",
@@ -1165,6 +1179,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "pyBins",
@@ -1204,6 +1219,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "ladderSteps")))
@@ -1242,6 +1258,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "leadMark")))
@@ -1280,6 +1297,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "densAdjust",
@@ -1321,6 +1339,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "ecdfMedian")))
@@ -1359,6 +1378,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "stripSummary")))
@@ -1397,6 +1417,7 @@ distDichResults <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
                     "valueLabel",
                     "title",
                     "showN",
+                    "showCaption",
                     "legendPos",
                     "legendTitle",
                     "barcodeHeight")))}))
@@ -1453,6 +1474,7 @@ distDichBase <- if (requireNamespace("jmvcore", quietly=TRUE)) R6::R6Class(
 #' @param legendPos .
 #' @param legendTitle .
 #' @param showN .
+#' @param showCaption .
 #' @param showBox .
 #' @param boxWidth .
 #' @param boxOutliers .
@@ -1559,6 +1581,7 @@ distDich <- function(
     legendPos = "bottom",
     legendTitle = "",
     showN = FALSE,
+    showCaption = FALSE,
     showBox = TRUE,
     boxWidth = 65,
     boxOutliers = TRUE,
@@ -1659,6 +1682,7 @@ distDich <- function(
         legendPos = legendPos,
         legendTitle = legendTitle,
         showN = showN,
+        showCaption = showCaption,
         showBox = showBox,
         boxWidth = boxWidth,
         boxOutliers = boxOutliers,

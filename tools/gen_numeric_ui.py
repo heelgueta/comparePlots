@@ -9,7 +9,7 @@ num += appearance_groups([
     ("Variables", [D("orientation"), D("sortVars"), D("transform"), C("invertVars"), C("useDesc"), S("valueLabel")]),
     ("Colours and Lines", [D("colourPalette"), C("reversePalette"), D("plotTheme"), T("alpha", suffix="%"), T("lineWidth")]),
     ("Data Points", [T("pointSize"), T("pointAlpha", suffix="%"), D("pointColour"), T("jitterSpread", suffix="%")]),
-    ("Text and Labels", [T("textSize"), S("title"), D("legendPos"), C("showN")])])
+    ("Text and Labels", [T("textSize"), S("title"), D("legendPos"), C("showN"), C("showCaption")])])
 num += box("Box Plot", "showBox", [T("boxWidth", "(showBox)", "%"), C("boxOutliers", "(showBox)"), C("boxNotch", "(showBox)"),
                                    C("boxMean", "(showBox)"), C("boxJitter", "(showBox)")], collapsed=False)
 num += box("Violin Plot", "showViolin", [T("violinWidth", "(showViolin)", "%"), D("violinScale", "(showViolin)"), T("violinAdjust", "(showViolin)"),
@@ -40,7 +40,7 @@ def group_ui(title, name, dich):
                        C("useDesc"), C("ignoreMissingGroup"), S("valueLabel")]),
         ("Colours and Lines", [D("colourPalette"), C("reversePalette"), D("plotTheme"), T("alpha", suffix="%"), T("lineWidth"), D("refLine")]),
         ("Data Points", [T("pointSize"), T("pointAlpha", suffix="%"), D("pointColour"), T("jitterSpread", suffix="%")]),
-        ("Text and Labels", [T("textSize"), D("xLabelAngle"), S("title"), D("legendPos"), S("legendTitle"), C("showN")])])
+        ("Text and Labels", [T("textSize"), D("xLabelAngle"), S("title"), D("legendPos"), S("legendTitle"), C("showN"), C("showCaption")])])
     g += box("Box Plot", "showBox", [T("boxWidth", "(showBox)", "%"), C("boxOutliers", "(showBox)"), C("boxNotch", "(showBox)"),
                                      C("boxMean", "(showBox)"), C("boxJitter", "(showBox)")], collapsed=False)
     violin = [T("violinWidth", "(showViolin)", "%"), D("violinScale", "(showViolin)"), T("violinAdjust", "(showViolin)"),
